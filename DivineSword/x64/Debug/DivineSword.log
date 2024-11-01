@@ -1,0 +1,8 @@
+﻿  main.cpp
+  sceneManager.cpp
+C:\HAL\3\GM31\DivineSword\main.cpp(37,54): warning C4244: '引数': 'LONG' から 'float' への変換です。データが失われる可能性があります。
+C:\HAL\3\GM31\DivineSword\main.cpp(37,29): warning C4244: '引数': 'LONG' から 'float' への変換です。データが失われる可能性があります。
+C:\HAL\3\GM31\DivineSword\main.cpp(117,9): warning C4267: '引数': 'size_t' から 'UINT32' に変換しました。データが失われているかもしれません。
+C:\HAL\3\GM31\DivineSword\main.cpp(295,30): warning C4244: '=': 'unsigned long' から 'float' への変換です。データが失われる可能性があります。
+C:\HAL\3\GM31\DivineSword\manager\sceneManager.cpp(3,10): error C1083: include ファイルを開けません。'scene.h':No such file or directory
+  コードを生成中...
