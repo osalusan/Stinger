@@ -16,6 +16,9 @@
     <Filter Include="scene">
       <UniqueIdentifier>{4300b448-c5a3-4d66-87b6-3b7c031f3d0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{bf9e3ec4-506a-4989-9f33-c13c5a00ad34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -32,6 +35,12 @@
     </ClCompile>
     <ClCompile Include="scene\scene.cpp">
       <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="object\gameobj.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\objectManager.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="scene\scene.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="object\gameobj.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\objectManager.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

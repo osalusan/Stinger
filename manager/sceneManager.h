@@ -4,7 +4,7 @@
 
 class Scene;
 
-class SceneManager
+class SceneManager final
 {
 private:
 	static Scene* m_Scene;

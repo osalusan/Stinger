@@ -1,7 +1,7 @@
 #pragma once
 #include "main/main.h"
 
-class InputManager
+class InputManager final
 {
 private:
 	static BYTE m_OldKeyState[256];

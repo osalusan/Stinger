@@ -21,38 +21,53 @@ void SceneManager::Init()
 
 void SceneManager::Uninit()
 {	
-	m_Scene->Uninit();
+	if (m_Scene != nullptr)
+	{
+		m_Scene->Uninit();
+	}
+	
 	delete m_Scene;
+	m_Scene = nullptr;
 
 	Renderer::Uninit();
 }
 
 void SceneManager::Update()
 {
-
+	if (m_Scene != nullptr)
+	{
+		m_Scene->Update();
+	}
 }
 
 void SceneManager::Draw()
 {
 	Renderer::Begin();
 
-	m_Scene->Draw();
+	if (m_Scene != nullptr)
+	{
+		m_Scene->Draw();
+	}
 
 	Renderer::End();
 
-	if (m_NextScene)
+	if (m_NextScene != nullptr)
 	{
-		if (m_Scene)
+		if (m_Scene != nullptr)
 		{
 			m_Scene->Uninit();
-			delete m_Scene;
 		}
+		delete m_Scene;
+		m_Scene = nullptr;
+
 		m_Scene = m_NextScene;
-		m_Scene->Init();
 
+		if (m_Scene != nullptr)
+		{
+			m_Scene->Init();
+		}
+		
 		m_NextScene = nullptr;
-		m_Scene->Update();
-
 	}
 }
 

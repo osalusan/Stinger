@@ -21,7 +21,9 @@
   <ItemGroup>
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
+    <ClCompile Include="manager\objectManager.cpp" />
     <ClCompile Include="manager\sceneManager.cpp" />
+    <ClCompile Include="object\gameobj.cpp" />
     <ClCompile Include="renderer\renderer.cpp" />
     <ClCompile Include="scene\scene.cpp" />
   </ItemGroup>
@@ -29,7 +31,9 @@
     <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="main\main.h" />
     <ClInclude Include="manager\inputManager.h" />
+    <ClInclude Include="manager\objectManager.h" />
     <ClInclude Include="manager\sceneManager.h" />
+    <ClInclude Include="object\gameobj.h" />
     <ClInclude Include="renderer\renderer.h" />
     <ClInclude Include="scene\scene.h" />
   </ItemGroup>
