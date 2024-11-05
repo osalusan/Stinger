@@ -336,6 +336,11 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 					break;
 				}
 
+				if (vc >= vertexNum)
+				{
+					break;
+				}
+
 				s = strtok(str, "/");
 				ModelObj->VertexArray[vc].Position = positionArray[atoi(s) - 1];
 				if (s[strlen(s) + 1] != '/')
@@ -347,7 +352,7 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 				s = strtok(nullptr, "/");
 				ModelObj->VertexArray[vc].Normal = normalArray[atoi(s) - 1];
 
-				ModelObj->VertexArray[vc].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				ModelObj->VertexArray[vc].Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 				ModelObj->IndexArray[ic] = vc;
 				ic++;
@@ -395,7 +400,7 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 	assert(file);
 
 	MODEL_MATERIAL* materialArray = nullptr;
-	unsigned int materialNum = 0;
+	int materialNum = 0;
 
 	//要素数カウント
 	while (true)
@@ -420,10 +425,6 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 	//メモリ確保
 	materialArray = new MODEL_MATERIAL[materialNum];
 
-	for (unsigned int i = 0; i < materialNum; i++)
-	{
-		materialArray[i] = { 0 };
-	}
 	//要素読込
 	int mc = -1;
 
@@ -446,7 +447,9 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 		{
 			//マテリアル名
 			mc++;
-			if (materialArray == nullptr)
+
+			// 範囲外アクセスを防止
+			if (mc >= materialNum)
 			{
 				break;
 			}
