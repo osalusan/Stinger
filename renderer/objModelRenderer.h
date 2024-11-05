@@ -7,17 +7,17 @@
 // マテリアル構造体
 struct MODEL_MATERIAL
 {
-	char						Name[256];
+	char						Name[256] = { 0 };
 	MATERIAL					Material;
-	char						TextureName[256];
-	ID3D11ShaderResourceView*	Texture;
+	char						TextureName[256] = { 0 };
+	ID3D11ShaderResourceView*	Texture = nullptr;
 };
 
 // 描画サブセット構造体
 struct SUBSET
 {
-	unsigned int	StartIndex;
-	unsigned int	IndexNum;
+	unsigned int	StartIndex = 0;
+	unsigned int	IndexNum = 0;
 	MODEL_MATERIAL	Material;
 };
 
@@ -25,23 +25,23 @@ struct SUBSET
 // モデル構造体
 struct MODEL_OBJ
 {
-	VERTEX_3D		*VertexArray;
-	unsigned int	VertexNum;
+	VERTEX_3D*		VertexArray = nullptr;
+	unsigned int	VertexNum = 0;
 
-	unsigned int	*IndexArray;
-	unsigned int	IndexNum;
+	unsigned int*	IndexArray = 0;
+	unsigned int	IndexNum = 0;
 
-	SUBSET			*SubsetArray;
-	unsigned int	SubsetNum;
+	SUBSET*			SubsetArray = nullptr;
+	unsigned int	SubsetNum = 0;
 };
 
 struct MODEL
 {
-	ID3D11Buffer*	VertexBuffer;
-	ID3D11Buffer*	IndexBuffer;
+	ID3D11Buffer*	VertexBuffer = nullptr;
+	ID3D11Buffer*	IndexBuffer = nullptr;
 
-	SUBSET*			SubsetArray;
-	unsigned int	SubsetNum;
+	SUBSET*			SubsetArray = nullptr;
+	unsigned int	SubsetNum = 0;
 };
 
 class ObjModelRenderer final

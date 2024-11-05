@@ -70,7 +70,7 @@ void ObjModelManager::LoadModel(const char* FileName, MODEL* Model)
 			TexMetadata metadata;
 			ScratchImage image;
 			wchar_t wc[256] = { 0 };
-			mbstowcs(wc, modelObj.SubsetArray[i].Material.TextureName, sizeof(wc));
+			mbstowcs(wc, modelObj.SubsetArray[i].Material.TextureName, sizeof(wc) / sizeof(wchar_t));
 			LoadFromWICFile(wc, WIC_FLAGS_NONE, &metadata, image);
 			CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &Model->SubsetArray[i].Material.Texture);
 
@@ -93,10 +93,6 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	strcpy(dir, FileName);
 	PathRemoveFileSpec(dir);
 
-
-
-
-
 	XMFLOAT3* positionArray = nullptr;
 	XMFLOAT3* normalArray = nullptr;
 	XMFLOAT2* texcoordArray = nullptr;
@@ -112,9 +108,9 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	MODEL_MATERIAL* materialArray = nullptr;
 	unsigned int	materialNum = 0;
 
-	char str[256] = { "\0" };
+	char str[256] = { 0 };
 	char* s = nullptr;
-	char c = '\0';
+	char c = 0;
 
 	bool reverseX = false;
 	bool reverseY = false;
@@ -191,6 +187,18 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	normalArray = new XMFLOAT3[normalNum];
 	texcoordArray = new XMFLOAT2[texcoordNum];
 
+	for (unsigned int i = 0; i < positionNum; i++) 
+	{
+		positionArray[i] = { 0.0f, 0.0f, 0.0f };
+	}
+	for (unsigned int i = 0; i < positionNum; i++)
+	{
+		normalArray[i] = { 0.0f, 0.0f, 0.0f };
+	}
+	for (unsigned int i = 0; i < positionNum; i++)
+	{
+		texcoordArray[i] = { 0.0f, 0.0f };
+	}
 
 	ModelObj->VertexArray = new VERTEX_3D[vertexNum];
 	ModelObj->VertexNum = vertexNum;
@@ -201,8 +209,18 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	ModelObj->SubsetArray = new SUBSET[subsetNum];
 	ModelObj->SubsetNum = subsetNum;
 
-
-
+	for (unsigned int i = 0; i < ModelObj->VertexNum; i++)
+	{
+		ModelObj->VertexArray[i] = {};
+	}
+	for (unsigned int i = 0; i < ModelObj->IndexNum; i++)
+	{
+		ModelObj->IndexArray[i] = {};
+	}
+	for (unsigned int i = 0; i < ModelObj->SubsetNum; i++)
+	{
+		ModelObj->SubsetArray[i] = {};
+	}
 
 	//要素読込
 	XMFLOAT3* position = positionArray;
@@ -286,9 +304,10 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 			{
 				ModelObj->SubsetArray[sc - 1].IndexNum = ic - ModelObj->SubsetArray[sc - 1].StartIndex;
 			}
-
-			ModelObj->SubsetArray[sc].StartIndex = ic;
-
+			else
+			{
+				ModelObj->SubsetArray[sc].StartIndex = ic;
+			}
 
 			for (unsigned int i = 0; i < materialNum; i++)
 			{
@@ -369,7 +388,7 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 	strcpy(dir, FileName);
 	PathRemoveFileSpec(dir);
 
-	char str[256] = { "\0" };
+	char str[256] = { 0 };
 
 	FILE* file = nullptr;
 	file = fopen(FileName, "rt");
@@ -401,9 +420,9 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 	//メモリ確保
 	materialArray = new MODEL_MATERIAL[materialNum];
 
-	if (materialArray == nullptr)
+	for (unsigned int i = 0; i < materialNum; i++)
 	{
-		return;
+		materialArray[i] = { 0 };
 	}
 	//要素読込
 	int mc = -1;
@@ -427,6 +446,11 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 		{
 			//マテリアル名
 			mc++;
+			if (materialArray == nullptr)
+			{
+				break;
+			}
+
 			if (fscanf(file, "%s", materialArray[mc].Name) == 0)
 			{
 				break;
