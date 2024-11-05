@@ -113,15 +113,15 @@ int APIENTRY WinMain(
 	_In_ int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(595);
+	//_CrtSetBreakAlloc(153);
 
 	// 乱数のシードを設定
 	srand(static_cast<unsigned int>(time(0)));
 	// マウスカーソルの表示
 #if _DEBUG
-	ShowCursor(TRUE);
+	ShowCursor(true);
 #else
-	ShowCursor(FALSE);
+	ShowCursor(false);
 #endif
 
 
@@ -261,9 +261,10 @@ int APIENTRY WinMain(
 			if (DeltaTime >= targetDeltaTime)
 			{
 				// FPSを計算
-				const float& fps = 1.0f / static_cast<float>(DeltaTime);
+				const float& DeltaTimeFloat = static_cast<float>(DeltaTime);
+				const float& fps = 1.0f / DeltaTimeFloat;
 				
-				SceneManager::Update();
+				SceneManager::Update(DeltaTimeFloat);
 
 				SceneManager::Draw();
 

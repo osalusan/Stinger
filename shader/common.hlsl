@@ -82,6 +82,4 @@ cbuffer CameraBuffer : register(b5) //バッファの５番とする
 cbuffer ParameterBuffer : register(b6)
 {
     float4 Parameter; //C言語側から受け取る
-    
-   
 }

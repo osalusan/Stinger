@@ -1,21 +1,28 @@
 #include "manager/sceneManager.h"
-#include "scene/scene.h"
+#include "manager/animationModelManager.h"
+#include "manager/inputManager.h"
 #include "renderer/renderer.h"
+#include "scene/gameScene.h"
 
-Scene* SceneManager::m_Scene;
-Scene* SceneManager::m_NextScene;
+Scene* SceneManager::m_Scene = nullptr;
+Scene* SceneManager::m_NextScene = nullptr;
 
 void SceneManager::Init()
 {
 	Renderer::Init();
+	InputManager::Init();
+
 	if (m_Scene == nullptr)
 	{
-		m_Scene = new Scene;
+		m_Scene = new GameScene;
 	}
 	if (m_Scene != nullptr)
 	{
 		m_Scene->Init();
 	}
+
+	// ˆê”ÔÅŒã‚É
+	AnimationModelManager::Init();
 }
 
 
@@ -29,14 +36,17 @@ void SceneManager::Uninit()
 	delete m_Scene;
 	m_Scene = nullptr;
 
+	AnimationModelManager::Uninit();
 	Renderer::Uninit();
 }
 
-void SceneManager::Update()
+void SceneManager::Update(const float& deltaTime)
 {
+	InputManager::Update();
+
 	if (m_Scene != nullptr)
 	{
-		m_Scene->Update();
+		m_Scene->Update(deltaTime);
 	}
 }
 

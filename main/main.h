@@ -18,7 +18,7 @@ using namespace DirectX;
 
 #include "directXTex/DirectXTex.h"
 
-
+// /IGNORE:4099 ‚ğg—p‚µ‚ÄDirectXtex_Debug.pbd‚ª–³‚­‚Ä‚àŒx‚ªo‚È‚¢‚æ‚¤‚É‚µ‚Ä‚¢‚é
 #if _DEBUG
 #pragma comment(lib,"directXTex/DirectXTex_Debug.lib")
 #else

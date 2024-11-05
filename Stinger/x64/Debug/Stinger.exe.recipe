@@ -2,10 +2,17 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\HAL\3\Stinger\x64\Debug\Stinger.exe</FullPath>
+      <FullPath>E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>E:\HAL\就職作品\Stinger\cso\unlitTexturePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\HAL\就職作品\Stinger\cso\unlitTextureVS.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

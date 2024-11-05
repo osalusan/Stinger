@@ -1,7 +1,20 @@
-﻿  main.cpp
+﻿  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\unlitTexturePS.cso
+  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\unlitTextureVS.cso
+  camera.cpp
+  playerCamera.cpp
+  character.cpp
+  player.cpp
+  main.cpp
+  animationModelManager.cpp
   inputManager.cpp
+  objectManager.cpp
   sceneManager.cpp
+  gameObject.cpp
+  animationModelRenderer.cpp
+  modelRenderer.cpp
   renderer.cpp
-  scene.cpp
+  gameScene.cpp
+  skydome.cpp
+  staticmeshObject.cpp
   コードを生成中...
-  Stinger.vcxproj -> C:\HAL\3\Stinger\x64\Debug\Stinger.exe
+  Stinger.vcxproj -> E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe

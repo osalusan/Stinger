@@ -16,8 +16,23 @@
     <Filter Include="scene">
       <UniqueIdentifier>{4300b448-c5a3-4d66-87b6-3b7c031f3d0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="character">
+      <UniqueIdentifier>{1a5bf635-6fa9-4433-91dd-d47a803546dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{6ba95837-5e01-4bc6-aba1-ee78f67b47c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="skydome">
+      <UniqueIdentifier>{cb2b258a-2ede-489e-9195-d706c872f680}</UniqueIdentifier>
+    </Filter>
     <Filter Include="object">
       <UniqueIdentifier>{bf9e3ec4-506a-4989-9f33-c13c5a00ad34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="staticMeshObject">
+      <UniqueIdentifier>{d682fc6e-7cb8-4a68-911d-612bb5e07705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{12b2c6b7-f759-4255-b4f9-225a03c84b2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,14 +48,41 @@
     <ClCompile Include="renderer\renderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="scene\scene.cpp">
-      <Filter>scene</Filter>
-    </ClCompile>
-    <ClCompile Include="object\gameobj.cpp">
+    <ClCompile Include="object\gameObject.cpp">
       <Filter>object</Filter>
     </ClCompile>
     <ClCompile Include="manager\objectManager.cpp">
       <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="character\player.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character\character.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\animationModelRenderer.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\animationModelManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\gameScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\playerCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\camera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\modelRenderer.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\staticmeshObject.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="skydome\skydome.cpp">
+      <Filter>skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,11 +104,52 @@
     <ClInclude Include="scene\scene.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="object\gameobj.h">
+    <ClInclude Include="object\gameObject.h">
       <Filter>object</Filter>
     </ClInclude>
     <ClInclude Include="manager\objectManager.h">
       <Filter>manager</Filter>
     </ClInclude>
+    <ClInclude Include="character\player.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\character.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\animationModelRenderer.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\animationModelManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\playerCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome\skydome.h">
+      <Filter>skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\modelRenderer.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\staticmeshObject.h">
+      <Filter>staticMeshObject</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\common.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
