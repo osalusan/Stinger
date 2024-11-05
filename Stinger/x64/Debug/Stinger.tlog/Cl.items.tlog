@@ -3,13 +3,14 @@ E:\HAL\就職作品\Stinger\camera\playerCamera.cpp;E:\HAL\就職作品\Stinger\
 E:\HAL\就職作品\Stinger\character\character.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\character.obj
 E:\HAL\就職作品\Stinger\character\player.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\player.obj
 E:\HAL\就職作品\Stinger\main\main.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\main.obj
-E:\HAL\就職作品\Stinger\manager\animationModelManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\animationModelManager.obj
+E:\HAL\就職作品\Stinger\manager\fbxModelManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\fbxModelManager.obj
 E:\HAL\就職作品\Stinger\manager\inputManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\inputManager.obj
 E:\HAL\就職作品\Stinger\manager\objectManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\objectManager.obj
+E:\HAL\就職作品\Stinger\manager\objModelManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\objModelManager.obj
 E:\HAL\就職作品\Stinger\manager\sceneManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\sceneManager.obj
 E:\HAL\就職作品\Stinger\object\gameObject.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\gameObject.obj
-E:\HAL\就職作品\Stinger\renderer\animationModelRenderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\animationModelRenderer.obj
-E:\HAL\就職作品\Stinger\renderer\modelRenderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\modelRenderer.obj
+E:\HAL\就職作品\Stinger\renderer\fbxModelRenderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\fbxModelRenderer.obj
+E:\HAL\就職作品\Stinger\renderer\objModelRenderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\objModelRenderer.obj
 E:\HAL\就職作品\Stinger\renderer\renderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\renderer.obj
 E:\HAL\就職作品\Stinger\scene\gameScene.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\gameScene.obj
 E:\HAL\就職作品\Stinger\skydome\skydome.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\skydome.obj

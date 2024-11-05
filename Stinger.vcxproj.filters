@@ -60,10 +60,10 @@
     <ClCompile Include="character\character.cpp">
       <Filter>character</Filter>
     </ClCompile>
-    <ClCompile Include="renderer\animationModelRenderer.cpp">
+    <ClCompile Include="renderer\fbxModelRenderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="manager\animationModelManager.cpp">
+    <ClCompile Include="manager\fbxModelManager.cpp">
       <Filter>manager</Filter>
     </ClCompile>
     <ClCompile Include="scene\gameScene.cpp">
@@ -75,7 +75,7 @@
     <ClCompile Include="camera\camera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
-    <ClCompile Include="renderer\modelRenderer.cpp">
+    <ClCompile Include="renderer\objModelRenderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp">
@@ -83,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="skydome\skydome.cpp">
       <Filter>skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\objModelManager.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,10 +119,10 @@
     <ClInclude Include="character\character.h">
       <Filter>character</Filter>
     </ClInclude>
-    <ClInclude Include="renderer\animationModelRenderer.h">
+    <ClInclude Include="renderer\fbxModelRenderer.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="manager\animationModelManager.h">
+    <ClInclude Include="manager\fbxModelManager.h">
       <Filter>manager</Filter>
     </ClInclude>
     <ClInclude Include="scene\gameScene.h">
@@ -134,11 +137,14 @@
     <ClInclude Include="skydome\skydome.h">
       <Filter>skydome</Filter>
     </ClInclude>
-    <ClInclude Include="renderer\modelRenderer.h">
+    <ClInclude Include="renderer\objModelRenderer.h">
       <Filter>renderer</Filter>
     </ClInclude>
     <ClInclude Include="staticMeshObject\staticmeshObject.h">
       <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\objModelManager.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

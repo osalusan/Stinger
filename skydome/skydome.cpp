@@ -1,16 +1,22 @@
 #include "skydome.h"
 #include "scene/gameScene.h"
 #include "manager/sceneManager.h"
+#include "manager/objModelManager.h"
 #include "camera/playerCamera.h"
+
+SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
+{
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\sky.obj");
+}
 
 SkyDome::~SkyDome()
 {
-	m_Camera = nullptr;
+	m_CameraCashe = nullptr;
 }
 
 void SkyDome::Init()
 {
-	if (m_Camera == nullptr)
+	if (m_CameraCashe == nullptr)
 	{
 		StaticMeshObject::Init();
 		m_Scale = { 100.0f,100.0f,100.0f };
@@ -18,30 +24,19 @@ void SkyDome::Init()
 		GameScene* Scene = SceneManager::GetScene<GameScene>();
 		if (Scene == nullptr) return;
 
-		PlayerCamera* PlayerCameraObject = Scene->GetPlayerCamera();
-
-		m_Camera = std::shared_ptr<PlayerCamera>(PlayerCameraObject, [](PlayerCamera*)
-			{
-				// delete‚µ‚È‚¢‚æ‚¤‚É
-			});
+		m_CameraCashe = Scene->GetPlayerCamera();
 	}
 }
 
 void SkyDome::Update(const float& deltaTime)
 {
-	if (m_Camera != nullptr)
+	if (m_CameraCashe != nullptr)
 	{
-		m_Position = m_Camera->GetPos();
+		m_Position = m_CameraCashe->GetPos();
 	}
 }
 
 void SkyDome::Draw()
 {
 	StaticMeshObject::Draw();
-}
-
-// ------------------------------- private -------------------------------
-void SkyDome::LoadStaticMesh()
-{
-	LoadModel("asset\\model\\sky.obj");
 }

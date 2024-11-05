@@ -7,7 +7,7 @@ class Player;
 class PlayerCamera :public Camera
 {
 private:
-	std::shared_ptr<Player> m_Player = nullptr;
+	Player* m_PlayerCashe = nullptr;
 
 	XMFLOAT2 m_MousePos = {};
 	XMFLOAT2 m_OldMousePos = {};

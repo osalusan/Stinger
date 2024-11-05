@@ -1,5 +1,6 @@
 #include "manager/sceneManager.h"
-#include "manager/animationModelManager.h"
+#include "manager/fbxModelManager.h"
+#include "manager/objModelManager.h"
 #include "manager/inputManager.h"
 #include "renderer/renderer.h"
 #include "scene/gameScene.h"
@@ -22,7 +23,8 @@ void SceneManager::Init()
 	}
 
 	// àÍî‘ç≈å„Ç…
-	AnimationModelManager::Init();
+	FbxModelManager::Init();
+	ObjModelManager::Init();
 }
 
 
@@ -36,7 +38,8 @@ void SceneManager::Uninit()
 	delete m_Scene;
 	m_Scene = nullptr;
 
-	AnimationModelManager::Uninit();
+	FbxModelManager::Uninit();
+	ObjModelManager::UnloadAll();
 	Renderer::Uninit();
 }
 

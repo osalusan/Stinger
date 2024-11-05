@@ -8,10 +8,10 @@ class PlayerCamera;
 class SkyDome final : public StaticMeshObject
 {
 private:
-	std::shared_ptr<PlayerCamera> m_Camera = nullptr;
+	PlayerCamera* m_CameraCashe = nullptr;
 
-	virtual void LoadStaticMesh();
 public:
+	SkyDome();
 	virtual ~SkyDome();
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override;

@@ -1,6 +1,6 @@
 #include "character.h"
-#include "manager/animationModelManager.h"
-#include "renderer/animationModelRenderer.h"
+#include "manager/fbxModelManager.h"
+#include "renderer/fbxModelRenderer.h"
 
 Character::Character(const ANIMETION_MODEL& model)
 {
@@ -29,7 +29,7 @@ void Character::Draw()
 {
 	GameObject::Draw();
 
-	if (AnimationModelRenderer* Model = AnimationModelManager::GetAnimationModel(m_Model))
+	if (FbxModelRenderer* Model = FbxModelManager::GetAnimationModel(m_Model))
 	{
 		//Model->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextanimationName.c_str(), m_AnimationFrame, m_BlendRatio);
 		Model->Draw();

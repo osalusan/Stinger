@@ -14,8 +14,8 @@ protected:
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 
-	void GetForward(XMFLOAT3& forward);
-	void GetRight(XMFLOAT3& forward);
+	void GetForward(XMFLOAT3& forward)const;
+	void GetRight(XMFLOAT3& forward)const;
 	// コンストラクタで呼ぶ
 	void LoadShader(const std::string& vsFileName, const std::string& psFileName);
 public:
@@ -25,15 +25,15 @@ public:
 	virtual void Update(const float& deltaTime) = 0;
 	virtual void Draw();
 
-	const bool& GetEnable()
+	const bool& GetEnable()const
 	{
 		return m_Enable;
 	}
-	const XMFLOAT3& GetPos()
+	const XMFLOAT3& GetPos()const
 	{
 		return m_Position;
 	}
-	const XMFLOAT3& GetScale()
+	const XMFLOAT3& GetScale()const
 	{
 		return m_Scale;
 	}

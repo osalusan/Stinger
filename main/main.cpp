@@ -130,7 +130,7 @@ int APIENTRY WinMain(
 	//std::mt19937 gen(rd()); // メルセンヌ・ツイスタ法を使用
 	//std::uniform_int_distribution<> distrib(1, 100); // 1から100の間の整数を生成
 
-	WNDCLASSEX Wcex;
+	WNDCLASSEX Wcex = { 0 };
 	{
 		Wcex.cbSize = sizeof(WNDCLASSEX);
 		Wcex.style = 0;
@@ -174,7 +174,7 @@ int APIENTRY WinMain(
 		const char* fpsWindowName = "FPSWindow";
 
 		// FPSウィンドウ用
-		WNDCLASSEX fpsWcex;
+		WNDCLASSEX fpsWcex = { 0 };
 		fpsWcex.cbSize = sizeof(WNDCLASSEX);
 		fpsWcex.style = 0;
 		fpsWcex.lpfnWndProc = FPSWndProc; 
@@ -234,7 +234,8 @@ int APIENTRY WinMain(
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&prevTime);
 
-	const double targetDeltaTime = 1.0 / 60.0;
+	// フレームの制御
+	const double& targetDeltaTime = 1.0 / 60.0;
 
 	MSG msg;
 	while(1)

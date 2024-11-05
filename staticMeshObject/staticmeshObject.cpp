@@ -1,5 +1,11 @@
 #include "staticmeshObject.h"
-#include "renderer/modelRenderer.h"
+#include "manager/objModelManager.h"
+#include "renderer/objModelRenderer.h"
+
+StaticMeshObject::StaticMeshObject(const STATICMESH_MODEL& model)
+{
+	m_Model = model;
+}
 
 StaticMeshObject::~StaticMeshObject()
 {
@@ -12,31 +18,21 @@ void StaticMeshObject::Init()
 	GameObject::Init();
 	if (m_ModelRenderer == nullptr)
 	{
-		m_ModelRenderer = new ModelRenderer;
+		m_ModelRenderer = new ObjModelRenderer;
 	}
-
-	LoadStaticMesh();
 }
 
 void StaticMeshObject::Uninit()
 {
-	if (m_ModelRenderer != nullptr)
-	{
-		m_ModelRenderer->Uninit();
-	}
+
 }
 
 void StaticMeshObject::Draw()
 {
 	GameObject::Draw();
+
 	if (m_ModelRenderer != nullptr)
 	{
-		m_ModelRenderer->Draw();
+		m_ModelRenderer->Draw(ObjModelManager::GetModel(m_Model));
 	}
-}
-
-// ------------------------------- private -------------------------------
-void StaticMeshObject::LoadModel(const std::string& fileName)
-{
-	m_ModelRenderer->Load(fileName.c_str());
 }

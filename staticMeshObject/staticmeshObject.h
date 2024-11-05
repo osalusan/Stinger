@@ -1,21 +1,22 @@
 #pragma once
 #include "object/gameObject.h"
 
-class ModelRenderer;
+// 前方宣言
+class ObjModelRenderer;
+enum class STATICMESH_MODEL;
 
 class StaticMeshObject :public GameObject
 {
 protected:
-	ModelRenderer* m_ModelRenderer = nullptr;
+	STATICMESH_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
+	ObjModelRenderer* m_ModelRenderer = nullptr;
 
-	virtual void LoadStaticMesh() = 0;
-	void LoadModel(const std::string& fileName);
 public:
+	StaticMeshObject() = delete;
+	StaticMeshObject(const STATICMESH_MODEL& model);
 	virtual ~StaticMeshObject();
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override = 0;
 	virtual void Draw()override;
-
-	
 };

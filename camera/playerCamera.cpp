@@ -6,24 +6,19 @@
 
 PlayerCamera::~PlayerCamera()
 {
-	m_Player = nullptr;
+	m_PlayerCashe = nullptr;
 }
 
 void PlayerCamera::Init()
 {
-	if (m_Player == nullptr)
+	if (m_PlayerCashe == nullptr)
 	{
 		GameScene* Scene = SceneManager::GetScene<GameScene>();
 		if (Scene == nullptr) return;
 		ObjectManager* ObjectManager = Scene->GetObjectManager();
 		if (ObjectManager == nullptr) return;
-		Player* PlayerObject = ObjectManager->GetPlayer();
-		if (PlayerObject == nullptr) return;
-
-		m_Player = std::shared_ptr<Player>(PlayerObject, [](Player*)
-			{
-				// delete‚µ‚È‚¢‚æ‚¤‚É
-			});
+		
+		m_PlayerCashe = ObjectManager->GetPlayer();
 	}
 }
 
@@ -76,9 +71,9 @@ void PlayerCamera::Update()
 	//if (m_Rotation.x > 1.14f)m_Rotation.x = 1.14f;
 	//if (m_Rotation.x < -1.14f)m_Rotation.x = -1.14f;
 
-	if (m_Player != nullptr)
+	if (m_PlayerCashe != nullptr)
 	{
-		m_Target = m_Player->GetPos();
+		m_Target = m_PlayerCashe->GetPos();
 	}
 
 	//ƒJƒƒ‰‚ÌˆÚ“®ˆ—

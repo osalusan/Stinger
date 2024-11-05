@@ -1,9 +1,9 @@
 #include "player.h"
-#include "manager/animationModelManager.h"
+#include "manager/fbxModelManager.h"
 
 Player::Player() :Character(ANIMETION_MODEL::PLAYER)
 {
-	AnimationModelManager::ReservModel(m_Model, "asset\\model\\Akai.fbx");
+	FbxModelManager::ReservModel(m_Model, "asset\\model\\Akai.fbx");
 }
 
 void Player::Init()

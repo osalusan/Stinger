@@ -54,7 +54,7 @@ void GameObject::Draw()
 
 // --------------------- private ---------------------
 
-void GameObject::GetForward(XMFLOAT3& forward)
+void GameObject::GetForward(XMFLOAT3& forward)const
 {
 	XMMATRIX rotationMatrix;
 	rotationMatrix = XMMatrixRotationRollPitchYaw(
@@ -63,7 +63,7 @@ void GameObject::GetForward(XMFLOAT3& forward)
 	XMStoreFloat3(&forward, rotationMatrix.r[2]);
 }
 
-void GameObject::GetRight(XMFLOAT3& forward)
+void GameObject::GetRight(XMFLOAT3& forward)const
 {
 	XMMATRIX rotationMatrix;
 	rotationMatrix = XMMatrixRotationRollPitchYaw(
