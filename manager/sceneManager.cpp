@@ -1,6 +1,7 @@
 #include "manager/sceneManager.h"
 #include "manager/fbxModelManager.h"
 #include "manager/objModelManager.h"
+#include "manager/textureManager.h"
 #include "manager/inputManager.h"
 #include "renderer/renderer.h"
 #include "scene/gameScene.h"
@@ -25,6 +26,7 @@ void SceneManager::Init()
 	// àÍî‘ç≈å„Ç…
 	FbxModelManager::Init();
 	ObjModelManager::Init();
+	TextureManager::Init();
 }
 
 
@@ -39,7 +41,8 @@ void SceneManager::Uninit()
 	m_Scene = nullptr;
 
 	FbxModelManager::Uninit();
-	ObjModelManager::UnloadAll();
+	ObjModelManager::Uninit();
+	TextureManager::Uninit();
 	Renderer::Uninit();
 }
 

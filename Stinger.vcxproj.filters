@@ -87,6 +87,9 @@
     <ClCompile Include="manager\objModelManager.cpp">
       <Filter>manager</Filter>
     </ClCompile>
+    <ClCompile Include="manager\textureManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -144,6 +147,9 @@
       <Filter>staticMeshObject</Filter>
     </ClInclude>
     <ClInclude Include="manager\objModelManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\textureManager.h">
       <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>

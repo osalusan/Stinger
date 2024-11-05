@@ -12,10 +12,10 @@ std::unordered_map<STATICMESH_MODEL, MODEL*> ObjModelManager::m_LoadModelPool = 
 std::unordered_map<STATICMESH_MODEL, std::string> ObjModelManager::m_ReservModelPool = {};
 
 // ------------------------------- private -----------------------------------
-void ObjModelManager::LoadModel(const char* FileName, MODEL* Model)
+void ObjModelManager::LoadModel(const char* fileName, MODEL* model)
 {
 	MODEL_OBJ modelObj;
-	LoadObj(FileName, &modelObj);
+	LoadObj(fileName, &modelObj);
 
 
 
@@ -32,7 +32,7 @@ void ObjModelManager::LoadModel(const char* FileName, MODEL* Model)
 		ZeroMemory(&sd, sizeof(sd));
 		sd.pSysMem = modelObj.VertexArray;
 
-		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &Model->VertexBuffer);
+		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &model->VertexBuffer);
 	}
 
 
@@ -49,22 +49,22 @@ void ObjModelManager::LoadModel(const char* FileName, MODEL* Model)
 		ZeroMemory(&sd, sizeof(sd));
 		sd.pSysMem = modelObj.IndexArray;
 
-		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &Model->IndexBuffer);
+		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &model->IndexBuffer);
 	}
 
 	// サブセット設定
 	{
-		Model->SubsetArray = new SUBSET[modelObj.SubsetNum];
-		Model->SubsetNum = modelObj.SubsetNum;
+		model->SubsetArray = new SUBSET[modelObj.SubsetNum];
+		model->SubsetNum = modelObj.SubsetNum;
 
 		for (unsigned int i = 0; i < modelObj.SubsetNum; i++)
 		{
-			Model->SubsetArray[i].StartIndex = modelObj.SubsetArray[i].StartIndex;
-			Model->SubsetArray[i].IndexNum = modelObj.SubsetArray[i].IndexNum;
+			model->SubsetArray[i].StartIndex = modelObj.SubsetArray[i].StartIndex;
+			model->SubsetArray[i].IndexNum = modelObj.SubsetArray[i].IndexNum;
 
-			Model->SubsetArray[i].Material.Material = modelObj.SubsetArray[i].Material.Material;
+			model->SubsetArray[i].Material.Material = modelObj.SubsetArray[i].Material.Material;
 
-			Model->SubsetArray[i].Material.Texture = nullptr;
+			model->SubsetArray[i].Material.Texture = nullptr;
 
 			// テクスチャ読み込み
 			TexMetadata metadata;
@@ -72,12 +72,12 @@ void ObjModelManager::LoadModel(const char* FileName, MODEL* Model)
 			wchar_t wc[256] = { 0 };
 			mbstowcs(wc, modelObj.SubsetArray[i].Material.TextureName, sizeof(wc) / sizeof(wchar_t));
 			LoadFromWICFile(wc, WIC_FLAGS_NONE, &metadata, image);
-			CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &Model->SubsetArray[i].Material.Texture);
+			CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &model->SubsetArray[i].Material.Texture);
 
-			if (Model->SubsetArray[i].Material.Texture)
-				Model->SubsetArray[i].Material.Material.TextureEnable = true;
+			if (model->SubsetArray[i].Material.Texture)
+				model->SubsetArray[i].Material.Material.TextureEnable = true;
 			else
-				Model->SubsetArray[i].Material.Material.TextureEnable = false;
+				model->SubsetArray[i].Material.Material.TextureEnable = false;
 
 		}
 	}
@@ -87,10 +87,10 @@ void ObjModelManager::LoadModel(const char* FileName, MODEL* Model)
 	delete[] modelObj.SubsetArray;
 }
 
-void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
+void ObjModelManager::LoadObj(const char* fileName, MODEL_OBJ* modelObj)
 {
 	char dir[MAX_PATH];
-	strcpy(dir, FileName);
+	strcpy(dir, fileName);
 	PathRemoveFileSpec(dir);
 
 	XMFLOAT3* positionArray = nullptr;
@@ -116,7 +116,7 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	bool reverseY = false;
 
 	FILE* file = nullptr;
-	file = fopen(FileName, "rt");
+	file = fopen(fileName, "rt");
 	assert(file);
 
 
@@ -187,6 +187,11 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	normalArray = new XMFLOAT3[normalNum];
 	texcoordArray = new XMFLOAT2[texcoordNum];
 
+	if (positionArray == nullptr || normalArray == nullptr || texcoordArray == nullptr)
+	{
+		return;
+	}
+
 	for (unsigned int i = 0; i < positionNum; i++) 
 	{
 		positionArray[i] = { 0.0f, 0.0f, 0.0f };
@@ -200,32 +205,42 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 		texcoordArray[i] = { 0.0f, 0.0f };
 	}
 
-	ModelObj->VertexArray = new VERTEX_3D[vertexNum];
-	ModelObj->VertexNum = vertexNum;
+	modelObj->VertexArray = new VERTEX_3D[vertexNum];
+	modelObj->VertexNum = vertexNum;
 
-	ModelObj->IndexArray = new unsigned int[indexNum];
-	ModelObj->IndexNum = indexNum;
+	modelObj->IndexArray = new unsigned int[indexNum];
+	modelObj->IndexNum = indexNum;
 
-	ModelObj->SubsetArray = new SUBSET[subsetNum];
-	ModelObj->SubsetNum = subsetNum;
+	modelObj->SubsetArray = new SUBSET[subsetNum];
+	modelObj->SubsetNum = subsetNum;
 
-	for (unsigned int i = 0; i < ModelObj->VertexNum; i++)
+	if (modelObj->VertexArray == nullptr || modelObj->IndexArray == nullptr || modelObj->SubsetArray == nullptr)
 	{
-		ModelObj->VertexArray[i] = {};
+		return;
 	}
-	for (unsigned int i = 0; i < ModelObj->IndexNum; i++)
+
+	for (unsigned int i = 0; i < modelObj->VertexNum; i++)
 	{
-		ModelObj->IndexArray[i] = {};
+		modelObj->VertexArray[i] = {};
 	}
-	for (unsigned int i = 0; i < ModelObj->SubsetNum; i++)
+	for (unsigned int i = 0; i < modelObj->IndexNum; i++)
 	{
-		ModelObj->SubsetArray[i] = {};
+		modelObj->IndexArray[i] = {};
+	}
+	for (unsigned int i = 0; i < modelObj->SubsetNum; i++)
+	{
+		modelObj->SubsetArray[i] = {};
 	}
 
 	//要素読込
 	XMFLOAT3* position = positionArray;
 	XMFLOAT3* normal = normalArray;
 	XMFLOAT2* texcoord = texcoordArray;
+
+	if (position == nullptr || normal == nullptr || texcoord == nullptr)
+	{
+		return;
+	}
 
 	unsigned int vc = 0;
 	unsigned int ic = 0;
@@ -302,20 +317,20 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 
 			if (sc != 0)
 			{
-				ModelObj->SubsetArray[sc - 1].IndexNum = ic - ModelObj->SubsetArray[sc - 1].StartIndex;
+				modelObj->SubsetArray[sc - 1].IndexNum = ic - modelObj->SubsetArray[sc - 1].StartIndex;
 			}
 			else
 			{
-				ModelObj->SubsetArray[sc].StartIndex = ic;
+				modelObj->SubsetArray[sc].StartIndex = ic;
 			}
 
 			for (unsigned int i = 0; i < materialNum; i++)
 			{
 				if (strcmp(str, materialArray[i].Name) == 0)
 				{
-					ModelObj->SubsetArray[sc].Material.Material = materialArray[i].Material;
-					strcpy(ModelObj->SubsetArray[sc].Material.TextureName, materialArray[i].TextureName);
-					strcpy(ModelObj->SubsetArray[sc].Material.Name, materialArray[i].Name);
+					modelObj->SubsetArray[sc].Material.Material = materialArray[i].Material;
+					strcpy(modelObj->SubsetArray[sc].Material.TextureName, materialArray[i].TextureName);
+					strcpy(modelObj->SubsetArray[sc].Material.Name, materialArray[i].Name);
 
 					break;
 				}
@@ -342,19 +357,19 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 				}
 
 				s = strtok(str, "/");
-				ModelObj->VertexArray[vc].Position = positionArray[atoi(s) - 1];
+				modelObj->VertexArray[vc].Position = positionArray[atoi(s) - 1];
 				if (s[strlen(s) + 1] != '/')
 				{
 					//テクスチャ座標が存在しない場合もある
 					s = strtok(nullptr, "/");
-					ModelObj->VertexArray[vc].TexCoord = texcoordArray[atoi(s) - 1];
+					modelObj->VertexArray[vc].TexCoord = texcoordArray[atoi(s) - 1];
 				}
 				s = strtok(nullptr, "/");
-				ModelObj->VertexArray[vc].Normal = normalArray[atoi(s) - 1];
+				modelObj->VertexArray[vc].Normal = normalArray[atoi(s) - 1];
 
-				ModelObj->VertexArray[vc].Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
+				modelObj->VertexArray[vc].Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-				ModelObj->IndexArray[ic] = vc;
+				modelObj->IndexArray[ic] = vc;
 				ic++;
 				vc++;
 
@@ -365,9 +380,9 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 			//四角は三角に分割
 			if (in == 4)
 			{
-				ModelObj->IndexArray[ic] = vc - 4;
+				modelObj->IndexArray[ic] = vc - 4;
 				ic++;
-				ModelObj->IndexArray[ic] = vc - 2;
+				modelObj->IndexArray[ic] = vc - 2;
 				ic++;
 			}
 		}
@@ -375,7 +390,7 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 
 
 	if (sc != 0)
-		ModelObj->SubsetArray[sc - 1].IndexNum = ic - ModelObj->SubsetArray[sc - 1].StartIndex;
+		modelObj->SubsetArray[sc - 1].IndexNum = ic - modelObj->SubsetArray[sc - 1].StartIndex;
 
 
 	fclose(file);
@@ -387,16 +402,16 @@ void ObjModelManager::LoadObj(const char* FileName, MODEL_OBJ* ModelObj)
 	delete[] materialArray;
 }
 
-void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, unsigned int* MaterialNum)
+void ObjModelManager::LoadMaterial(const char* fileName, MODEL_MATERIAL** modelMaterialArray, unsigned int* modelMaterialNum)
 {
 	char dir[MAX_PATH];
-	strcpy(dir, FileName);
+	strcpy(dir, fileName);
 	PathRemoveFileSpec(dir);
 
 	char str[256] = { 0 };
 
 	FILE* file = nullptr;
-	file = fopen(FileName, "rt");
+	file = fopen(fileName, "rt");
 	assert(file);
 
 	MODEL_MATERIAL* materialArray = nullptr;
@@ -424,6 +439,7 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 
 	//メモリ確保
 	materialArray = new MODEL_MATERIAL[materialNum];
+	if (materialArray == nullptr) return;
 
 	//要素読込
 	int mc = -1;
@@ -516,39 +532,44 @@ void ObjModelManager::LoadMaterial(const char* FileName, MODEL_MATERIAL** Materi
 
 	fclose(file);
 
-	*MaterialArray = materialArray;
-	*MaterialNum = materialNum;
+	*modelMaterialArray = materialArray;
+	*modelMaterialNum = materialNum;
 }
 
-void ObjModelManager::Load(const STATICMESH_MODEL& model, const std::string& fileName)
+void ObjModelManager::Load(const STATICMESH_MODEL& staticModel, const std::string& fileName)
 {
-	if (m_LoadModelPool.count(model) > 0)
+	if (m_LoadModelPool.count(staticModel) > 0)
 	{
 		return;
 	}
 
-	MODEL* Model = new MODEL;
-	LoadModel(fileName.c_str(), Model);
+	MODEL* model = new MODEL;
+	if (model == nullptr) return;
 
-	m_LoadModelPool.emplace(model, Model);
+	LoadModel(fileName.c_str(), model);
+
+	m_LoadModelPool.emplace(staticModel, model);
 }
 // ------------------------------- public -----------------------------------
 
 void ObjModelManager::Init()
 {
 	// モデルの読み込み
-	for (const std::pair<const STATICMESH_MODEL, std::string>& ReservModel : m_ReservModelPool)
+	for (const std::pair<const STATICMESH_MODEL, const std::string>& reservModel : m_ReservModelPool)
 	{
-		Load(ReservModel.first, ReservModel.second);
+		Load(reservModel.first, reservModel.second);
 	}
 
 	m_ReservModelPool.clear();
 }
 
-void ObjModelManager::UnloadAll()
+void ObjModelManager::Uninit()
 {
-	for (std::pair<const STATICMESH_MODEL& , MODEL*> pair : m_LoadModelPool)
+	for (std::pair<const STATICMESH_MODEL , MODEL*>& pair : m_LoadModelPool)
 	{
+		if (pair.second == nullptr) continue;
+		if (pair.second->VertexBuffer == nullptr || pair.second->IndexBuffer == nullptr) continue;
+
 		pair.second->VertexBuffer->Release();
 		pair.second->IndexBuffer->Release();
 
@@ -561,8 +582,10 @@ void ObjModelManager::UnloadAll()
 		delete[] pair.second->SubsetArray;
 
 		delete pair.second;
+		pair.second = nullptr;
 	}
 
+	m_ReservModelPool.clear();
 	m_LoadModelPool.clear();
 }
 

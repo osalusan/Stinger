@@ -24,7 +24,7 @@ void StaticMeshObject::Init()
 
 void StaticMeshObject::Uninit()
 {
-
+	
 }
 
 void StaticMeshObject::Draw()

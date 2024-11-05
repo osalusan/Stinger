@@ -72,15 +72,15 @@ public:
 	static void Begin();
 	static void End();
 
-	static void SetDepthEnable(bool Enable);
-	static void SetATCEnable(bool Enable);
+	static void SetDepthEnable(const bool& enable);
+	static void SetATCEnable(const bool& enable);
 	static void SetWorldViewProjection2D();
-	static void SetWorldMatrix(XMMATRIX WorldMatrix);
-	static void SetViewMatrix(XMMATRIX ViewMatrix);
-	static void SetProjectionMatrix(XMMATRIX ProjectionMatrix);
-	static void SetMaterial(MATERIAL Material);
-	static void SetLight(LIGHT Light);
-	static void SetBlendAddEnable(bool Enable);
+	static void SetWorldMatrix(const XMMATRIX& WorldMatrix);
+	static void SetViewMatrix(const XMMATRIX& ViewMatrix);
+	static void SetProjectionMatrix(const XMMATRIX& ProjectionMatrix);
+	static void SetMaterial(const MATERIAL& Material);
+	static void SetLight(const LIGHT& Light);
+	static void SetBlendAddEnable(const bool& enable);
 
 	static ID3D11Device* GetDevice( void ){ return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }

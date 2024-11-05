@@ -3,6 +3,15 @@
 
 ObjectManager::~ObjectManager()
 {
+	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
+	{
+		for (GameObject* object : m_GameObjects[layer])
+		{
+			delete object;
+			object = nullptr;
+		}
+	}
+
 	delete m_Player;
 	m_Player = nullptr;
 }
@@ -18,13 +27,13 @@ void ObjectManager::Init()
 		m_Player->Init();
 	}
 
-	for (int Layer = 0; Layer < static_cast<int>(OBJECT::MAX); Layer++)
+	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
-		for (GameObject* Object : m_GameObjects[Layer])
+		for (GameObject* object : m_GameObjects[layer])
 		{
-			if (Object == nullptr) continue;
+			if (object == nullptr) continue;
 
-			Object->Init();
+			object->Init();
 		}
 	}
 }
@@ -36,13 +45,13 @@ void ObjectManager::Uninit()
 		m_Player->Uninit();
 	}
 
-	for (int Layer = 0; Layer < static_cast<int>(OBJECT::MAX); Layer++)
+	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
-		for (GameObject* Object : m_GameObjects[Layer])
+		for (GameObject* object : m_GameObjects[layer])
 		{
-			if (Object == nullptr) continue;
+			if (object == nullptr) continue;
 
-			Object->Uninit();
+			object->Uninit();
 		}
 	}
 }
@@ -54,13 +63,13 @@ void ObjectManager::Update(const float& deltaTime)
 		m_Player->Update(deltaTime);
 	}
 
-	for (int Layer = 0; Layer < static_cast<int>(OBJECT::MAX); Layer++)
+	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
-		for (GameObject* Object : m_GameObjects[Layer])
+		for (GameObject* object : m_GameObjects[layer])
 		{
-			if (Object == nullptr) continue;
+			if (object == nullptr) continue;
 
-			Object->Update(deltaTime);
+			object->Update(deltaTime);
 		}
 	}
 }
@@ -72,13 +81,13 @@ void ObjectManager::Draw()
 		m_Player->Draw();
 	}
 
-	for (int Layer = 0; Layer < static_cast<int>(OBJECT::MAX); Layer++)
+	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
-		for (GameObject* Object : m_GameObjects[Layer])
+		for (GameObject* object : m_GameObjects[layer])
 		{
-			if (Object == nullptr) continue;
+			if (object == nullptr) continue;
 
-			Object->Draw();
+			object->Draw();
 		}
 	}
 }

@@ -29,6 +29,7 @@
     <ClCompile Include="manager\objectManager.cpp" />
     <ClCompile Include="manager\objModelManager.cpp" />
     <ClCompile Include="manager\sceneManager.cpp" />
+    <ClCompile Include="manager\textureManager.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="renderer\fbxModelRenderer.cpp" />
     <ClCompile Include="renderer\objModelRenderer.cpp" />
@@ -49,6 +50,7 @@
     <ClInclude Include="manager\objectManager.h" />
     <ClInclude Include="manager\objModelManager.h" />
     <ClInclude Include="manager\sceneManager.h" />
+    <ClInclude Include="manager\textureManager.h" />
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="renderer\fbxModelRenderer.h" />
     <ClInclude Include="renderer\objModelRenderer.h" />

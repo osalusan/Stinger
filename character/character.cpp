@@ -29,10 +29,10 @@ void Character::Draw()
 {
 	GameObject::Draw();
 
-	if (FbxModelRenderer* Model = FbxModelManager::GetAnimationModel(m_Model))
+	if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
 		//Model->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextanimationName.c_str(), m_AnimationFrame, m_BlendRatio);
-		Model->Draw();
+		model->Draw();
 	}
 }
 

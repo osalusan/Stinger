@@ -281,7 +281,7 @@ void Renderer::End()
 
 
 
-void Renderer::SetDepthEnable( bool Enable )
+void Renderer::SetDepthEnable(const bool& Enable )
 {
 	if( Enable )
 		m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
@@ -292,11 +292,11 @@ void Renderer::SetDepthEnable( bool Enable )
 
 
 
-void Renderer::SetATCEnable( bool Enable )
+void Renderer::SetATCEnable(const bool& enable )
 {
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-	if (Enable)
+	if (enable)
 		m_DeviceContext->OMSetBlendState(m_BlendStateATC, blendFactor, 0xffffffff);
 	else
 		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
@@ -314,21 +314,21 @@ void Renderer::SetWorldViewProjection2D()
 }
 
 
-void Renderer::SetWorldMatrix(XMMATRIX WorldMatrix)
+void Renderer::SetWorldMatrix(const XMMATRIX& WorldMatrix)
 {
 	XMFLOAT4X4 worldf;
 	XMStoreFloat4x4(&worldf, XMMatrixTranspose(WorldMatrix));
 	m_DeviceContext->UpdateSubresource(m_WorldBuffer, 0, NULL, &worldf, 0, 0);
 }
 
-void Renderer::SetViewMatrix(XMMATRIX ViewMatrix)
+void Renderer::SetViewMatrix(const XMMATRIX& ViewMatrix)
 {
 	XMFLOAT4X4 viewf;
 	XMStoreFloat4x4(&viewf, XMMatrixTranspose(ViewMatrix));
 	m_DeviceContext->UpdateSubresource(m_ViewBuffer, 0, NULL, &viewf, 0, 0);
 }
 
-void Renderer::SetProjectionMatrix(XMMATRIX ProjectionMatrix)
+void Renderer::SetProjectionMatrix(const XMMATRIX& ProjectionMatrix)
 {
 	XMFLOAT4X4 projectionf;
 	XMStoreFloat4x4(&projectionf, XMMatrixTranspose(ProjectionMatrix));
@@ -338,21 +338,21 @@ void Renderer::SetProjectionMatrix(XMMATRIX ProjectionMatrix)
 
 
 
-void Renderer::SetMaterial( MATERIAL Material )
+void Renderer::SetMaterial(const MATERIAL& Material )
 {
 	m_DeviceContext->UpdateSubresource( m_MaterialBuffer, 0, NULL, &Material, 0, 0 );
 }
 
-void Renderer::SetLight( LIGHT Light )
+void Renderer::SetLight(const LIGHT& Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 }
 
-void Renderer::SetBlendAddEnable(bool Enable)
+void Renderer::SetBlendAddEnable(const bool& enable)
 {
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-	if (Enable)
+	if (enable)
 		m_DeviceContext->OMSetBlendState(m_BlendStateAdd, blendFactor, 0xffffffff);
 	else
 		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);

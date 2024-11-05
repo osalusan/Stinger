@@ -25,7 +25,7 @@ private:
 	static void Load(const STATICMESH_MODEL& model,const std::string& fileName);
 public:
 	static void Init();
-	static void UnloadAll();
+	static void Uninit();
 	static void ReservModel(const STATICMESH_MODEL& model, const std::string& fileName);
 	static const MODEL* GetModel(const STATICMESH_MODEL& model);
 };

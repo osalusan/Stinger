@@ -13,12 +13,12 @@ void PlayerCamera::Init()
 {
 	if (m_PlayerCashe == nullptr)
 	{
-		GameScene* Scene = SceneManager::GetScene<GameScene>();
-		if (Scene == nullptr) return;
-		ObjectManager* ObjectManager = Scene->GetObjectManager();
-		if (ObjectManager == nullptr) return;
+		GameScene* scene = SceneManager::GetScene<GameScene>();
+		if (scene == nullptr) return;
+		ObjectManager* objectManager = scene->GetObjectManager();
+		if (objectManager == nullptr) return;
 		
-		m_PlayerCashe = ObjectManager->GetPlayer();
+		m_PlayerCashe = objectManager->GetPlayer();
 	}
 }
 

@@ -9,15 +9,15 @@ std::unordered_map<std::string, std::string> FbxModelManager::m_ReservAnimationN
 void FbxModelManager::Init()
 {
     // モデルの読み込み
-    for (const std::pair<const ANIMETION_MODEL, std::string>& ReservModel : m_ReservModelPool)
+    for (const std::pair<const ANIMETION_MODEL, std::string>& reservModel : m_ReservModelPool)
     {
-        LoadModel(ReservModel.first, ReservModel.second);
+        LoadModel(reservModel.first, reservModel.second);
     }
 
     // アニメーションの読み込み
-    for (const std::pair<const ANIMETION_MODEL, std::string>& ReservAnimation : m_ReservAnimationPool)
+    for (const std::pair<const ANIMETION_MODEL, std::string>& reservAnimation : m_ReservAnimationPool)
     {
-        LoadAnimation(ReservAnimation.first, ReservAnimation.second, m_ReservAnimationNamePool[ReservAnimation.second]);
+        LoadAnimation(reservAnimation.first, reservAnimation.second, m_ReservAnimationNamePool[reservAnimation.second]);
     }
 
     m_ReservModelPool.clear();
@@ -30,13 +30,13 @@ void FbxModelManager::Uninit()
     m_ReservModelPool.clear();
     m_ReservAnimationPool.clear();
     m_ReservAnimationNamePool.clear();
-    for (std::pair<ANIMETION_MODEL, FbxModelRenderer*> LoadModel : m_LoadModelPool)
+    for (std::pair<ANIMETION_MODEL, FbxModelRenderer*> loadModel : m_LoadModelPool)
     {
-        if (LoadModel.second == nullptr) continue;
-        LoadModel.second->Uninit();
+        if (loadModel.second == nullptr) continue;
+        loadModel.second->Uninit();
 
-        delete  LoadModel.second;
-        LoadModel.second = nullptr;
+        delete  loadModel.second;
+        loadModel.second = nullptr;
     }
     m_LoadModelPool.clear();
 }
