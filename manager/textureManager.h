@@ -18,4 +18,5 @@ public:
 	static void Init();
 	static void Uninit();
 	static void ReservTexture(const TEXTURE& texture, wchar_t* fileName);
+	static ID3D11ShaderResourceView*& GetTexture(const TEXTURE& texture);
 };

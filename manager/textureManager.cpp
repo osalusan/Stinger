@@ -52,3 +52,8 @@ void TextureManager::ReservTexture(const TEXTURE& texture, wchar_t* fileName)
 {
 	m_ReservTexturePool.emplace(texture, fileName);
 }
+
+ID3D11ShaderResourceView*& TextureManager::GetTexture(const TEXTURE& texture)
+{
+	return m_LoadTexturePool[texture];
+}

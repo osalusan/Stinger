@@ -1,4 +1,23 @@
-﻿  objModelManager.cpp
+﻿  compilation object save succeeded; see C:\HAL\3\Stinger\cso\unlitTexturePS.cso
+  compilation object save succeeded; see C:\HAL\3\Stinger\cso\unlitTextureVS.cso
+  camera.cpp
+  playerCamera.cpp
+  character.cpp
+  player.cpp
+  main.cpp
+  fbxModelManager.cpp
+  inputManager.cpp
+  objectManager.cpp
+  objModelManager.cpp
+  sceneManager.cpp
   textureManager.cpp
+  gameObject.cpp
+  polygon2D.cpp
+  fbxModelRenderer.cpp
+  objModelRenderer.cpp
+  renderer.cpp
+  gameScene.cpp
+  skydome.cpp
+  staticmeshObject.cpp
   コードを生成中...
-  Stinger.vcxproj -> E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe
+  Stinger.vcxproj -> C:\HAL\3\Stinger\x64\Debug\Stinger.exe

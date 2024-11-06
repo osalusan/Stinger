@@ -1,6 +1,40 @@
 #include "gameObject.h"
 #include "renderer/renderer.h"
 
+// --------------------- private ---------------------
+
+void GameObject::GetForward(XMFLOAT3& forward)const
+{
+	XMMATRIX rotationMatrix;
+	rotationMatrix = XMMatrixRotationRollPitchYaw(
+		m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
+	XMStoreFloat3(&forward, rotationMatrix.r[2]);
+}
+
+void GameObject::GetRight(XMFLOAT3& forward)const
+{
+	XMMATRIX rotationMatrix;
+	rotationMatrix = XMMatrixRotationRollPitchYaw(
+		m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
+	XMStoreFloat3(&forward, rotationMatrix.r[0]);
+}
+
+void GameObject::LoadShader(const std::string& vsFileName, const std::string& psFileName)
+{
+	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
+	{
+		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, vsFileName.c_str());
+	}
+	if (m_PixelShader == nullptr)
+	{
+		Renderer::CreatePixelShader(&m_PixelShader, psFileName.c_str());
+	}
+}
+
+// --------------------- public ---------------------
+
 GameObject::~GameObject()
 {
 	// シェーダーの削除
@@ -52,34 +86,4 @@ void GameObject::Draw()
 	Renderer::SetWorldMatrix(world);
 }
 
-// --------------------- private ---------------------
 
-void GameObject::GetForward(XMFLOAT3& forward)const
-{
-	XMMATRIX rotationMatrix;
-	rotationMatrix = XMMatrixRotationRollPitchYaw(
-		m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-	XMStoreFloat3(&forward, rotationMatrix.r[2]);
-}
-
-void GameObject::GetRight(XMFLOAT3& forward)const
-{
-	XMMATRIX rotationMatrix;
-	rotationMatrix = XMMatrixRotationRollPitchYaw(
-		m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-	XMStoreFloat3(&forward, rotationMatrix.r[0]);
-}
-
-void GameObject::LoadShader(const std::string& vsFileName, const std::string& psFileName)
-{
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
-	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, vsFileName.c_str());
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, psFileName.c_str());
-	}
-}
