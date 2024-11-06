@@ -25,6 +25,8 @@ public:
 	void Update(const float& deltaTime);
 	void Draw();
 
+	void AddPlayer();
+
 	Player* GetPlayer()
 	{
 		return m_Player;

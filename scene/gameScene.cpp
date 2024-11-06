@@ -11,7 +11,13 @@
 void GameScene::Init()
 {
 	Scene::Init();
-	// プレイヤーの後に作成
+
+	if (m_ObjectManager == nullptr) return;
+
+
+	m_ObjectManager->AddPlayer();
+	
+	// プレイヤーの次に作成
 	if (m_Camera == nullptr)
 	{
 		m_Camera = new PlayerCamera;
@@ -22,10 +28,8 @@ void GameScene::Init()
 	}
 
 	// プレイヤーの後に
-	if (m_ObjectManager != nullptr)
-	{
-		m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-	}
+	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+	
 }
 
 void GameScene::Update(const float& deltaTime)

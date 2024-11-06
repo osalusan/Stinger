@@ -24,7 +24,7 @@ void PlayerCamera::Init()
 
 void PlayerCamera::Uninit()
 {
-	
+	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
 }
 
 void PlayerCamera::Update()

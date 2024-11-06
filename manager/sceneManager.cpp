@@ -84,6 +84,11 @@ void SceneManager::Draw()
 		}
 		
 		m_NextScene = nullptr;
+
+		InputManager::Init();
+		FbxModelManager::Init();
+		ObjModelManager::Init();
+		TextureManager::Init();
 	}
 }
 

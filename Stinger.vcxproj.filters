@@ -99,7 +99,12 @@
     <ClCompile Include="scene\scene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="scene\titleScene.cpp" />
+    <ClCompile Include="camera\titleCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\titleScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -167,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="scene\titleScene.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\titleCamera.h">
+      <Filter>camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

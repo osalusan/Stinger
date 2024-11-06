@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="camera\camera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
+    <ClCompile Include="camera\titleCamera.cpp" />
     <ClCompile Include="character\character.cpp" />
     <ClCompile Include="character\player.cpp" />
     <ClCompile Include="main\main.cpp" />
@@ -44,6 +45,7 @@
   <ItemGroup>
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\playerCamera.h" />
+    <ClInclude Include="camera\titleCamera.h" />
     <ClInclude Include="character\character.h" />
     <ClInclude Include="character\player.h" />
     <ClInclude Include="directXTex\DirectXTex.h" />

@@ -6,13 +6,24 @@
 #include "manager/textureManager.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/gameScene.h"
+#include "camera/titleCamera.h"
+#include "skydome/skydome.h"
 
 void TitleScene::Init()
 {
 	Scene::Init();
-	// ƒvƒŒƒCƒ„[‚ÌŒã‚É
+	if (m_Camera == nullptr)
+	{
+		m_Camera = new TitleCamera;
+	}
+	if (m_Camera != nullptr)
+	{
+		m_Camera->Init();
+	}
+
 	if (m_ObjectManager != nullptr)
 	{
+		m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 		m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 			XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\T_black.png");
 	}

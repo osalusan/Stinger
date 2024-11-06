@@ -18,10 +18,6 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::Init()
 {
-	if (m_Player == nullptr)
-	{
-		m_Player = new Player;
-	}
 	if (m_Player != nullptr)
 	{
 		m_Player->Init();
@@ -40,11 +36,6 @@ void ObjectManager::Init()
 
 void ObjectManager::Uninit()
 {
-	if (m_Player != nullptr)
-	{
-		m_Player->Uninit();
-	}
-
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
 		for (GameObject* object : m_GameObjects[layer])
@@ -53,6 +44,11 @@ void ObjectManager::Uninit()
 
 			object->Uninit();
 		}
+	}
+
+	if (m_Player != nullptr)
+	{
+		m_Player->Uninit();
 	}
 }
 
@@ -89,5 +85,17 @@ void ObjectManager::Draw()
 
 			object->Draw();
 		}
+	}
+}
+
+void ObjectManager::AddPlayer()
+{
+	if (m_Player == nullptr)
+	{
+		m_Player = new Player;
+	}
+	if (m_Player != nullptr)
+	{
+		m_Player->Init();
 	}
 }
