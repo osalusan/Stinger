@@ -27,7 +27,7 @@ protected:
 	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
 public:
 	Polygon2D() = delete;
-	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, wchar_t* fileName);
+	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName);
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;

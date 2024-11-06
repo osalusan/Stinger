@@ -24,7 +24,7 @@ void SkyDome::Init()
 		GameScene* Scene = SceneManager::GetScene<GameScene>();
 		if (Scene == nullptr) return;
 
-		m_CameraCashe = Scene->GetPlayerCamera();
+		m_CameraCashe = Scene->GetCamera();
 	}
 }
 

@@ -2,10 +2,10 @@
 #include <string>
 
 std::unordered_map<TEXTURE, ID3D11ShaderResourceView*> TextureManager::m_LoadTexturePool = {};
-std::unordered_map<TEXTURE, wchar_t*> TextureManager::m_ReservTexturePool = {};
+std::unordered_map<TEXTURE,const wchar_t*> TextureManager::m_ReservTexturePool = {};
 
 // ----------------------------- private -----------------------------
-void TextureManager::LoadTexture( const TEXTURE& textureName ,wchar_t* fileName)
+void TextureManager::LoadTexture( const TEXTURE& textureName , const wchar_t* fileName)
 {
 	TexMetadata metadata = {};
 	ScratchImage image = {};
@@ -27,7 +27,7 @@ void TextureManager::LoadTexture( const TEXTURE& textureName ,wchar_t* fileName)
 // ----------------------------- public -----------------------------
 void TextureManager::Init()
 {
-	for (const std::pair<const TEXTURE, wchar_t*>& reservModel : m_ReservTexturePool)
+	for (const std::pair<const TEXTURE, const wchar_t*>& reservModel : m_ReservTexturePool)
 	{
 		LoadTexture(reservModel.first,reservModel.second);
 	}
@@ -43,12 +43,11 @@ void TextureManager::Uninit()
 		{
 			loadModel.second->Release();
 		}
-		delete loadModel.second;
 		loadModel.second = nullptr;
 	}
 }
 
-void TextureManager::ReservTexture(const TEXTURE& texture, wchar_t* fileName)
+void TextureManager::ReservTexture(const TEXTURE& texture, const wchar_t* fileName)
 {
 	m_ReservTexturePool.emplace(texture, fileName);
 }

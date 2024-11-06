@@ -3,10 +3,12 @@
 #include "polygon2D/polygon2D.h"
 #include "manager/textureManager.h"
 
-Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, wchar_t* fileName)
+Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName)
 {
 	// èâä˙âª
 	m_Texture = TEXTURE::MAX;
+
+	m_Texture = texture;
 
 	if (pivot < PIVOT::CENTER && pivot > PIVOT::MAX)
 	{

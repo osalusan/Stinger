@@ -3,12 +3,12 @@
 #include <memory>
 
 // ‘O•ûéŒ¾
-class PlayerCamera;
+class Camera;
 
 class SkyDome final : public StaticMeshObject
 {
 private:
-	PlayerCamera* m_CameraCashe = nullptr;
+	Camera* m_CameraCashe = nullptr;
 
 public:
 	SkyDome();

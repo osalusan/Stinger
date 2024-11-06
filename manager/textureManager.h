@@ -11,12 +11,12 @@ enum class TEXTURE
 class TextureManager {
 private:
 	static std::unordered_map<TEXTURE, ID3D11ShaderResourceView*> m_LoadTexturePool;
-	static std::unordered_map<TEXTURE, wchar_t*> m_ReservTexturePool;
+	static std::unordered_map<TEXTURE, const wchar_t*> m_ReservTexturePool;
 
-	static void LoadTexture(const TEXTURE& textureName, wchar_t* fileName);
+	static void LoadTexture(const TEXTURE& textureName, const wchar_t* fileName);
 public:
 	static void Init();
 	static void Uninit();
-	static void ReservTexture(const TEXTURE& texture, wchar_t* fileName);
+	static void ReservTexture(const TEXTURE& texture, const wchar_t* fileName);
 	static ID3D11ShaderResourceView*& GetTexture(const TEXTURE& texture);
 };

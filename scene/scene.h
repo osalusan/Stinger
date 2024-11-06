@@ -1,11 +1,28 @@
 #pragma once
 
+class ObjectManager;
+class Camera;
+
 class Scene 
 {
+protected:
+	ObjectManager* m_ObjectManager = nullptr;
+	Camera* m_Camera = nullptr;
+
 public:
-	virtual ~Scene() {};
-	virtual void Init() = 0;
-	virtual void Uninit() = 0;
-	virtual void Update(const float& deltaTime) = 0;
-	virtual void Draw() = 0;
+	virtual ~Scene();
+	virtual void Init();
+	virtual void Uninit();
+	virtual void Update(const float& deltaTime);
+	virtual void Draw();
+
+	Camera* GetCamera()
+	{
+		return m_Camera;
+	}
+
+	ObjectManager* GetObjectManager()
+	{
+		return m_ObjectManager;
+	}
 };

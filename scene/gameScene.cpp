@@ -2,36 +2,23 @@
 #include "manager/objectManager.h"
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
+#include "manager/textureManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
-
-GameScene::~GameScene()
-{
-	delete m_PlayerCamera;
-	m_PlayerCamera = nullptr;
-	delete m_ObjectManager;
-	m_ObjectManager = nullptr;
-}
+#include "polygon2D/polygon2D.h"
+#include "scene/titleScene.h"
 
 void GameScene::Init()
 {
-	if (m_ObjectManager == nullptr)
-	{
-		m_ObjectManager = new ObjectManager;
-	}
-	if (m_ObjectManager != nullptr)
-	{
-		m_ObjectManager->Init();
-	}
-
+	Scene::Init();
 	// プレイヤーの後に作成
-	if (m_PlayerCamera == nullptr)
+	if (m_Camera == nullptr)
 	{
-		m_PlayerCamera = new PlayerCamera;
+		m_Camera = new PlayerCamera;
 	}
-	if (m_PlayerCamera != nullptr)
+	if (m_Camera != nullptr)
 	{
-		m_PlayerCamera->Init();
+		m_Camera->Init();
 	}
 
 	// プレイヤーの後に
@@ -41,47 +28,13 @@ void GameScene::Init()
 	}
 }
 
-void GameScene::Uninit()
-{
-	if (m_PlayerCamera != nullptr)
-	{
-		m_PlayerCamera->Uninit();
-	}
-	if (m_ObjectManager != nullptr)
-	{
-		m_ObjectManager->Uninit();
-	}
-}
-
 void GameScene::Update(const float& deltaTime)
 {
-	if (m_ObjectManager != nullptr)
-	{
-		m_ObjectManager->Update(deltaTime);
-	}
+	Scene::Update(deltaTime);
 
-	// プレイヤーの後に更新
-	if (m_PlayerCamera != nullptr)
-	{
-		m_PlayerCamera->Update();
-	}
 	// TODO：動作確認用の仮処理　削除予定
-	if (InputManager::GetKeyTrigger('1'))
+	if (InputManager::GetKeyPress('1'))
 	{
-		SceneManager::SetScene<GameScene>();
-	}
-}
-
-void GameScene::Draw()
-{
-	// 一番最初に描画
-	if (m_PlayerCamera != nullptr)
-	{
-		m_PlayerCamera->Draw();
-	}
-
-	if (m_ObjectManager != nullptr)
-	{
-		m_ObjectManager->Draw();
+		SceneManager::SetScene<TitleScene>();
 	}
 }

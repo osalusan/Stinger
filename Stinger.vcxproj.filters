@@ -96,6 +96,10 @@
     <ClCompile Include="polygon2D\polygon2D.cpp">
       <Filter>polygon2D</Filter>
     </ClCompile>
+    <ClCompile Include="scene\scene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\titleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -160,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="polygon2D\polygon2D.h">
       <Filter>polygon2D</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\titleScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
