@@ -4,6 +4,7 @@
 // ‘O•ûéŒ¾
 class ObjModelRenderer;
 enum class STATICMESH_MODEL;
+struct MODEL;
 
 class StaticMeshObject :public GameObject
 {
@@ -19,4 +20,6 @@ public:
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override = 0;
 	virtual void Draw()override;
+
+	const MODEL* GetModel();
 };

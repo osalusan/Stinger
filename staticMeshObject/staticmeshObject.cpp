@@ -33,6 +33,14 @@ void StaticMeshObject::Draw()
 
 	if (m_ModelRenderer != nullptr)
 	{
-		m_ModelRenderer->Draw(ObjModelManager::GetModel(m_Model));
+		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
+		{
+			m_ModelRenderer->Draw(model);
+		}
 	}
+}
+
+const MODEL* StaticMeshObject::GetModel()
+{
+	return ObjModelManager::GetModel(m_Model);
 }

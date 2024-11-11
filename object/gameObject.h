@@ -37,4 +37,39 @@ public:
 	{
 		return m_Scale;
 	}
+
+	//前方ベクトルの取得
+	XMFLOAT3 GetForward()
+	{
+		XMMATRIX rotationMatrix;
+		rotationMatrix = XMMatrixRotationRollPitchYaw(
+			m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
+		XMFLOAT3 forward;
+		XMStoreFloat3(&forward, rotationMatrix.r[2]);
+		return forward;
+	}
+	//右方向ベクトルの取得
+	XMFLOAT3 GetRight()
+	{
+		XMMATRIX rotationMatrix;
+		rotationMatrix = XMMatrixRotationRollPitchYaw(
+			m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
+		XMFLOAT3 right;
+		XMStoreFloat3(&right, rotationMatrix.r[0]);
+		return right;
+	}
+
+	//上方向ベクトルの取得
+	XMFLOAT3 GetUp()
+	{
+		XMMATRIX rotationMatrix;
+		rotationMatrix = XMMatrixRotationRollPitchYaw(
+			m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
+		XMFLOAT3 up;
+		XMStoreFloat3(&up, rotationMatrix.r[1]);
+		return up;
+	}
 };

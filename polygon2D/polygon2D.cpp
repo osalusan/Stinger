@@ -10,7 +10,9 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 
 	m_Texture = texture;
 
-	if (pivot < PIVOT::CENTER && pivot > PIVOT::MAX)
+	m_PivotPoint = pivot;
+
+	if (m_PivotPoint < PIVOT::CENTER && m_PivotPoint > PIVOT::MAX)
 	{
 		return;
 	}
@@ -22,7 +24,76 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 
 	TextureManager::ReservTexture(texture, fileName);
 
-	switch (pivot)
+	SetPolygon(position,size);
+}
+
+void Polygon2D::Init()
+{
+	GameObject::Init();
+
+	//頂点バッファの生成
+	D3D11_BUFFER_DESC bd{};
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	D3D11_SUBRESOURCE_DATA sd{};
+	sd.pSysMem = m_Vertex;
+
+	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+}
+
+void Polygon2D::Uninit()
+{
+	if (m_VertexBuffer != nullptr)
+	{
+		m_VertexBuffer->Release();
+	}
+}
+
+void Polygon2D::Update(const float& deltaTime)
+{
+	// 純粋仮想関数の為空実装
+}
+
+void Polygon2D::Draw()
+{
+	GameObject::Draw();
+	//マトリクス設定
+	Renderer::SetWorldViewProjection2D();
+
+	//頂点バッファの設定
+	UINT stride = sizeof(VERTEX_3D);
+	UINT offset = 0;
+	if (m_VertexBuffer != nullptr)
+	{
+		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+	}
+
+	//マテリアル設定
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.Diffuse = m_Color;
+	material.TextureEnable = true;
+	Renderer::SetMaterial(material);
+
+	ID3D11ShaderResourceView* texture = TextureManager::GetTexture(m_Texture);
+	if (texture == nullptr) return;
+
+	//テクスチャ設定
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
+
+	//プリミティブポロジ設定
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//ポリゴン描画
+	Renderer::GetDeviceContext()->Draw(4, 0);
+}
+
+void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)
+{
+	switch (m_PivotPoint)
 	{
 	case PIVOT::CENTER:		// 中央
 	{
@@ -161,69 +232,5 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	default:
 		break;
 	}
-}
-
-void Polygon2D::Init()
-{
-	GameObject::Init();
-
-	//頂点バッファの生成
-	D3D11_BUFFER_DESC bd{};
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA sd{};
-	sd.pSysMem = m_Vertex;
-
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
-}
-
-void Polygon2D::Uninit()
-{
-	if (m_VertexBuffer != nullptr)
-	{
-		m_VertexBuffer->Release();
-	}
-}
-
-void Polygon2D::Update(const float& deltaTime)
-{
-	// 純粋仮想関数の為空実装
-}
-
-void Polygon2D::Draw()
-{
-	GameObject::Draw();
-	//マトリクス設定
-	Renderer::SetWorldViewProjection2D();
-
-	//頂点バッファの設定
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	if (m_VertexBuffer != nullptr)
-	{
-		Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
-	}
-
-	//マテリアル設定
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = m_Color;
-	material.TextureEnable = true;
-	Renderer::SetMaterial(material);
-
-	ID3D11ShaderResourceView* texture = TextureManager::GetTexture(m_Texture);
-	if (texture == nullptr) return;
-
-	//テクスチャ設定
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
-
-	//プリミティブポロジ設定
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	//ポリゴン描画
-	Renderer::GetDeviceContext()->Draw(4, 0);
 }
 

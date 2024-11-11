@@ -1,22 +1,69 @@
 #include "character.h"
 #include "manager/fbxModelManager.h"
 #include "renderer/fbxModelRenderer.h"
+#include "component/collisionComponent.h"
 
-Character::Character(const ANIMETION_MODEL& model)
+// ------------------------- protected -------------------------
+void Character::TakeDamage(const int& atk)
 {
-	m_Model = model;
+	if (atk <= 0 || m_Health <= 0) return;
+
+	m_Health -= atk;
+
+	if (m_Health <= 0)
+	{
+		m_Health = 0;
+		m_IsDead = true;
+	}
+
+}
+
+void Character::ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path)
+{
+	FbxModelManager::ReservModel(animeModel, path);
+	m_Model = animeModel;
+}
+
+// ------------------------- public -------------------------
+Character::Character()
+{
+	m_Model = ANIMETION_MODEL::MAX;
+}
+
+Character::~Character()
+{
+	delete m_Collision;
+	m_Collision = nullptr;
 }
 
 void Character::Update(const float& deltaTime)
 {
+	m_Velocity.x = 0.0f;
+	m_Velocity.z = 0.0f;
+
+	if (m_EnableGravity)
+	{
+		m_Velocity.y += m_GravityValue;
+	}
+	else
+	{
+		m_Velocity.y = 0.0f;
+	}
 	// ˆÚ“®ˆ—
 	MoveControl(deltaTime);
 
 	m_Velocity.y *= deltaTime;
 	m_Velocity.x *= deltaTime;
+	m_Velocity.z *= deltaTime;
 
 	m_Position.x += m_Velocity.x;
 	m_Position.y += m_Velocity.y;
+	m_Position.z += m_Velocity.z;
+
+	if (m_Collision != nullptr)
+	{
+		m_Collision->Update();
+	}
 
 	// “–‚½‚è”»’èˆ—
 	CollisionControl();
@@ -34,21 +81,15 @@ void Character::Draw()
 		//Model->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextanimationName.c_str(), m_AnimationFrame, m_BlendRatio);
 		model->Draw();
 	}
-}
 
-
-// ------------------------- protected -------------------------
-void Character::TakeDamage(const int& atk)
-{
-	if (atk <= 0 || m_Health <= 0) return;
-
-	m_Health -= atk;
-
-	if (m_Health <= 0)
+#if _DEBUG
+	if (m_Collision != nullptr)
 	{
-		m_Health = 0;
-		m_IsDead = true;
+		m_Collision->Draw();
 	}
-
+#endif // _DEBUG
 }
+
+
+
 

@@ -37,6 +37,9 @@
     <Filter Include="polygon2D">
       <UniqueIdentifier>{cb5bc5f3-92a0-4976-b06e-2038b0398576}</UniqueIdentifier>
     </Filter>
+    <Filter Include="component">
+      <UniqueIdentifier>{0e78a63a-23ed-4713-b148-de90201b9d18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -104,6 +107,15 @@
     </ClCompile>
     <ClCompile Include="scene\titleScene.cpp">
       <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="component\collisionComponent.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="component\boxCollisionComponent.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\box.cpp">
+      <Filter>staticMeshObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +187,18 @@
     </ClInclude>
     <ClInclude Include="camera\titleCamera.h">
       <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="component\component.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="component\collisionComponent.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="component\boxCollisionComponent.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\box.h">
+      <Filter>staticMeshObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

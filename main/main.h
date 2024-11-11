@@ -38,4 +38,3 @@ using namespace DirectX;
 HWND GetWindow();
 
 
-

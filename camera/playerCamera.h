@@ -6,7 +6,7 @@ class Player;
 class PlayerCamera :public Camera
 {
 private:
-	Player* m_PlayerCashe = nullptr;
+	Player* m_PlayerCache = nullptr;
 
 	XMFLOAT2 m_MousePos = {};
 	XMFLOAT2 m_OldMousePos = {};

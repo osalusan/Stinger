@@ -10,7 +10,7 @@ struct MODEL_MATERIAL;
 enum class STATICMESH_MODEL
 {
 	SKYDOME = 0,
-	MAX
+	BOX
 };
 
 class ObjModelManager final

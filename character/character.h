@@ -1,5 +1,6 @@
 #pragma once
 #include "object/gameObject.h"
+#include "component/collisionComponent.h"
 
 // 前方宣言
 enum class ANIMETION_MODEL;
@@ -10,6 +11,11 @@ protected:
 	XMFLOAT3 m_Velocity= {};
 	XMFLOAT3 m_RecordPosition = {};					// 過去座標
 	ANIMETION_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
+	CollisionComponent* m_Collision = nullptr;		// コリジョンコンポーネント
+
+	// 重力
+	bool m_EnableGravity = false;
+	float m_GravityValue = 0.0f;
 
 	int m_Health = 0;								// 体力
 	int m_Damage = 0;								// 与えるダメージ
@@ -17,17 +23,31 @@ protected:
 
 	unsigned int m_AnimationFrame = 0;				// アニメーションのフレーム
 	std::string m_AnimationName = "Idle";			// アニメーションの名前
-	std::string m_NextanimationName = "Idle";		// ブレンド用、次のアニメーションの名前
+	std::string m_NextAnimationName = "Idle";		// ブレンド用、次のアニメーションの名前
 	float m_BlendRatio = 1.0f;						// アニメーションブレンドの数値
 
 	virtual void MoveControl(const float& deltaTime) = 0;
 	virtual void CollisionControl() = 0;
 
 	void TakeDamage(const int& atk);
-	
+	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
+
+	// コリジョンの追加 / Tでコリジョンの形状を指定
+	template <typename T>
+	void AddCollisionComponent(const COLLISION_TAG& tag)
+	{
+		if (m_Collision != nullptr) return;
+
+		m_Collision = new T(this);
+
+		if (m_Collision == nullptr) return;
+		m_Collision->Init();
+		m_Collision->SetCollisionTag(tag);
+	}
 public:
-	Character() = delete;
-	Character(const ANIMETION_MODEL& model);
+	Character();
+	~Character();
 	virtual void Update(const float& deltaTime)override final;
 	virtual void Draw()override final;
+	
 };

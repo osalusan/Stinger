@@ -22,6 +22,7 @@ protected:
 
 	ID3D11Buffer* m_VertexBuffer = nullptr;
 	TEXTURE m_Texture;						// 使用テクスチャ / コンストラクタで初期化
+	PIVOT m_PivotPoint = PIVOT::NONE;		// 原点
 
 	VERTEX_3D m_Vertex[4] = {};
 	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
@@ -32,4 +33,5 @@ public:
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
+	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
 };

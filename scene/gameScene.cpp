@@ -7,6 +7,7 @@
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/titleScene.h"
+#include "staticMeshObject/box.h"
 
 void GameScene::Init()
 {
@@ -15,7 +16,7 @@ void GameScene::Init()
 	if (m_ObjectManager == nullptr) return;
 
 
-	m_ObjectManager->AddPlayer();
+	m_ObjectManager->CreatePlayer();
 	
 	// プレイヤーの次に作成
 	if (m_Camera == nullptr)
@@ -29,7 +30,7 @@ void GameScene::Init()
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-	
+	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::BOX,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(1.0f,1.0f,1.0f));
 }
 
 void GameScene::Update(const float& deltaTime)

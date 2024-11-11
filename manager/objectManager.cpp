@@ -88,7 +88,7 @@ void ObjectManager::Draw()
 	}
 }
 
-void ObjectManager::AddPlayer()
+void ObjectManager::CreatePlayer()
 {
 	if (m_Player == nullptr)
 	{

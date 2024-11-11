@@ -1,10 +1,13 @@
 #pragma once
 #include <list>
+#include <vector>
+
 
 enum class OBJECT
 {
 	SKYDOME = 0,
 	POLYGON2D,
+	BOX,
 	MAX
 };
 
@@ -15,7 +18,7 @@ class Player;
 class ObjectManager final
 {
 private:
-	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)];
+	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
 	Player* m_Player = nullptr;
 
 public:
@@ -25,32 +28,40 @@ public:
 	void Update(const float& deltaTime);
 	void Draw();
 
-	void AddPlayer();
+	void CreatePlayer();
 
 	Player* GetPlayer()
 	{
 		return m_Player;
 	}
 
+	void GetGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
+	{
+		for (int i = 0; i < static_cast<int>(OBJECT::MAX); i++)
+		{
+			objectList[i].insert(objectList[i].end(), m_GameObjects[i].begin(), m_GameObjects[i].end());
+		}
+	}
+
 	// à¯êîñ≥ÇµÇ≈í«â¡
 	template <typename T>
 	void AddGameObject(const OBJECT& layer)
 	{
-		T* Gameobject = new T;
-		if (Gameobject == nullptr) return;
+		T* gameObject = new T;
+		if (gameObject == nullptr) return;
 
-		Gameobject->Init();
-		m_GameObjects[static_cast<int>(layer)].emplace_back(Gameobject);
+		gameObject->Init();
+		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
 	}
 
 	// à¯êîïtÇ´ÇÃèÍçáÇÕÇ±Ç¡Çø
 	template <typename T, typename... Arg>
 	void AddGameObjectArg(const OBJECT& layer, Arg&&...args)
 	{
-		T* GameObject = new T(std::forward<Arg>(args)...);
-		if (GameObject == nullptr) return;
+		T* gameObject = new T(std::forward<Arg>(args)...);
+		if (gameObject == nullptr) return;
 
-		GameObject->Init();
-		m_GameObjects[static_cast<int>(layer)].emplace_back(GameObject);
+		gameObject->Init();
+		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
 	}
 };

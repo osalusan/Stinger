@@ -17,7 +17,8 @@ void ObjModelManager::LoadModel(const char* fileName, MODEL* model)
 	MODEL_OBJ modelObj;
 	LoadObj(fileName, &modelObj);
 
-
+	model->Origin = modelObj.Origin;
+	model->Size = modelObj.Size;
 
 	// 頂点バッファ生成
 	{
@@ -107,6 +108,9 @@ void ObjModelManager::LoadObj(const char* fileName, MODEL_OBJ* modelObj)
 
 	MODEL_MATERIAL* materialArray = nullptr;
 	unsigned int	materialNum = 0;
+
+	XMFLOAT3 minPosition = {};
+	XMFLOAT3 maxPosition = {};
 
 	char str[256] = { 0 };
 	char* s = nullptr;
@@ -290,6 +294,16 @@ void ObjModelManager::LoadObj(const char* fileName, MODEL_OBJ* modelObj)
 			if (fscanf(file, "%f", &position->x) == 0) break;
 			if (fscanf(file, "%f", &position->y) == 0) break;
 			if (fscanf(file, "%f", &position->z) == 0) break;
+
+			// 最小値・最大値の更新
+			if (position->x < minPosition.x) minPosition.x = position->x;
+			if (position->y < minPosition.y) minPosition.y = position->y;
+			if (position->z < minPosition.z) minPosition.z = position->z;
+
+			if (position->x > maxPosition.x) maxPosition.x = position->x;
+			if (position->y > maxPosition.y) maxPosition.y = position->y;
+			if (position->z > maxPosition.z) maxPosition.z = position->z;
+
 			position++;
 		}
 		else if (strcmp(str, "vn") == 0)
@@ -395,6 +409,21 @@ void ObjModelManager::LoadObj(const char* fileName, MODEL_OBJ* modelObj)
 
 	fclose(file);
 
+	// モデルの原点を計算
+	XMFLOAT3 modelOrigin;
+	modelOrigin.x = (minPosition.x + maxPosition.x) / 2.0f;
+	modelOrigin.y = (minPosition.y + maxPosition.y) / 2.0f;
+	modelOrigin.z = (minPosition.z + maxPosition.z) / 2.0f;
+
+	// モデルのサイズを計算
+	XMFLOAT3 modelSize;
+	modelSize.x = maxPosition.x - minPosition.x;
+	modelSize.y = maxPosition.y - minPosition.y;
+	modelSize.z = maxPosition.z - minPosition.z;
+
+	// 原点とサイズを保存
+	modelObj->Origin = modelOrigin;
+	modelObj->Size = modelSize;
 
 	delete[] positionArray;
 	delete[] normalArray;

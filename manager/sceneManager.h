@@ -20,8 +20,8 @@ public:
 	template<typename T>
 	static T* GetScene()
 	{ 
-		T* Scene = dynamic_cast<T*>(m_Scene);
-		return Scene;
+		T* scene = dynamic_cast<T*>(m_Scene);
+		return scene;
 	}
 
 	template<typename T>

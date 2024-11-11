@@ -24,6 +24,8 @@
     <ClCompile Include="camera\titleCamera.cpp" />
     <ClCompile Include="character\character.cpp" />
     <ClCompile Include="character\player.cpp" />
+    <ClCompile Include="component\boxCollisionComponent.cpp" />
+    <ClCompile Include="component\collisionComponent.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="manager\fbxModelManager.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
@@ -40,6 +42,7 @@
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\titleScene.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
+    <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +51,9 @@
     <ClInclude Include="camera\titleCamera.h" />
     <ClInclude Include="character\character.h" />
     <ClInclude Include="character\player.h" />
+    <ClInclude Include="component\boxCollisionComponent.h" />
+    <ClInclude Include="component\collisionComponent.h" />
+    <ClInclude Include="component\component.h" />
     <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="main\main.h" />
     <ClInclude Include="manager\fbxModelManager.h" />
@@ -65,6 +71,7 @@
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\titleScene.h" />
     <ClInclude Include="skydome\skydome.h" />
+    <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
   </ItemGroup>
   <ItemGroup>
