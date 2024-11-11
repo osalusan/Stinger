@@ -7,8 +7,3 @@ Box::Box(XMFLOAT3 position, XMFLOAT3 scale): StaticMeshObject(STATICMESH_MODEL::
 	m_Position = position;
 	m_Scale = scale;
 }
-
-void Box::Update(const float& deltaTime)
-{
-	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
-}

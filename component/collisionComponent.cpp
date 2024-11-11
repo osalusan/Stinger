@@ -3,6 +3,7 @@
 #include "scene/gameScene.h"
 #include "object/gameObject.h"
 #include "staticMeshObject/staticmeshObject.h"
+#include "character/character.h"
 
 // ------------------------ protected ------------------------
 bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
@@ -78,9 +79,18 @@ float CollisionComponent::LenSegOnSeparateAxis(const XMVECTOR& Sep, const XMVECT
 	const float& r3 = fabsf(XMVectorGetX(XMVector3Dot(Sep, e3)));
 	return r1 + r2 + r3;
 }
+
+void CollisionComponent::SetHitObject(GameObject* hitObj)
+{
+	if (hitObj != nullptr)
+	{
+		m_HitGameObjectsCache.emplace_back(hitObj);
+	}
+}
+
 bool CollisionComponent::CheckHitObject()
 {
-	// オブジェクトの取得
+	// オブジェクト一覧の取得
 	if (m_GameObjectsCache->empty())
 	{
 		GameScene* gameScene = SceneManager::GetScene<GameScene>();
@@ -93,22 +103,28 @@ bool CollisionComponent::CheckHitObject()
 		if (m_GameObjectsCache->empty()) return false;
 	}
 
+	// TODO : Box以外の当たり判定を作成したら、このコメント以下の処理をBoxComponentに移動
+	
+	if (m_GameObject == nullptr) return false;
+
 	OBB myObb = {};
 
 	{
+		const XMFLOAT3& myModelCenter = m_GameObject->GetModelCenter();
+		const XMFLOAT3& myModelScale = m_GameObject->GetModelScale();
 
 		// OBBの中心位置を計算
 		const XMVECTOR& myCenter = XMVectorSet(
-			m_Pos.x + m_Scale.x,
-			m_Pos.y + m_Scale.y,
-			m_Pos.z + m_Scale.z,
+			m_Pos.x + (myModelCenter.x * m_Scale.x),
+			m_Pos.y + (myModelCenter.y * m_Scale.y),
+			m_Pos.z + (myModelCenter.z * m_Scale.z),
 			0.0f);
 
 		// OBBのサイズを計算
 		const XMVECTOR& mySize = XMVectorSet(
-			m_Scale.x * 10.0f,
-			m_Scale.y * 10.0f,
-			m_Scale.z * 10.0f,
+			(myModelScale.x * m_Scale.x) * 0.5f,
+			(myModelScale.y * m_Scale.y) * 0.5f,
+			(myModelScale.z * m_Scale.z) * 0.5f,
 			0.0f);
 
 		// OBBの軸を設定
@@ -134,24 +150,27 @@ bool CollisionComponent::CheckHitObject()
 		const XMFLOAT3& boxPosition = object->GetPos();
 		const XMFLOAT3& boxScale = object->GetScale();
 
+		const XMFLOAT3& boxModelCenter = object->GetModelCenter();
+		const XMFLOAT3& boxModelScale = object->GetModelScale();
+
 		// OBBの中心位置を計算
 		const XMVECTOR& boxCenter = XMVectorSet(
-			boxPosition.x + boxScale.x,
-			boxPosition.y + boxScale.y,
-			boxPosition.z + boxScale.z,
+			boxPosition.x + (boxModelCenter.x * boxScale.x),
+			boxPosition.y + (boxModelCenter.y * boxScale.y),
+			boxPosition.z + (boxModelCenter.z * boxScale.z),
 			0.0f);
 
 		// OBBのサイズを計算（ハーフサイズ）
 		const XMVECTOR& boxSize = XMVectorSet(
-			boxScale.x,
-			boxScale.y,
-			boxScale.z,
+			(boxScale.x * boxModelScale.x) * 0.5f,
+			(boxScale.y * boxModelScale.y) * 0.5f,
+			(boxScale.z * boxModelScale.z) * 0.5f,
 			0.0f);
 
 		// OBBの軸を設定
-		XMFLOAT3 boxAxisX = object->GetRight();
-		XMFLOAT3 boxAxisY = object->GetUp();
-		XMFLOAT3 boxAxisZ = object->GetForward();
+		const XMFLOAT3& boxAxisX = object->GetRight();
+		const XMFLOAT3& boxAxisY = object->GetUp();
+		const XMFLOAT3& boxAxisZ = object->GetForward();
 
 		boxObb.Axis[0] = XMLoadFloat3(&boxAxisX);
 		boxObb.Axis[1] = XMLoadFloat3(&boxAxisY);
@@ -162,6 +181,8 @@ bool CollisionComponent::CheckHitObject()
 
 		if (HitOBB(myObb, boxObb))
 		{
+
+			SetHitObject(object);
 			return true;
 		}
 	}

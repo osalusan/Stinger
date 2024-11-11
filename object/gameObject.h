@@ -7,6 +7,10 @@ protected:
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Rotation = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
+
+	// Model関係
+	XMFLOAT3 m_ModelCenter = {};
+	XMFLOAT3 m_ModelScale = {};
 	
 	bool m_Enable = false;		// 有効、無効
 
@@ -36,6 +40,15 @@ public:
 	const XMFLOAT3& GetScale()const
 	{
 		return m_Scale;
+	}
+
+	const XMFLOAT3& GetModelCenter()const
+	{
+		return m_ModelCenter;
+	}
+	const XMFLOAT3& GetModelScale()const
+	{
+		return m_ModelScale;
 	}
 
 	//前方ベクトルの取得

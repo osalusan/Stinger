@@ -27,6 +27,19 @@ void StaticMeshObject::Uninit()
 	
 }
 
+void StaticMeshObject::Update(const float& deltaTime)
+{
+	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
+	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
+	{
+		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
+		{
+			m_ModelCenter = model->Center;
+			m_ModelScale = model->Scale;
+		}
+	}
+}
+
 void StaticMeshObject::Draw()
 {
 	GameObject::Draw();

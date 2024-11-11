@@ -4,5 +4,4 @@
 class Box : public StaticMeshObject {
 public:
 	Box(XMFLOAT3 position, XMFLOAT3 scale);
-	virtual void Update(const float& deltaTime)override;
 };

@@ -18,7 +18,7 @@ public:
 	virtual ~StaticMeshObject();
 	virtual void Init()override;
 	virtual void Uninit()override;
-	virtual void Update(const float& deltaTime)override = 0;
+	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
 
 	const MODEL* GetModel();

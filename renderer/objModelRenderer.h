@@ -46,8 +46,8 @@ struct MODEL
 	SUBSET*			SubsetArray = nullptr;
 	unsigned int	SubsetNum = 0;
 
-	XMFLOAT3     Origin = {}; // 原点を追加
-	XMFLOAT3     Size = {};   // モデルのサイズ
+	XMFLOAT3     Center = {}; // 原点を追加
+	XMFLOAT3     Scale = {};   // モデルのサイズ
 };
 
 class ObjModelRenderer final

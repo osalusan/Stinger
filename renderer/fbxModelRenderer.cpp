@@ -542,6 +542,40 @@ void FbxModelRenderer::Load(const char* FileName)
 				assert(m_DeformVertex[m][weight.mVertexId].BoneNum <= 4);
 			}
 		}
+
+		// 最小値と最大値の初期化
+		XMFLOAT3 min = {};
+		XMFLOAT3 max = {};
+
+		// メッシュと頂点を走査
+		for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+		{
+			aiMesh* mesh = m_AiScene->mMeshes[m];
+
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+			{
+				aiVector3D vertex = mesh->mVertices[v];
+
+				// 最小値の更新
+				min.x = std::min(min.x, vertex.x);
+				min.y = std::min(min.y, vertex.y);
+				min.z = std::min(min.z, vertex.z);
+
+				// 最大値の更新
+				max.x = std::max(max.x, vertex.x);
+				max.y = std::max(max.y, vertex.y);
+				max.z = std::max(max.z, vertex.z);
+			}
+		}
+
+		// 中心座標の計算
+		const XMFLOAT3& center = { (min.x + max.x) / 2.0f ,(min.y+ max.y) / 2.0f ,(min.z + max.z) / 2.0f };
+		m_Center = center;
+
+		// サイズの計算
+		const XMFLOAT3& size = { max.x - min.x ,max.y - min.y ,max.z - min.z };
+
+		m_Scale = size;
 	}
 
 

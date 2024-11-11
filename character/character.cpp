@@ -38,6 +38,7 @@ Character::~Character()
 
 void Character::Update(const float& deltaTime)
 {
+
 	m_Velocity.x = 0.0f;
 	m_Velocity.z = 0.0f;
 
@@ -59,6 +60,16 @@ void Character::Update(const float& deltaTime)
 	m_Position.x += m_Velocity.x;
 	m_Position.y += m_Velocity.y;
 	m_Position.z += m_Velocity.z;
+
+	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
+	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
+	{
+		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
+		{
+			m_ModelCenter = model->GetCenter();
+			m_ModelScale = model->GetScale();
+		}
+	}
 
 	if (m_Collision != nullptr)
 	{

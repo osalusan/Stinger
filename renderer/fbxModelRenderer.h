@@ -50,6 +50,10 @@ private:
 	std::vector<DEFORM_VERTEX>* m_DeformVertex = {};						//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 
+	XMFLOAT3 m_Center = {};
+	XMFLOAT3 m_Scale = {};
+
+
 public:
 	void Load(const char* FileName);
 	void Uninit();
@@ -60,4 +64,13 @@ public:
 	void CreateBone(aiNode* node);
 	void Update(const char* AnimationName1, int Frame1);
 	void UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix);
+
+	const XMFLOAT3& GetCenter()const
+	{
+		return m_Center;
+	}
+	const XMFLOAT3& GetScale()const
+	{
+		return m_Scale;
+	}
 };

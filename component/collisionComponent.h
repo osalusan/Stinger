@@ -45,14 +45,19 @@ protected:
 	XMFLOAT3 m_Pos = {};
 	XMFLOAT3 m_Scale = {};
 
+	XMFLOAT3 m_ModelCenter = {};
+	XMFLOAT3 m_ModelScale = {};
+
 	COLLISION_TAG m_CollisionTag = COLLISION_TAG::MAX;
 	std::vector<GameObject*> m_HitGameObjectsCache = {};								// 当たったオブジェクトを保存
 	std::vector<GameObject*> m_GameObjectsCache[static_cast<int>(OBJECT::MAX)] = {};	// オブジェクトを保存
 	ObjectManager* m_ObjectManager = nullptr;
 
 	bool CheckHitObject();
+	// OBB同士の当たり判定
 	bool HitOBB(const OBB& obb1, const OBB& obb2);
 	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const XMVECTOR& e1, const XMVECTOR& e2, const XMVECTOR& e3);
+	void SetHitObject(GameObject* hitObj);
 public:
 	using Component::Component;
 	virtual void Init()override;

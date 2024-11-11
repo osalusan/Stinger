@@ -17,8 +17,8 @@ void ObjModelManager::LoadModel(const char* fileName, MODEL* model)
 	MODEL_OBJ modelObj;
 	LoadObj(fileName, &modelObj);
 
-	model->Origin = modelObj.Origin;
-	model->Size = modelObj.Size;
+	model->Center = modelObj.Origin;
+	model->Scale = modelObj.Size;
 
 	// 頂点バッファ生成
 	{
