@@ -1,8 +1,2 @@
-﻿  playerCamera.cpp
-  character.cpp
-  player.cpp
-  boxCollisionComponent.cpp
-  collisionComponent.cpp
-  objectManager.cpp
-  コードを生成中...
-  Stinger.vcxproj -> C:\HAL\3\Stinger\x64\Debug\Stinger.exe
+﻿  collisionComponent.cpp
+  Stinger.vcxproj -> E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe

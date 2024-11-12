@@ -11,7 +11,7 @@ protected:
 	// Model関係
 	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {};
-	
+
 	bool m_Enable = false;		// 有効、無効
 
 	ID3D11VertexShader* m_VertexShader = nullptr;
@@ -52,7 +52,7 @@ public:
 	}
 
 	//前方ベクトルの取得
-	XMFLOAT3 GetForward()
+	XMFLOAT3 GetForward()const
 	{
 		XMMATRIX rotationMatrix;
 		rotationMatrix = XMMatrixRotationRollPitchYaw(
@@ -63,7 +63,7 @@ public:
 		return forward;
 	}
 	//右方向ベクトルの取得
-	XMFLOAT3 GetRight()
+	XMFLOAT3 GetRight()const
 	{
 		XMMATRIX rotationMatrix;
 		rotationMatrix = XMMatrixRotationRollPitchYaw(
@@ -75,7 +75,7 @@ public:
 	}
 
 	//上方向ベクトルの取得
-	XMFLOAT3 GetUp()
+	XMFLOAT3 GetUp()const
 	{
 		XMMATRIX rotationMatrix;
 		rotationMatrix = XMMatrixRotationRollPitchYaw(
@@ -84,5 +84,14 @@ public:
 		XMFLOAT3 up;
 		XMStoreFloat3(&up, rotationMatrix.r[1]);
 		return up;
+	}
+
+	XMMATRIX GetRotationMatrix()const
+	{
+		XMMATRIX rotationMatrix;
+		rotationMatrix = XMMatrixRotationRollPitchYaw(
+			m_Rotation.x, m_Rotation.y, m_Rotation.z);
+
+		return rotationMatrix;
 	}
 };

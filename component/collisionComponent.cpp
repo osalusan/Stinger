@@ -109,38 +109,51 @@ bool CollisionComponent::CheckHitObject()
 
 	OBB myObb = {};
 
-	{
-		const XMFLOAT3& myModelCenter = m_GameObject->GetModelCenter();
-		const XMFLOAT3& myModelScale = m_GameObject->GetModelScale();
+	// オブジェクトの位置、スケール、回転行列を取得
+	const XMFLOAT3& myPosition = m_GameObject->GetPos();
+	const XMFLOAT3& myScale = m_GameObject->GetScale();
+	const XMMATRIX& myRotationMatrix = m_GameObject->GetRotationMatrix();
 
-		// OBBの中心位置を計算
-		const XMVECTOR& myCenter = XMVectorSet(
-			m_Pos.x + (myModelCenter.x * m_Scale.x),
-			m_Pos.y + (myModelCenter.y * m_Scale.y),
-			m_Pos.z + (myModelCenter.z * m_Scale.z),
-			0.0f);
+	// モデルの原点とサイズを取得
+	const XMFLOAT3& myModelCenter = m_GameObject->GetModelCenter();
+	const XMFLOAT3& myModelScale = m_GameObject->GetModelScale();
 
-		// OBBのサイズを計算
-		const XMVECTOR& mySize = XMVectorSet(
-			(myModelScale.x * m_Scale.x) * 0.5f,
-			(myModelScale.y * m_Scale.y) * 0.5f,
-			(myModelScale.z * m_Scale.z) * 0.5f,
-			0.0f);
+	// 補正された原点を計算
+	XMVECTOR correctedOrigin = XMVectorSet(
+		myModelCenter.x * myScale.x,
+		myModelCenter.y * myScale.y,
+		myModelCenter.z * myScale.z,
+		0.0f);
 
-		// OBBの軸を設定
-		const XMFLOAT3& axisX = m_GameObject->GetRight();
-		const XMFLOAT3& axisY = m_GameObject->GetUp();
-		const XMFLOAT3& axisZ = m_GameObject->GetForward();
+	// オブジェクトの回転を補正された原点に適用
+	correctedOrigin = XMVector3TransformCoord(correctedOrigin, myRotationMatrix);
 
-		myObb.Axis[0] = XMLoadFloat3(&axisX);
-		myObb.Axis[1] = XMLoadFloat3(&axisY);
-		myObb.Axis[2] = XMLoadFloat3(&axisZ);
+	// OBBの中心を計算
+	const XMVECTOR& myCenter = XMVectorSet(
+		myPosition.x,
+		myPosition.y,
+		myPosition.z,
+		0.0f) + correctedOrigin;
 
-		// OBBに値を設定
-		myObb.Center = myCenter;
-		myObb.Size = mySize;
-	}
+	// OBBのサイズ（ハーフサイズ）を計算
+	const XMVECTOR& mySize = XMVectorSet(
+		(myModelScale.x * myScale.x) * 0.5f,
+		(myModelScale.y * myScale.y) * 0.5f,
+		(myModelScale.z * myScale.z) * 0.5f,
+		0.0f);
 
+	// OBBの軸を設定
+	const XMFLOAT3& axisX = m_GameObject->GetRight();
+	const XMFLOAT3& axisY = m_GameObject->GetUp();
+	const XMFLOAT3& axisZ = m_GameObject->GetForward();
+
+	myObb.Axis[0] = XMLoadFloat3(&axisX);
+	myObb.Axis[1] = XMLoadFloat3(&axisY);
+	myObb.Axis[2] = XMLoadFloat3(&axisZ);
+
+	// OBBに値を設定
+	myObb.Center = myCenter;
+	myObb.Size = mySize;
 
 	for (GameObject* object : m_GameObjectsCache[static_cast<int>(OBJECT::BOX)])
 	{
@@ -149,22 +162,33 @@ bool CollisionComponent::CheckHitObject()
 
 		const XMFLOAT3& boxPosition = object->GetPos();
 		const XMFLOAT3& boxScale = object->GetScale();
+		const XMMATRIX& boxRotationMatrix = object->GetRotationMatrix();
 
 		const XMFLOAT3& boxModelCenter = object->GetModelCenter();
-		const XMFLOAT3& boxModelScale = object->GetModelScale();
+		const XMFLOAT3& boxModelScale = object->GetModelScale();	
 
-		// OBBの中心位置を計算
-		const XMVECTOR& boxCenter = XMVectorSet(
-			boxPosition.x + (boxModelCenter.x * boxScale.x),
-			boxPosition.y + (boxModelCenter.y * boxScale.y),
-			boxPosition.z + (boxModelCenter.z * boxScale.z),
+		// 補正された原点を計算
+		XMVECTOR boxCorrectedOrigin = XMVectorSet(
+			boxModelCenter.x * boxScale.x,
+			boxModelCenter.y * boxScale.y,
+			boxModelCenter.z * boxScale.z,
 			0.0f);
 
-		// OBBのサイズを計算（ハーフサイズ）
+		// ボックスの回転を補正された原点に適用
+		boxCorrectedOrigin = XMVector3TransformCoord(boxCorrectedOrigin, boxRotationMatrix);
+
+		// OBBの中心を計算
+		const XMVECTOR& boxCenter = XMVectorSet(
+			boxPosition.x,
+			boxPosition.y,
+			boxPosition.z,
+			0.0f) + boxCorrectedOrigin;
+
+		// OBBのサイズ（ハーフサイズ）を計算
 		const XMVECTOR& boxSize = XMVectorSet(
-			(boxScale.x * boxModelScale.x) * 0.5f,
-			(boxScale.y * boxModelScale.y) * 0.5f,
-			(boxScale.z * boxModelScale.z) * 0.5f,
+			(boxModelScale.x * boxScale.x) * 0.5f,
+			(boxModelScale.y * boxScale.y) * 0.5f,
+			(boxModelScale.z * boxScale.z) * 0.5f,
 			0.0f);
 
 		// OBBの軸を設定
@@ -176,9 +200,11 @@ bool CollisionComponent::CheckHitObject()
 		boxObb.Axis[1] = XMLoadFloat3(&boxAxisY);
 		boxObb.Axis[2] = XMLoadFloat3(&boxAxisZ);
 
+		// OBBに値を設定
 		boxObb.Center = boxCenter;
 		boxObb.Size = boxSize;
 
+		// 衝突判定
 		if (HitOBB(myObb, boxObb))
 		{
 
@@ -229,75 +255,3 @@ bool CollisionComponent::CheckHitCollision(const COLLISION_TAG& tag)
 
 	return false;
 }
-//void Player::GetOBBVertices(const OBB& obb, XMFLOAT3 vertices[8]) 
-//{
-//	// OBBの中心位置と各軸方向の半分サイズを取得
-//	XMVECTOR center = obb.Center;
-//	XMVECTOR axisX = XMVectorScale(obb.Axis[0], XMVectorGetX(obb.Size));
-//	XMVECTOR axisY = XMVectorScale(obb.Axis[1], XMVectorGetY(obb.Size));
-//	XMVECTOR axisZ = XMVectorScale(obb.Axis[2], XMVectorGetZ(obb.Size));
-//
-//	// 8つの頂点を計算
-//	XMVECTOR corners[8];
-//	corners[0] = center - axisX - axisY - axisZ;
-//	corners[1] = center + axisX - axisY - axisZ;
-//	corners[2] = center + axisX + axisY - axisZ;
-//	corners[3] = center - axisX + axisY - axisZ;
-//	corners[4] = center - axisX - axisY + axisZ;
-//	corners[5] = center + axisX - axisY + axisZ;
-//	corners[6] = center + axisX + axisY + axisZ;
-//	corners[7] = center - axisX + axisY + axisZ;
-//
-//	// XMVECTORからXMFLOAT3へ変換
-//	for (int i = 0; i < 8; ++i) 
-//	{
-//		XMStoreFloat3(&vertices[i], corners[i]);
-//	}
-//}
-//
-//void Player::DrawOBBWireframe(const XMFLOAT3 vertices[8])
-//{
-//	// 頂点データをラインリスト用に定義
-//	XMFLOAT3 lineVertices[24] = {
-//		vertices[0], vertices[1], // Edge 0-1
-//		vertices[1], vertices[2], // Edge 1-2
-//		vertices[2], vertices[3], // Edge 2-3
-//		vertices[3], vertices[0], // Edge 3-0
-//
-//		vertices[4], vertices[5], // Edge 4-5
-//		vertices[5], vertices[6], // Edge 5-6
-//		vertices[6], vertices[7], // Edge 6-7
-//		vertices[7], vertices[4], // Edge 7-4
-//
-//		vertices[0], vertices[4], // Edge 0-4
-//		vertices[1], vertices[5], // Edge 1-5
-//		vertices[2], vertices[6], // Edge 2-6
-//		vertices[3], vertices[7]  // Edge 3-7
-//	};
-//
-//	// 頂点バッファの設定
-//	D3D11_BUFFER_DESC bufferDesc = {};
-//	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-//	bufferDesc.ByteWidth = sizeof(lineVertices);
-//	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-//
-//	D3D11_SUBRESOURCE_DATA initData = {};
-//	initData.pSysMem = lineVertices;
-//
-//	ID3D11Buffer* vertexBuffer;
-//	Renderer::GetDevice()->CreateBuffer(&bufferDesc, &initData, &vertexBuffer);
-//
-//	// 頂点バッファをバインド
-//	UINT stride = sizeof(XMFLOAT3);
-//	UINT offset = 0;
-//	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-//
-//	// プリミティブトポロジを設定
-//	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-//
-//	// 描画
-//	Renderer::GetDeviceContext()->Draw(24, 0);
-//
-//	// 解放
-//	vertexBuffer->Release();
-//}

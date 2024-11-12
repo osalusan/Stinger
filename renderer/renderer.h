@@ -64,7 +64,7 @@ private:
 	static ID3D11BlendState*		m_BlendStateAdd; //加算合成ブレンドステート
 	static ID3D11BlendState*		m_BlendStateATC;
 
-
+	static ID3D11RasterizerState* m_WireframeRasterState; // ワイヤーフレーム用
 
 public:
 	static void Init();
@@ -74,6 +74,7 @@ public:
 
 	static void SetDepthEnable(const bool& enable);
 	static void SetATCEnable(const bool& enable);
+	static void SetWireframeEnable(const bool& enable);
 	static void SetWorldViewProjection2D();
 	static void SetWorldMatrix(const XMMATRIX& WorldMatrix);
 	static void SetViewMatrix(const XMMATRIX& ViewMatrix);

@@ -25,6 +25,7 @@ ID3D11BlendState*		Renderer::m_BlendState{};
 ID3D11BlendState*		Renderer::m_BlendStateAdd{};
 ID3D11BlendState*		Renderer::m_BlendStateATC{};
 
+ID3D11RasterizerState*  Renderer::m_WireframeRasterState = nullptr; // ワイヤーフレーム用
 
 
 
@@ -121,6 +122,15 @@ void Renderer::Init()
 	m_Device->CreateRasterizerState( &rasterizerDesc, &rs );
 
 	m_DeviceContext->RSSetState( rs );
+
+	// ワイヤーフレーム用ラスタライザーステートの設定
+	D3D11_RASTERIZER_DESC wireframeDesc = {};
+	wireframeDesc.FillMode = D3D11_FILL_WIREFRAME; // ワイヤーフレームモード
+	wireframeDesc.CullMode = D3D11_CULL_NONE;      // カリングなし
+	wireframeDesc.DepthClipEnable = TRUE;          // 深度クリッピングを有効化
+
+	// ワイヤーフレームラスタライザーステートの作成
+	m_Device->CreateRasterizerState(&wireframeDesc, &m_WireframeRasterState);
 
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc{};
@@ -245,13 +255,12 @@ void Renderer::Init()
 
 void Renderer::Uninit()
 {
-
+	m_WireframeRasterState->Release();
 	m_WorldBuffer->Release();
 	m_ViewBuffer->Release();
 	m_ProjectionBuffer->Release();
 	m_LightBuffer->Release();
 	m_MaterialBuffer->Release();
-
 
 	m_DeviceContext->ClearState();
 	m_RenderTargetView->Release();
@@ -301,6 +310,18 @@ void Renderer::SetATCEnable(const bool& enable )
 	else
 		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 
+}
+
+void Renderer::SetWireframeEnable(const bool& enable) {
+
+	if (enable) 
+	{
+		m_DeviceContext->RSSetState(m_WireframeRasterState);
+	}
+	else 
+	{
+		m_DeviceContext->RSSetState(nullptr);
+	}
 }
 
 void Renderer::SetWorldViewProjection2D()
