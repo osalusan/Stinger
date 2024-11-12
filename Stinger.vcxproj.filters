@@ -40,6 +40,9 @@
     <Filter Include="component">
       <UniqueIdentifier>{0e78a63a-23ed-4713-b148-de90201b9d18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playerState">
+      <UniqueIdentifier>{eaa630ec-7acf-4aec-aaf3-cedd6912cb4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -117,6 +120,19 @@
     <ClCompile Include="staticMeshObject\box.cpp">
       <Filter>staticMeshObject</Filter>
     </ClCompile>
+    <ClCompile Include="playerState\playerStateMachine.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerState.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateIdle.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateRun.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateJump.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -199,6 +215,21 @@
     </ClInclude>
     <ClInclude Include="staticMeshObject\box.h">
       <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateMachine.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerState.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateIdle.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateRun.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateJump.h">
+      <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

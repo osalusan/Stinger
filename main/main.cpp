@@ -113,7 +113,7 @@ int APIENTRY WinMain(
 	_In_ int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(146);
+	//_CrtSetBreakAlloc(232982);
 
 	// 乱数のシードを設定
 	srand(static_cast<unsigned int>(time(0)));
@@ -262,9 +262,15 @@ int APIENTRY WinMain(
 			if (deltaTime >= targetDeltaTime)
 			{
 				// FPSを計算
-				const float& deltaTimeFloat = static_cast<float>(deltaTime);
+				float deltaTimeFloat = static_cast<float>(deltaTime);
 				const float& fps = 1.0f / deltaTimeFloat;
 				
+				// 上限設定 / ブレイクポイント用
+				if (deltaTimeFloat >= 0.2f)
+				{
+					deltaTimeFloat = 0.0f;
+				}
+
 				SceneManager::Update(deltaTimeFloat);
 
 				SceneManager::Draw();

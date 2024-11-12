@@ -2,19 +2,8 @@
 #include "object/gameObject.h"
 #include "renderer/renderer.h"
 
-void BoxCollisionComponent::Update()
+void BoxCollisionComponent::GetMyObb(OBB& myObb)
 {
-	// 純粋仮想関数の為空実装
-}
-
-bool BoxCollisionComponent::CheckHitObject()
-{
-	CollisionComponent::CheckHitObject();
-
-	if (m_GameObject == nullptr) return false;
-
-	OBB myObb = {};
-
 	// 補正された原点を計算
 	XMVECTOR correctedOrigin = XMVectorSet(
 		m_ModelCenter.x * m_Scale.x,
@@ -40,9 +29,9 @@ bool BoxCollisionComponent::CheckHitObject()
 		0.0f);
 
 	// OBBの軸を設定
-	XMFLOAT3 axisX; 
-	XMFLOAT3 axisY; 
-	XMFLOAT3 axisZ; 
+	XMFLOAT3 axisX;
+	XMFLOAT3 axisY;
+	XMFLOAT3 axisZ;
 	XMStoreFloat3(&axisX, m_RotationMatrix.r[0]);
 	XMStoreFloat3(&axisY, m_RotationMatrix.r[1]);
 	XMStoreFloat3(&axisZ, m_RotationMatrix.r[2]);
@@ -54,6 +43,22 @@ bool BoxCollisionComponent::CheckHitObject()
 	// OBBに値を設定
 	myObb.Center = myCenter;
 	myObb.Size = mySize;
+}
+
+void BoxCollisionComponent::Update()
+{
+	// 純粋仮想関数の為空実装
+}
+
+bool BoxCollisionComponent::CheckHitObject()
+{
+	CollisionComponent::CheckHitObject();
+
+	if (m_GameObject == nullptr) return false;
+
+	OBB myObb = {};
+
+	GetMyObb(myObb);
 
 	for (GameObject* object : m_GameObjectsCache[static_cast<int>(OBJECT::BOX)])
 	{

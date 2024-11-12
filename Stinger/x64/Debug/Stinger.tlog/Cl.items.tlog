@@ -13,6 +13,11 @@ E:\HAL\就職作品\Stinger\manager\objModelManager.cpp;E:\HAL\就職作品\Stin
 E:\HAL\就職作品\Stinger\manager\sceneManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\sceneManager.obj
 E:\HAL\就職作品\Stinger\manager\textureManager.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\textureManager.obj
 E:\HAL\就職作品\Stinger\object\gameObject.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\gameObject.obj
+E:\HAL\就職作品\Stinger\playerState\playerState.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\playerState.obj
+E:\HAL\就職作品\Stinger\playerState\playerStateIdle.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\playerStateIdle.obj
+E:\HAL\就職作品\Stinger\playerState\playerStateJump.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\playerStateJump.obj
+E:\HAL\就職作品\Stinger\playerState\playerStateMachine.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\playerStateMachine.obj
+E:\HAL\就職作品\Stinger\playerState\playerStateRun.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\playerStateRun.obj
 E:\HAL\就職作品\Stinger\polygon2D\polygon2D.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\polygon2D.obj
 E:\HAL\就職作品\Stinger\renderer\fbxModelRenderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\fbxModelRenderer.obj
 E:\HAL\就職作品\Stinger\renderer\objModelRenderer.cpp;E:\HAL\就職作品\Stinger\Stinger\x64\Debug\objModelRenderer.obj

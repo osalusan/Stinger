@@ -9,12 +9,17 @@
 #include "scene/titleScene.h"
 #include "staticMeshObject/box.h"
 
+GameScene::~GameScene()
+{
+	delete m_Camera;
+	m_Camera = nullptr;
+}
+
 void GameScene::Init()
 {
 	Scene::Init();
 
 	if (m_ObjectManager == nullptr) return;
-
 
 	m_ObjectManager->CreatePlayer();
 	

@@ -34,6 +34,6 @@ protected:
 public:
 	Character();
 	virtual void Update(const float& deltaTime)override final;
-	virtual void Draw()override final;
+	virtual void Draw()override;
 	
 };

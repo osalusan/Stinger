@@ -39,7 +39,7 @@ void Character::Update(const float& deltaTime)
 
 	if (m_EnableGravity)
 	{
-		m_Velocity.y += m_GravityValue;
+		m_Velocity.y -= m_GravityValue * deltaTime;
 	}
 	else
 	{
@@ -48,8 +48,8 @@ void Character::Update(const float& deltaTime)
 	// ˆÚ“®ˆ—
 	MoveControl(deltaTime);
 
-	m_Velocity.y *= deltaTime;
 	m_Velocity.x *= deltaTime;
+	m_Velocity.y *= deltaTime;
 	m_Velocity.z *= deltaTime;
 
 	m_Position.x += m_Velocity.x;

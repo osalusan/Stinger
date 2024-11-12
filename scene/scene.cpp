@@ -6,6 +6,8 @@ Scene::~Scene()
 {
 	delete m_ObjectManager;
 	m_ObjectManager = nullptr;
+	delete m_Camera;
+	m_Camera = nullptr;
 }
 
 void Scene::Init()

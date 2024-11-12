@@ -8,6 +8,7 @@ class GameScene final :public Scene
 {
 
 public:
+	~GameScene();
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override;
 };
