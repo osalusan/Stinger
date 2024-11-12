@@ -28,5 +28,4 @@ private:
 public:
 	Player();
 	virtual void Init()override;
-	virtual void Uninit()override;
 };

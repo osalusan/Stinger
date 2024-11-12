@@ -2,6 +2,10 @@
 #include "main/main.h"
 #include <string>
 
+// 前方宣言
+class BoxCollisionComponent;
+enum class COLLISION_TAG;
+
 class GameObject {
 protected:
 	XMFLOAT3 m_Position = {};
@@ -14,20 +18,39 @@ protected:
 
 	bool m_Enable = false;		// 有効、無効
 
+	// 描画関連
 	ID3D11VertexShader* m_VertexShader = nullptr;
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 
-	void GetForward(XMFLOAT3& forward)const;
-	void GetRight(XMFLOAT3& forward)const;
-	// コンストラクタで呼ぶ
+	BoxCollisionComponent* m_BoxCollision = nullptr;
+
+	// シェーダーを変更したい時にコンストラクタで呼ぶ
 	void LoadShader(const std::string& vsFileName, const std::string& psFileName);
+	// コリジョンを追加したい時に呼ぶ
+	void AddBoxCollisionComponent(const COLLISION_TAG& tag);
+	// Updateに書かないとModelCenterなどが取得できない
+	void UpdateBoxCollisionInfo();
+
 public:
 	virtual ~GameObject();
 	virtual void Init();
-	virtual void Uninit() = 0;
-	virtual void Update(const float& deltaTime) = 0;
+	virtual void Uninit();
+	virtual void Update(const float& deltaTime);
 	virtual void Draw();
+
+
+
+
+	void SetPos(const XMFLOAT3& pos)
+	{
+		m_Position = pos;
+	}
+
+	BoxCollisionComponent* GetBoxCollision()
+	{
+		return m_BoxCollision;
+	}
 
 	const bool& GetEnable()const
 	{

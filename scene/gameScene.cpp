@@ -30,7 +30,7 @@ void GameScene::Init()
 
 	// ƒvƒŒƒCƒ„[‚ÌŒã‚É
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::BOX,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(1.0f,1.0f,1.0f));
+	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::BOX,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(4.0f,4.0f,4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
 }
 
 void GameScene::Update(const float& deltaTime)

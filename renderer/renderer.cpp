@@ -255,6 +255,7 @@ void Renderer::Init()
 
 void Renderer::Uninit()
 {
+	// TODO :nullチェック
 	m_WireframeRasterState->Release();
 	m_WorldBuffer->Release();
 	m_ViewBuffer->Release();

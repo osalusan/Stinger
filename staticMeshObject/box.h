@@ -3,5 +3,7 @@
 
 class Box : public StaticMeshObject {
 public:
-	Box(XMFLOAT3 position, XMFLOAT3 scale);
+	Box();
+	Box(const XMFLOAT3& position, const XMFLOAT3& scale);
+	Box(const XMFLOAT3& position,const XMFLOAT3& scale,const XMFLOAT3& rotate);
 };

@@ -30,14 +30,9 @@ Character::Character()
 	m_Model = ANIMETION_MODEL::MAX;
 }
 
-Character::~Character()
-{
-	delete m_Collision;
-	m_Collision = nullptr;
-}
-
 void Character::Update(const float& deltaTime)
 {
+	GameObject::Update(deltaTime);
 
 	m_Velocity.x = 0.0f;
 	m_Velocity.z = 0.0f;
@@ -71,11 +66,6 @@ void Character::Update(const float& deltaTime)
 		}
 	}
 
-	if (m_Collision != nullptr)
-	{
-		m_Collision->Update();
-	}
-
 	// “–‚½‚è”»’èˆ—
 	CollisionControl();
 
@@ -92,13 +82,6 @@ void Character::Draw()
 		//Model->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextanimationName.c_str(), m_AnimationFrame, m_BlendRatio);
 		model->Draw();
 	}
-
-#if _DEBUG
-	if (m_Collision != nullptr)
-	{
-		m_Collision->Draw();
-	}
-#endif // _DEBUG
 }
 
 

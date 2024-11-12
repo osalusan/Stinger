@@ -6,7 +6,7 @@
 #include "component/boxCollisionComponent.h"
 #include "camera/playerCamera.h"
 
-constexpr XMFLOAT3 PLAYER_DEFAULT_POS = { 0.05f,0.05f,0.05f };
+constexpr XMFLOAT3 PLAYER_DEFAULT_POS = { 0.03f,0.03f,0.03f };
 constexpr float MOVE_SPEED = 2000.0f;
 
 Player::Player()
@@ -19,13 +19,7 @@ void Player::Init()
 	GameObject::Init();
 	m_Scale = PLAYER_DEFAULT_POS;
 
-	// ÉXÉPÅ[ÉãÇÃê›íËÇÊÇËå„Ç…
-	AddCollisionComponent<BoxCollisionComponent>(COLLISION_TAG::PLAYER);
-}
-
-void Player::Uninit()
-{
-	
+	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
 }
 
 // ------------------------------- private -------------------------------
@@ -97,9 +91,11 @@ void Player::MoveControl(const float& deltaTime)
 
 void Player::CollisionControl()
 {
-	if (m_Collision == nullptr) return;
+	if (m_BoxCollision == nullptr) return;
 
-	if (m_Collision->CheckHitCollision(COLLISION_TAG::OBJECT))
+	UpdateBoxCollisionInfo();
+
+	if (m_BoxCollision->CheckHitCollision(COLLISION_TAG::OBJECT))
 	{
 
 	}

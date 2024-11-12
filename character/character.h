@@ -11,7 +11,6 @@ protected:
 	XMFLOAT3 m_Velocity= {};
 	XMFLOAT3 m_RecordPosition = {};					// 過去座標
 	ANIMETION_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
-	CollisionComponent* m_Collision = nullptr;		// コリジョンコンポーネント
 
 	// 重力
 	bool m_EnableGravity = false;
@@ -32,21 +31,8 @@ protected:
 	void TakeDamage(const int& atk);
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
 
-	// コリジョンの追加 / Tでコリジョンの形状を指定
-	template <typename T>
-	void AddCollisionComponent(const COLLISION_TAG& tag)
-	{
-		if (m_Collision != nullptr) return;
-
-		m_Collision = new T(this);
-
-		if (m_Collision == nullptr) return;
-		m_Collision->Init();
-		m_Collision->SetCollisionTag(tag);
-	}
 public:
 	Character();
-	~Character();
 	virtual void Update(const float& deltaTime)override final;
 	virtual void Draw()override final;
 	

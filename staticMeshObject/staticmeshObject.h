@@ -17,7 +17,6 @@ public:
 	StaticMeshObject(const STATICMESH_MODEL& model);
 	virtual ~StaticMeshObject();
 	virtual void Init()override;
-	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
 

@@ -1,25 +1,8 @@
 #include "gameObject.h"
 #include "renderer/renderer.h"
+#include "component/boxCollisionComponent.h"
 
 // --------------------- private ---------------------
-
-void GameObject::GetForward(XMFLOAT3& forward)const
-{
-	XMMATRIX rotationMatrix;
-	rotationMatrix = XMMatrixRotationRollPitchYaw(
-		m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-	XMStoreFloat3(&forward, rotationMatrix.r[2]);
-}
-
-void GameObject::GetRight(XMFLOAT3& forward)const
-{
-	XMMATRIX rotationMatrix;
-	rotationMatrix = XMMatrixRotationRollPitchYaw(
-		m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-	XMStoreFloat3(&forward, rotationMatrix.r[0]);
-}
 
 void GameObject::LoadShader(const std::string& vsFileName, const std::string& psFileName)
 {
@@ -33,10 +16,34 @@ void GameObject::LoadShader(const std::string& vsFileName, const std::string& ps
 	}
 }
 
+void GameObject::AddBoxCollisionComponent(const COLLISION_TAG& tag)
+{
+	if (m_BoxCollision == nullptr)
+	{
+		m_BoxCollision = new BoxCollisionComponent(this);
+	}
+	if (m_BoxCollision != nullptr)
+	{
+		m_BoxCollision->Init();
+		m_BoxCollision->SetCollisionTag(tag);
+	}
+}
+
+void GameObject::UpdateBoxCollisionInfo()
+{
+	if (m_BoxCollision != nullptr)
+	{
+		m_BoxCollision->SetBoxCollisionInfo(m_Position, m_Scale, m_ModelCenter, m_ModelScale, GetRotationMatrix());
+	}
+}
+
 // --------------------- public ---------------------
 
 GameObject::~GameObject()
 {
+	delete m_BoxCollision;
+	m_BoxCollision = nullptr;
+
 	// シェーダーの削除
 	if (m_VertexLayout != nullptr)
 	{
@@ -68,6 +75,22 @@ void GameObject::Init()
 	}
 }
 
+void GameObject::Uninit()
+{
+	if (m_BoxCollision != nullptr)
+	{
+		m_BoxCollision->Uninit();
+	}
+}
+
+void GameObject::Update(const float& deltaTime)
+{
+	if (m_BoxCollision != nullptr)
+	{
+		m_BoxCollision->Update();
+	}
+}
+
 void GameObject::Draw()
 {
 	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
@@ -84,6 +107,13 @@ void GameObject::Draw()
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	world = scl * rot * trans;
 	Renderer::SetWorldMatrix(world);
+
+#if _DEBUG
+	if (m_BoxCollision != nullptr)
+	{
+		m_BoxCollision->Draw();
+	}
+#endif // _DEBUG
 }
 
 

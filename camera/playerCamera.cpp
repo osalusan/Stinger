@@ -5,7 +5,7 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH = 40.0f;
+constexpr float LENGTH = 30.0f;
 // É}ÉEÉXÇÃê›íË
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
 constexpr XMFLOAT2 MOUSE_SPEED = { 0.005f,0.005f };

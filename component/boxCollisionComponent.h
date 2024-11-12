@@ -3,13 +3,8 @@
 
 class BoxCollisionComponent final :public CollisionComponent
 {
-private:
-
-	void DrawOBBWireframe(XMVECTOR* corners);
 public:
 	using CollisionComponent::CollisionComponent;
-	virtual void Init()override;
-	virtual void Uninit()override;
 	virtual void Update()override;
-	virtual void Draw()override;
+	virtual bool CheckHitObject()override;
 };
