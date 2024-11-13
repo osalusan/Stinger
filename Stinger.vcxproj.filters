@@ -132,7 +132,9 @@
     <ClCompile Include="playerState\playerStateRun.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
-    <ClCompile Include="playerState\playerStateJump.cpp" />
+    <ClCompile Include="playerState\playerStateJump.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">

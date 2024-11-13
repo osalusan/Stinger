@@ -8,5 +8,5 @@ public:
 	virtual void Init()override;
 	virtual void Unit()override;
 	virtual void Update(const float& deltaTime)override;
-	virtual void ChangeState()override;
+	virtual void ChangeStateControl()override;
 };

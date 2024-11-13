@@ -15,7 +15,7 @@ void PlayerStateJump::Update(const float& deltaTime)
 
 }
 
-void PlayerStateJump::ChangeState()
+void PlayerStateJump::ChangeStateControl()
 {
 
 }

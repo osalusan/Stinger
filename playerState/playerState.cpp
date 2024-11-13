@@ -2,7 +2,7 @@
 
 PlayerState::~PlayerState()
 {
-	m_PlayerCache = nullptr;
+	m_PlayerMachine = nullptr;
 }
 
 PlayerState::PlayerState(PlayerStateMachine* machine)
@@ -15,5 +15,8 @@ PlayerState::PlayerState(PlayerStateMachine* machine)
 
 void PlayerState::ChangePlayerState(const PLAYER_STATE& playerState)
 {
-
+	if (m_PlayerMachine != nullptr)
+	{
+		m_PlayerMachine->SetPlayerState(playerState);
+	}
 }

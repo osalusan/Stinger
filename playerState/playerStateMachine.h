@@ -13,13 +13,29 @@ enum class PLAYER_STATE
 	MAX
 };
 
+enum class MOVE_DIRECTION
+{
+	NONE = 0,
+	RIGHT,
+	LEFT,
+	FORWARD,
+	BACKWARD,
+	MAX
+};
+// 前方宣言
 class PlayerState;
+class Camera;
 
 class PlayerStateMachine final
 {
 private:
+	Camera* m_CameraCache = nullptr;
 	PlayerState* m_CurrentPlayerState = nullptr;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
+
+	// 移動方向記録用
+	MOVE_DIRECTION m_RandL = MOVE_DIRECTION::NONE;	// 右か左のどちらかに移動している
+	MOVE_DIRECTION m_FandB = MOVE_DIRECTION::NONE;	// 前と後ろのどちらかに移動している
 
 	XMFLOAT3 m_Velocity = {};
 
@@ -34,5 +50,37 @@ public:
 	void Draw();
 
 	void SetPlayerState(const PLAYER_STATE& state);
+	void InitVelocity();
+
+	XMFLOAT3 GetCameraForward()const;
+	XMFLOAT3 GetCameraRight()const;
+
+	const XMFLOAT3& GetVelocity()const
+	{
+		return m_Velocity;
+	}
+
+	const MOVE_DIRECTION& GetMoveRandL()const
+	{
+		return m_RandL;
+	}
+	const MOVE_DIRECTION& GetMoveFandB()const
+	{
+		return m_FandB;
+	}
+	const bool& GetIsJump()const
+	{
+		return m_IsJamp;
+	}
+
+
+	void SetVelocityX(const float& x)
+	{
+		m_Velocity.x = x;
+	}
+	void SetVelocityZ(const float& z)
+	{
+		m_Velocity.z = z;
+	}
 
 };

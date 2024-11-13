@@ -8,7 +8,6 @@
 #include "playerState/playerStateMachine.h"
 
 constexpr XMFLOAT3 PLAYER_DEFAULT_POS = { 0.03f,0.03f,0.03f };
-constexpr float MOVE_SPEED = 2000.0f;
 constexpr float GRAVITY = 500.0f;
 
 Player::Player()
@@ -74,61 +73,18 @@ void Player::MoveControl(const float& deltaTime)
 	if (m_PlayerStateMachine != nullptr)
 	{
 		m_PlayerStateMachine->Update(deltaTime);
+		m_Velocity = m_PlayerStateMachine->GetVelocity();
 	}
 
 	// TODO :デバッグ用仮処理 / PlayerState作成後に以下の処理を移動
+	
 
-	m_Velocity.x = { 0.0f };
-	m_Velocity.z = { 0.0f };
-	const XMFLOAT3& forwardVector = m_CameraCache->GetForward();
-	const XMFLOAT3& rightVector = m_CameraCache->GetRight();
-
-	// 回転制御用変数
-	float cRot = 6.28f / 4.0f;
-	float rotation = 0.0f;
-
-	XMFLOAT3 moveVector = {};
-
-	if (InputManager::GetKeyPress('A'))
-	{
-		moveVector.x += (-rightVector.x);
-		moveVector.z += (-rightVector.z);
-
-	}
-	if (InputManager::GetKeyPress('D'))
-	{
-		moveVector.x += rightVector.x;
-		moveVector.z += rightVector.z;
-	}
-	if (InputManager::GetKeyPress('W'))
-	{
-		moveVector.x += forwardVector.x;
-		moveVector.z += forwardVector.z;
-	}
-	if (InputManager::GetKeyPress('S'))
-	{
-		moveVector.x += (-forwardVector.x);
-		moveVector.z += (-forwardVector.z);
-	}
-
-	if (InputManager::GetKeyRelease(VK_RBUTTON) || InputManager::GetKeyRelease(VK_LSHIFT))
-	{
-		
-	}
 	//ジャンプ
 	if (InputManager::GetKeyPress(VK_SPACE))
 	{
 		m_Velocity.y = 5.0f;
 	}
 
-	//斜めでも速度が変わらないように
-	XMVECTOR velocityVec = XMLoadFloat3(&moveVector);
-	XMVECTOR normalizedVelocityVec = XMVector3Normalize(velocityVec);
-	XMFLOAT3 normalizedVelocity = {};
-	XMStoreFloat3(&normalizedVelocity, normalizedVelocityVec);
-
-	m_Velocity.x = normalizedVelocity.x * MOVE_SPEED * deltaTime;
-	m_Velocity.z = normalizedVelocity.z * MOVE_SPEED * deltaTime;
 }
 
 void Player::CollisionControl()

@@ -2,15 +2,15 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe</FullPath>
+      <FullPath>C:\HAL\3\Stinger\x64\Debug\Stinger.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>E:\HAL\就職作品\Stinger\cso\unlitTexturePS.cso</FullPath>
+      <FullPath>C:\HAL\3\Stinger\cso\unlitTexturePS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\HAL\就職作品\Stinger\cso\unlitTextureVS.cso</FullPath>
+      <FullPath>C:\HAL\3\Stinger\cso\unlitTextureVS.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

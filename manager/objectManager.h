@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 
-
+// ‹ó”’‚Ì”z—ñ‚ª¶‚Ü‚ê‚Ä‚µ‚Ü‚¤‚©‚çNONE‚Í’Ç‰Á‚µ‚È‚¢
 enum class OBJECT
 {
 	SKYDOME = 0,
