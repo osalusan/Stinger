@@ -2,9 +2,10 @@
 #include <list>
 #include "main/main.h"
 
+// ‘O•ûéŒ¾
 class Scene;
 
-class SceneManager
+class SceneManager final
 {
 private:
 	static Scene* m_Scene;
@@ -13,12 +14,14 @@ public:
 
 	static void Init();
 	static void Uninit();
-	static void Update();
+	static void Update(const float& deltaTime);
 	static void Draw();
 
-	static Scene* GetScene() 
+	template<typename T>
+	static T* GetScene()
 	{ 
-		return m_Scene; 
+		T* scene = dynamic_cast<T*>(m_Scene);
+		return scene;
 	}
 
 	template<typename T>

@@ -3,41 +3,37 @@
 
 struct VERTEX_3D
 {
-	XMFLOAT3 Position;
-	XMFLOAT3 Normal;
-	XMFLOAT4 Diffuse;
-	XMFLOAT2 TexCoord;
+	XMFLOAT3 Position = {};
+	XMFLOAT3 Normal = {};
+	XMFLOAT4 Diffuse = {};
+	XMFLOAT2 TexCoord = {};
 };
-
-
 
 struct MATERIAL
 {
-	XMFLOAT4	Ambient;
-	XMFLOAT4	Diffuse;
-	XMFLOAT4	Specular;
-	XMFLOAT4	Emission;
-	float		Shininess;
-	BOOL		TextureEnable;
-	float		Dummy[2];
+	XMFLOAT4	Ambient = {};
+	XMFLOAT4	Diffuse = {};
+	XMFLOAT4	Specular = {};
+	XMFLOAT4	Emission = {};
+	float		Shininess = 0.0f;
+	BOOL		TextureEnable = { 0 };
+	float		Dummy[2] = { 0.0f };
 };
-
-
 
 struct LIGHT
 {
-	BOOL		Enable;
-	BOOL		Dummy[3];//16byte境界用
-	XMFLOAT4	Direction;
-	XMFLOAT4	Diffuse;
-	XMFLOAT4	Ambient;
-	XMFLOAT4 SkyColor;//空の色
-	XMFLOAT4 GroundColor;//地面の色
-	XMFLOAT4 GroundNormal;//地面の法線
+	BOOL		Enable = { 0 };
+	BOOL		Dummy[3] = { 0 };//16byte境界用
+	XMFLOAT4	Direction = {};
+	XMFLOAT4	Diffuse = {};
+	XMFLOAT4	Ambient = {};
+	XMFLOAT4 SkyColor = {};//空の色
+	XMFLOAT4 GroundColor = {};//地面の色
+	XMFLOAT4 GroundNormal = {};//地面の法線
 
-	XMFLOAT4 Position;//光の座標
-	XMFLOAT4 PointLightParam;
-	XMFLOAT4 Angle;//スポットライトの範囲
+	XMFLOAT4 Position = {};//光の座標
+	XMFLOAT4 PointLightParam = {};
+	XMFLOAT4 Angle = {};//スポットライトの範囲
 };
 
 
@@ -68,7 +64,7 @@ private:
 	static ID3D11BlendState*		m_BlendStateAdd; //加算合成ブレンドステート
 	static ID3D11BlendState*		m_BlendStateATC;
 
-
+	static ID3D11RasterizerState* m_WireframeRasterState; // ワイヤーフレーム用
 
 public:
 	static void Init();
@@ -76,15 +72,16 @@ public:
 	static void Begin();
 	static void End();
 
-	static void SetDepthEnable(bool Enable);
-	static void SetATCEnable(bool Enable);
+	static void SetDepthEnable(const bool& enable);
+	static void SetATCEnable(const bool& enable);
+	static void SetWireframeEnable(const bool& enable);
 	static void SetWorldViewProjection2D();
-	static void SetWorldMatrix(XMMATRIX WorldMatrix);
-	static void SetViewMatrix(XMMATRIX ViewMatrix);
-	static void SetProjectionMatrix(XMMATRIX ProjectionMatrix);
-	static void SetMaterial(MATERIAL Material);
-	static void SetLight(LIGHT Light);
-	static void SetBlendAddEnable(bool Enable);
+	static void SetWorldMatrix(const XMMATRIX& WorldMatrix);
+	static void SetViewMatrix(const XMMATRIX& ViewMatrix);
+	static void SetProjectionMatrix(const XMMATRIX& ProjectionMatrix);
+	static void SetMaterial(const MATERIAL& Material);
+	static void SetLight(const LIGHT& Light);
+	static void SetBlendAddEnable(const bool& enable);
 
 	static ID3D11Device* GetDevice( void ){ return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }
@@ -93,6 +90,4 @@ public:
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
-
-
 };

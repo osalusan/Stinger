@@ -1,7 +1,2 @@
-﻿  main.cpp
-  inputManager.cpp
-  sceneManager.cpp
-  renderer.cpp
-  scene.cpp
-  コードを生成中...
-  Stinger.vcxproj -> C:\HAL\3\Stinger\x64\Debug\Stinger.exe
+﻿  playerStateJump.cpp
+  Stinger.vcxproj -> E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe

@@ -113,15 +113,15 @@ int APIENTRY WinMain(
 	_In_ int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(595);
+	//_CrtSetBreakAlloc(232982);
 
 	// 乱数のシードを設定
 	srand(static_cast<unsigned int>(time(0)));
 	// マウスカーソルの表示
 #if _DEBUG
-	ShowCursor(TRUE);
+	ShowCursor(true);
 #else
-	ShowCursor(FALSE);
+	ShowCursor(false);
 #endif
 
 
@@ -130,22 +130,22 @@ int APIENTRY WinMain(
 	//std::mt19937 gen(rd()); // メルセンヌ・ツイスタ法を使用
 	//std::uniform_int_distribution<> distrib(1, 100); // 1から100の間の整数を生成
 
-	WNDCLASSEX Wcex;
+	WNDCLASSEX wcex = { 0 };
 	{
-		Wcex.cbSize = sizeof(WNDCLASSEX);
-		Wcex.style = 0;
-		Wcex.lpfnWndProc = WndProc;
-		Wcex.cbClsExtra = 0;
-		Wcex.cbWndExtra = 0;
-		Wcex.hInstance = hInstance;
-		Wcex.hIcon = nullptr;
-		Wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		Wcex.hbrBackground = nullptr;
-		Wcex.lpszMenuName = nullptr;
-		Wcex.lpszClassName = CLASS_NAME;
-		Wcex.hIconSm = nullptr;
+		wcex.cbSize = sizeof(WNDCLASSEX);
+		wcex.style = 0;
+		wcex.lpfnWndProc = WndProc;
+		wcex.cbClsExtra = 0;
+		wcex.cbWndExtra = 0;
+		wcex.hInstance = hInstance;
+		wcex.hIcon = nullptr;
+		wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		wcex.hbrBackground = nullptr;
+		wcex.lpszMenuName = nullptr;
+		wcex.lpszClassName = CLASS_NAME;
+		wcex.hIconSm = nullptr;
 
-		RegisterClassEx(&Wcex);
+		RegisterClassEx(&wcex);
 
 
 		RECT rc = { 0, 0, (LONG)SCREEN_WIDTH, (LONG)SCREEN_HEIGHT };
@@ -174,7 +174,7 @@ int APIENTRY WinMain(
 		const char* fpsWindowName = "FPSWindow";
 
 		// FPSウィンドウ用
-		WNDCLASSEX fpsWcex;
+		WNDCLASSEX fpsWcex = { 0 };
 		fpsWcex.cbSize = sizeof(WNDCLASSEX);
 		fpsWcex.style = 0;
 		fpsWcex.lpfnWndProc = FPSWndProc; 
@@ -234,7 +234,8 @@ int APIENTRY WinMain(
 	QueryPerformanceFrequency(&frequency);
 	QueryPerformanceCounter(&prevTime);
 
-	const double targetDeltaTime = 1.0 / 60.0;
+	// フレームの制御
+	const double& targetDeltaTime = 1.0 / 60.0;
 
 	MSG msg;
 	while(1)
@@ -256,14 +257,21 @@ int APIENTRY WinMain(
 			// 現在の時間を取得
 			QueryPerformanceCounter(&currTime);
 			// 経過時間を秒で計算
-			const double& DeltaTime = static_cast<double>(currTime.QuadPart - prevTime.QuadPart) / frequency.QuadPart;
+			const double& deltaTime = static_cast<double>(currTime.QuadPart - prevTime.QuadPart) / frequency.QuadPart;
 
-			if (DeltaTime >= targetDeltaTime)
+			if (deltaTime >= targetDeltaTime)
 			{
 				// FPSを計算
-				const float& fps = 1.0f / static_cast<float>(DeltaTime);
+				float deltaTimeFloat = static_cast<float>(deltaTime);
+				const float& fps = 1.0f / deltaTimeFloat;
 				
-				SceneManager::Update();
+				// 上限設定 / ブレイクポイント用
+				if (deltaTimeFloat >= 0.2f)
+				{
+					deltaTimeFloat = 0.0f;
+				}
+
+				SceneManager::Update(deltaTimeFloat);
 
 				SceneManager::Draw();
 
@@ -277,7 +285,7 @@ int APIENTRY WinMain(
 		}
 	}
 
-	UnregisterClass(CLASS_NAME, Wcex.hInstance);
+	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
 	SceneManager::Uninit();
 

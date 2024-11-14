@@ -1,0 +1,165 @@
+#include "collisionComponent.h"
+#include "manager/sceneManager.h"
+#include "scene/gameScene.h"
+#include "object/gameObject.h"
+#include "staticMeshObject/staticmeshObject.h"
+#include "character/character.h"
+
+// ------------------------ protected ------------------------
+bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
+{
+	// ローカル変数として初期化
+	float minOverlap = FLT_MAX;
+	XMVECTOR mtvAxis = XMVectorZero();
+
+	const XMVECTOR& Interval = XMVectorSubtract(obb2.Center, obb1.Center);
+
+	// 軸のリスト
+	XMVECTOR axes[15];
+	int axisCount = 0;
+
+	// OBB1の軸
+	axes[axisCount++] = obb1.Axis[0];
+	axes[axisCount++] = obb1.Axis[1];
+	axes[axisCount++] = obb1.Axis[2];
+
+	// OBB2の軸
+	axes[axisCount++] = obb2.Axis[0];
+	axes[axisCount++] = obb2.Axis[1];
+	axes[axisCount++] = obb2.Axis[2];
+
+	// 各軸での判定
+	for (int i = 0; i < axisCount; ++i)
+	{
+		XMVECTOR axis = axes[i];
+
+		float rA = LenSegOnSeparateAxis(axis, obb1);
+		float rB = LenSegOnSeparateAxis(axis, obb2);
+		float L = fabsf(XMVectorGetX(XMVector3Dot(Interval, axis)));
+		float overlap = (rA + rB) - L;
+		if (overlap < 0.0f) return false;
+
+		if (overlap < minOverlap)
+		{
+			minOverlap = overlap;
+			mtvAxis = axis;
+		}
+	}
+
+	// クロス軸
+	for (int i = 0; i < 3; ++i) 
+	{
+		XMVECTOR axisA = obb1.Axis[i];
+
+		for (int j = 0; j < 3; ++j) 
+		{
+			XMVECTOR axisB = obb2.Axis[j];
+			XMVECTOR cross = XMVector3Cross(axisA, axisB);
+			// 数値が小さすぎたら無視
+			if (XMVector3LengthSq(cross).m128_f32[0] > 1e-6f) 
+			{
+				axes[axisCount++] = XMVector3Normalize(cross);
+			}
+		}
+	}
+
+	// MTVの方向を調整
+	XMVECTOR direction = XMVectorSubtract(obb1.Center, obb2.Center);
+	if (XMVectorGetX(XMVector3Dot(direction, mtvAxis)) < 0) 
+	{
+		mtvAxis = XMVectorNegate(mtvAxis);
+	}
+
+	// 計算結果を保存
+	m_MinOverlap = minOverlap;
+	m_MtvAxis = mtvAxis;
+
+	return true;
+}
+
+// 分離軸に投射された軸成分から投射線分長を算出
+float CollisionComponent::LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb)
+{
+	float r = 0.0f;
+	for (int i = 0; i < 3; ++i) 
+	{
+		float e = obb.GetSize(i); 
+		XMVECTOR axis = obb.Axis[i];
+		float dot = fabsf(XMVectorGetX(XMVector3Dot(Sep, axis)));
+		r += e * dot;
+	}
+	return r;
+}
+void CollisionComponent::SetHitObject(GameObject* hitObj)
+{
+	if (hitObj != nullptr)
+	{
+		m_HitGameObjectsCache.emplace_back(hitObj);
+	}
+}
+
+bool CollisionComponent::CheckHitObject()
+{
+	// オブジェクト一覧の取得
+	if (m_GameObjectsCache->empty())
+	{
+		GameScene* gameScene = SceneManager::GetScene<GameScene>();
+		if (gameScene == nullptr) return false;
+		ObjectManager* objectManager = gameScene->GetObjectManager();
+		if (objectManager == nullptr) return false;
+
+		objectManager->GetGameObjects(m_GameObjectsCache);
+
+		if (m_GameObjectsCache->empty()) return false;
+	}
+	return true;
+}
+
+void CollisionComponent::Init()
+{
+	// 初期値
+	if (m_GameObject != nullptr)
+	{
+		m_Scale = m_GameObject->GetScale();
+	}
+}
+
+void CollisionComponent::Uninit()
+{
+	m_GameObjectsCache->clear();
+}
+
+void CollisionComponent::Draw()
+{
+
+}
+
+void CollisionComponent::SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix)
+{
+	m_Pos = pos;
+	m_Scale = scale;
+	m_ModelCenter = modelCenterPos;
+	m_ModelScale = modelScale;
+	m_RotationMatrix = rotateMatrix;
+}
+
+bool CollisionComponent::CheckHitCollision(const COLLISION_TAG& tag)
+{
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
+	switch (tag)
+	{
+	case COLLISION_TAG::OBJECT:
+		if (CheckHitObject())
+		{
+			return true;
+		}
+		break;
+	default:
+		break;
+	}
+
+	return false;
+}

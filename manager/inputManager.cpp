@@ -1,8 +1,7 @@
 #include "manager/inputManager.h"
 
-
-BYTE InputManager::m_OldKeyState[256];
-BYTE InputManager::m_KeyState[256];
+BYTE InputManager::m_OldKeyState[256] = { "" };
+BYTE InputManager::m_KeyState[256] = { ""};
 
 
 void InputManager::Init()
@@ -13,19 +12,12 @@ void InputManager::Init()
 
 }
 
-void InputManager::Uninit()
-{
-
-
-}
-
 void InputManager::Update()
 {
+	// キーボードを取得できない場合
+	if (!GetKeyboardState(m_KeyState)) return;
 
 	memcpy( m_OldKeyState, m_KeyState, 256 );
-
-	//GetKeyboardState( m_KeyState );
-
 }
 //放した時
 bool InputManager::GetKeyRelease(BYTE KeyCode)

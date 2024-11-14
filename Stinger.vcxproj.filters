@@ -16,6 +16,33 @@
     <Filter Include="scene">
       <UniqueIdentifier>{4300b448-c5a3-4d66-87b6-3b7c031f3d0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="character">
+      <UniqueIdentifier>{1a5bf635-6fa9-4433-91dd-d47a803546dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{6ba95837-5e01-4bc6-aba1-ee78f67b47c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="skydome">
+      <UniqueIdentifier>{cb2b258a-2ede-489e-9195-d706c872f680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="object">
+      <UniqueIdentifier>{bf9e3ec4-506a-4989-9f33-c13c5a00ad34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="staticMeshObject">
+      <UniqueIdentifier>{d682fc6e-7cb8-4a68-911d-612bb5e07705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{12b2c6b7-f759-4255-b4f9-225a03c84b2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="polygon2D">
+      <UniqueIdentifier>{cb5bc5f3-92a0-4976-b06e-2038b0398576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="component">
+      <UniqueIdentifier>{0e78a63a-23ed-4713-b148-de90201b9d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="playerState">
+      <UniqueIdentifier>{eaa630ec-7acf-4aec-aaf3-cedd6912cb4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -30,8 +57,83 @@
     <ClCompile Include="renderer\renderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
+    <ClCompile Include="object\gameObject.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\objectManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="character\player.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character\character.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\fbxModelRenderer.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\fbxModelManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\gameScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\playerCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\camera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer\objModelRenderer.cpp">
+      <Filter>renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\staticmeshObject.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="skydome\skydome.cpp">
+      <Filter>skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\objModelManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\textureManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="polygon2D\polygon2D.cpp">
+      <Filter>polygon2D</Filter>
+    </ClCompile>
     <ClCompile Include="scene\scene.cpp">
       <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\titleCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\titleScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="component\collisionComponent.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="component\boxCollisionComponent.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\box.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateMachine.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerState.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateIdle.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateRun.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateJump.cpp">
+      <Filter>playerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,5 +155,94 @@
     <ClInclude Include="scene\scene.h">
       <Filter>scene</Filter>
     </ClInclude>
+    <ClInclude Include="object\gameObject.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\objectManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="character\player.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\character.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\fbxModelRenderer.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\fbxModelManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\gameScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\playerCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="skydome\skydome.h">
+      <Filter>skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer\objModelRenderer.h">
+      <Filter>renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\staticmeshObject.h">
+      <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\objModelManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\textureManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="polygon2D\polygon2D.h">
+      <Filter>polygon2D</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\titleScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\titleCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="component\component.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="component\collisionComponent.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="component\boxCollisionComponent.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\box.h">
+      <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateMachine.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerState.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateIdle.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateRun.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateJump.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\common.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

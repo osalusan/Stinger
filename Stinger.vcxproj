@@ -19,19 +19,81 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera\camera.cpp" />
+    <ClCompile Include="camera\playerCamera.cpp" />
+    <ClCompile Include="camera\titleCamera.cpp" />
+    <ClCompile Include="character\character.cpp" />
+    <ClCompile Include="character\player.cpp" />
+    <ClCompile Include="component\boxCollisionComponent.cpp" />
+    <ClCompile Include="component\collisionComponent.cpp" />
     <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="manager\fbxModelManager.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
+    <ClCompile Include="manager\objectManager.cpp" />
+    <ClCompile Include="manager\objModelManager.cpp" />
     <ClCompile Include="manager\sceneManager.cpp" />
+    <ClCompile Include="manager\textureManager.cpp" />
+    <ClCompile Include="object\gameObject.cpp" />
+    <ClCompile Include="playerState\playerState.cpp" />
+    <ClCompile Include="playerState\playerStateIdle.cpp" />
+    <ClCompile Include="playerState\playerStateJump.cpp" />
+    <ClCompile Include="playerState\playerStateMachine.cpp" />
+    <ClCompile Include="playerState\playerStateRun.cpp" />
+    <ClCompile Include="polygon2D\polygon2D.cpp" />
+    <ClCompile Include="renderer\fbxModelRenderer.cpp" />
+    <ClCompile Include="renderer\objModelRenderer.cpp" />
     <ClCompile Include="renderer\renderer.cpp" />
+    <ClCompile Include="scene\gameScene.cpp" />
     <ClCompile Include="scene\scene.cpp" />
+    <ClCompile Include="scene\titleScene.cpp" />
+    <ClCompile Include="skydome\skydome.cpp" />
+    <ClCompile Include="staticMeshObject\box.cpp" />
+    <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera\camera.h" />
+    <ClInclude Include="camera\playerCamera.h" />
+    <ClInclude Include="camera\titleCamera.h" />
+    <ClInclude Include="character\character.h" />
+    <ClInclude Include="character\player.h" />
+    <ClInclude Include="component\boxCollisionComponent.h" />
+    <ClInclude Include="component\collisionComponent.h" />
+    <ClInclude Include="component\component.h" />
     <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="main\main.h" />
+    <ClInclude Include="manager\fbxModelManager.h" />
     <ClInclude Include="manager\inputManager.h" />
+    <ClInclude Include="manager\objectManager.h" />
+    <ClInclude Include="manager\objModelManager.h" />
     <ClInclude Include="manager\sceneManager.h" />
+    <ClInclude Include="manager\textureManager.h" />
+    <ClInclude Include="object\gameObject.h" />
+    <ClInclude Include="playerState\playerState.h" />
+    <ClInclude Include="playerState\playerStateIdle.h" />
+    <ClInclude Include="playerState\playerStateJump.h" />
+    <ClInclude Include="playerState\playerStateMachine.h" />
+    <ClInclude Include="playerState\playerStateRun.h" />
+    <ClInclude Include="polygon2D\polygon2D.h" />
+    <ClInclude Include="renderer\fbxModelRenderer.h" />
+    <ClInclude Include="renderer\objModelRenderer.h" />
     <ClInclude Include="renderer\renderer.h" />
+    <ClInclude Include="scene\gameScene.h" />
     <ClInclude Include="scene\scene.h" />
+    <ClInclude Include="scene\titleScene.h" />
+    <ClInclude Include="skydome\skydome.h" />
+    <ClInclude Include="staticMeshObject\box.h" />
+    <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\common.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -125,11 +187,17 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Stinger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>cso\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,6 +216,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile />
+    <FxCompile />
+    <FxCompile>
+      <ObjectFileOutput>cso\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

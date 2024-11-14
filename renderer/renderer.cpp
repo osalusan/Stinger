@@ -25,6 +25,7 @@ ID3D11BlendState*		Renderer::m_BlendState{};
 ID3D11BlendState*		Renderer::m_BlendStateAdd{};
 ID3D11BlendState*		Renderer::m_BlendStateATC{};
 
+ID3D11RasterizerState*  Renderer::m_WireframeRasterState = nullptr; // ワイヤーフレーム用
 
 
 
@@ -122,6 +123,15 @@ void Renderer::Init()
 
 	m_DeviceContext->RSSetState( rs );
 
+	// ワイヤーフレーム用ラスタライザーステートの設定
+	D3D11_RASTERIZER_DESC wireframeDesc = {};
+	wireframeDesc.FillMode = D3D11_FILL_WIREFRAME; // ワイヤーフレームモード
+	wireframeDesc.CullMode = D3D11_CULL_NONE;      // カリングなし
+	wireframeDesc.DepthClipEnable = TRUE;          // 深度クリッピングを有効化
+
+	// ワイヤーフレームラスタライザーステートの作成
+	m_Device->CreateRasterizerState(&wireframeDesc, &m_WireframeRasterState);
+
 	// ブレンドステート設定
 	D3D11_BLEND_DESC blendDesc{};
 	blendDesc.AlphaToCoverageEnable = FALSE;
@@ -170,7 +180,7 @@ void Renderer::Init()
 
 	// サンプラーステート設定
 	D3D11_SAMPLER_DESC samplerDesc{};
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	samplerDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -245,13 +255,13 @@ void Renderer::Init()
 
 void Renderer::Uninit()
 {
-
+	// TODO :nullチェック
+	m_WireframeRasterState->Release();
 	m_WorldBuffer->Release();
 	m_ViewBuffer->Release();
 	m_ProjectionBuffer->Release();
 	m_LightBuffer->Release();
 	m_MaterialBuffer->Release();
-
 
 	m_DeviceContext->ClearState();
 	m_RenderTargetView->Release();
@@ -281,7 +291,7 @@ void Renderer::End()
 
 
 
-void Renderer::SetDepthEnable( bool Enable )
+void Renderer::SetDepthEnable(const bool& Enable )
 {
 	if( Enable )
 		m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
@@ -292,15 +302,27 @@ void Renderer::SetDepthEnable( bool Enable )
 
 
 
-void Renderer::SetATCEnable( bool Enable )
+void Renderer::SetATCEnable(const bool& enable )
 {
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-	if (Enable)
+	if (enable)
 		m_DeviceContext->OMSetBlendState(m_BlendStateATC, blendFactor, 0xffffffff);
 	else
 		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 
+}
+
+void Renderer::SetWireframeEnable(const bool& enable) {
+
+	if (enable) 
+	{
+		m_DeviceContext->RSSetState(m_WireframeRasterState);
+	}
+	else 
+	{
+		m_DeviceContext->RSSetState(nullptr);
+	}
 }
 
 void Renderer::SetWorldViewProjection2D()
@@ -314,21 +336,21 @@ void Renderer::SetWorldViewProjection2D()
 }
 
 
-void Renderer::SetWorldMatrix(XMMATRIX WorldMatrix)
+void Renderer::SetWorldMatrix(const XMMATRIX& WorldMatrix)
 {
 	XMFLOAT4X4 worldf;
 	XMStoreFloat4x4(&worldf, XMMatrixTranspose(WorldMatrix));
 	m_DeviceContext->UpdateSubresource(m_WorldBuffer, 0, NULL, &worldf, 0, 0);
 }
 
-void Renderer::SetViewMatrix(XMMATRIX ViewMatrix)
+void Renderer::SetViewMatrix(const XMMATRIX& ViewMatrix)
 {
 	XMFLOAT4X4 viewf;
 	XMStoreFloat4x4(&viewf, XMMatrixTranspose(ViewMatrix));
 	m_DeviceContext->UpdateSubresource(m_ViewBuffer, 0, NULL, &viewf, 0, 0);
 }
 
-void Renderer::SetProjectionMatrix(XMMATRIX ProjectionMatrix)
+void Renderer::SetProjectionMatrix(const XMMATRIX& ProjectionMatrix)
 {
 	XMFLOAT4X4 projectionf;
 	XMStoreFloat4x4(&projectionf, XMMatrixTranspose(ProjectionMatrix));
@@ -338,21 +360,21 @@ void Renderer::SetProjectionMatrix(XMMATRIX ProjectionMatrix)
 
 
 
-void Renderer::SetMaterial( MATERIAL Material )
+void Renderer::SetMaterial(const MATERIAL& Material )
 {
 	m_DeviceContext->UpdateSubresource( m_MaterialBuffer, 0, NULL, &Material, 0, 0 );
 }
 
-void Renderer::SetLight( LIGHT Light )
+void Renderer::SetLight(const LIGHT& Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 }
 
-void Renderer::SetBlendAddEnable(bool Enable)
+void Renderer::SetBlendAddEnable(const bool& enable)
 {
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-	if (Enable)
+	if (enable)
 		m_DeviceContext->OMSetBlendState(m_BlendStateAdd, blendFactor, 0xffffffff);
 	else
 		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
