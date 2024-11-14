@@ -1,0 +1,22 @@
+#pragma once
+#include "behaviorNode.h"
+
+// ‚·‚×‚Ä‚Ìqƒm[ƒh‚ª¬Œ÷‚µ‚½ê‡‚É¬Œ÷
+class SequenceNode : public BehaviorNode 
+{
+private:
+    std::vector<BehaviorNode*> m_Children = {};
+public:
+    virtual ~SequenceNode();
+    virtual void Init()override;
+    virtual NODE_STATUS Update() override;
+
+    template <typename T>
+    void AddChild(T child)
+    {
+        BehaviorNode* node = new T;
+        if (node == nullptr) return;
+        node->Init();
+        m_Children.emplace_back(child);
+    }   
+};
