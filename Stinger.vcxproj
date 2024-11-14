@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="behaviorTree\behaviorTree.cpp" />
+    <ClCompile Include="behaviorTree\selectorNode .cpp" />
+    <ClCompile Include="behaviorTree\sequenceNode .cpp" />
     <ClCompile Include="camera\camera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
     <ClCompile Include="camera\titleCamera.cpp" />
@@ -51,6 +54,10 @@
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="behaviorTree\behaviorNode.h" />
+    <ClInclude Include="behaviorTree\behaviorTree.h" />
+    <ClInclude Include="behaviorTree\selectorNode .h" />
+    <ClInclude Include="behaviorTree\sequenceNode .h" />
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\playerCamera.h" />
     <ClInclude Include="camera\titleCamera.h" />

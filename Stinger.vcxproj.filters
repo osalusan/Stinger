@@ -43,6 +43,9 @@
     <Filter Include="playerState">
       <UniqueIdentifier>{eaa630ec-7acf-4aec-aaf3-cedd6912cb4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="behaviorTree">
+      <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -134,6 +137,15 @@
     </ClCompile>
     <ClCompile Include="playerState\playerStateJump.cpp">
       <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\selectorNode .cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\sequenceNode .cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\behaviorTree.cpp">
+      <Filter>behaviorTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +244,18 @@
     </ClInclude>
     <ClInclude Include="playerState\playerStateJump.h">
       <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\behaviorNode.h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\behaviorTree.h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\selectorNode .h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\sequenceNode .h">
+      <Filter>behaviorTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
