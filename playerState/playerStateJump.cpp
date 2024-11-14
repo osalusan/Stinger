@@ -13,8 +13,11 @@ void PlayerStateJump::Init()
 		{
 			m_Accel = INIT_ACCEL;
 		}
+		else
+		{
+			m_CurrentTime = JUMP_MAX_TIME;
+		}
 	}
-
 }
 
 void PlayerStateJump::Unit()

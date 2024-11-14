@@ -83,28 +83,36 @@ void Player::MoveControl(const float& deltaTime)
 
 void Player::CollisionControl()
 {
-	if (m_BoxCollision == nullptr) return;
+	if (m_BoxCollision == nullptr || m_PlayerStateMachine == nullptr) return;
 
 	UpdateBoxCollisionInfo();
 
 	if (m_BoxCollision->CheckHitCollision(COLLISION_TAG::OBJECT))
 	{
+		XMVECTOR mtv = m_BoxCollision->GetMtv();
 
+		// 位置をMTV分だけ移動
+		XMVECTOR playerVectorPos = XMLoadFloat3(&m_Position);
+		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
+		XMStoreFloat3(&m_Position, playerVectorPos);
+
+		// 既に押し出しているからポジションは補正しなくていい
+		if (mtv.m128_f32[1] > 0.0f)
+		{
+			m_Velocity.y = 0.0f;
+			m_PlayerStateMachine->HitGround();
+		}
 	}
 
 	float groundHeight = 0.0f;
 
 	if (m_Position.y <= groundHeight)
 	{
-		m_Position.y = 0.0f;
+		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
 
 		// 地面に触れているかどうかを伝える
-		if (m_PlayerStateMachine != nullptr)
-		{
-			m_PlayerStateMachine->HitGround();
-		}
+		m_PlayerStateMachine->HitGround();
+		
 	}
-
-
 }

@@ -118,19 +118,10 @@ bool BoxCollisionComponent::CheckHitObject()
 
 		if (HitOBB(myObb, boxObb))
 		{
-			// TODO :当たり判定のデバッグ用 / player.cppに移行予定
 			// MTVを計算
-			XMVECTOR mtv = XMVectorScale(m_MtvAxis, m_MinOverlap);
+			m_Mtv = XMVectorScale(m_MtvAxis, m_MinOverlap);
 
-			// 位置をMTV分だけ移動
-			XMVECTOR playerVectorPos = XMLoadFloat3(&m_GameObject->GetPos());
-			playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
-			XMFLOAT3 playerPos = {};
-			XMStoreFloat3(&playerPos, playerVectorPos);
-			m_GameObject->SetPos(playerPos);
-
-
-
+			// 当たったオブジェクトを格納
 			SetHitObject(object);
 			return true;
 		}

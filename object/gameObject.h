@@ -40,13 +40,6 @@ public:
 	virtual void Draw();
 
 
-
-
-	void SetPos(const XMFLOAT3& pos)
-	{
-		m_Position = pos;
-	}
-
 	BoxCollisionComponent* GetBoxCollision()
 	{
 		return m_BoxCollision;

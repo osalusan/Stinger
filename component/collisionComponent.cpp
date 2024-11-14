@@ -154,7 +154,6 @@ bool CollisionComponent::CheckHitCollision(const COLLISION_TAG& tag)
 	case COLLISION_TAG::OBJECT:
 		if (CheckHitObject())
 		{
-
 			return true;
 		}
 		break;
