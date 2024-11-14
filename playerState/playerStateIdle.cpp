@@ -28,12 +28,12 @@ void PlayerStateIdle::ChangeStateControl()
 	
 	// —Dæ‡ˆÊ‡
 
-	if (m_PlayerMachine->GetIsJump())
-	{
+	if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
+	{// •‚‚¢‚Ä‚¢‚éAƒWƒƒƒ“ƒv‚µ‚Ä‚¢‚é‚Æ
 		ChangePlayerState(PLAYER_STATE::JUMP);
 	}
 	else if (m_PlayerMachine->GetMoveRandL() != MOVE_DIRECTION::NONE || m_PlayerMachine->GetMoveFandB() != MOVE_DIRECTION::NONE)
-	{
+	{// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
 		ChangePlayerState(PLAYER_STATE::RUN);
 	}
 

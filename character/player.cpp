@@ -8,7 +8,7 @@
 #include "playerState/playerStateMachine.h"
 
 constexpr XMFLOAT3 PLAYER_DEFAULT_POS = { 0.03f,0.03f,0.03f };
-constexpr float GRAVITY = 500.0f;
+constexpr float GRAVITY = 2200.0f;
 
 Player::Player()
 {
@@ -73,18 +73,12 @@ void Player::MoveControl(const float& deltaTime)
 	if (m_PlayerStateMachine != nullptr)
 	{
 		m_PlayerStateMachine->Update(deltaTime);
-		m_Velocity = m_PlayerStateMachine->GetVelocity();
+		m_Velocity.x = m_PlayerStateMachine->GetVelocity().x;
+		m_Velocity.z = m_PlayerStateMachine->GetVelocity().z;
+
+		// Yだけ+
+		m_Velocity.y += m_PlayerStateMachine->GetVelocity().y;
 	}
-
-	// TODO :デバッグ用仮処理 / PlayerState作成後に以下の処理を移動
-	
-
-	//ジャンプ
-	if (InputManager::GetKeyPress(VK_SPACE))
-	{
-		m_Velocity.y = 5.0f;
-	}
-
 }
 
 void Player::CollisionControl()
@@ -103,5 +97,14 @@ void Player::CollisionControl()
 	if (m_Position.y <= groundHeight)
 	{
 		m_Position.y = 0.0f;
+		m_Velocity.y = 0.0f;
+
+		// 地面に触れているかどうかを伝える
+		if (m_PlayerStateMachine != nullptr)
+		{
+			m_PlayerStateMachine->HitGround();
+		}
 	}
+
+
 }

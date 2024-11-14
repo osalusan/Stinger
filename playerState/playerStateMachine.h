@@ -54,6 +54,7 @@ public:
 
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
+	void HitGround();		// ’n–Ê‚É“–‚½‚Á‚½
 
 	const XMFLOAT3& GetVelocity()const
 	{
@@ -72,7 +73,10 @@ public:
 	{
 		return m_IsJamp;
 	}
-
+	const bool& GetIsGround()const
+	{
+		return m_IsGround;
+	}
 
 	void SetVelocityX(const float& x)
 	{
@@ -82,5 +86,8 @@ public:
 	{
 		m_Velocity.z = z;
 	}
-
+	void SetVelocityY(const float& y)
+	{
+		m_Velocity.y = y;
+	}
 };

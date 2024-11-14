@@ -1,2 +1,4 @@
-﻿  playerStateRun.cpp
+﻿  player.cpp
+  playerStateJump.cpp
+  コードを生成中...
   Stinger.vcxproj -> C:\HAL\3\Stinger\x64\Debug\Stinger.exe

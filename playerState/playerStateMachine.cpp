@@ -88,10 +88,9 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	}
 
 	//ƒWƒƒƒ“ƒv
-	if (InputManager::GetKeyPress(VK_SPACE))
+	if (m_IsGround && InputManager::GetKeyPress(VK_SPACE))
 	{
 		m_IsJamp = true;
-		m_Velocity.y = 5.0f;
 	}
 
 	// “ü—Íˆ—‚ÌŒã‚É
@@ -156,4 +155,9 @@ XMFLOAT3 PlayerStateMachine::GetCameraRight() const
 		return m_CameraCache->GetRight();
 	}
 	return XMFLOAT3(0.0f, 0.0f, 0.0f);
+}
+
+void PlayerStateMachine::HitGround()
+{
+	m_IsGround = true;
 }
