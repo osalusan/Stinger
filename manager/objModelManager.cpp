@@ -200,11 +200,11 @@ void ObjModelManager::LoadObj(const char* fileName, MODEL_OBJ* modelObj)
 	{
 		positionArray[i] = { 0.0f, 0.0f, 0.0f };
 	}
-	for (unsigned int i = 0; i < positionNum; i++)
+	for (unsigned int i = 0; i < normalNum; i++)
 	{
 		normalArray[i] = { 0.0f, 0.0f, 0.0f };
 	}
-	for (unsigned int i = 0; i < positionNum; i++)
+	for (unsigned int i = 0; i < texcoordNum; i++)
 	{
 		texcoordArray[i] = { 0.0f, 0.0f };
 	}

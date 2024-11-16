@@ -65,10 +65,12 @@ void Character::Update(const float& deltaTime)
 			m_ModelScale = model->GetScale();
 		}
 	}
-
+	// “–‚½‚è”»’è—p•Ï”‚Ìİ’è / ˆÚ“®Œã
+	CustomCollisionInfo();
 	// “–‚½‚è”»’èˆ—
 	CollisionControl();
-
+	// “–‚½‚è”»’è—p•Ï”‚Ìİ’è / “–‚½‚è”»’èŒã
+	CustomCollisionInfo();
 	// ‰ß‹À•W‚Ì•Û‘¶
 	m_RecordPosition = m_Position;
 }

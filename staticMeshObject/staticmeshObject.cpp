@@ -36,6 +36,10 @@ void StaticMeshObject::Update(const float& deltaTime)
 		}
 		// Model‚ÌCenter‚âScale‚ðŠi”[‚µ‚½‚ç
 		UpdateBoxCollisionInfo();
+
+		m_ColliPosition = m_Position;
+		m_ColliRotation = m_Rotation;
+		m_ColliScale = m_Scale;
 	}
 }
 

@@ -76,6 +76,7 @@ protected:
 	void SetHitObject(GameObject* hitObj);
 public:
 	using Component::Component;
+	~CollisionComponent();
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Draw()override;

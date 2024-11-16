@@ -50,7 +50,7 @@ void BoxCollisionComponent::Init()
 {
 	CollisionComponent::Init();
 	m_Model = STATICMESH_MODEL::COLLISION_BOX;
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\box.obj");
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCollision.obj");
 }
 
 void BoxCollisionComponent::Update()

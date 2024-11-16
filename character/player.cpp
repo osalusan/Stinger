@@ -81,6 +81,15 @@ void Player::MoveControl(const float& deltaTime)
 	}
 }
 
+void Player::CustomCollisionInfo()
+{
+	m_ColliPosition = m_Position;
+	m_ColliRotation = m_Rotation;
+	m_ColliScale.x = m_Scale.x * 0.5f;
+	m_ColliScale.y = m_Scale.y;
+	m_ColliScale.z = m_Scale.z * 0.5f;
+}
+
 void Player::CollisionControl()
 {
 	if (m_BoxCollision == nullptr || m_PlayerStateMachine == nullptr) return;

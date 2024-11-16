@@ -117,6 +117,12 @@ bool CollisionComponent::CheckHitObject()
 	return true;
 }
 
+CollisionComponent::~CollisionComponent()
+{
+	delete m_ModelRenderer;
+	m_ModelRenderer = nullptr;
+}
+
 void CollisionComponent::Init()
 {
 	// ‰Šú’l

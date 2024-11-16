@@ -33,7 +33,7 @@ void GameObject::UpdateBoxCollisionInfo()
 {
 	if (m_BoxCollision != nullptr)
 	{
-		m_BoxCollision->SetBoxCollisionInfo(m_Position, m_Scale, m_ModelCenter, m_ModelScale, GetRotationMatrix());
+		m_BoxCollision->SetBoxCollisionInfo(m_ColliPosition, m_ColliScale, m_ModelCenter, m_ModelScale, GetColliRotationMatrix());
 	}
 }
 

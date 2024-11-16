@@ -12,6 +12,11 @@ protected:
 	XMFLOAT3 m_Rotation = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
 
+	// “–‚½‚è”»’è—p
+	XMFLOAT3 m_ColliPosition = {};
+	XMFLOAT3 m_ColliRotation = {};
+	XMFLOAT3 m_ColliScale = { 1.0f, 1.0f, 1.0f };
+
 	// ModelŠÖŒW
 	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {};
@@ -109,5 +114,15 @@ public:
 			m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 		return rotationMatrix;
+	}	
+	XMMATRIX GetColliRotationMatrix()const
+	{
+		XMMATRIX rotationMatrix;
+		rotationMatrix = XMMatrixRotationRollPitchYaw(
+			m_ColliRotation.x, m_ColliRotation.y, m_ColliRotation.z);
+
+		return rotationMatrix;
 	}
+
+
 };
