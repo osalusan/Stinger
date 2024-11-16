@@ -34,18 +34,32 @@ struct OBB
 	}
 };
 
+// 前方宣言
 class ObjectManager;
+
+#if _DEBUG
+enum class STATICMESH_MODEL;
+class ObjModelRenderer;
+#endif // _DEBUG
 
 class CollisionComponent :public Component
 {
 protected:
 	bool m_Enable = false;		// 当たり判定の有効無効
 
-	XMFLOAT3 m_Pos = {};
+	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = {};
 	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {};
 	XMMATRIX m_RotationMatrix = {};
+	
+#if _DEBUG
+	// 当たり判定描画用
+	STATICMESH_MODEL m_Model;						// Init()で初期化
+	ObjModelRenderer* m_ModelRenderer = nullptr;
+#endif // _DEBUG
+
+
 
 	// 押し出し用
 	XMVECTOR m_MtvAxis = {};		// MTVの軸
@@ -62,6 +76,7 @@ protected:
 	void SetHitObject(GameObject* hitObj);
 public:
 	using Component::Component;
+	~CollisionComponent();
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Draw()override;
@@ -78,7 +93,7 @@ public:
 
 	const XMFLOAT3& GetPos()const
 	{
-		return m_Pos;
+		return m_Position;
 	}
 	const XMFLOAT3& GetScale()const
 	{

@@ -18,7 +18,8 @@ private:
 	bool m_UseAttack = false;
 
 	virtual void MoveControl(const float& deltaTime)override;
-	virtual void CollisionControl();
+	virtual void CustomCollisionInfo()override;
+	virtual void CollisionControl()override;
 public:
 	Player();
 	~Player();

@@ -10,6 +10,7 @@ private:
 
 public:
 	using CollisionComponent::CollisionComponent;
+	virtual void Init()override;
 	virtual void Update()override;
 	virtual bool CheckHitObject()override;
 

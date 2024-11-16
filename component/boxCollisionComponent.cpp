@@ -1,6 +1,7 @@
 #include "boxCollisionComponent.h"
 #include "object/gameObject.h"
 #include "renderer/renderer.h"
+#include "manager/objModelManager.h"
 
 void BoxCollisionComponent::GetMyObb(OBB& myObb)
 {
@@ -16,9 +17,9 @@ void BoxCollisionComponent::GetMyObb(OBB& myObb)
 
 	// OBBの中心を計算
 	const XMVECTOR& myCenter = XMVectorSet(
-		m_Pos.x,
-		m_Pos.y,
-		m_Pos.z,
+		m_Position.x,
+		m_Position.y,
+		m_Position.z,
 		0.0f) + correctedOrigin;
 
 	// OBBのサイズ（ハーフサイズ）を計算
@@ -43,6 +44,13 @@ void BoxCollisionComponent::GetMyObb(OBB& myObb)
 	// OBBに値を設定
 	myObb.Center = myCenter;
 	myObb.Size = mySize;
+}
+
+void BoxCollisionComponent::Init()
+{
+	CollisionComponent::Init();
+	m_Model = STATICMESH_MODEL::COLLISION_BOX;
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCollision.obj");
 }
 
 void BoxCollisionComponent::Update()
