@@ -2,7 +2,7 @@
 #include "manager/objModelManager.h"
 #include "component/boxCollisionComponent.h"
 
-Box::Box() : StaticMeshObject(STATICMESH_MODEL::BOX)
+Box::Box() : StaticMeshObject(STATICMESH_MODEL::COLLISION_BOX)
 {
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\box.obj");
 	AddBoxCollisionComponent(COLLISION_TAG::OBJECT);

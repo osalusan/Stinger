@@ -54,4 +54,5 @@ class ObjModelRenderer final
 {	
 public:
 	void Draw(const MODEL* model);
+	void DrawCollision(const MODEL* model);
 };

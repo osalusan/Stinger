@@ -1,9 +1,11 @@
 #include "collisionComponent.h"
 #include "manager/sceneManager.h"
+#include "manager/objModelManager.h"
 #include "scene/gameScene.h"
 #include "object/gameObject.h"
 #include "staticMeshObject/staticmeshObject.h"
 #include "character/character.h"
+#include "renderer/objModelRenderer.h"
 
 // ------------------------ protected ------------------------
 bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
@@ -122,6 +124,11 @@ void CollisionComponent::Init()
 	{
 		m_Scale = m_GameObject->GetScale();
 	}
+
+	if (m_ModelRenderer == nullptr)
+	{
+		m_ModelRenderer = new ObjModelRenderer;
+	}
 }
 
 void CollisionComponent::Uninit()
@@ -129,14 +136,32 @@ void CollisionComponent::Uninit()
 	m_GameObjectsCache->clear();
 }
 
+// 呼び出し元に「#if _DEBUG」を
 void CollisionComponent::Draw()
 {
+	// エラー防止用
+#if _DEBUG
+	XMMATRIX world, scl, rot, trans;
 
+	scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
+	rot = m_RotationMatrix;
+	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+	world = scl * rot * trans;
+	Renderer::SetWorldMatrix(world);
+
+	if (m_ModelRenderer != nullptr)
+	{
+		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
+		{
+			m_ModelRenderer->DrawCollision(model);
+		}
+	}
+#endif // _DEBUG
 }
 
 void CollisionComponent::SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix)
 {
-	m_Pos = pos;
+	m_Position = pos;
 	m_Scale = scale;
 	m_ModelCenter = modelCenterPos;
 	m_ModelScale = modelScale;
