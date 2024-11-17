@@ -7,7 +7,7 @@
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
 
-constexpr XMFLOAT3 PLAYER_DEFAULT_POS = { 0.03f,0.03f,0.03f };
+constexpr XMFLOAT3 PLAYER_DEFAULT_SCALE = { 0.03f,0.03f,0.03f };
 constexpr float GRAVITY = 2200.0f;
 
 Player::Player()
@@ -24,7 +24,7 @@ Player::~Player()
 void Player::Init()
 {
 	GameObject::Init();
-	m_Scale = PLAYER_DEFAULT_POS;
+	m_Scale = PLAYER_DEFAULT_SCALE;
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;
 

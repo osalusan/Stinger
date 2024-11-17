@@ -1,5 +1,6 @@
 #include "objectManager.h"
 #include "character/player.h"
+#include "character/bossEnemy.h"
 
 ObjectManager::~ObjectManager()
 {
@@ -11,7 +12,8 @@ ObjectManager::~ObjectManager()
 			object = nullptr;
 		}
 	}
-
+	delete m_Boss;
+	m_Boss = nullptr;
 	delete m_Player;
 	m_Player = nullptr;
 }
@@ -21,6 +23,10 @@ void ObjectManager::Init()
 	if (m_Player != nullptr)
 	{
 		m_Player->Init();
+	}
+	if (m_Boss != nullptr)
+	{
+		m_Boss->Init();
 	}
 
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
@@ -46,6 +52,10 @@ void ObjectManager::Uninit()
 		}
 	}
 
+	if (m_Boss != nullptr)
+	{
+		m_Boss->Uninit();
+	}
 	if (m_Player != nullptr)
 	{
 		m_Player->Uninit();
@@ -57,6 +67,10 @@ void ObjectManager::Update(const float& deltaTime)
 	if (m_Player != nullptr)
 	{
 		m_Player->Update(deltaTime);
+	}
+	if (m_Boss != nullptr)
+	{
+		m_Boss->Update(deltaTime);
 	}
 
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
@@ -75,6 +89,10 @@ void ObjectManager::Draw()
 	if (m_Player != nullptr)
 	{
 		m_Player->Draw();
+	}
+	if (m_Boss != nullptr)
+	{
+		m_Boss->Draw();
 	}
 
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)

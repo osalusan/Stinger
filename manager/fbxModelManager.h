@@ -5,6 +5,7 @@
 enum class ANIMETION_MODEL
 {
 	PLAYER = 0,
+	MAWJLAYGO,
 	MAX
 };
 

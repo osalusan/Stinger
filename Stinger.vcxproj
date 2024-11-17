@@ -27,6 +27,7 @@
     <ClCompile Include="camera\titleCamera.cpp" />
     <ClCompile Include="character\bossEnemy.cpp" />
     <ClCompile Include="character\character.cpp" />
+    <ClCompile Include="character\mawJLaygo.cpp" />
     <ClCompile Include="character\player.cpp" />
     <ClCompile Include="component\boxCollisionComponent.cpp" />
     <ClCompile Include="component\collisionComponent.cpp" />
@@ -64,6 +65,7 @@
     <ClInclude Include="camera\titleCamera.h" />
     <ClInclude Include="character\bossEnemy.h" />
     <ClInclude Include="character\character.h" />
+    <ClInclude Include="character\mawJLaygo.h" />
     <ClInclude Include="character\player.h" />
     <ClInclude Include="component\boxCollisionComponent.h" />
     <ClInclude Include="component\collisionComponent.h" />

@@ -10,5 +10,5 @@ protected:
 	// ‰Šú‰»‚ÅŒÄ‚Ô
 	virtual void CreateTree(BehaviourTree* tree);
 public:
-	~BossEnemy();
+	virtual ~BossEnemy();
 };

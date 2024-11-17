@@ -14,13 +14,14 @@ enum class OBJECT
 // ‘O•ûéŒ¾
 class GameObject;
 class Player;
+class BossEnemy;
 
 class ObjectManager final
 {
 private:
 	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
 	Player* m_Player = nullptr;
-
+	BossEnemy* m_Boss = nullptr;
 public:
 	~ObjectManager();
 	void Init();
@@ -41,6 +42,17 @@ public:
 		{
 			objectList[i].insert(objectList[i].end(), m_GameObjects[i].begin(), m_GameObjects[i].end());
 		}
+	}
+
+	// À•Ww’è‚Å’Ç‰Á
+	template <typename T, typename... Arg>
+	void CreateBossEnemy(Arg&&...args)
+	{
+		T* boss = new T(std::forward<Arg>(args)...);
+		if (boss == nullptr) return;
+
+		boss->Init();
+		m_Boss = boss;
 	}
 
 	// ˆø”–³‚µ‚Å’Ç‰Á
