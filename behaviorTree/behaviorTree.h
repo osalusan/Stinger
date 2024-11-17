@@ -3,9 +3,13 @@
 
 class BehaviourTree
 {
-private:
-     BehaviorNode* m_Root = nullptr;
+protected:
+    BehaviorNode* m_Root = nullptr;
+
+    // ƒ‹[ƒg‚ğì¬
+    void CreateRoot(BehaviorNode* root);
 public:
-    BehaviourTree(BehaviorNode* rootNode);
+
+    virtual void Init() = 0;
     void Update();
 };
