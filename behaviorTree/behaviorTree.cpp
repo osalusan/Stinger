@@ -1,10 +1,10 @@
 #include "behaviorTree.h"
 
-BehaviourTree::BehaviourTree(BehaviorNode* rootNode)
+void BehaviourTree::CreateRoot(BehaviorNode* root)
 {
-    if (rootNode != nullptr && m_Root == nullptr)
+    if (m_Root == nullptr && root != nullptr)
     {
-        m_Root = m_Root;
+        m_Root = root;
     }
     if (m_Root != nullptr)
     {
