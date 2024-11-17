@@ -14,11 +14,11 @@ void SequenceNode::Init()
     
 }
 
-NODE_STATUS SequenceNode::Update()
+NODE_STATUS SequenceNode::Update(const float& deltaTime)
 {
     for (BehaviorNode* child : m_Children)
     {
-        NODE_STATUS status = child->Update();
+        NODE_STATUS status = child->Update(deltaTime);
         if (status != NODE_STATUS::SUCCESS)
         {
             return status;

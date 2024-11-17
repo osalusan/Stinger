@@ -6,10 +6,8 @@ class BehaviourTree
 protected:
     BehaviorNode* m_Root = nullptr;
 
+public:
     // ƒ‹[ƒg‚ğì¬
     void CreateRoot(BehaviorNode* root);
-public:
-
-    virtual void Init() = 0;
-    void Update();
+    void Update(const float& deltaTime);
 };

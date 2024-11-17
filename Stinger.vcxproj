@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="behaviorNodes\DashAtThePlayerNode.cpp" />
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\selectorNode .cpp" />
     <ClCompile Include="behaviorTree\sequenceNode .cpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="behaviorNodes\DashAtThePlayerNode.h" />
     <ClInclude Include="behaviorTree\behaviorNode.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\selectorNode .h" />

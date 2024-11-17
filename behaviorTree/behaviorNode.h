@@ -12,5 +12,5 @@ class BehaviorNode
 {
 public:
     virtual void Init() = 0;
-    virtual NODE_STATUS Update() = 0;
+    virtual NODE_STATUS Update(const float& deltaTime) = 0;
 };

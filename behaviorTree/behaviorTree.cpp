@@ -12,9 +12,9 @@ void BehaviourTree::CreateRoot(BehaviorNode* root)
     }
 }
 
-void BehaviourTree::Update()
+void BehaviourTree::Update(const float& deltaTime)
 {
-    NODE_STATUS status = m_Root->Update();
+    NODE_STATUS status = m_Root->Update(deltaTime);
 
     // デバッグ用
 #if _DEBUG

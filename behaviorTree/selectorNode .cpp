@@ -14,11 +14,11 @@ void SelectorNode::Init()
 
 }
 
-NODE_STATUS SelectorNode::Update()
+NODE_STATUS SelectorNode::Update(const float& deltaTime)
 {
     for (BehaviorNode* child : m_Children)
     {
-        NODE_STATUS status = child->Update();
+        NODE_STATUS status = child->Update(deltaTime);
         if (status != NODE_STATUS::FAILURE)
         {
             return status;

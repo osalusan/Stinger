@@ -8,15 +8,16 @@ private:
     std::vector<BehaviorNode*> m_Children = {};
 public:
     virtual ~SelectorNode();
+    // TODO :子クラスを増やしていかない形にするのだったらfinalをつける
     virtual void Init()override;
-    virtual NODE_STATUS Update() override;
+    virtual NODE_STATUS Update(const float& deltaTime) override;
 
     template <typename T>
-    void AddChild(T child)
+    void AddChild()
     {
         BehaviorNode* node = new T;
         if (node == nullptr) return;
         node->Init();
-        m_Children.emplace_back(child);
+        m_Children.emplace_back(node);
     }
 };

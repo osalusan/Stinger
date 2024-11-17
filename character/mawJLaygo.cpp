@@ -1,17 +1,14 @@
 #include "mawJLaygo.h"
 #include "manager/fbxModelManager.h"
 #include "component/boxCollisionComponent.h"
+#include "behaviorTree/behaviorTree.h"
+#include "behaviorTree/selectorNode .h"
+#include "behaviorNodes/DashAtThePlayerNode.h"
 
 constexpr XMFLOAT3 MAWJ_DEFAULT_SCALE = { 0.1f,0.1f,0.1f };
-constexpr float GRAVITY = 2200.0f;
+constexpr float GRAVITY = 1200.0f;
 
 // ----------------------- private -----------------------
-
-void MawJLaygo::MoveControl(const float& deltaTime)
-{
-
-}
-
 void MawJLaygo::CustomCollisionInfo()
 {
 	m_ColliPosition = m_Position;
@@ -32,6 +29,17 @@ void MawJLaygo::CollisionControl()
 	}
 }
 
+void MawJLaygo::CreateBehaviourTree()
+{
+	if (m_Tree == nullptr) return;
+
+	SelectorNode* rootNode = new SelectorNode;
+	if (rootNode == nullptr) return;
+
+	rootNode->AddChild<DashAtThePlayerNode>();
+	m_Tree->CreateRoot(rootNode);
+}
+
 
 // ----------------------- public -----------------------
 
@@ -49,7 +57,7 @@ MawJLaygo::~MawJLaygo()
 
 void MawJLaygo::Init()
 {
-	GameObject::Init();
+	BossEnemy::Init();
 	m_Scale = MAWJ_DEFAULT_SCALE;
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;

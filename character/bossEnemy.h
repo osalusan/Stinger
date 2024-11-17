@@ -7,8 +7,18 @@ class BossEnemy :public Character {
 protected:
 	BehaviourTree* m_Tree = nullptr;
 
-	// 初期化で呼ぶ
-	virtual void CreateTree(BehaviourTree* tree);
+	// ビヘイビアツリーを作成
+	virtual void CreateBehaviourTree() = 0;
+
+	// 移動の所でビヘイビアツリーの制御
+	virtual void MoveControl(const float& deltaTime)override final;
 public:
 	virtual ~BossEnemy();
+	virtual void Init()override;
+
+
+	const BehaviourTree* GetBehaviourTree()const
+	{
+		return m_Tree;
+	}
 };
