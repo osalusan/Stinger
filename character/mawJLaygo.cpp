@@ -1,5 +1,7 @@
 #include "mawJLaygo.h"
 #include "manager/fbxModelManager.h"
+#include "manager/sceneManager.h"
+#include "scene/gameScene.h"
 #include "component/boxCollisionComponent.h"
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorTree/selectorNode .h"
@@ -33,10 +35,20 @@ void MawJLaygo::CreateBehaviourTree()
 {
 	if (m_Tree == nullptr) return;
 
+	// playerのポインタを取得
+	GameScene* scene = SceneManager::GetScene<GameScene>();
+	if (scene == nullptr) return;
+	ObjectManager* objectManager = scene->GetObjectManager();
+	if (objectManager == nullptr) return;
+	Player* player = objectManager->GetPlayer();
+	if (player == nullptr) return;
+
+	// ビヘイビアツリーの作成
+
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddChild<DashAtThePlayerNode>(this);
+	rootNode->AddChild<DashAtThePlayerNode>(this, player);
 
 	// 一番最後に
 	m_Tree->CreateRoot(rootNode);

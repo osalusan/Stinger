@@ -9,5 +9,6 @@ void DashAtThePlayerNode::Init()
 
 NODE_STATUS DashAtThePlayerNode::Update(const float& deltaTime)
 {
-	return NODE_STATUS();
+
+	return NODE_STATUS::SUCCESS;
 }

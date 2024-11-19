@@ -121,7 +121,8 @@ int APIENTRY WinMain(
 #if _DEBUG
 	ShowCursor(true);
 #else
-	ShowCursor(false);
+	// TODO :falseに変更予定 / デバッグ用
+	ShowCursor(true);
 #endif
 
 
@@ -158,8 +159,9 @@ int APIENTRY WinMain(
 	#if _DEBUG
 	
 	#else // releseの時のみ
+	// TODO:デバッグ用 / 変更予定
 	// ボーダレスウインドウ
-	SetBorderlessWindow(g_Window);
+	//SetBorderlessWindow(g_Window);
 	#endif
 
 	ShowWindow(g_Window, nCmdShow);

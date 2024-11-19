@@ -119,8 +119,10 @@ bool CollisionComponent::CheckHitObject()
 
 CollisionComponent::~CollisionComponent()
 {
+#if _DEBUG
 	delete m_ModelRenderer;
 	m_ModelRenderer = nullptr;
+#endif
 }
 
 void CollisionComponent::Init()
@@ -130,11 +132,12 @@ void CollisionComponent::Init()
 	{
 		m_Scale = m_GameObject->GetScale();
 	}
-
+#if _DEBUG
 	if (m_ModelRenderer == nullptr)
 	{
 		m_ModelRenderer = new ObjModelRenderer;
 	}
+#endif
 }
 
 void CollisionComponent::Uninit()

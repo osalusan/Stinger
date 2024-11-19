@@ -34,13 +34,13 @@ void StaticMeshObject::Update(const float& deltaTime)
 			m_ModelCenter = model->Center;
 			m_ModelScale = model->Scale;
 		}
-		// Model‚ÌCenter‚âScale‚ðŠi”[‚µ‚½‚ç
-		UpdateBoxCollisionInfo();
 
 		m_ColliPosition = m_Position;
 		m_ColliRotation = m_Rotation;
 		m_ColliScale = m_Scale;
 	}
+	// Model‚ÌCenter‚âScale‚ðŠi”[‚µ‚½‚ç
+	UpdateBoxCollisionInfo();
 }
 
 void StaticMeshObject::Draw()
