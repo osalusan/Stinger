@@ -52,6 +52,9 @@
     <Filter Include="selectorNode">
       <UniqueIdentifier>{5eebf769-4097-4f6a-9f84-e88a0484d327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="blackBoard">
+      <UniqueIdentifier>{b7b699bd-4999-4438-9960-f148d62cd8ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="selectorNode\moveMawJLaygoSelector.h">
       <Filter>selectorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="blackBoard\blackBoard.h">
+      <Filter>blackBoard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
