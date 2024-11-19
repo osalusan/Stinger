@@ -1,5 +1,11 @@
 #include "behaviorTree.h"
 
+BehaviourTree::~BehaviourTree()
+{
+    delete m_Root;
+    m_Root = nullptr;
+}
+
 void BehaviourTree::CreateRoot(BehaviorNode* root)
 {
     if (m_Root == nullptr && root != nullptr)
@@ -14,6 +20,7 @@ void BehaviourTree::CreateRoot(BehaviorNode* root)
 
 void BehaviourTree::Update(const float& deltaTime)
 {
+    if (m_Root == nullptr) return;
     NODE_STATUS status = m_Root->Update(deltaTime);
 
     // デバッグ用

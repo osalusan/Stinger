@@ -180,12 +180,13 @@ void Renderer::Init()
 
 	// サンプラーステート設定
 	D3D11_SAMPLER_DESC samplerDesc{};
-	samplerDesc.Filter = D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR;
+	samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;	// 異方性フィルタリング
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.MaxAnisotropy = 1;
-	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	samplerDesc.MaxAnisotropy = 8;
+	samplerDesc.MaxLOD = 10.0f;
+	samplerDesc.MipLODBias = 0.0f;
 
 	ID3D11SamplerState* samplerState{};
 	m_Device->CreateSamplerState( &samplerDesc, &samplerState );

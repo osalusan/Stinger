@@ -2,13 +2,12 @@
 #include "behaviorNode.h"
 
 // 最初に成功したノードで終了
-class SelectorNode : public BehaviorNode 
+class SelectorNode final: public BehaviorNode 
 {
 private:
     std::vector<BehaviorNode*> m_Children = {};
 public:
-    virtual ~SelectorNode();
-    // TODO :子クラスを増やしていかない形にするのだったらfinalをつける
+    virtual ~SelectorNode()override;
     virtual void Init()override;
     virtual NODE_STATUS Update(const float& deltaTime) override;
 

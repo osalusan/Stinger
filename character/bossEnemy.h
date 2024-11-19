@@ -13,7 +13,7 @@ protected:
 	// 移動の所でビヘイビアツリーの制御
 	virtual void MoveControl(const float& deltaTime)override final;
 public:
-	virtual ~BossEnemy();
+	virtual ~BossEnemy()override;
 	virtual void Init()override;
 
 

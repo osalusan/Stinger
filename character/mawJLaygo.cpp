@@ -37,6 +37,8 @@ void MawJLaygo::CreateBehaviourTree()
 	if (rootNode == nullptr) return;
 
 	rootNode->AddChild<DashAtThePlayerNode>();
+
+	// ˆê”ÔÅŒã‚É
 	m_Tree->CreateRoot(rootNode);
 }
 
@@ -52,7 +54,8 @@ MawJLaygo::MawJLaygo(const XMFLOAT3& pos)
 
 MawJLaygo::~MawJLaygo()
 {
-
+	delete m_Tree;
+	m_Tree = nullptr;
 }
 
 void MawJLaygo::Init()

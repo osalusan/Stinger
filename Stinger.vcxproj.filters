@@ -46,6 +46,9 @@
     <Filter Include="behaviorTree">
       <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="behaviorNodes">
+      <UniqueIdentifier>{ebc1ffc2-64f0-4242-94b1-6a2d95ca1a5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -146,6 +149,15 @@
     </ClCompile>
     <ClCompile Include="behaviorTree\behaviorTree.cpp">
       <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="character\bossEnemy.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character\mawJLaygo.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNodes\DashAtThePlayerNode.cpp">
+      <Filter>behaviorNodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +268,15 @@
     </ClInclude>
     <ClInclude Include="behaviorTree\sequenceNode .h">
       <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="character\bossEnemy.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\mawJLaygo.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNodes\DashAtThePlayerNode.h">
+      <Filter>behaviorNodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,12 +2,12 @@
 #include "behaviorNode.h"
 
 // ‚·‚×‚Ä‚Ìqƒm[ƒh‚ª¬Œ÷‚µ‚½ê‡‚É¬Œ÷
-class SequenceNode : public BehaviorNode 
+class SequenceNode final: public BehaviorNode 
 {
 private:
     std::vector<BehaviorNode*> m_Children = {};
 public:
-    virtual ~SequenceNode();
+    ~SequenceNode();
     virtual void Init()override;
     virtual NODE_STATUS Update(const float& deltaTime) override;
 

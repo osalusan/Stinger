@@ -4,7 +4,7 @@
 
 void DashAtThePlayerNode::Init()
 {
-
+	
 }
 
 NODE_STATUS DashAtThePlayerNode::Update(const float& deltaTime)

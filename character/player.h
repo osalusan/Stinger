@@ -4,7 +4,7 @@
 class Camera;
 class PlayerStateMachine;
 
-class Player :public Character {
+class Player final:public Character {
 private:
 
 	Camera* m_CameraCache = nullptr;
@@ -22,7 +22,7 @@ private:
 	virtual void CollisionControl()override;
 public:
 	Player();
-	~Player();
+	virtual ~Player()override;
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Draw()override;

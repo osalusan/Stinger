@@ -1,7 +1,7 @@
 #pragma once
 #include "bossEnemy.h"
 
-class MawJLaygo :public BossEnemy
+class MawJLaygo final:public BossEnemy
 {
 private:
 	virtual void CustomCollisionInfo()override;
@@ -11,6 +11,6 @@ private:
 public:
 	MawJLaygo() = delete;
 	MawJLaygo(const XMFLOAT3& pos);
-	~MawJLaygo();
+	virtual ~MawJLaygo()override;
 	virtual void Init()override;
 };

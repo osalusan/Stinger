@@ -11,6 +11,7 @@ enum class NODE_STATUS
 class BehaviorNode 
 {
 public:
+    virtual ~BehaviorNode() {};
     virtual void Init() = 0;
     virtual NODE_STATUS Update(const float& deltaTime) = 0;
 };
