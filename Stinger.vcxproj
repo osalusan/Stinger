@@ -23,6 +23,7 @@
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\selectorNode .cpp" />
     <ClCompile Include="behaviorTree\sequenceNode .cpp" />
+    <ClCompile Include="behaviorTree\taskNode.cpp" />
     <ClCompile Include="camera\camera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
     <ClCompile Include="camera\titleCamera.cpp" />
@@ -62,6 +63,7 @@
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\selectorNode .h" />
     <ClInclude Include="behaviorTree\sequenceNode .h" />
+    <ClInclude Include="behaviorTree\taskNode.h" />
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\playerCamera.h" />
     <ClInclude Include="camera\titleCamera.h" />

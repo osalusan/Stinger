@@ -159,6 +159,9 @@
     <ClCompile Include="behaviorNodes\DashAtThePlayerNode.cpp">
       <Filter>behaviorNodes</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTree\taskNode.cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="behaviorNodes\DashAtThePlayerNode.h">
       <Filter>behaviorNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\taskNode.h">
+      <Filter>behaviorTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

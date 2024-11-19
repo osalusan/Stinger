@@ -36,7 +36,7 @@ void MawJLaygo::CreateBehaviourTree()
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddChild<DashAtThePlayerNode>();
+	rootNode->AddChild<DashAtThePlayerNode>(this);
 
 	// ˆê”ÔÅŒã‚É
 	m_Tree->CreateRoot(rootNode);

@@ -2,6 +2,7 @@
   behaviorTree.cpp
   selectorNode .cpp
   sequenceNode .cpp
+  taskNode.cpp
   bossEnemy.cpp
   mawJLaygo.cpp
   コードを生成中...
