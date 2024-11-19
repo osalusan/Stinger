@@ -2,14 +2,14 @@
 #include "taskNode.h"
 
 // ç≈èâÇ…ê¨å˜ÇµÇΩÉmÅ[ÉhÇ≈èIóπ
-class SelectorNode final: public BehaviorNode 
+class SelectorNode: public BehaviorNode 
 {
-private:
+protected:
     std::vector<TaskNode*> m_Children = {};
 public:
     virtual ~SelectorNode()override;
-    virtual void Init()override;
-    virtual NODE_STATUS Update(const float& deltaTime) override;
+    virtual void Init()override = 0;
+    virtual NODE_STATUS Update(const float& deltaTime) override = 0;
 
     template <typename T, typename... Arg>
     void AddChild(Arg&&...args)

@@ -44,7 +44,6 @@ public:
 	virtual void Update(const float& deltaTime);
 	virtual void Draw();
 
-
 	BoxCollisionComponent* GetBoxCollision()
 	{
 		return m_BoxCollision;
@@ -107,6 +106,7 @@ public:
 		return up;
 	}
 
+	// 回転マトリックスを取得
 	XMMATRIX GetRotationMatrix()const
 	{
 		XMMATRIX rotationMatrix;
@@ -114,7 +114,9 @@ public:
 			m_Rotation.x, m_Rotation.y, m_Rotation.z);
 
 		return rotationMatrix;
-	}	
+	}
+
+	//当たり判定の回転マトリックスを取得
 	XMMATRIX GetColliRotationMatrix()const
 	{
 		XMMATRIX rotationMatrix;
@@ -123,6 +125,14 @@ public:
 
 		return rotationMatrix;
 	}
+	// ターゲットへのベクトルを取得
+	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos) {
+		
+		XMVECTOR vector = XMVector3Normalize(XMVectorSubtract(XMLoadFloat3(&targetpos),XMLoadFloat3(&m_Position)));
 
+		XMFLOAT3 direction;
+		XMStoreFloat3(&direction, vector);
+		return direction;
+	}
 
 };

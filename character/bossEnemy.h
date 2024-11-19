@@ -7,6 +7,9 @@ class BossEnemy :public Character {
 protected:
 	BehaviourTree* m_Tree = nullptr;
 
+	// ボスのパラメータ
+	float m_MoveSpeed = {};
+
 	// ビヘイビアツリーを作成
 	virtual void CreateBehaviourTree() = 0;
 
@@ -16,6 +19,17 @@ public:
 	virtual ~BossEnemy()override;
 	virtual void Init()override;
 
+	void AddVelocity(const XMFLOAT3& vel)
+	{
+		m_Velocity.x += vel.x;
+		m_Velocity.y += vel.y;
+		m_Velocity.z += vel.z;
+	}
+
+	const float& GetMoveSpeed()const
+	{
+		return m_MoveSpeed;
+	}
 
 	const BehaviourTree* GetBehaviourTree()const
 	{

@@ -49,6 +49,9 @@
     <Filter Include="behaviorNodes">
       <UniqueIdentifier>{ebc1ffc2-64f0-4242-94b1-6a2d95ca1a5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="selectorNode">
+      <UniqueIdentifier>{5eebf769-4097-4f6a-9f84-e88a0484d327}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -161,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="behaviorTree\taskNode.cpp">
       <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="selectorNode\moveMawJLaygoSelector.cpp">
+      <Filter>selectorNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTree\taskNode.h">
       <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="selectorNode\moveMawJLaygoSelector.h">
+      <Filter>selectorNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

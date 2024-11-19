@@ -7,8 +7,11 @@
 #include "behaviorTree/selectorNode .h"
 #include "behaviorNodes/DashAtThePlayerNode.h"
 
+#include "selectorNode/moveMawJLaygoSelector.h"
+
 constexpr XMFLOAT3 MAWJ_DEFAULT_SCALE = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
+constexpr float MOVE_SPEED = 2000.0f;
 
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
@@ -45,7 +48,7 @@ void MawJLaygo::CreateBehaviourTree()
 
 	// ビヘイビアツリーの作成
 
-	SelectorNode* rootNode = new SelectorNode;
+	SelectorNode* rootNode = new MoveMawJLaygoSelector;
 	if (rootNode == nullptr) return;
 
 	rootNode->AddChild<DashAtThePlayerNode>(this, player);
@@ -76,6 +79,9 @@ void MawJLaygo::Init()
 	m_Scale = MAWJ_DEFAULT_SCALE;
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;
+
+	// パラメータ設定
+	m_MoveSpeed = MOVE_SPEED;
 
 	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
 }

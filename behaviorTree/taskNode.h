@@ -6,7 +6,7 @@ class Player;
 
 class TaskNode : public BehaviorNode
 {
-private:
+protected:
 	BossEnemy* m_BossCache = nullptr;
 	Player* m_PlayerCache = nullptr;
 public:
