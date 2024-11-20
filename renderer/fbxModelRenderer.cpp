@@ -75,7 +75,7 @@ void FbxModelRenderer::CreateBone(aiNode* node)
 	}
 }
 
-void FbxModelRenderer::Update(const char* AnimationName1, int Frame1)
+void FbxModelRenderer::Update(const char* AnimationName1, float animationTime)
 {
 	if (m_Animation.count(AnimationName1) == 0)return;
 	if (!m_Animation[AnimationName1]->HasAnimations())return;
@@ -84,6 +84,19 @@ void FbxModelRenderer::Update(const char* AnimationName1, int Frame1)
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
 
 	
+	// アニメーション時間を計算
+	float TicksPerSecond;
+	if (animation1->mTicksPerSecond != 0.0f)
+	{
+		TicksPerSecond = animation1->mTicksPerSecond;
+	}
+	else
+	{
+		TicksPerSecond = 25.0f;
+	}
+	float TimeInTicks = animationTime * TicksPerSecond;
+	float AnimationTime = fmod(TimeInTicks, animation1->mDuration);
+
 	for (std::pair<const std::string, BONE>& pair : m_Bone)
 	{
 		BONE* bone = &m_Bone[pair.first];
@@ -99,22 +112,16 @@ void FbxModelRenderer::Update(const char* AnimationName1, int Frame1)
 			}
 		}
 
-		int f;
-
 		aiQuaternion rot1;
 		aiVector3D pos1;
 
 		if (nodeAnim1)
 		{
-			f = Frame1 % nodeAnim1->mNumRotationKeys;//簡易実装
-			rot1 = nodeAnim1->mRotationKeys[f].mValue;
-
-			f = Frame1 % nodeAnim1->mNumPositionKeys;//簡易実装
-			pos1 = nodeAnim1->mPositionKeys[f].mValue;
+			rot1 = CalcInterpolatedRotation(AnimationTime, nodeAnim1);
+			pos1 = CalcInterpolatedPosition(AnimationTime, nodeAnim1);
 		}
 
 		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot1, pos1);
-
 	}
 
 	//再帰的にボーンマトリクスを更新
@@ -628,4 +635,74 @@ void FbxModelRenderer::Uninit()
 
 }
 
+aiQuaternion FbxModelRenderer::CalcInterpolatedRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumRotationKeys == 1)
+	{
+		return pNodeAnim->mRotationKeys[0].mValue;
+	}
+
+	unsigned int RotationIndex = FindRotation(AnimationTime, pNodeAnim);
+	unsigned int NextRotationIndex = (RotationIndex + 1);
+	assert(NextRotationIndex < pNodeAnim->mNumRotationKeys);
+
+	float DeltaTime = pNodeAnim->mRotationKeys[NextRotationIndex].mTime - pNodeAnim->mRotationKeys[RotationIndex].mTime;
+	float Factor = (AnimationTime - pNodeAnim->mRotationKeys[RotationIndex].mTime) / DeltaTime;
+	assert(Factor >= 0.0f && Factor <= 1.0f);
+
+	const aiQuaternion& StartRotationQ = pNodeAnim->mRotationKeys[RotationIndex].mValue;
+	const aiQuaternion& EndRotationQ = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
+
+	aiQuaternion Out;
+	aiQuaternion::Interpolate(Out, StartRotationQ, EndRotationQ, Factor);
+	return Out.Normalize();
+}
+
+aiVector3D FbxModelRenderer::CalcInterpolatedPosition(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumPositionKeys == 1)
+	{
+		return pNodeAnim->mPositionKeys[0].mValue;
+	}
+
+	unsigned int PositionIndex = FindPosition(AnimationTime, pNodeAnim);
+	unsigned int NextPositionIndex = (PositionIndex + 1);
+	assert(NextPositionIndex < pNodeAnim->mNumPositionKeys);
+
+	float DeltaTime = pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime;
+	float Factor = (AnimationTime - pNodeAnim->mPositionKeys[PositionIndex].mTime) / DeltaTime;
+	assert(Factor >= 0.0f && Factor <= 1.0f);
+
+	const aiVector3D& StartPosition = pNodeAnim->mPositionKeys[PositionIndex].mValue;
+	const aiVector3D& EndPosition = pNodeAnim->mPositionKeys[NextPositionIndex].mValue;
+
+	aiVector3D Out = StartPosition + Factor * (EndPosition - StartPosition);
+	return Out;
+}
+
+unsigned int FbxModelRenderer::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	for (unsigned int i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
+	{
+		if (AnimationTime < pNodeAnim->mRotationKeys[i + 1].mTime)
+		{
+			return i;
+		}
+	}
+
+	return 0;
+}
+
+unsigned int FbxModelRenderer::FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	for (unsigned int i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++)
+	{
+		if (AnimationTime < pNodeAnim->mPositionKeys[i + 1].mTime)
+		{
+			return i;
+		}
+	}
+
+	return 0;
+}
 

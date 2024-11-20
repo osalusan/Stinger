@@ -46,9 +46,6 @@
     <Filter Include="behaviorTree">
       <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="blackBoard">
-      <UniqueIdentifier>{b7b699bd-4999-4438-9960-f148d62cd8ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="taskNode">
       <UniqueIdentifier>{6e96fa29-b300-456f-a73b-7bedd27c56d0}</UniqueIdentifier>
     </Filter>
@@ -170,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="taskNodes\rollAttackTask.cpp">
       <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\mawJTaskNode.cpp">
+      <Filter>behaviorTree</Filter>
     </ClCompile>
     <ClCompile Include="taskNodes\animationAttackTask.cpp">
       <Filter>taskNode</Filter>
@@ -301,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="taskNodes\rollAttackTask.h">
       <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\mawJTaskNode.h">
+      <Filter>behaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="taskNodes\animationAttackTask.h">
       <Filter>taskNode</Filter>

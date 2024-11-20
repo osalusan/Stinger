@@ -48,6 +48,8 @@ void Character::Update(const float& deltaTime)
 	// ˆÚ“®ˆ—
 	MoveControl(deltaTime);
 
+	m_AnimationTime += deltaTime;
+
 	m_Velocity.x *= deltaTime;
 	m_Velocity.y *= deltaTime;
 	m_Velocity.z *= deltaTime;
@@ -81,8 +83,17 @@ void Character::Draw()
 
 	if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
-		//Model->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextanimationName.c_str(), m_AnimationFrame, m_BlendRatio);
+		model->Update(m_AnimationName.c_str(), m_AnimationTime);
 		model->Draw();
+	}
+}
+
+void Character::ChangeAnimation(const std::string& anime)
+{
+	if (m_AnimationName != anime)
+	{
+		m_AnimationName = anime;
+		m_AnimationTime = 0.0f;
 	}
 }
 

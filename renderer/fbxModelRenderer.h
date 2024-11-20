@@ -62,8 +62,13 @@ public:
 	void LoadAnimation(const char* FileName, const char* Name);
 	void Update(const char* AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRatio);
 	void CreateBone(aiNode* node);
-	void Update(const char* AnimationName1, int Frame1);
+	void Update(const char* AnimationName1, float animationTime);
 	void UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix);
+
+	aiQuaternion CalcInterpolatedRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	aiVector3D CalcInterpolatedPosition(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	unsigned int FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
+	unsigned int FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim);
 
 	const XMFLOAT3& GetCenter()const
 	{

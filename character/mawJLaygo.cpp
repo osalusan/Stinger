@@ -8,6 +8,7 @@
 #include "taskNodes/dashAtThePlayerTask.h"
 #include "taskNodes/checkRangeTask.h"
 #include "taskNodes/rollAttackTask.h"
+#include "taskNodes/animationAttackTask.h"
 
 constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
@@ -15,8 +16,8 @@ constexpr float MOVE_SPEED_MAWJ = 2000.0f;
 
 // UŒ‚”ÍˆÍ
 constexpr float SHORT_RANGE_MAWJ = 30.0f;
-constexpr float MIDDLE_RANGE_MAWJ = 200.0f;
-constexpr float LONG_RANGE_MAWJ = 400.0f;
+constexpr float MIDDLE_RANGE_MAWJ = 70.0f;
+constexpr float LONG_RANGE_MAWJ = 100.0f;
 
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
@@ -59,6 +60,8 @@ void MawJLaygo::CreateBehaviourTree()
 	rootNode->AddChild<CheckRangeTask>(this, player);
 
 	rootNode->AddChild<RollAttackTask>(this, player);
+
+	rootNode->AddChild<AnimationAttackTask>(this, player);
 
 	rootNode->AddChild<DashAtThePlayerTask>(this, player);
 

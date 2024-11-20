@@ -78,12 +78,6 @@ void FbxModelManager::LoadModel(const ANIMETION_MODEL& model, const std::string&
 
 void FbxModelManager::LoadAnimation(const ANIMETION_MODEL& model, const std::string& fileName, const std::string& animationName)
 {
-    // 保存済みのアニメーションがある場合
-    if (m_LoadModelPool.count(model) > 0)
-    {
-        return; // 読み込まない
-    }
-
     if (m_LoadModelPool[model] != nullptr)
     {
         m_LoadModelPool[model]->LoadAnimation(fileName.c_str(), animationName.c_str());
