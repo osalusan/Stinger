@@ -34,6 +34,7 @@ C:\HAL\3\Stinger\scene\titleScene.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\titleSc
 C:\HAL\3\Stinger\skydome\skydome.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\skydome.obj
 C:\HAL\3\Stinger\staticMeshObject\box.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\box.obj
 C:\HAL\3\Stinger\staticMeshObject\staticmeshObject.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\staticmeshObject.obj
+C:\HAL\3\Stinger\taskNodes\animationAttackTask.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\animationAttackTask.obj
 C:\HAL\3\Stinger\taskNodes\checkRangeTask.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\checkRangeTask.obj
 C:\HAL\3\Stinger\taskNodes\dashAtThePlayerTask.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\dashAtThePlayerTask.obj
 C:\HAL\3\Stinger\taskNodes\rollAttackTask.cpp;C:\HAL\3\Stinger\Stinger\x64\Debug\rollAttackTask.obj

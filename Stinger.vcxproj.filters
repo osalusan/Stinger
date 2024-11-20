@@ -171,6 +171,9 @@
     <ClCompile Include="taskNodes\rollAttackTask.cpp">
       <Filter>taskNode</Filter>
     </ClCompile>
+    <ClCompile Include="taskNodes\animationAttackTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -297,6 +300,9 @@
       <Filter>taskNode</Filter>
     </ClInclude>
     <ClInclude Include="taskNodes\rollAttackTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\animationAttackTask.h">
       <Filter>taskNode</Filter>
     </ClInclude>
   </ItemGroup>

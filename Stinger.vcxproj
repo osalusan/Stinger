@@ -55,6 +55,7 @@
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
+    <ClCompile Include="taskNodes\animationAttackTask.cpp" />
     <ClCompile Include="taskNodes\checkRangeTask.cpp" />
     <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp" />
     <ClCompile Include="taskNodes\rollAttackTask.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+    <ClInclude Include="taskNodes\animationAttackTask.h" />
     <ClInclude Include="taskNodes\checkRangeTask.h" />
     <ClInclude Include="taskNodes\dashAtThePlayerTask.h" />
     <ClInclude Include="taskNodes\rollAttackTask.h" />
