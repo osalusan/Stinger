@@ -14,6 +14,6 @@ TaskNode::TaskNode(BossEnemy* boss, Player* player)
 
 TaskNode::~TaskNode()
 {
-	m_BossCache = nullptr;
 	m_PlayerCache = nullptr;
+	m_BossCache = nullptr;
 }

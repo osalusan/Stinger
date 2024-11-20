@@ -1,6 +1,6 @@
 #include "playerStateRun.h"
 
-constexpr float MOVE_SPEED = 2000.0f;
+constexpr float MOVE_SPEED_MAWJ = 2000.0f;
 
 void PlayerStateRun::Init()
 {
@@ -48,8 +48,8 @@ void PlayerStateRun::Update(const float& deltaTime)
 	XMFLOAT3 normalizedVelocity = {};
 	XMStoreFloat3(&normalizedVelocity, normalizedVelocityVec);
 
-	m_PlayerMachine->SetVelocityX(normalizedVelocity.x * MOVE_SPEED * deltaTime);
-	m_PlayerMachine->SetVelocityZ(normalizedVelocity.z * MOVE_SPEED * deltaTime);
+	m_PlayerMachine->SetVelocityX(normalizedVelocity.x * MOVE_SPEED_MAWJ * deltaTime);
+	m_PlayerMachine->SetVelocityZ(normalizedVelocity.z * MOVE_SPEED_MAWJ * deltaTime);
 }
 
 void PlayerStateRun::ChangeStateControl()

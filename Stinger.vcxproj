@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="behaviorNodes\DashAtThePlayerNode.cpp" />
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\selectorNode .cpp" />
     <ClCompile Include="behaviorTree\sequenceNode .cpp" />
@@ -53,19 +52,19 @@
     <ClCompile Include="scene\gameScene.cpp" />
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\titleScene.cpp" />
-    <ClCompile Include="selectorNode\moveMawJLaygoSelector.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
+    <ClCompile Include="taskNodes\checkRangeTask.cpp" />
+    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp" />
+    <ClCompile Include="taskNodes\rollAttackTask.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="behaviorNodes\DashAtThePlayerNode.h" />
     <ClInclude Include="behaviorTree\behaviorNode.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\selectorNode .h" />
     <ClInclude Include="behaviorTree\sequenceNode .h" />
     <ClInclude Include="behaviorTree\taskNode.h" />
-    <ClInclude Include="blackBoard\blackBoard.h" />
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\playerCamera.h" />
     <ClInclude Include="camera\titleCamera.h" />
@@ -97,10 +96,12 @@
     <ClInclude Include="scene\gameScene.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\titleScene.h" />
-    <ClInclude Include="selectorNode\moveMawJLaygoSelector.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+    <ClInclude Include="taskNodes\checkRangeTask.h" />
+    <ClInclude Include="taskNodes\dashAtThePlayerTask.h" />
+    <ClInclude Include="taskNodes\rollAttackTask.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

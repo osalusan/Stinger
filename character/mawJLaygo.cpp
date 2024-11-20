@@ -5,13 +5,18 @@
 #include "component/boxCollisionComponent.h"
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorTree/selectorNode .h"
-#include "behaviorNodes/DashAtThePlayerNode.h"
+#include "taskNodes/dashAtThePlayerTask.h"
+#include "taskNodes/checkRangeTask.h"
+#include "taskNodes/rollAttackTask.h"
 
-#include "selectorNode/moveMawJLaygoSelector.h"
-
-constexpr XMFLOAT3 MAWJ_DEFAULT_SCALE = { 0.1f,0.1f,0.1f };
+constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
-constexpr float MOVE_SPEED = 2000.0f;
+constexpr float MOVE_SPEED_MAWJ = 2000.0f;
+
+// 攻撃範囲
+constexpr float SHORT_RANGE_MAWJ = 30.0f;
+constexpr float MIDDLE_RANGE_MAWJ = 200.0f;
+constexpr float LONG_RANGE_MAWJ = 400.0f;
 
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
@@ -48,10 +53,14 @@ void MawJLaygo::CreateBehaviourTree()
 
 	// ビヘイビアツリーの作成
 
-	SelectorNode* rootNode = new MoveMawJLaygoSelector;
+	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddChild<DashAtThePlayerNode>(this, player);
+	rootNode->AddChild<CheckRangeTask>(this, player);
+
+	rootNode->AddChild<RollAttackTask>(this, player);
+
+	rootNode->AddChild<DashAtThePlayerTask>(this, player);
 
 	// 一番最後に
 	m_Tree->CreateRoot(rootNode);
@@ -76,12 +85,15 @@ MawJLaygo::~MawJLaygo()
 void MawJLaygo::Init()
 {
 	BossEnemy::Init();
-	m_Scale = MAWJ_DEFAULT_SCALE;
+	m_Scale = DEFAULT_SCALE_MAWJ;
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;
 
 	// パラメータ設定
-	m_MoveSpeed = MOVE_SPEED;
+	m_MoveSpeed = MOVE_SPEED_MAWJ;
+	m_ShortRange = SHORT_RANGE_MAWJ;
+	m_MiddleRange = MIDDLE_RANGE_MAWJ;
+	m_LongRange = LONG_RANGE_MAWJ;
 
 	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
 }

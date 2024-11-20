@@ -8,8 +8,8 @@ protected:
     std::vector<TaskNode*> m_Children = {};
 public:
     virtual ~SelectorNode()override;
-    virtual void Init()override = 0;
-    virtual NODE_STATUS Update(const float& deltaTime) override = 0;
+    virtual void Init()override;
+    virtual NODE_STATUS Update(const float& deltaTime) override;
 
     template <typename T, typename... Arg>
     void AddChild(Arg&&...args)

@@ -46,14 +46,11 @@
     <Filter Include="behaviorTree">
       <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="behaviorNodes">
-      <UniqueIdentifier>{ebc1ffc2-64f0-4242-94b1-6a2d95ca1a5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="selectorNode">
-      <UniqueIdentifier>{5eebf769-4097-4f6a-9f84-e88a0484d327}</UniqueIdentifier>
-    </Filter>
     <Filter Include="blackBoard">
       <UniqueIdentifier>{b7b699bd-4999-4438-9960-f148d62cd8ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="taskNode">
+      <UniqueIdentifier>{6e96fa29-b300-456f-a73b-7bedd27c56d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -162,14 +159,17 @@
     <ClCompile Include="character\mawJLaygo.cpp">
       <Filter>character</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorNodes\DashAtThePlayerNode.cpp">
-      <Filter>behaviorNodes</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\taskNode.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="selectorNode\moveMawJLaygoSelector.cpp">
-      <Filter>selectorNode</Filter>
+    <ClCompile Include="taskNodes\checkRangeTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\rollAttackTask.cpp">
+      <Filter>taskNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,17 +287,17 @@
     <ClInclude Include="character\mawJLaygo.h">
       <Filter>character</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorNodes\DashAtThePlayerNode.h">
-      <Filter>behaviorNodes</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorTree\taskNode.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
-    <ClInclude Include="selectorNode\moveMawJLaygoSelector.h">
-      <Filter>selectorNode</Filter>
+    <ClInclude Include="taskNodes\checkRangeTask.h">
+      <Filter>taskNode</Filter>
     </ClInclude>
-    <ClInclude Include="blackBoard\blackBoard.h">
-      <Filter>blackBoard</Filter>
+    <ClInclude Include="taskNodes\dashAtThePlayerTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\rollAttackTask.h">
+      <Filter>taskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
