@@ -256,8 +256,8 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 
 }
 
-void FbxModelRenderer::Update(const char* AnimationName1, int Frame1,
-	const char* AnimationName2, int Frame2,
+void FbxModelRenderer::Update(const char* AnimationName1, float time1,
+	const char* AnimationName2, float time2,
 	float BlendRatio)
 {
 	if (m_Animation.count(AnimationName1) == 0)return;
@@ -267,7 +267,40 @@ void FbxModelRenderer::Update(const char* AnimationName1, int Frame1,
 
 	//アニメーションデータからボーンマトリクス算出
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
+
+	// アニメーションのティック単位の時間を計算
+	float TicksPerSecond1;
+	if (animation1->mTicksPerSecond != 0.0f)
+	{
+		TicksPerSecond1 = static_cast<float>(animation1->mTicksPerSecond);
+	}
+	else
+	{
+		TicksPerSecond1 = 25.0f; // デフォルトのティックレート
+	}
+	float TimeInTicks1 = time1 * TicksPerSecond1;
+
+	// アニメーション時間をループさせる
+	float AnimationTime1 = static_cast<float>(fmod(TimeInTicks1, animation1->mDuration));
+
+
+	//アニメーションデータからボーンマトリクス算出
 	aiAnimation* animation2 = m_Animation[AnimationName2]->mAnimations[0];
+
+	// アニメーションのティック単位の時間を計算
+	float TicksPerSecond2;
+	if (animation2->mTicksPerSecond != 0.0f)
+	{
+		TicksPerSecond2 = static_cast<float>(animation2->mTicksPerSecond);
+	}
+	else
+	{
+		TicksPerSecond2 = 25.0f; // デフォルトのティックレート
+	}
+	float TimeInTicks2 = time1 * TicksPerSecond2;
+
+	// アニメーション時間をループさせる
+	float AnimationTime2 = static_cast<float>(fmod(TimeInTicks2, animation2->mDuration));
 
 	for (std::pair<const std::string, BONE>& pair : m_Bone)
 	{
@@ -302,10 +335,31 @@ void FbxModelRenderer::Update(const char* AnimationName1, int Frame1,
 
 		if (nodeAnim1)
 		{
-			f = Frame1 % nodeAnim1->mNumRotationKeys;//簡易実装
+			// キーフレームの総数
+			unsigned int numRotKeys = nodeAnim1->mNumRotationKeys;
+			unsigned int numPosKeys = nodeAnim1->mNumPositionKeys;
+
+			// キーフレームのインデックスを計算（補間なし）
+			f = 0;
+			for (unsigned int i = 0; i < numRotKeys; i++)
+			{
+				if (AnimationTime1 < nodeAnim1->mRotationKeys[i].mTime)
+				{
+					break;
+				}
+				f = i;
+			}
 			rot1 = nodeAnim1->mRotationKeys[f].mValue;
 
-			f = Frame1 % nodeAnim1->mNumPositionKeys;//簡易実装
+			f = 0;
+			for (unsigned int i = 0; i < numPosKeys; i++)
+			{
+				if (AnimationTime1 < nodeAnim1->mPositionKeys[i].mTime)
+				{
+					break;
+				}
+				f = i;
+			}
 			pos1 = nodeAnim1->mPositionKeys[f].mValue;
 		}
 
@@ -314,10 +368,31 @@ void FbxModelRenderer::Update(const char* AnimationName1, int Frame1,
 
 		if (nodeAnim2)
 		{
-			f = Frame2 % nodeAnim2->mNumRotationKeys;//簡易実装
+			// キーフレームの総数
+			unsigned int numRotKeys = nodeAnim2->mNumRotationKeys;
+			unsigned int numPosKeys = nodeAnim2->mNumPositionKeys;
+
+			// キーフレームのインデックスを計算（補間なし）
+			f = 0;
+			for (unsigned int i = 0; i < numRotKeys; i++)
+			{
+				if (AnimationTime2 < nodeAnim2->mRotationKeys[i].mTime)
+				{
+					break;
+				}
+				f = i;
+			}
 			rot2 = nodeAnim2->mRotationKeys[f].mValue;
 
-			f = Frame2 % nodeAnim2->mNumPositionKeys;//簡易実装
+			f = 0;
+			for (unsigned int i = 0; i < numPosKeys; i++)
+			{
+				if (AnimationTime2 < nodeAnim2->mPositionKeys[i].mTime)
+				{
+					break;
+				}
+				f = i;
+			}
 			pos2 = nodeAnim2->mPositionKeys[f].mValue;
 		}
 

@@ -60,7 +60,7 @@ public:
 	void Draw();
 
 	void LoadAnimation(const char* FileName, const char* Name);
-	void Update(const char* AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRatio);
+	void Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio);
 	void CreateBone(aiNode* node);
 	void Update(const char* AnimationName1,const float& time);
 	void UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix);
