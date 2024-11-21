@@ -168,9 +168,6 @@
     <ClCompile Include="taskNodes\rollAttackTask.cpp">
       <Filter>taskNode</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTree\mawJTaskNode.cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
     <ClCompile Include="taskNodes\animationAttackTask.cpp">
       <Filter>taskNode</Filter>
     </ClCompile>
@@ -301,9 +298,6 @@
     </ClInclude>
     <ClInclude Include="taskNodes\rollAttackTask.h">
       <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\mawJTaskNode.h">
-      <Filter>behaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="taskNodes\animationAttackTask.h">
       <Filter>taskNode</Filter>

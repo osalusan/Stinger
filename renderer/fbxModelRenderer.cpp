@@ -87,7 +87,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	float TicksPerSecond;
 	if (animation1->mTicksPerSecond != 0.0f)
 	{
-		TicksPerSecond = animation1->mTicksPerSecond;
+		TicksPerSecond = static_cast<float>(animation1->mTicksPerSecond);
 	}
 	else
 	{
@@ -96,7 +96,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	float TimeInTicks = time * TicksPerSecond;
 
 	// アニメーション時間をループさせる
-	float AnimationTime = fmod(TimeInTicks, animation1->mDuration);
+	float AnimationTime = static_cast<float>(fmod(TimeInTicks, animation1->mDuration));
 
 	for (std::pair<const std::string, BONE>& pair : m_Bone)
 	{

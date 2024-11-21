@@ -1,7 +1,0 @@
-﻿  character.cpp
-  fbxModelManager.cpp
-  fbxModelRenderer.cpp
-E:\HAL\就職作品\Stinger\renderer\fbxModelRenderer.cpp(90,30): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-E:\HAL\就職作品\Stinger\renderer\fbxModelRenderer.cpp(99,22): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
-  コードを生成中...
-  Stinger.vcxproj -> E:\HAL\就職作品\Stinger\x64\Debug\Stinger.exe
