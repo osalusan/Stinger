@@ -3,11 +3,11 @@
 #include "character/bossEnemy.h"
 #include "manager/fbxModelManager.h"
 
-constexpr float MAX_TIME_ANIMEATTACK = 1.0f;
+constexpr float MAX_TIME_ANIMEATTACK = 3.0f;
 
 void AnimationAttackTask::Init()
 {
-	FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MAWJ_MutantRoaring.fbx","Roaring");
+	FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_MutantRoaring.fbx","Roaring");
 	m_CurrentTime = MAX_TIME_ANIMEATTACK;
 }
 

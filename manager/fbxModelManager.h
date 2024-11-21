@@ -17,7 +17,7 @@ class FbxModelManager final
 private:
 	static std::unordered_map<ANIMETION_MODEL, FbxModelRenderer*> m_LoadModelPool;
 	static std::unordered_map<ANIMETION_MODEL, std::string> m_ReservModelPool;
-	static std::unordered_map<ANIMETION_MODEL, std::string> m_ReservAnimationPool;
+	static std::unordered_map<std::string, ANIMETION_MODEL> m_ReservAnimationPool;
 	static std::unordered_map<std::string, std::string> m_ReservAnimationNamePool;
 
 	static void LoadModel(const ANIMETION_MODEL& model, const std::string& fileName);

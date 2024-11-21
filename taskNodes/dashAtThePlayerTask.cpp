@@ -1,6 +1,7 @@
 #include "dashAtThePlayerTask.h"
 #include "character/player.h"
-#include "character/bossEnemy.h"
+#include "character/mawJLaygo.h"
+#include "manager/fbxModelManager.h"
 
 void DashAtThePlayerTask::Init()
 {
@@ -9,6 +10,11 @@ void DashAtThePlayerTask::Init()
 	{
 		m_Range = 10.0f;
 	}
+	if (MawJLaygo* maw = dynamic_cast<MawJLaygo*>(m_BossCache))
+	{
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_UnarmedWalkForward.fbx", "Running");
+	}
+	
 }
 
 NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
@@ -31,6 +37,8 @@ NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
 	const float& moveSpeed = m_BossCache->GetMoveSpeed() * deltaTime;
 
 	m_BossCache->AddVelocity({ direction.x * moveSpeed ,0.0f,direction.z * moveSpeed });
+
+	m_BossCache->ChangeAnimation("Running");
 
 	return NODE_STATUS::RUNNING;
 }

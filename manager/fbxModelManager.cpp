@@ -3,7 +3,7 @@
 
 std::unordered_map<ANIMETION_MODEL, FbxModelRenderer*> FbxModelManager::m_LoadModelPool = {};
 std::unordered_map<ANIMETION_MODEL, std::string> FbxModelManager::m_ReservModelPool = {};
-std::unordered_map<ANIMETION_MODEL, std::string> FbxModelManager::m_ReservAnimationPool = {};
+std::unordered_map<std::string, ANIMETION_MODEL> FbxModelManager::m_ReservAnimationPool = {};
 std::unordered_map<std::string, std::string> FbxModelManager::m_ReservAnimationNamePool = {};
 
 void FbxModelManager::Init()
@@ -15,9 +15,9 @@ void FbxModelManager::Init()
     }
 
     // アニメーションの読み込み
-    for (const std::pair<const ANIMETION_MODEL, std::string>& reservAnimation : m_ReservAnimationPool)
+    for (const std::pair<const std::string, ANIMETION_MODEL>& reservAnimation : m_ReservAnimationPool)
     {
-        LoadAnimation(reservAnimation.first, reservAnimation.second, m_ReservAnimationNamePool[reservAnimation.second]);
+        LoadAnimation(reservAnimation.second, reservAnimation.first, m_ReservAnimationNamePool[reservAnimation.first]);
     }
 
     m_ReservModelPool.clear();
@@ -50,7 +50,7 @@ void FbxModelManager::ReservModel(const ANIMETION_MODEL& model, const std::strin
 void FbxModelManager::ReservAnimation(const ANIMETION_MODEL& model, const std::string& fileName, const std::string& animationName)
 {
     // アニメーションの予約
-    m_ReservAnimationPool.emplace(model, fileName);
+    m_ReservAnimationPool.emplace(fileName, model);
     m_ReservAnimationNamePool.emplace(fileName, animationName);
 }
 
