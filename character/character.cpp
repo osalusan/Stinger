@@ -3,6 +3,8 @@
 #include "renderer/fbxModelRenderer.h"
 #include "component/collisionComponent.h"
 
+constexpr float DEFAULT_BLEND_VALUE = 10.0f;
+
 // ------------------------- protected -------------------------
 void Character::TakeDamage(const int& atk)
 {
@@ -28,6 +30,7 @@ void Character::ReservModel(const ANIMETION_MODEL& animeModel, const std::string
 Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
+	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
 }
 
 void Character::Update(const float& deltaTime)
@@ -49,10 +52,9 @@ void Character::Update(const float& deltaTime)
 	MoveControl(deltaTime);
 
 	m_AnimationTime += deltaTime;
-	const float& blendTime = 10.0f;
 	if (m_AnimationName != m_NextAnimationName && m_BlendRatio < 1.0f) 
 	{ 
-		m_BlendRatio += deltaTime * blendTime;
+		m_BlendRatio += deltaTime * m_BlendTimeValue;
 	}
 	else if(m_AnimationName != m_NextAnimationName && m_BlendRatio > 1.0f)
 	{
@@ -62,7 +64,7 @@ void Character::Update(const float& deltaTime)
 	}
 	if (m_AnimationName == m_NextAnimationName && m_BlendRatio > 0.0f)
 	{ 
-		m_BlendRatio -= deltaTime * blendTime;
+		m_BlendRatio -= deltaTime * m_BlendTimeValue;
 	}
 	else if (m_AnimationName == m_NextAnimationName && m_BlendRatio < 0.0f)
 	{

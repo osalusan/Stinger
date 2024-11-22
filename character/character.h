@@ -20,10 +20,12 @@ protected:
 	int m_Damage = 0;								// 与えるダメージ
 	bool m_IsDead = false;							// 死んでいる
 
+	// アニメーション用
 	float m_AnimationTime = 0.0f;					// アニメーションのフレーム
-	std::string m_AnimationName = "";			// アニメーションの名前
-	std::string m_NextAnimationName = "";		// ブレンド用、次のアニメーションの名前
+	std::string m_AnimationName = "";				// アニメーションの名前
+	std::string m_NextAnimationName = "";			// ブレンド用、次のアニメーションの名前
 	float m_BlendRatio = 1.0f;						// アニメーションブレンドの数値
+	float m_BlendTimeValue = 0.0f;					// どのくらいブレンドを早く行うか
 
 	virtual void MoveControl(const float& deltaTime) = 0;
 	virtual void CollisionControl() = 0;
