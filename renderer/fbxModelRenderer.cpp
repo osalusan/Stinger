@@ -256,9 +256,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 
 }
 
-void FbxModelRenderer::Update(const char* AnimationName1, float time1,
-	const char* AnimationName2, float time2,
-	float BlendRatio)
+void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio)
 {
 	if (m_Animation.count(AnimationName1) == 0)return;
 	if (m_Animation.count(AnimationName2) == 0)return;
