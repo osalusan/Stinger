@@ -21,10 +21,10 @@ NODE_STATUS SelectorNode::Update(const float& deltaTime)
         if (child == nullptr) continue;
 
         NODE_STATUS status = child->Update(deltaTime);
-        if (status != NODE_STATUS::SUCCESS)
+        if (status != NODE_STATUS::FAILURE)
         {
             return status;
         }
     }
-    return NODE_STATUS::SUCCESS;
+    return NODE_STATUS::FAILURE;
 }

@@ -15,6 +15,8 @@ BossEnemy::~BossEnemy()
 {
 	delete m_Tree;
 	m_Tree = nullptr;
+
+	m_RunningNodeCache = nullptr;
 }
 
 void BossEnemy::Init()
@@ -23,7 +25,7 @@ void BossEnemy::Init()
 
 	if (m_Tree == nullptr)
 	{
-		m_Tree = new BehaviourTree;
+		m_Tree = new BehaviorTree;
 	}
 
 	CreateBehaviourTree();

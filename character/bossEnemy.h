@@ -9,11 +9,12 @@ enum class RANGE
 	LONG
 };
 
-class BehaviourTree;
+class BehaviorTree;
+class BehaviorNode;
 
 class BossEnemy :public Character {
 protected:
-	BehaviourTree* m_Tree = nullptr;
+	BehaviorTree* m_Tree = nullptr;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	float m_MoveSpeed = 0.0f;
@@ -24,6 +25,8 @@ protected:
 
 	// ボスの現在の状態
 	RANGE m_CurrentRange = RANGE::NONE;
+	// 今実行中のノード
+	BehaviorNode* m_RunningNodeCache = nullptr;
 
 	// ビヘイビアツリーを作成
 	virtual void CreateBehaviourTree() = 0;
@@ -47,9 +50,13 @@ public:
 		m_Rotation.y += rot.y;
 		m_Rotation.z += rot.z;
 	}
-	const BehaviourTree* GetBehaviourTree()const
+	const BehaviorTree* GetBehaviourTree()const
 	{
 		return m_Tree;
+	}	
+	BehaviorNode* GetRunningNode()const
+	{
+		return m_RunningNodeCache;
 	}
 
 	// パラメータ系のGet
@@ -78,5 +85,9 @@ public:
 	const RANGE& GetCurrentRange()const
 	{
 		return m_CurrentRange;
+	}
+	void SetRunningNode(BehaviorNode* node)
+	{
+		m_RunningNodeCache = node;
 	}
 };

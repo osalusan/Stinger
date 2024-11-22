@@ -1,13 +1,13 @@
 #pragma once
 #include "behaviorNode.h"
 
-class BehaviourTree
+class BehaviorTree
 {
 protected:
     BehaviorNode* m_Root = nullptr;
 
 public:
-    ~BehaviourTree();
+    ~BehaviorTree();
     // ƒ‹[ƒg‚ğì¬
     void CreateRoot(BehaviorNode* root);
     void Update(const float& deltaTime);

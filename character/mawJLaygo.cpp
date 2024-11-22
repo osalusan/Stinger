@@ -57,13 +57,13 @@ void MawJLaygo::CreateBehaviourTree()
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddChild<CheckRangeTask>(this, player);
+	rootNode->AddTaskChild<CheckRangeTask>(this, player);
 
-	rootNode->AddChild<RollAttackTask>(this, player);
+	rootNode->AddTaskChild<RollAttackTask>(this, player);
 
-	rootNode->AddChild<AnimationAttackTask>(this, player);
+	rootNode->AddTaskChild<AnimationAttackTask>(this, player);
 
-	rootNode->AddChild<DashAtThePlayerTask>(this, player);
+	rootNode->AddTaskChild<DashAtThePlayerTask>(this, player);
 
 	// ˆê”ÔÅŒã‚É
 	m_Tree->CreateRoot(rootNode);

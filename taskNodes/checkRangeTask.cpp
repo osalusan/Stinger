@@ -12,6 +12,11 @@ NODE_STATUS CheckRangeTask::Update(const float& deltaTime)
 	{
 		return NODE_STATUS::FAILURE;
 	}
+	// UŒ‚ŽÀs’†‚Ìˆ×Aó‘Ô‚ðÝ’è‚µ‚È‚¢
+	if (m_BossCache->GetRunningNode() != nullptr)
+	{
+		return NODE_STATUS::FAILURE;
+	}
 
 	const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
 	const XMFLOAT3& bossPos = m_BossCache->GetPos();
@@ -38,5 +43,5 @@ NODE_STATUS CheckRangeTask::Update(const float& deltaTime)
 		m_BossCache->SetCurrentRange(RANGE::NONE);
 	}
 
-	return NODE_STATUS::SUCCESS;
+	return NODE_STATUS::FAILURE;
 }

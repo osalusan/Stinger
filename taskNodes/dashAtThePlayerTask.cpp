@@ -40,5 +40,5 @@ NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
 
 	m_BossCache->ChangeAnimation("Running");
 
-	return NODE_STATUS::RUNNING;
+	return NODE_STATUS::FAILURE;
 }

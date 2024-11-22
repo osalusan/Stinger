@@ -18,21 +18,39 @@ NODE_STATUS AnimationAttackTask::Update(const float& deltaTime)
 		return NODE_STATUS::FAILURE;
 	}
 
-	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_BossCache->GetCurrentRange() == RANGE::MIDDLE && m_CurrentTime >= MAX_TIME_ANIMEATTACK)
+	BehaviorNode* node = m_BossCache->GetRunningNode();
+	if (node != nullptr && node != this)
 	{
-		m_CurrentTime = 0.0f;
+		return NODE_STATUS::FAILURE;
+	}
+
+	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
+	if (m_CurrentTime >= MAX_TIME_ANIMEATTACK && m_BossCache->GetCurrentRange() == RANGE::MIDDLE)
+	{
+		if(node == nullptr)
+		{
+			m_CurrentTime = 0.0f;
+		}
 	}
 
 	if (m_CurrentTime < MAX_TIME_ANIMEATTACK)
 	{
 		m_CurrentTime += deltaTime;
 		m_BossCache->ChangeAnimation("Roaring");
+
+		// UŒ‚ó‘Ô‚ð•Û‘¶
+		m_BossCache->SetRunningNode(this);
+
 		return NODE_STATUS::RUNNING;
 	}
 	else
 	{
-		return NODE_STATUS::SUCCESS;
+		if (node == this)
+		{
+			// UŒ‚ó‘Ô‚ðíœ
+			m_BossCache->SetRunningNode(nullptr);
+			return NODE_STATUS::SUCCESS;
+		}
 	}
 
 	return NODE_STATUS::FAILURE;
