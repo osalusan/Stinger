@@ -49,14 +49,24 @@ void Character::Update(const float& deltaTime)
 	MoveControl(deltaTime);
 
 	m_AnimationTime += deltaTime;
-	const float& blend = 2.0f;
+	const float& blendTime = 10.0f;
 	if (m_AnimationName != m_NextAnimationName && m_BlendRatio < 1.0f) 
 	{ 
-		m_BlendRatio += deltaTime * blend;
+		m_BlendRatio += deltaTime * blendTime;
 	}
-	else if (m_AnimationName != m_NextAnimationName && m_BlendRatio > 0.0f)
+	else if(m_AnimationName != m_NextAnimationName && m_BlendRatio > 1.0f)
+	{
+		m_AnimationName = m_NextAnimationName;
+		m_AnimationTime = 0.0f;
+		m_BlendRatio = 0.0f;
+	}
+	if (m_AnimationName == m_NextAnimationName && m_BlendRatio > 0.0f)
 	{ 
-		m_BlendRatio -= deltaTime * blend;
+		m_BlendRatio -= deltaTime * blendTime;
+	}
+	else if (m_AnimationName == m_NextAnimationName && m_BlendRatio < 0.0f)
+	{
+		m_BlendRatio = 0.0f;
 	}
 
 	m_Velocity.x *= deltaTime;
@@ -92,19 +102,22 @@ void Character::Draw()
 
 	if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
-		model->Update(m_AnimationName.c_str(), m_AnimationTime);
-		model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(),0.0f,m_BlendRatio);
+		if (m_AnimationName == m_NextAnimationName)
+		{
+			model->Update(m_AnimationName.c_str(), m_AnimationTime);
+		}
+		else if(m_AnimationName != m_NextAnimationName)
+		{
+			model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
+		}
+		
 		model->Draw();
 	}
 }
 
 void Character::ChangeAnimation(const std::string& anime)
 {
-	if (m_AnimationName != anime)
-	{
-		m_AnimationName = anime;
-		m_AnimationTime = 0.0f;
-	}
+	m_NextAnimationName = anime;
 }
 
 

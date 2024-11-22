@@ -21,8 +21,8 @@ protected:
 	bool m_IsDead = false;							// 死んでいる
 
 	float m_AnimationTime = 0.0f;					// アニメーションのフレーム
-	std::string m_AnimationName = "Idle";			// アニメーションの名前
-	std::string m_NextAnimationName = "Idle";		// ブレンド用、次のアニメーションの名前
+	std::string m_AnimationName = "";			// アニメーションの名前
+	std::string m_NextAnimationName = "";		// ブレンド用、次のアニメーションの名前
 	float m_BlendRatio = 1.0f;						// アニメーションブレンドの数値
 
 	virtual void MoveControl(const float& deltaTime) = 0;

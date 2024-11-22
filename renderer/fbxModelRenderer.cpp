@@ -295,7 +295,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, co
 	{
 		TicksPerSecond2 = 25.0f; // デフォルトのティックレート
 	}
-	float TimeInTicks2 = time1 * TicksPerSecond2;
+	float TimeInTicks2 = time2 * TicksPerSecond2;
 
 	// アニメーション時間をループさせる
 	float AnimationTime2 = static_cast<float>(fmod(TimeInTicks2, animation2->mDuration));
