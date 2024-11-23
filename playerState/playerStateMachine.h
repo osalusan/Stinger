@@ -50,7 +50,6 @@ public:
 	void Init();
 	void Uninit();
 	void Update(const float& deltaTime);
-	void Draw();
 
 	void SetPlayerState(const PLAYER_STATE& state);
 	void InitVelocity();

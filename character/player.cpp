@@ -49,15 +49,6 @@ void Player::Uninit()
 	Character::Uninit();
 }
 
-void Player::Draw()
-{
-	Character::Draw();
-	if (m_PlayerStateMachine != nullptr)
-	{
-		m_PlayerStateMachine->Draw();
-	}
-}
-
 // ------------------------------- private -------------------------------
 void Player::MoveControl(const float& deltaTime)
 {
