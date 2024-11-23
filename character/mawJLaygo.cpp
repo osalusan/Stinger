@@ -19,6 +19,9 @@ constexpr float SHORT_RANGE_MAWJ = 30.0f;
 constexpr float MIDDLE_RANGE_MAWJ = 70.0f;
 constexpr float LONG_RANGE_MAWJ = 100.0f;
 
+// ブレンド速度
+constexpr float DEFAULT_BLEND_VALUE_MAWJ = 4.0f;
+
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
 {
@@ -38,6 +41,11 @@ void MawJLaygo::CollisionControl()
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
 	}
+}
+
+void MawJLaygo::AnimationControl()
+{
+	// 純粋仮想関数の為空実装
 }
 
 void MawJLaygo::CreateBehaviourTree()
@@ -97,6 +105,7 @@ void MawJLaygo::Init()
 	m_ShortRange = SHORT_RANGE_MAWJ;
 	m_MiddleRange = MIDDLE_RANGE_MAWJ;
 	m_LongRange = LONG_RANGE_MAWJ;
+	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
 
 	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
 }

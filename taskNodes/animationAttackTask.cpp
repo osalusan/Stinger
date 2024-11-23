@@ -2,12 +2,16 @@
 #include "character/player.h"
 #include "character/bossEnemy.h"
 #include "manager/fbxModelManager.h"
+#include "character/mawJLaygo.h"
 
 constexpr float MAX_TIME_ANIMEATTACK = 3.0f;
 
 void AnimationAttackTask::Init()
 {
-	FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_MutantRoaring.fbx","Roaring");
+	if (MawJLaygo* maw = dynamic_cast<MawJLaygo*>(m_BossCache))
+	{
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_MutantRoaring60.fbx","Roaring");
+	}
 	m_CurrentTime = MAX_TIME_ANIMEATTACK;
 }
 

@@ -1,8 +1,11 @@
 #include "playerStateIdle.h"
 #include "playerStateMachine.h"
 
+constexpr const char* IDLE_PLAYER = "IdlePlayer";
+
 void PlayerStateIdle::Init()
 {
+	LoadAnimation("asset\\model\\Akai_Idle.fbx", IDLE_PLAYER);
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
@@ -20,6 +23,8 @@ void PlayerStateIdle::Update(const float& deltaTime)
 	{
 		m_PlayerMachine->InitVelocity();
 	}
+
+	m_PlayerMachine->SetAnimation(IDLE_PLAYER);
 }
 
 void PlayerStateIdle::ChangeStateControl()
@@ -36,6 +41,4 @@ void PlayerStateIdle::ChangeStateControl()
 	{// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
 		ChangePlayerState(PLAYER_STATE::RUN);
 	}
-
-
 }

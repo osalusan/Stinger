@@ -100,7 +100,6 @@ void PlayerStateMachine::Update(const float& deltaTime)
 		m_CurrentPlayerState->ChangeStateControl();
 	}
 
-
 	// ÅŒã‚ÉƒŠƒZƒbƒg
 	m_IsGround = false;
 }

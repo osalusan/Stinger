@@ -3,7 +3,7 @@
 #include "renderer/fbxModelRenderer.h"
 #include "component/collisionComponent.h"
 
-constexpr float DEFAULT_BLEND_VALUE = 10.0f;
+constexpr float DEFAULT_BLEND_VALUE = 8.0f;
 
 // ------------------------- protected -------------------------
 void Character::TakeDamage(const int& atk)
@@ -50,7 +50,10 @@ void Character::Update(const float& deltaTime)
 	}
 	// 移動処理
 	MoveControl(deltaTime);
+	// アニメーション制御
+	AnimationControl();
 
+	// アニメーションのブレンド制御
 	m_AnimationTime += deltaTime;
 	if (m_AnimationName != m_NextAnimationName && m_BlendRatio < 1.0f) 
 	{ 
@@ -71,6 +74,7 @@ void Character::Update(const float& deltaTime)
 		m_BlendRatio = 0.0f;
 	}
 
+	// 速度制御
 	m_Velocity.x *= deltaTime;
 	m_Velocity.y *= deltaTime;
 	m_Velocity.z *= deltaTime;
@@ -116,12 +120,3 @@ void Character::Draw()
 		model->Draw();
 	}
 }
-
-void Character::ChangeAnimation(const std::string& anime)
-{
-	m_NextAnimationName = anime;
-}
-
-
-
-

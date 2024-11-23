@@ -8,6 +8,9 @@ class PlayerState
 protected:
 	PlayerStateMachine* m_PlayerMachine = nullptr;
 
+	bool m_LoadAnimation = false;
+
+	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 public:
 	virtual ~PlayerState();
 	PlayerState(PlayerStateMachine* machine);

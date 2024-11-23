@@ -105,7 +105,7 @@ void Player::CollisionControl()
 		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
 		XMStoreFloat3(&m_Position, playerVectorPos);
 
-		// 既に押し出しているからポジションは補正しなくていい
+		// 既に押し出しているから地面の高さで補正しなくていい
 		if (mtv.m128_f32[1] > 0.0f)
 		{
 			m_Velocity.y = 0.0f;
@@ -123,5 +123,13 @@ void Player::CollisionControl()
 		// 地面に触れているかどうかを伝える
 		m_PlayerStateMachine->HitGround();
 		
+	}
+}
+
+void Player::AnimationControl()
+{
+	if (m_PlayerStateMachine != nullptr)
+	{
+		ChangeAnimation(m_PlayerStateMachine->GetAnimation());
 	}
 }

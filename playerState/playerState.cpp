@@ -1,4 +1,14 @@
 #include "playerState.h"
+#include "manager/fbxModelManager.h"
+
+void PlayerState::LoadAnimation(const std::string& fileName, const std::string& animationName)
+{
+	if (!m_LoadAnimation)
+	{
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, fileName, animationName);
+		m_LoadAnimation = true;
+	}
+}
 
 PlayerState::~PlayerState()
 {

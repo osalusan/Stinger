@@ -28,6 +28,10 @@ protected:
 	// 今実行中のノード
 	BehaviorNode* m_RunningNodeCache = nullptr;
 
+
+	virtual void CollisionControl()override = 0;
+	virtual void CustomCollisionInfo()override = 0;
+	virtual void AnimationControl()override = 0;
 	// ビヘイビアツリーを作成
 	virtual void CreateBehaviourTree() = 0;
 

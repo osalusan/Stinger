@@ -1,6 +1,7 @@
 #pragma once
 #include "main/main.h"
 #include <unordered_map>
+#include <string>
 
 enum class PLAYER_STATE
 {
@@ -39,8 +40,10 @@ private:
 
 	XMFLOAT3 m_Velocity = {};
 
-	bool m_IsGround = false;					// 地面に触れているか
-	bool m_IsJamp = false;						// ジャンプしたか
+	bool m_IsGround = false;						// 地面に触れているか
+	bool m_IsJamp = false;							// ジャンプしたか
+
+	std::string m_NextAnimationName = "";			// アニメーションの名前
 
 public:
 	~PlayerStateMachine();
@@ -54,7 +57,7 @@ public:
 
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
-	void HitGround();		// 地面に当たった
+	void HitGround();					// 地面に当たった
 
 	const XMFLOAT3& GetVelocity()const
 	{
@@ -77,7 +80,16 @@ public:
 	{
 		return m_IsGround;
 	}
+	const std::string& GetAnimation()const
+	{
+		return m_NextAnimationName;
+	}
 
+
+	void SetAnimation(const std::string& anime)
+	{
+		m_NextAnimationName = anime;
+	}
 	void SetVelocityX(const float& x)
 	{
 		m_Velocity.x = x;

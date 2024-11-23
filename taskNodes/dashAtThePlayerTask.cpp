@@ -12,7 +12,7 @@ void DashAtThePlayerTask::Init()
 	}
 	if (MawJLaygo* maw = dynamic_cast<MawJLaygo*>(m_BossCache))
 	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_UnarmedWalkForward.fbx", "Running");
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_UnarmedWalkForward60.fbx", "Running");
 	}
 	
 }

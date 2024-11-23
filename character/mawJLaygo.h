@@ -16,8 +16,9 @@ private:
 
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
+	virtual void AnimationControl()override;
 
-	virtual void CreateBehaviourTree()override final;
+	virtual void CreateBehaviourTree()override;
 public:
 	MawJLaygo() = delete;
 	MawJLaygo(const XMFLOAT3& pos);

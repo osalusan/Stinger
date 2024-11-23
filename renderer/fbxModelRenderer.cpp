@@ -274,7 +274,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, co
 	}
 	else
 	{
-		TicksPerSecond1 = 25.0f; // デフォルトのティックレート
+		TicksPerSecond1 = 60.0f; // デフォルトのレート
 	}
 	float TimeInTicks1 = time1 * TicksPerSecond1;
 
@@ -293,7 +293,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, co
 	}
 	else
 	{
-		TicksPerSecond2 = 25.0f; // デフォルトのティックレート
+		TicksPerSecond2 = 60.0f; // デフォルトのレート
 	}
 	float TimeInTicks2 = time2 * TicksPerSecond2;
 
