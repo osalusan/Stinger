@@ -8,8 +8,8 @@ struct VERTEX_3D
 	XMFLOAT4 Diffuse = {};
 	XMFLOAT2 TexCoord = {};
 
-	UINT     BoneIndices[4] = { 0 };	 // ボーンインデックス
-	float    BoneWeights[4] = { 0.0f };  // ボーンウェイト
+	UINT BoneIndices[4]; // ボーンインデックス
+	float BoneWeights[4]; // ボーンウェイト
 };
 
 struct MATERIAL

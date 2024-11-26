@@ -447,11 +447,12 @@ void FbxModelRenderer::Load(const char* FileName)
 	m_IndexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 
 
-	//変形後頂点配列生成
-	m_DeformVertex = new std::vector<DEFORM_VERTEX>[m_AiScene->mNumMeshes];
+	// ボーン名とインデックスのマップを作成
+	std::map<std::string, UINT> boneIndexMap;
+	UINT boneCount = 0;
 
-	CreateBone(m_AiScene->mRootNode);
-
+	// ボーンの作成とインデックスの割り当て
+	CreateBone(m_AiScene->mRootNode, boneIndexMap, boneCount);
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
@@ -461,27 +462,92 @@ void FbxModelRenderer::Load(const char* FileName)
 		{
 			VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
 
+			// 頂点データの初期化
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
 				vertex[v].Position = XMFLOAT3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
 				vertex[v].Normal = XMFLOAT3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
 				vertex[v].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
 				vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				vertex[v].Tangent = XMFLOAT3(0.0f, 0.0f, 0.0f); // 必要に応じて計算
+
+				// ボーンインデックスとウェイトの初期化
+				for (int i = 0; i < 4; i++)
+				{
+					vertex[v].BoneIndices[i] = 0;
+					vertex[v].BoneWeights[i] = 0.0f;
+				}
 			}
 
-			D3D11_BUFFER_DESC bd;
-			ZeroMemory(&bd, sizeof(bd));
-			bd.Usage = D3D11_USAGE_DYNAMIC;
+			// ボーンデータの設定
+			for (unsigned int b = 0; b < mesh->mNumBones; b++)
+			{
+				aiBone* bone = mesh->mBones[b];
+				std::string boneName(bone->mName.C_Str());
+
+				// ボーンインデックスの取得
+				UINT boneIndex = 0;
+				auto it = boneIndexMap.find(boneName);
+				if (it != boneIndexMap.end())
+				{
+					boneIndex = it->second;
+				}
+				else
+				{
+					boneIndex = boneCount++;
+					boneIndexMap[boneName] = boneIndex;
+				}
+
+				// オフセットマトリクスの設定
+				m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
+
+				// ウェイトを持つ頂点にボーン情報を設定
+				for (unsigned int w = 0; w < bone->mNumWeights; w++)
+				{
+					aiVertexWeight weight = bone->mWeights[w];
+					UINT vertexId = weight.mVertexId;
+					float boneWeight = weight.mWeight;
+
+					VERTEX_3D& v = vertex[vertexId];
+
+					// 空いているスロットにボーン情報を設定
+					for (int i = 0; i < 4; i++)
+					{
+						if (v.BoneWeights[i] == 0.0f)
+						{
+							v.BoneIndices[i] = boneIndex;
+							v.BoneWeights[i] = boneWeight;
+							break;
+						}
+					}
+				}
+			}
+
+			// ボーンウェイトの正規化
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+			{
+				VERTEX_3D& vert = vertex[v];
+				float totalWeight = vert.BoneWeights[0] + vert.BoneWeights[1] + vert.BoneWeights[2] + vert.BoneWeights[3];
+				if (totalWeight > 0.0f)
+				{
+					for (int i = 0; i < 4; i++)
+					{
+						vert.BoneWeights[i] /= totalWeight;
+					}
+				}
+			}
+
+			// 頂点バッファの作成
+			D3D11_BUFFER_DESC bd = {};
+			bd.Usage = D3D11_USAGE_DEFAULT;
 			bd.ByteWidth = sizeof(VERTEX_3D) * mesh->mNumVertices;
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			bd.CPUAccessFlags = 0;
 
-			D3D11_SUBRESOURCE_DATA sd;
-			ZeroMemory(&sd, sizeof(sd));
+			D3D11_SUBRESOURCE_DATA sd = {};
 			sd.pSysMem = vertex;
 
-			Renderer::GetDevice()->CreateBuffer(&bd, &sd,
-				&m_VertexBuffer[m]);
+			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer[m]);
 
 			delete[] vertex;
 		}
@@ -613,9 +679,6 @@ void FbxModelRenderer::Load(const char* FileName)
 
 		m_Texture[aitexture->mFilename.data] = texture;
 	}
-
-	// スキニングに使用するシェーダーを選択
-	//Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\skinningVS.cso");
 }
 
 

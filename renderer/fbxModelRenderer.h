@@ -2,6 +2,7 @@
 
 #include "renderer/renderer.h"
 #include <unordered_map>
+#include <map>
 
 #include "assimp/cimport.h"
 #include "assimp/scene.h"
@@ -51,6 +52,7 @@ private:
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
 	// GPUスキニング用
+	std::unordered_map<std::string, UINT> m_BoneNameToIndexMap;
 	std::vector<DEFORM_VERTEX>* m_DeformVertex = {};						//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 
