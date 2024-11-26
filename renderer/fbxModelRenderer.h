@@ -52,8 +52,6 @@ private:
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
 	// GPUスキニング用
-	std::map<std::string, UINT> m_BoneNameToIndexMap;
-	UINT m_BoneCount = 0;
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 
 	XMFLOAT3 m_Center = {};

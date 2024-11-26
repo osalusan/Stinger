@@ -156,6 +156,11 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 			}
 			pos1 = nodeAnim1->mPositionKeys[f].mValue;
 		}
+		else
+		{
+			rot1 = aiQuaternion();
+			pos1 = aiVector3D(0.0f, 0.0f, 0.0f); 
+		}
 
 		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot1, pos1);
 	}
@@ -164,18 +169,12 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
-	std::vector<XMFLOAT4X4> boneMatrices(m_BoneCount);
-
-	for (const auto& bone : m_BoneNameToIndexMap)
+	std::vector<XMFLOAT4X4> boneMatrices;
+	for (const auto& bone : m_Bone) 
 	{
-		const std::string& boneName = bone.first;
-		UINT boneIndex = bone.second;
-
-		aiMatrix4x4& aiMat = m_Bone[boneName].Matrix;
-
-		// 行列を転置して格納
-		XMMATRIX mat = XMMatrixTranspose(XMLoadFloat4x4(reinterpret_cast<XMFLOAT4X4*>(&aiMat)));
-		XMStoreFloat4x4(&boneMatrices[boneIndex], mat);
+		XMFLOAT4X4 matrix;
+		XMStoreFloat4x4(&matrix, XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&bone.second.Matrix)));
+		boneMatrices.emplace_back(matrix);
 	}
 
 	Renderer::SetBoneMatrix(boneMatrices);
@@ -461,8 +460,13 @@ void FbxModelRenderer::Load(const char* FileName)
 	m_VertexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 	m_IndexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 
+
+	// ボーン名とインデックスのマップを作成
+	std::map<std::string, UINT> boneNameIndex;
+	UINT boneCount = 0;
+
 	// ボーンの作成とインデックスの割り当て
-	CreateBone(m_AiScene->mRootNode, m_BoneNameToIndexMap, m_BoneCount);
+	CreateBone(m_AiScene->mRootNode, boneNameIndex, boneCount);
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
@@ -496,15 +500,15 @@ void FbxModelRenderer::Load(const char* FileName)
 
 				// ボーンインデックスの取得
 				UINT boneIndex = 0;
-				auto it = m_BoneNameToIndexMap.find(boneName);
-				if (it != m_BoneNameToIndexMap.end())
+				auto it = boneNameIndex.find(boneName);
+				if (it != boneNameIndex.end())
 				{
 					boneIndex = it->second;
 				}
 				else
 				{
-					boneIndex = m_BoneCount++;
-					m_BoneNameToIndexMap[boneName] = boneIndex;
+					boneIndex = boneCount++;
+					boneNameIndex[boneName] = boneIndex;
 				}
 
 				// オフセットマトリクスの設定
