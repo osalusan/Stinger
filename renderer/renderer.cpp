@@ -1,5 +1,6 @@
 #include "renderer.h"
 #include <io.h>
+#include "fbxModelRenderer.h"
 
 
 D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -15,6 +16,7 @@ ID3D11Buffer*			Renderer::m_ViewBuffer{};
 ID3D11Buffer*			Renderer::m_ProjectionBuffer{};
 ID3D11Buffer*			Renderer::m_MaterialBuffer{};
 ID3D11Buffer*			Renderer::m_LightBuffer{};
+ID3D11Buffer*			Renderer::m_BoneBuffer{};
 
 
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
@@ -227,8 +229,16 @@ void Renderer::Init()
 	m_DeviceContext->VSSetConstantBuffers( 4, 1, &m_LightBuffer );
 	m_DeviceContext->PSSetConstantBuffers( 4, 1, &m_LightBuffer );
 
+	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bufferDesc.ByteWidth = sizeof(XMFLOAT4X4) * BONES_MAX;
+	bufferDesc.StructureByteStride = 0;
+	bufferDesc.MiscFlags = 0;
 
-
+	m_Device->CreateBuffer(&bufferDesc, NULL, &m_BoneBuffer);
+	m_DeviceContext->VSSetConstantBuffers(7, 1, &m_BoneBuffer);
+	m_DeviceContext->PSSetConstantBuffers(7, 1, &m_BoneBuffer);
 
 
 	// ライト初期化
@@ -257,6 +267,7 @@ void Renderer::Init()
 void Renderer::Uninit()
 {
 	// TODO :nullチェック
+	m_BoneBuffer->Release();
 	m_WireframeRasterState->Release();
 	m_WorldBuffer->Release();
 	m_ViewBuffer->Release();
@@ -359,6 +370,16 @@ void Renderer::SetProjectionMatrix(const XMMATRIX& ProjectionMatrix)
 
 }
 
+void Renderer::SetBoneMatrix(const std::vector<XMFLOAT4X4>& Matrix)
+{
+	// サイズオーバー
+	if (Matrix.size() > BONES_MAX)return;
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	Renderer::GetDeviceContext()->Map(m_BoneBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy(mappedResource.pData, Matrix.data(), sizeof(XMFLOAT4X4) * Matrix.size());
+	Renderer::GetDeviceContext()->Unmap(m_BoneBuffer, 0);
+
+}
 
 
 void Renderer::SetMaterial(const MATERIAL& Material )
@@ -409,7 +430,9 @@ void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11Inpu
 		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 6, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 4 * 10, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BLENDINDICES",0, DXGI_FORMAT_R32G32B32A32_UINT,  0, offsetof(VERTEX_3D, BoneIndices), D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, offsetof(VERTEX_3D, BoneWeights), D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	UINT numElements = ARRAYSIZE(layout);
 

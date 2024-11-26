@@ -1,5 +1,8 @@
 //このファイルは他のシェーダーファイルへインクルードされます
 // 各種マトリクスやベクトルを受け取る変数を用意
+
+#define BONES_MAX 256
+
 cbuffer WorldBuffer : register(b0) //定数バッファ 0 番
 {
     matrix World;
@@ -29,27 +32,6 @@ cbuffer MaterialBuffer : register(b3)
     MATERIAL Material;
 }
 
-//頂点シェーダーへ入力されるデータを構造体の形で表現
-//これは頂点バッファの内容そのもの
-struct VS_IN
-{
-    float4 Position : POSITION0; //セマンティクスは頂点レイアウトに合わせる
-    float4 Normal : NORMAL0;
-    float4 Diffuse : COLOR0;
-    float2 TexCoord : TEXCOORD0;
-    float4 Tangent : TANGENT;
-}; //表示するポリゴンのレイアウトと同じ
-//ピクセルシェーダーへ入力されるデータを構造体の形で表現
-struct PS_IN
-{
-    float4 Position : SV_POSITION;
-    float4 WorldPosition : POSITION0;
-    float4 Normal : NORMAL0;
-    float4 Diffuse : COLOR0;
-    float2 TexCoord : TEXCOORD0;
-    float4 Tangent : TANGENT0;
-    float4 Binormal : BINORMAL0;
-};
 //ライト構造体の定義　C言語側のLIGHT構造体と同じ内容
 struct LIGHT
 {
@@ -66,6 +48,7 @@ struct LIGHT
     float4 PointLightParam;
     float4 Angle; //スポットライトのコーン
 };
+
 cbuffer LightBuffer : register(b4) //コンスタントバッファ４番で受け取る
 {
     LIGHT Light; //ライト型構造体として利用する
@@ -83,3 +66,47 @@ cbuffer ParameterBuffer : register(b6)
 {
     float4 Parameter; //C言語側から受け取る
 }
+
+// 定数バッファにボーンマトリクスを格納
+cbuffer BoneMatrices : register(b7)
+{
+    float4x4 gBoneMatrices[BONES_MAX]; // MAX_BONESはボーンの最大数
+};
+
+
+
+//頂点シェーダーへ入力されるデータを構造体の形で表現
+//これは頂点バッファの内容そのもの
+struct VS_IN
+{
+    float4 Position : POSITION0; //セマンティクスは頂点レイアウトに合わせる
+    float4 Normal : NORMAL0;
+    float4 Diffuse : COLOR0;
+    float2 TexCoord : TEXCOORD0;
+    float4 Tangent : TANGENT0;
+    
+    uint4 BoneIndices : BLENDINDICES; // ボーンインデックス
+    float4 BoneWeights : BLENDWEIGHT; // ボーンウェイト
+}; //表示するポリゴンのレイアウトと同じ
+
+// 頂点出力構造体
+struct VS_OUTPUT
+{
+    float4 Position : SV_POSITION;
+    float3 Normal : NORMAL;
+    float2 TexCoord : TEXCOORD0;
+    float4 Diffuse : COLOR0;
+};
+
+//ピクセルシェーダーへ入力されるデータを構造体の形で表現
+struct PS_IN
+{
+    float4 Position : SV_POSITION;
+    float4 WorldPosition : POSITION0;
+    float4 Normal : NORMAL0;
+    float4 Diffuse : COLOR0;
+    float2 TexCoord : TEXCOORD0;
+    float4 Tangent : TANGENT0;
+    float4 Binormal : BINORMAL0;
+};
+

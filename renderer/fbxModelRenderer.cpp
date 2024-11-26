@@ -4,8 +4,7 @@
 void FbxModelRenderer::Draw()
 {
 	// プリミティブトポロジ設定
-	Renderer::GetDeviceContext()->IASetPrimitiveTopology(
-		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// マテリアル設定
 	MATERIAL material;
@@ -14,6 +13,7 @@ void FbxModelRenderer::Draw()
 	material.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	material.TextureEnable = true;
 	Renderer::SetMaterial(material);
+
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
@@ -91,7 +91,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	}
 	else
 	{
-		TicksPerSecond = 25.0f; // デフォルトのティックレート
+		TicksPerSecond = 60.0f; // デフォルトのティックレート
 	}
 	float TimeInTicks = time * TicksPerSecond;
 
@@ -155,105 +155,15 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
-	//頂点変換(CPUスキニング)
-	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+	std::vector<XMFLOAT4X4> boneMatrices;
+	for (const auto& bone : m_Bone) 
 	{
-		aiMesh* mesh = m_AiScene->mMeshes[m];
-
-		D3D11_MAPPED_SUBRESOURCE ms;
-		Renderer::GetDeviceContext()->Map(m_VertexBuffer[m], 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
-
-		VERTEX_3D* vertex = (VERTEX_3D*)ms.pData;
-
-		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
-		{
-			DEFORM_VERTEX* deformVertex = &m_DeformVertex[m][v];
-
-			aiMatrix4x4 matrix[4];
-			aiMatrix4x4 outMatrix;
-			matrix[0] = m_Bone[deformVertex->BoneName[0]].Matrix;
-			matrix[1] = m_Bone[deformVertex->BoneName[1]].Matrix;
-			matrix[2] = m_Bone[deformVertex->BoneName[2]].Matrix;
-			matrix[3] = m_Bone[deformVertex->BoneName[3]].Matrix;
-
-			{
-				//ウェイトを考慮してマトリクス算出
-				outMatrix = matrix[0] * deformVertex->BoneWeight[0]
-					+ matrix[1] * deformVertex->BoneWeight[1]
-					+ matrix[2] * deformVertex->BoneWeight[2]
-					+ matrix[3] * deformVertex->BoneWeight[3];
-
-
-				outMatrix.a1 = matrix[0].a1 * deformVertex->BoneWeight[0]
-					+ matrix[1].a1 * deformVertex->BoneWeight[1]
-					+ matrix[2].a1 * deformVertex->BoneWeight[2]
-					+ matrix[3].a1 * deformVertex->BoneWeight[3];
-
-				outMatrix.a2 = matrix[0].a2 * deformVertex->BoneWeight[0]
-					+ matrix[1].a2 * deformVertex->BoneWeight[1]
-					+ matrix[2].a2 * deformVertex->BoneWeight[2]
-					+ matrix[3].a2 * deformVertex->BoneWeight[3];
-
-				outMatrix.a3 = matrix[0].a3 * deformVertex->BoneWeight[0]
-					+ matrix[1].a3 * deformVertex->BoneWeight[1]
-					+ matrix[2].a3 * deformVertex->BoneWeight[2]
-					+ matrix[3].a3 * deformVertex->BoneWeight[3];
-
-				outMatrix.a4 = matrix[0].a4 * deformVertex->BoneWeight[0]
-					+ matrix[1].a4 * deformVertex->BoneWeight[1]
-					+ matrix[2].a4 * deformVertex->BoneWeight[2]
-					+ matrix[3].a4 * deformVertex->BoneWeight[3];
-
-
-				outMatrix.d1 = matrix[0].d1 * deformVertex->BoneWeight[0]
-					+ matrix[1].d1 * deformVertex->BoneWeight[1]
-					+ matrix[2].d1 * deformVertex->BoneWeight[2]
-					+ matrix[3].d1 * deformVertex->BoneWeight[3];
-
-				outMatrix.d2 = matrix[0].d2 * deformVertex->BoneWeight[0]
-					+ matrix[1].d2 * deformVertex->BoneWeight[1]
-					+ matrix[2].d2 * deformVertex->BoneWeight[2]
-					+ matrix[3].d2 * deformVertex->BoneWeight[3];
-
-				outMatrix.d3 = matrix[0].d3 * deformVertex->BoneWeight[0]
-					+ matrix[1].d3 * deformVertex->BoneWeight[1]
-					+ matrix[2].d3 * deformVertex->BoneWeight[2]
-					+ matrix[3].d3 * deformVertex->BoneWeight[3];
-
-				outMatrix.d4 = matrix[0].d4 * deformVertex->BoneWeight[0]
-					+ matrix[1].d4 * deformVertex->BoneWeight[1]
-					+ matrix[2].d4 * deformVertex->BoneWeight[2]
-					+ matrix[3].d4 * deformVertex->BoneWeight[3];
-			}
-
-			deformVertex->Position = mesh->mVertices[v];
-			deformVertex->Position *= outMatrix;
-
-			//法線変換用に移動成分を削除
-			outMatrix.a4 = 0.0f;
-			outMatrix.b4 = 0.0f;
-			outMatrix.c4 = 0.0f;
-
-			deformVertex->Normal = mesh->mNormals[v];
-			deformVertex->Normal *= outMatrix;
-
-			//頂点バッファへ書き込み
-			vertex[v].Position.x = deformVertex->Position.x;
-			vertex[v].Position.y = deformVertex->Position.y;
-			vertex[v].Position.z = deformVertex->Position.z;
-
-			vertex[v].Normal.x = deformVertex->Normal.x;
-			vertex[v].Normal.y = deformVertex->Normal.y;
-			vertex[v].Normal.z = deformVertex->Normal.z;
-
-			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
-			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
-
-			vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		}
-		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
+		XMFLOAT4X4 matrix;
+		XMStoreFloat4x4(&matrix, XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&bone.second.Matrix)));
+		boneMatrices.emplace_back(matrix);
 	}
 
+	Renderer::SetBoneMatrix(boneMatrices);
 }
 
 void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio)
@@ -703,6 +613,9 @@ void FbxModelRenderer::Load(const char* FileName)
 
 		m_Texture[aitexture->mFilename.data] = texture;
 	}
+
+	// スキニングに使用するシェーダーを選択
+	//Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\skinningVS.cso");
 }
 
 

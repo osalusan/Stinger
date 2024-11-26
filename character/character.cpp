@@ -31,6 +31,7 @@ Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
+	LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }
 
 void Character::Update(const float& deltaTime)
@@ -114,7 +115,7 @@ void Character::Draw()
 		}
 		else if(m_AnimationName != m_NextAnimationName)
 		{
-			model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
+			//model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
 		}
 		
 		model->Draw();
