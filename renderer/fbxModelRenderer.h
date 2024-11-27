@@ -19,8 +19,8 @@ struct DEFORM_VERTEX
 	aiVector3D Position = { 0.0f,0.0f,0.0f };
 	aiVector3D Normal = { 0.0f,0.0f,0.0f };
 	int				BoneNum = 0;
-	std::string		BoneName[4] = { "" };			//本来はボーンインデックスで管理するべき
-	float			BoneWeight[4] = { 0 };
+	int				BoneIndex[4] = { 0 };
+	float			BoneWeight[4] = { 0.0f };
 };
 
 //ボーン構造体
@@ -51,7 +51,8 @@ private:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
-	// GPUスキニング用
+	// スキニング用
+	std::vector<DEFORM_VERTEX>* m_DeformVertex = {};						//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 
 	XMFLOAT3 m_Center = {};
@@ -64,7 +65,7 @@ public:
 
 	void LoadAnimation(const char* FileName, const char* Name);
 	void Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio);
-	void CreateBone(aiNode* node, std::map<std::string, UINT>& boneIndexMap, UINT& boneCount);
+	void CreateBone(aiNode* node);
 	void Update(const char* AnimationName1,const float& time);
 	void UpdateBoneMatrix(aiNode* node,aiMatrix4x4 matrix);
 

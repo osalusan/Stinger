@@ -1,5 +1,6 @@
 #include "main/main.h"
 #include "renderer/fbxModelRenderer.h"
+#include <map>
 
 void FbxModelRenderer::Draw()
 {
@@ -63,24 +64,15 @@ void FbxModelRenderer::LoadAnimation(const char* FileName, const char* Name)
 	assert(m_Animation[Name]);
 }
 
-void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, UINT>& boneIndexMap, UINT& boneCount)
+void FbxModelRenderer::CreateBone(aiNode* node)
 {
-	// ボーン名を取得
-	std::string boneName = node->mName.C_Str();
+	BONE bone;
 
-	// ボーンがまだマップに存在しない場合、インデックスを割り当てる
-	if (boneIndexMap.find(boneName) == boneIndexMap.end())
+	m_Bone[node->mName.C_Str()] = bone;
+
+	for (unsigned int n = 0; n < node->mNumChildren; n++)
 	{
-		boneIndexMap[boneName] = boneCount++;
-	}
-
-	// BONE 構造体を作成または取得
-	BONE& bone = m_Bone[boneName];
-
-	// 子ノードを再帰的に処理
-	for (unsigned int i = 0; i < node->mNumChildren; ++i)
-	{
-		CreateBone(node->mChildren[i], boneIndexMap, boneCount);
+		CreateBone(node->mChildren[n]);
 	}
 }
 
@@ -169,13 +161,20 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
+	// ボーンを反転して格納
 	std::vector<XMFLOAT4X4> boneMatrices;
 	for (const auto& bone : m_Bone) 
 	{
 		XMFLOAT4X4 matrix;
-		XMStoreFloat4x4(&matrix, XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&bone.second.Matrix)));
+
+		matrix.m[0][0] = bone.second.Matrix.a1; matrix.m[0][1] = bone.second.Matrix.a2; matrix.m[0][2] = bone.second.Matrix.a3; matrix.m[0][3] = bone.second.Matrix.a4;
+		matrix.m[1][0] = bone.second.Matrix.b1; matrix.m[1][1] = bone.second.Matrix.b2; matrix.m[1][2] = bone.second.Matrix.b3; matrix.m[1][3] = bone.second.Matrix.b4;
+		matrix.m[2][0] = bone.second.Matrix.c1; matrix.m[2][1] = bone.second.Matrix.c2; matrix.m[2][2] = bone.second.Matrix.c3; matrix.m[2][3] = bone.second.Matrix.c4;
+		matrix.m[3][0] = bone.second.Matrix.d1; matrix.m[3][1] = bone.second.Matrix.d2; matrix.m[3][2] = bone.second.Matrix.d3; matrix.m[3][3] = bone.second.Matrix.d4;
+
 		boneMatrices.emplace_back(matrix);
 	}
+
 
 	Renderer::SetBoneMatrix(boneMatrices);
 }
@@ -460,13 +459,15 @@ void FbxModelRenderer::Load(const char* FileName)
 	m_VertexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 	m_IndexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 
+	std::map<std::string, int> boneIndexMap = {};
+	int boneCount = 0;
 
-	// ボーン名とインデックスのマップを作成
-	std::map<std::string, UINT> boneNameIndex;
-	UINT boneCount = 0;
+	//変形後頂点配列生成
+	m_DeformVertex = new std::vector<DEFORM_VERTEX>[m_AiScene->mNumMeshes];
+	if (m_DeformVertex == nullptr) return;
 
 	// ボーンの作成とインデックスの割り当て
-	CreateBone(m_AiScene->mRootNode, boneNameIndex, boneCount);
+	CreateBone(m_AiScene->mRootNode);
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
@@ -476,7 +477,6 @@ void FbxModelRenderer::Load(const char* FileName)
 		{
 			VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
 
-			// 頂点データの初期化
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
 				vertex[v].Position = XMFLOAT3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
@@ -484,7 +484,6 @@ void FbxModelRenderer::Load(const char* FileName)
 				vertex[v].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
 				vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
-				// ボーンインデックスとウェイトの初期化
 				for (int i = 0; i < 4; i++)
 				{
 					vertex[v].BoneIndices[i] = 0;
@@ -492,77 +491,79 @@ void FbxModelRenderer::Load(const char* FileName)
 				}
 			}
 
-			// ボーンデータの設定
-			for (unsigned int b = 0; b < mesh->mNumBones; b++)
-			{
-				aiBone* bone = mesh->mBones[b];
-				std::string boneName(bone->mName.C_Str());
-
-				// ボーンインデックスの取得
-				UINT boneIndex = 0;
-				auto it = boneNameIndex.find(boneName);
-				if (it != boneNameIndex.end())
-				{
-					boneIndex = it->second;
-				}
-				else
-				{
-					boneIndex = boneCount++;
-					boneNameIndex[boneName] = boneIndex;
-				}
-
-				// オフセットマトリクスの設定
-				m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
-
-				// ウェイトを持つ頂点にボーン情報を設定
-				for (unsigned int w = 0; w < bone->mNumWeights; w++)
-				{
-					aiVertexWeight weight = bone->mWeights[w];
-					UINT vertexId = weight.mVertexId;
-					float boneWeight = weight.mWeight;
-
-					VERTEX_3D& v = vertex[vertexId];
-
-					// 空いているスロットにボーン情報を設定
-					for (int i = 0; i < 4; i++)
-					{
-						if (v.BoneWeights[i] == 0.0f)
-						{
-							v.BoneIndices[i] = boneIndex;
-							v.BoneWeights[i] = boneWeight;
-							break;
-						}
-					}
-				}
-			}
-
-			// ボーンウェイトの正規化
-			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
-			{
-				VERTEX_3D& vert = vertex[v];
-				float totalWeight = vert.BoneWeights[0] + vert.BoneWeights[1] + vert.BoneWeights[2] + vert.BoneWeights[3];
-				if (totalWeight > 0.0f)
-				{
-					for (int i = 0; i < 4; i++)
-					{
-						vert.BoneWeights[i] /= totalWeight;
-					}
-				}
-			}
-
-			// 頂点バッファの作成
-			D3D11_BUFFER_DESC bd = {};
-			bd.Usage = D3D11_USAGE_DEFAULT;
+			D3D11_BUFFER_DESC bd;
+			ZeroMemory(&bd, sizeof(bd));
+			bd.Usage = D3D11_USAGE_DYNAMIC;
 			bd.ByteWidth = sizeof(VERTEX_3D) * mesh->mNumVertices;
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = 0;
+			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-			D3D11_SUBRESOURCE_DATA sd = {};
+			D3D11_SUBRESOURCE_DATA sd;
+			ZeroMemory(&sd, sizeof(sd));
 			sd.pSysMem = vertex;
 
-			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer[m]);
+			Renderer::GetDevice()->CreateBuffer(&bd, &sd,
+				&m_VertexBuffer[m]);
 
 			delete[] vertex;
+		}
+
+		for (unsigned int b = 0; b < mesh->mNumBones; b++)
+		{
+			aiBone* bone = mesh->mBones[b];
+			std::string boneName(bone->mName.C_Str());
+
+			// ボーンインデックスの取得
+			int boneIndex = 0;
+			auto it = boneIndexMap.find(boneName);
+			if (it != boneIndexMap.end())
+			{
+				boneIndex = it->second;
+			}
+			else
+			{
+				boneIndex = boneCount++;
+				boneIndexMap[boneName] = boneIndex;
+			}
+
+			//変形後頂点データ初期化
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+			{
+				DEFORM_VERTEX deformVertex;
+				deformVertex.Position = mesh->mVertices[v];
+				deformVertex.Normal = mesh->mNormals[v];
+				deformVertex.BoneNum = 0;
+
+				for (unsigned int b = 0; b < 4; b++)
+				{
+					deformVertex.BoneIndex[b] = 0;
+					deformVertex.BoneWeight[b] = 0.0f;
+				}
+
+				m_DeformVertex[m].emplace_back(deformVertex);
+			}
+		}
+
+		//ボーンデータ初期化
+		for (unsigned int b = 0; b < mesh->mNumBones; b++)
+		{
+			aiBone* bone = mesh->mBones[b];
+
+			m_Bone[bone->mName.C_Str()].OffsetMatrix = bone->mOffsetMatrix;
+
+			//変形後頂点にボーンデータ格納
+			for (unsigned int w = 0; w < bone->mNumWeights; w++)
+			{
+				aiVertexWeight weight = bone->mWeights[w];
+
+				int num = m_DeformVertex[m][weight.mVertexId].BoneNum;
+
+				m_DeformVertex[m][weight.mVertexId].BoneWeight[num] = weight.mWeight;
+				m_DeformVertex[m][weight.mVertexId].BoneIndex[num] = boneIndexMap[bone->mName.C_Str()];
+				m_DeformVertex[m][weight.mVertexId].BoneNum++;
+
+				assert(m_DeformVertex[m][weight.mVertexId].BoneNum <= 4);
+			}
 		}
 
 
@@ -597,41 +598,42 @@ void FbxModelRenderer::Load(const char* FileName)
 			delete[] index;
 		}
 
-		// 最小値と最大値の初期化
-		XMFLOAT3 min = {};
-		XMFLOAT3 max = {};
-
-		// メッシュと頂点を走査
-		for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
-		{
-			aiMesh* mesh = m_AiScene->mMeshes[m];
-
-			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
-			{
-				aiVector3D vertex = mesh->mVertices[v];
-
-				// 最小値の更新
-				min.x = std::min(min.x, vertex.x);
-				min.y = std::min(min.y, vertex.y);
-				min.z = std::min(min.z, vertex.z);
-
-				// 最大値の更新
-				max.x = std::max(max.x, vertex.x);
-				max.y = std::max(max.y, vertex.y);
-				max.z = std::max(max.z, vertex.z);
-			}
-		}
-
-		// 中心座標の計算
-		const XMFLOAT3& center = { (min.x + max.x) / 2.0f ,(min.y+ max.y) / 2.0f ,(min.z + max.z) / 2.0f };
-		m_Center = center;
-
-		// サイズの計算
-		const XMFLOAT3& size = { max.x - min.x ,max.y - min.y ,max.z - min.z };
-
-		m_Scale = size;
+		
 	}
 
+	// 最小値と最大値の初期化
+	XMFLOAT3 min = {};
+	XMFLOAT3 max = {};
+
+	// メッシュと頂点を走査
+	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+	{
+		aiMesh* mesh = m_AiScene->mMeshes[m];
+
+		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+		{
+			aiVector3D vertex = mesh->mVertices[v];
+
+			// 最小値の更新
+			min.x = std::min(min.x, vertex.x);
+			min.y = std::min(min.y, vertex.y);
+			min.z = std::min(min.z, vertex.z);
+
+			// 最大値の更新
+			max.x = std::max(max.x, vertex.x);
+			max.y = std::max(max.y, vertex.y);
+			max.z = std::max(max.z, vertex.z);
+		}
+	}
+
+	// 中心座標の計算
+	const XMFLOAT3& center = { (min.x + max.x) / 2.0f ,(min.y + max.y) / 2.0f ,(min.z + max.z) / 2.0f };
+	m_Center = center;
+
+	// サイズの計算
+	const XMFLOAT3& size = { max.x - min.x ,max.y - min.y ,max.z - min.z };
+
+	m_Scale = size;
 
 
 	//テクスチャ読み込み
@@ -665,6 +667,8 @@ void FbxModelRenderer::Uninit()
 
 	delete[] m_VertexBuffer;
 	delete[] m_IndexBuffer;
+
+	delete[] m_DeformVertex;
 
 	for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : m_Texture)
 	{

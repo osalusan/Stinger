@@ -84,7 +84,7 @@ struct VS_IN
     float4 Diffuse : COLOR0;
     float2 TexCoord : TEXCOORD0;
     
-    uint4 BoneIndices : BLENDINDICES; // ボーンインデックス
+    int4 BoneIndices : BLENDINDICES; // ボーンインデックス
     float4 BoneWeights : BLENDWEIGHT; // ボーンウェイト
 }; //表示するポリゴンのレイアウトと同じ
 
