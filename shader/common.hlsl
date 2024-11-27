@@ -70,7 +70,7 @@ cbuffer ParameterBuffer : register(b6)
 // 定数バッファにボーンマトリクスを格納
 cbuffer BoneMatrices : register(b7)
 {
-    float4x4 gBoneMatrices[BONES_MAX]; // ボーンの最大数
+    float4x4 BoneMtx[BONES_MAX]; // ボーンの最大数
 };
 
 
@@ -84,8 +84,8 @@ struct VS_IN
     float4 Diffuse : COLOR0;
     float2 TexCoord : TEXCOORD0;
     
-    uint4 BoneIndices : BLENDINDICES; // ボーンインデックス
-    float4 BoneWeights : BLENDWEIGHT; // ボーンウェイト
+    int4 BoneIndex : BONEINDEX0; // ボーンインデックス
+    float4 BoneWeights : BONEWEIGHTS0; // ボーンウェイト
 }; //表示するポリゴンのレイアウトと同じ
 
 // 頂点出力構造体

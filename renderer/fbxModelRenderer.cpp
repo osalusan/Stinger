@@ -63,7 +63,7 @@ void FbxModelRenderer::LoadAnimation(const char* FileName, const char* Name)
 	assert(m_Animation[Name]);
 }
 
-void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, UINT>& boneIndexMap, UINT& boneCount)
+void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, UINT>& boneIndexMap, int& boneCount)
 {
 	// ボーン名を取得
 	std::string boneName = node->mName.C_Str();
@@ -172,9 +172,15 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	std::vector<XMFLOAT4X4> boneMatrices;
 	for (const auto& bone : m_Bone) 
 	{
-		XMFLOAT4X4 matrix;
-		XMStoreFloat4x4(&matrix, XMLoadFloat4x4(reinterpret_cast<const XMFLOAT4X4*>(&bone.second.Matrix)));
-		boneMatrices.emplace_back(matrix);
+		aiMatrix4x4 aiMat = bone.second.Matrix;
+		XMFLOAT4X4 dxMat = {};
+
+		dxMat.m[0][0] = aiMat.a1; dxMat.m[0][1] = aiMat.b1; dxMat.m[0][2] = aiMat.c1; dxMat.m[0][3] = aiMat.d1;
+		dxMat.m[1][0] = aiMat.a2; dxMat.m[1][1] = aiMat.b2; dxMat.m[1][2] = aiMat.c2; dxMat.m[1][3] = aiMat.d2;
+		dxMat.m[2][0] = aiMat.a3; dxMat.m[2][1] = aiMat.b3; dxMat.m[2][2] = aiMat.c3; dxMat.m[2][3] = aiMat.d3;
+		dxMat.m[3][0] = aiMat.a4; dxMat.m[3][1] = aiMat.b4; dxMat.m[3][2] = aiMat.c4; dxMat.m[3][3] = aiMat.d4;
+
+		boneMatrices.emplace_back(dxMat);
 	}
 
 	Renderer::SetBoneMatrix(boneMatrices);
@@ -463,7 +469,7 @@ void FbxModelRenderer::Load(const char* FileName)
 
 	// ボーン名とインデックスのマップを作成
 	std::map<std::string, UINT> boneNameIndex;
-	UINT boneCount = 0;
+	int boneCount = 0;
 
 	// ボーンの作成とインデックスの割り当て
 	CreateBone(m_AiScene->mRootNode, boneNameIndex, boneCount);
@@ -496,7 +502,7 @@ void FbxModelRenderer::Load(const char* FileName)
 			for (unsigned int b = 0; b < mesh->mNumBones; b++)
 			{
 				aiBone* bone = mesh->mBones[b];
-				std::string boneName(bone->mName.C_Str());
+				const std::string& boneName = bone->mName.C_Str();
 
 				// ボーンインデックスの取得
 				UINT boneIndex = 0;
@@ -511,10 +517,9 @@ void FbxModelRenderer::Load(const char* FileName)
 					boneNameIndex[boneName] = boneIndex;
 				}
 
-				// オフセットマトリクスの設定
 				m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
 
-				// ウェイトを持つ頂点にボーン情報を設定
+				//変形後頂点にボーンデータ格納
 				for (unsigned int w = 0; w < bone->mNumWeights; w++)
 				{
 					aiVertexWeight weight = bone->mWeights[w];
@@ -522,32 +527,40 @@ void FbxModelRenderer::Load(const char* FileName)
 					float boneWeight = weight.mWeight;
 
 					VERTEX_3D& v = vertex[vertexId];
-
-					// 空いているスロットにボーン情報を設定
 					for (int i = 0; i < 4; i++)
 					{
-						if (v.BoneWeights[i] == 0.0f)
+						if (v.BoneWeights[m] == 0.0f)
 						{
-							v.BoneIndices[i] = boneIndex;
-							v.BoneWeights[i] = boneWeight;
+							v.BoneIndices[m] = boneIndex;
+							v.BoneWeights[m] = boneWeight;
 							break;
 						}
 					}
 				}
-			}
 
-			// ボーンウェイトの正規化
-			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
-			{
-				VERTEX_3D& vert = vertex[v];
-				float totalWeight = vert.BoneWeights[0] + vert.BoneWeights[1] + vert.BoneWeights[2] + vert.BoneWeights[3];
-				if (totalWeight > 0.0f)
-				{
-					for (int i = 0; i < 4; i++)
-					{
-						vert.BoneWeights[i] /= totalWeight;
-					}
-				}
+				//// オフセットマトリクスの設定
+				//m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
+
+				//// ウェイトを持つ頂点にボーン情報を設定
+				//for (unsigned int w = 0; w < bone->mNumWeights; w++)
+				//{
+				//	aiVertexWeight weight = bone->mWeights[w];
+				//	UINT vertexId = weight.mVertexId;
+				//	float boneWeight = weight.mWeight;
+
+				//	VERTEX_3D& v = vertex[vertexId];
+
+				//	// 空いているスロットにボーン情報を設定
+				//	for (int i = 0; i < 4; i++)
+				//	{
+				//		if (v.BoneIndices[i] == 0)
+				//		{
+				//			v.BoneIndices[i] = boneIndex;
+				//			v.BoneWeights[i] = boneWeight;
+				//			break;
+				//		}
+				//	}
+				//}
 			}
 
 			// 頂点バッファの作成
