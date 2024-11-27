@@ -54,7 +54,7 @@ public:
 
 	void LoadAnimation(const char* FileName, const char* Name);
 	void Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio);
-	void CreateBone(aiNode* node, std::map<std::string, UINT>& boneIndexMap, int& boneCount);
+	void CreateBone(aiNode* node, std::map<std::string, int>& boneIndexMap, int& boneCount);
 	void Update(const char* AnimationName1,const float& time);
 	void UpdateBoneMatrix(aiNode* node,aiMatrix4x4 matrix);
 

@@ -11,12 +11,6 @@ VS_OUTPUT main(VS_IN input)
     skinMatrix += mul(BoneMtx[input.BoneIndex.z], input.BoneWeights.z);
     skinMatrix += mul(BoneMtx[input.BoneIndex.w], input.BoneWeights.w);
 
-    // 法線用に移動を消す
-    skinMatrix[0][3] = 0.0f;
-    skinMatrix[1][3] = 0.0f;
-    skinMatrix[2][3] = 0.0f;
-    output.Normal = mul(input.Normal, skinMatrix);
-    
     matrix wvp;
     wvp = mul(World, View);
     wvp = mul(wvp, Projection);
@@ -24,6 +18,14 @@ VS_OUTPUT main(VS_IN input)
     // 頂点位置の変換
     float4 pos = mul(input.Position, skinMatrix);
     output.Position = mul(pos, wvp);
+    // TODO :デバッグ用、削除予定
+    //output.Position = mul(input.Position, wvp);
+    
+    // 法線用に移動を消す
+    skinMatrix[0][3] = 0.0f;
+    skinMatrix[1][3] = 0.0f;
+    skinMatrix[2][3] = 0.0f;
+    output.Normal = mul(input.Normal, skinMatrix);
 
     output.TexCoord = input.TexCoord;
     

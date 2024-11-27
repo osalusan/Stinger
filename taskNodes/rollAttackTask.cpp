@@ -33,7 +33,7 @@ NODE_STATUS RollAttackTask::Update(const float& deltaTime)
 	if (m_CurrentTime < MAX_TIME_ROLLATTACK)
 	{
 		m_CurrentTime += deltaTime;
-		m_BossCache->AddRotation({ 0.0f,0.2f,0.0f });
+		//m_BossCache->AddRotation({ 0.0f,0.2f,0.0f });
 		// UŒ‚ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
 		return NODE_STATUS::RUNNING;

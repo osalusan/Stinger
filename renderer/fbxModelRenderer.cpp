@@ -63,7 +63,7 @@ void FbxModelRenderer::LoadAnimation(const char* FileName, const char* Name)
 	assert(m_Animation[Name]);
 }
 
-void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, UINT>& boneIndexMap, int& boneCount)
+void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, int>& boneIndexMap, int& boneCount)
 {
 	// ボーン名を取得
 	std::string boneName = node->mName.C_Str();
@@ -169,21 +169,32 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
-	std::vector<XMFLOAT4X4> boneMatrices;
+	std::vector<XMFLOAT4X4> boneMatrix;
 	for (const auto& bone : m_Bone) 
 	{
 		aiMatrix4x4 aiMat = bone.second.Matrix;
 		XMFLOAT4X4 dxMat = {};
 
-		dxMat.m[0][0] = aiMat.a1; dxMat.m[0][1] = aiMat.b1; dxMat.m[0][2] = aiMat.c1; dxMat.m[0][3] = aiMat.d1;
-		dxMat.m[1][0] = aiMat.a2; dxMat.m[1][1] = aiMat.b2; dxMat.m[1][2] = aiMat.c2; dxMat.m[1][3] = aiMat.d2;
-		dxMat.m[2][0] = aiMat.a3; dxMat.m[2][1] = aiMat.b3; dxMat.m[2][2] = aiMat.c3; dxMat.m[2][3] = aiMat.d3;
-		dxMat.m[3][0] = aiMat.a4; dxMat.m[3][1] = aiMat.b4; dxMat.m[3][2] = aiMat.c4; dxMat.m[3][3] = aiMat.d4;
+		// 反転あり
+		{
+			dxMat.m[0][0] = aiMat.a1; dxMat.m[0][1] = aiMat.a2; dxMat.m[0][2] = aiMat.a3; dxMat.m[0][3] = aiMat.a4;
+			dxMat.m[1][0] = aiMat.b1; dxMat.m[1][1] = aiMat.b2; dxMat.m[1][2] = aiMat.b3; dxMat.m[1][3] = aiMat.b4;
+			dxMat.m[2][0] = aiMat.c1; dxMat.m[2][1] = aiMat.c2; dxMat.m[2][2] = aiMat.c3; dxMat.m[2][3] = aiMat.c4;
+			dxMat.m[3][0] = aiMat.d1; dxMat.m[3][1] = aiMat.d2; dxMat.m[3][2] = aiMat.d3; dxMat.m[3][3] = aiMat.d4;
+		}
 
-		boneMatrices.emplace_back(dxMat);
+		// 反転なし
+		{
+			//dxMat.m[0][0] = aiMat.a1; dxMat.m[0][1] = aiMat.b1; dxMat.m[0][2] = aiMat.c1; dxMat.m[0][3] = aiMat.d1;
+			//dxMat.m[1][0] = aiMat.a2; dxMat.m[1][1] = aiMat.b2; dxMat.m[1][2] = aiMat.c2; dxMat.m[1][3] = aiMat.d2;
+			//dxMat.m[2][0] = aiMat.a3; dxMat.m[2][1] = aiMat.b3; dxMat.m[2][2] = aiMat.c3; dxMat.m[2][3] = aiMat.d3;
+			//dxMat.m[3][0] = aiMat.a4; dxMat.m[3][1] = aiMat.b4; dxMat.m[3][2] = aiMat.c4; dxMat.m[3][3] = aiMat.d4;
+		}
+
+		boneMatrix.emplace_back(dxMat);
 	}
 
-	Renderer::SetBoneMatrix(boneMatrices);
+	Renderer::SetBoneMatrix(boneMatrix);
 }
 
 void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio)
@@ -468,7 +479,7 @@ void FbxModelRenderer::Load(const char* FileName)
 
 
 	// ボーン名とインデックスのマップを作成
-	std::map<std::string, UINT> boneNameIndex;
+	std::map<std::string, int> boneNameIndex;
 	int boneCount = 0;
 
 	// ボーンの作成とインデックスの割り当て
@@ -506,10 +517,10 @@ void FbxModelRenderer::Load(const char* FileName)
 
 				// ボーンインデックスの取得
 				UINT boneIndex = 0;
-				auto it = boneNameIndex.find(boneName);
-				if (it != boneNameIndex.end())
+				auto itBone = boneNameIndex.find(boneName);
+				if (itBone != boneNameIndex.end())
 				{
-					boneIndex = it->second;
+					boneIndex = itBone->second;
 				}
 				else
 				{
