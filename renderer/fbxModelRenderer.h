@@ -53,6 +53,7 @@ private:
 
 	// スキニング用
 	std::vector<DEFORM_VERTEX>* m_DeformVertex = {};						//変形後頂点データ
+	std::map<std::string, int> boneIndexMap = {};
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 
 	XMFLOAT3 m_Center = {};
