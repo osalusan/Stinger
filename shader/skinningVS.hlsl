@@ -6,7 +6,7 @@ VS_OUTPUT main(VS_IN input)
 
     // スキニング計算処理
     float4x4 skinMatrix;
-    skinMatrix = mul(BoneMtx[input.BoneIndex.x], input.BoneWeights.x);
+    skinMatrix =  mul(BoneMtx[input.BoneIndex.x], input.BoneWeights.x);
     skinMatrix += mul(BoneMtx[input.BoneIndex.y], input.BoneWeights.y);
     skinMatrix += mul(BoneMtx[input.BoneIndex.z], input.BoneWeights.z);
     skinMatrix += mul(BoneMtx[input.BoneIndex.w], input.BoneWeights.w);
