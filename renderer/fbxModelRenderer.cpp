@@ -69,9 +69,10 @@ void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, int>& bone
 	std::string boneName = node->mName.C_Str();
 
 	// ボーンがまだマップに存在しない場合、インデックスを割り当てる
-	if (boneIndexMap.find(boneName) == boneIndexMap.end())
+	if (boneIndexMap.count(boneName) <= 0)
 	{
-		boneIndexMap[boneName] = boneCount++;
+		boneIndexMap[boneName] = boneCount;
+		boneCount++;
 	}
 
 	// BONE 構造体を作成または取得
@@ -516,28 +517,20 @@ void FbxModelRenderer::Load(const char* FileName)
 				const std::string& boneName = bone->mName.C_Str();
 
 				// ボーンインデックスの取得
-				UINT boneIndex = 0;
-				auto itBone = boneNameIndex.find(boneName);
-				if (itBone != boneNameIndex.end())
-				{
-					boneIndex = itBone->second;
-				}
-				else
-				{
-					boneIndex = boneCount++;
-					boneNameIndex[boneName] = boneIndex;
-				}
+				int boneIndex = boneNameIndex[boneName];
 
 				m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
 
+				
 				//変形後頂点にボーンデータ格納
 				for (unsigned int w = 0; w < bone->mNumWeights; w++)
 				{
 					aiVertexWeight weight = bone->mWeights[w];
-					UINT vertexId = weight.mVertexId;
+					int vertexId = weight.mVertexId;
 					float boneWeight = weight.mWeight;
 
 					VERTEX_3D& v = vertex[vertexId];
+
 					for (int i = 0; i < 4; i++)
 					{
 						if (v.BoneWeights[m] == 0.0f)
@@ -549,29 +542,6 @@ void FbxModelRenderer::Load(const char* FileName)
 					}
 				}
 
-				//// オフセットマトリクスの設定
-				//m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
-
-				//// ウェイトを持つ頂点にボーン情報を設定
-				//for (unsigned int w = 0; w < bone->mNumWeights; w++)
-				//{
-				//	aiVertexWeight weight = bone->mWeights[w];
-				//	UINT vertexId = weight.mVertexId;
-				//	float boneWeight = weight.mWeight;
-
-				//	VERTEX_3D& v = vertex[vertexId];
-
-				//	// 空いているスロットにボーン情報を設定
-				//	for (int i = 0; i < 4; i++)
-				//	{
-				//		if (v.BoneIndices[i] == 0)
-				//		{
-				//			v.BoneIndices[i] = boneIndex;
-				//			v.BoneWeights[i] = boneWeight;
-				//			break;
-				//		}
-				//	}
-				//}
 			}
 
 			// 頂点バッファの作成
