@@ -186,20 +186,33 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 
 			aiMatrix4x4 matrix[4];
 			aiMatrix4x4 outMatrix;
-			matrix[0] = m_Bone[m_NameList[deformVertex->BoneIndex[0]]].Matrix;
-			matrix[1] = m_Bone[m_NameList[deformVertex->BoneIndex[1]]].Matrix;
-			matrix[2] = m_Bone[m_NameList[deformVertex->BoneIndex[2]]].Matrix;
-			matrix[3] = m_Bone[m_NameList[deformVertex->BoneIndex[3]]].Matrix;
+			
+			VERTEX_3D& vIn = vertex[v];
+			
+			matrix[0] = m_Bone[m_NameList[vIn.BoneIndices[0]]].Matrix;
+			matrix[1] = m_Bone[m_NameList[vIn.BoneIndices[1]]].Matrix;
+			matrix[2] = m_Bone[m_NameList[vIn.BoneIndices[2]]].Matrix;
+			matrix[3] = m_Bone[m_NameList[vIn.BoneIndices[3]]].Matrix;
 
 			{
 				//ウェイトを考慮してマトリクス算出
-				outMatrix = matrix[0] * deformVertex->BoneWeight[0]
-					+ matrix[1] * deformVertex->BoneWeight[1]
-					+ matrix[2] * deformVertex->BoneWeight[2]
-					+ matrix[3] * deformVertex->BoneWeight[3];
+				outMatrix = matrix[0] * vIn.BoneWeights[0]
+					+ matrix[1] * vIn.BoneWeights[1]
+					+ matrix[2] * vIn.BoneWeights[2]
+					+ matrix[3] * vIn.BoneWeights[3];
 			}
 
+			//vIn.Position.x = mesh->mVertices[v].x;
+			//vIn.Position.y = mesh->mVertices[v].y;
+			//vIn.Position.z = mesh->mVertices[v].z;
+			//vIn.Position.x *= outMatrix.a1 + outMatrix.a2 + outMatrix.a3 + outMatrix.a4;
+			//vIn.Position.y *= outMatrix.b1 + outMatrix.b2 + outMatrix.b3 + outMatrix.b4;
+			//vIn.Position.z *= outMatrix.c1 + outMatrix.c2 + outMatrix.c3 + outMatrix.c4;
+
 			deformVertex->Position = mesh->mVertices[v];
+			//deformVertex->Position.x *= outMatrix.a1 + outMatrix.a2 + outMatrix.a3 + outMatrix.a4;
+			//deformVertex->Position.y *= outMatrix.b1 + outMatrix.b2 + outMatrix.b3 + outMatrix.b4;
+			//deformVertex->Position.z *= outMatrix.c1 + outMatrix.c2 + outMatrix.c3 + outMatrix.c4;
 			deformVertex->Position *= outMatrix;
 
 			//法線変換用に移動成分を削除
@@ -211,18 +224,18 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 			deformVertex->Normal *= outMatrix;
 
 			//頂点バッファへ書き込み
-			vertex[v].Position.x = deformVertex->Position.x;
-			vertex[v].Position.y = deformVertex->Position.y;
-			vertex[v].Position.z = deformVertex->Position.z;
+			vIn.Position.x = deformVertex->Position.x;
+			vIn.Position.y = deformVertex->Position.y;
+			vIn.Position.z = deformVertex->Position.z;
 
-			vertex[v].Normal.x = deformVertex->Normal.x;
-			vertex[v].Normal.y = deformVertex->Normal.y;
-			vertex[v].Normal.z = deformVertex->Normal.z;
+			vIn.Normal.x = deformVertex->Normal.x;
+			vIn.Normal.y = deformVertex->Normal.y;
+			vIn.Normal.z = deformVertex->Normal.z;
 
-			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
-			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
+			vIn.TexCoord.x = mesh->mTextureCoords[0][v].x;
+			vIn.TexCoord.y = mesh->mTextureCoords[0][v].y;
 
-			vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+			vIn.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
 	}
