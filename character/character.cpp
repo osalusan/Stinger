@@ -31,7 +31,7 @@ Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
-	LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
+	//LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }
 
 void Character::Update(const float& deltaTime)
@@ -105,20 +105,13 @@ void Character::Update(const float& deltaTime)
 
 void Character::Draw()
 {
-	if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
-	{
-		if (m_AnimationName == m_NextAnimationName)
-		{
-			model->Update(m_AnimationName.c_str(), m_AnimationTime);
-		}
-	}
 	GameObject::Draw();
 
 	if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
 		if (m_AnimationName == m_NextAnimationName)
 		{
-			//model->Update(m_AnimationName.c_str(), m_AnimationTime);
+			model->Update(m_AnimationName.c_str(), m_AnimationTime);
 		}
 		else if(m_AnimationName != m_NextAnimationName)
 		{

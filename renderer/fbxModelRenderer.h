@@ -13,6 +13,15 @@
 // ボーンの最大数
 #define BONES_MAX (256)
 
+struct DEFORM_VERTEX
+{
+	aiVector3D Position;
+	aiVector3D Normal;
+	int				BoneNum;
+	int				BoneIndex[4];//本来はボーンインデックスで管理するべき
+	float			BoneWeight[4];
+};
+
 //ボーン構造体
 struct BONE
 {
@@ -42,7 +51,10 @@ private:
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
 	// GPUスキニング用
+	std::vector<DEFORM_VERTEX>* m_DeformVertex;//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
+	std::unordered_map<int, std::string> m_NameList = {};
+
 
 	XMFLOAT3 m_Center = {};
 	XMFLOAT3 m_Scale = {};

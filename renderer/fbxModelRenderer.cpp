@@ -170,29 +170,75 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
+	//頂点変換(CPUスキニング)
+	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+	{
+		aiMesh* mesh = m_AiScene->mMeshes[m];
+
+		D3D11_MAPPED_SUBRESOURCE ms;
+		Renderer::GetDeviceContext()->Map(m_VertexBuffer[m], 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+
+		VERTEX_3D* vertex = (VERTEX_3D*)ms.pData;
+
+		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+		{
+			DEFORM_VERTEX* deformVertex = &m_DeformVertex[m][v];
+
+			aiMatrix4x4 matrix[4];
+			aiMatrix4x4 outMatrix;
+			matrix[0] = m_Bone[m_NameList[deformVertex->BoneIndex[0]]].Matrix;
+			matrix[1] = m_Bone[m_NameList[deformVertex->BoneIndex[1]]].Matrix;
+			matrix[2] = m_Bone[m_NameList[deformVertex->BoneIndex[2]]].Matrix;
+			matrix[3] = m_Bone[m_NameList[deformVertex->BoneIndex[3]]].Matrix;
+
+			{
+				//ウェイトを考慮してマトリクス算出
+				outMatrix = matrix[0] * deformVertex->BoneWeight[0]
+					+ matrix[1] * deformVertex->BoneWeight[1]
+					+ matrix[2] * deformVertex->BoneWeight[2]
+					+ matrix[3] * deformVertex->BoneWeight[3];
+			}
+
+			deformVertex->Position = mesh->mVertices[v];
+			deformVertex->Position *= outMatrix;
+
+			//法線変換用に移動成分を削除
+			outMatrix.a4 = 0.0f;
+			outMatrix.b4 = 0.0f;
+			outMatrix.c4 = 0.0f;
+
+			deformVertex->Normal = mesh->mNormals[v];
+			deformVertex->Normal *= outMatrix;
+
+			//頂点バッファへ書き込み
+			vertex[v].Position.x = deformVertex->Position.x;
+			vertex[v].Position.y = deformVertex->Position.y;
+			vertex[v].Position.z = deformVertex->Position.z;
+
+			vertex[v].Normal.x = deformVertex->Normal.x;
+			vertex[v].Normal.y = deformVertex->Normal.y;
+			vertex[v].Normal.z = deformVertex->Normal.z;
+
+			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
+			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
+
+			vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
+	}
+
 	std::vector<XMFLOAT4X4> boneMatrix;
-	for (const auto& bone : m_Bone) 
+	for (const auto& bone : m_Bone)
 	{
 		aiMatrix4x4 aiMat = bone.second.Matrix;
-		XMFLOAT4X4 dxMat = {};
+		XMFLOAT4X4 mat;
+		// aiMatrix4x4 を XMFLOAT4X4 に変換
+		mat._11 = aiMat.a1; mat._12 = aiMat.b1; mat._13 = aiMat.c1; mat._14 = aiMat.d1;
+		mat._21 = aiMat.a2; mat._22 = aiMat.b2; mat._23 = aiMat.c2; mat._24 = aiMat.d2;
+		mat._31 = aiMat.a3; mat._32 = aiMat.b3; mat._33 = aiMat.c3; mat._34 = aiMat.d3;
+		mat._41 = aiMat.a4; mat._42 = aiMat.b4; mat._43 = aiMat.c4; mat._44 = aiMat.d4;
 
-		// 反転あり
-		{
-			dxMat.m[0][0] = aiMat.a1; dxMat.m[0][1] = aiMat.a2; dxMat.m[0][2] = aiMat.a3; dxMat.m[0][3] = aiMat.a4;
-			dxMat.m[1][0] = aiMat.b1; dxMat.m[1][1] = aiMat.b2; dxMat.m[1][2] = aiMat.b3; dxMat.m[1][3] = aiMat.b4;
-			dxMat.m[2][0] = aiMat.c1; dxMat.m[2][1] = aiMat.c2; dxMat.m[2][2] = aiMat.c3; dxMat.m[2][3] = aiMat.c4;
-			dxMat.m[3][0] = aiMat.d1; dxMat.m[3][1] = aiMat.d2; dxMat.m[3][2] = aiMat.d3; dxMat.m[3][3] = aiMat.d4;
-		}
-
-		// 反転なし
-		{
-			//dxMat.m[0][0] = aiMat.a1; dxMat.m[0][1] = aiMat.b1; dxMat.m[0][2] = aiMat.c1; dxMat.m[0][3] = aiMat.d1;
-			//dxMat.m[1][0] = aiMat.a2; dxMat.m[1][1] = aiMat.b2; dxMat.m[1][2] = aiMat.c2; dxMat.m[1][3] = aiMat.d2;
-			//dxMat.m[2][0] = aiMat.a3; dxMat.m[2][1] = aiMat.b3; dxMat.m[2][2] = aiMat.c3; dxMat.m[2][3] = aiMat.d3;
-			//dxMat.m[3][0] = aiMat.a4; dxMat.m[3][1] = aiMat.b4; dxMat.m[3][2] = aiMat.c4; dxMat.m[3][3] = aiMat.d4;
-		}
-
-		boneMatrix.emplace_back(dxMat);
+		boneMatrix.push_back(mat);
 	}
 
 	Renderer::SetBoneMatrix(boneMatrix);
@@ -478,6 +524,7 @@ void FbxModelRenderer::Load(const char* FileName)
 	m_VertexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 	m_IndexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 
+	m_DeformVertex = new std::vector<DEFORM_VERTEX>[m_AiScene->mNumMeshes];
 
 	// ボーン名とインデックスのマップを作成
 	std::map<std::string, int> boneNameIndex;
@@ -508,6 +555,28 @@ void FbxModelRenderer::Load(const char* FileName)
 					vertex[v].BoneIndices[i] = 0;
 					vertex[v].BoneWeights[i] = 0.0f;
 				}
+
+				DEFORM_VERTEX deformVertex;
+				deformVertex.Position = mesh->mVertices[v];
+				deformVertex.Normal = mesh->mNormals[v];
+				deformVertex.BoneNum = 0;
+
+				for (unsigned int b = 0; b < 4; b++)
+				{
+					deformVertex.BoneIndex[b] = 0;
+					deformVertex.BoneWeight[b] = 0.0f;
+				}
+
+				m_DeformVertex[m].push_back(deformVertex);
+			}
+
+
+			//ボーンデータ初期化
+			for (unsigned int b = 0; b < mesh->mNumBones; b++)
+			{
+				aiBone* bone = mesh->mBones[b];
+
+				m_Bone[bone->mName.C_Str()].OffsetMatrix = bone->mOffsetMatrix;
 			}
 
 			// ボーンデータの設定
@@ -517,7 +586,9 @@ void FbxModelRenderer::Load(const char* FileName)
 				const std::string& boneName = bone->mName.C_Str();
 
 				// ボーンインデックスの取得
-				int boneIndex = boneNameIndex[boneName];
+				const int& boneIndex = boneNameIndex[boneName];
+
+				m_NameList.emplace(boneIndex, boneName);
 
 				m_Bone[boneName].OffsetMatrix = bone->mOffsetMatrix;
 
@@ -533,23 +604,35 @@ void FbxModelRenderer::Load(const char* FileName)
 
 					for (int i = 0; i < 4; i++)
 					{
-						if (v.BoneWeights[m] == 0.0f)
+						if (v.BoneWeights[i] == 0.0f)
 						{
-							v.BoneIndices[m] = boneIndex;
-							v.BoneWeights[m] = boneWeight;
+							v.BoneIndices[i] = boneIndex;
+							v.BoneWeights[i] = boneWeight;
 							break;
 						}
 					}
-				}
 
+					for (int i = 0; i < 4; i++)
+					{
+						if (m_DeformVertex[m][vertexId].BoneIndex[i] == 0.0f)
+						{
+							m_DeformVertex[m][vertexId].BoneWeight[i] = boneWeight;
+							m_DeformVertex[m][vertexId].BoneIndex[i] = boneIndex;
+							break;
+						}
+					}
+
+					assert(m_DeformVertex[m][vertexId].BoneNum <= 4);
+				}
 			}
+
 
 			// 頂点バッファの作成
 			D3D11_BUFFER_DESC bd = {};
-			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.Usage = D3D11_USAGE_DYNAMIC;
 			bd.ByteWidth = sizeof(VERTEX_3D) * mesh->mNumVertices;
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = 0;
+			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 			D3D11_SUBRESOURCE_DATA sd = {};
 			sd.pSysMem = vertex;
@@ -659,6 +742,8 @@ void FbxModelRenderer::Uninit()
 
 	delete[] m_VertexBuffer;
 	delete[] m_IndexBuffer;
+
+	delete[] m_DeformVertex;
 
 	for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : m_Texture)
 	{
