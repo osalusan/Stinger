@@ -648,6 +648,27 @@ void FbxModelRenderer::Load(const char* FileName)
 					assert(m_DeformVertex[m][vertexId].BoneNum <= 4);
 				}
 			}
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+			{
+
+			}
+			// ウェイトの正規化
+			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+			{
+				VERTEX_3D& vert = vertex[v];
+
+				// ウェイトの合計を計算
+				float totalWeight = vert.BoneWeights[0] + vert.BoneWeights[1] + vert.BoneWeights[2] + vert.BoneWeights[3];
+
+				// ウェイトの合計が0でない場合のみ正規化
+				if (totalWeight > 0.0f && totalWeight != 1.0f)
+				{
+					vert.BoneWeights[0] /= totalWeight;
+					vert.BoneWeights[1] /= totalWeight;
+					vert.BoneWeights[2] /= totalWeight;
+					vert.BoneWeights[3] /= totalWeight;
+				}
+			}
 
 
 			// 頂点バッファの作成
