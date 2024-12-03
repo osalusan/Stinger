@@ -114,7 +114,7 @@ void Character::Draw()
 		}
 		else if(m_AnimationName != m_NextAnimationName)
 		{
-			model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
+			//model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
 		}
 		
 		model->Draw();

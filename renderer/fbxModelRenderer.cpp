@@ -54,6 +54,19 @@ void FbxModelRenderer::Draw()
 
 		// ポリゴン描画
 		Renderer::GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
+
+
+		//// ComputeShaderでのスキニング処理後の頂点設定
+		//Renderer::GetDeviceContext()->VSSetShaderResources(0, 1, &updatedSRV);
+
+		//// 頂点バッファの設定
+		////Renderer::GetInstance()->GetDeviceContext()->IASetVertexBuffers(0, 1, nullptr, &stride, &offset); これは今回いらない...はず
+
+		//// インデックスバッファ設定
+		//Renderer::GetDeviceContext()->IASetIndexBuffer(m_IndexBuffer[m], DXGI_FORMAT_R32_UINT, 0);
+
+		//// ポリゴン描画
+		//Renderer::GetDeviceContext()->DrawIndexed(mesh->mNumFaces * 3, 0, 0);
 	}
 }
 
@@ -155,104 +168,119 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
-	//頂点変換(CPUスキニング)
-	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
-	{
-		aiMesh* mesh = m_AiScene->mMeshes[m];
+	// GPUスキニングを行う (ComputeShaderに処理を委譲している)
+	Renderer::GetDeviceContext()->CSSetShader(_skinCS, nullptr, 0);
 
-		D3D11_MAPPED_SUBRESOURCE ms;
-		Renderer::GetDeviceContext()->Map(m_VertexBuffer[m], 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
+	// ComputeShaderへのデータ送信
+	Renderer::GetDeviceContext()->CSSetConstantBuffers(0, 1, &constantBuffer);
+	Renderer::GetDeviceContext()->CSSetShaderResources(0, 1, &notDeformVertexSRV);
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &vertexUAV, nullptr);
 
-		VERTEX_3D* vertex = (VERTEX_3D*)ms.pData;
+	UINT numThreadGroup = (/*頂点数*/ +255) / 256;	// 256スレッドの何グループ必要か計算
+	Renderer::GetDeviceContext()->Dispatch(numThreadGroup, 1, 1);	// csの実行
 
-		for (unsigned int v = 0; v < mesh->mNumVertices; v++)
-		{
-			DEFORM_VERTEX* deformVertex = &m_DeformVertex[m][v];
+	// uavの再設定によるリソースバリア
+	ID3D11UnorderedAccessView* nulluav = nullptr;
+	Renderer::GetDeviceContext()->CSSetUnorderedAccessViews(0, 1, &nulluav, nullptr);
 
-			aiMatrix4x4 matrix[4];
-			aiMatrix4x4 outMatrix;
-			matrix[0] = m_Bone[deformVertex->BoneName[0]].Matrix;
-			matrix[1] = m_Bone[deformVertex->BoneName[1]].Matrix;
-			matrix[2] = m_Bone[deformVertex->BoneName[2]].Matrix;
-			matrix[3] = m_Bone[deformVertex->BoneName[3]].Matrix;
+	////頂点変換(CPUスキニング)
+	//for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+	//{
+	//	aiMesh* mesh = m_AiScene->mMeshes[m];
 
-			{
-				//ウェイトを考慮してマトリクス算出
-				outMatrix = matrix[0] * deformVertex->BoneWeight[0]
-					+ matrix[1] * deformVertex->BoneWeight[1]
-					+ matrix[2] * deformVertex->BoneWeight[2]
-					+ matrix[3] * deformVertex->BoneWeight[3];
+	//	D3D11_MAPPED_SUBRESOURCE ms;
+	//	Renderer::GetDeviceContext()->Map(m_VertexBuffer[m], 0, D3D11_MAP_WRITE_DISCARD, 0, &ms);
 
+	//	VERTEX_3D* vertex = (VERTEX_3D*)ms.pData;
 
-				outMatrix.a1 = matrix[0].a1 * deformVertex->BoneWeight[0]
-					+ matrix[1].a1 * deformVertex->BoneWeight[1]
-					+ matrix[2].a1 * deformVertex->BoneWeight[2]
-					+ matrix[3].a1 * deformVertex->BoneWeight[3];
+	//	for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+	//	{
+	//		DEFORM_VERTEX* deformVertex = &m_DeformVertex[m][v];
 
-				outMatrix.a2 = matrix[0].a2 * deformVertex->BoneWeight[0]
-					+ matrix[1].a2 * deformVertex->BoneWeight[1]
-					+ matrix[2].a2 * deformVertex->BoneWeight[2]
-					+ matrix[3].a2 * deformVertex->BoneWeight[3];
+	//		aiMatrix4x4 matrix[4];
+	//		aiMatrix4x4 outMatrix;
+	//		matrix[0] = m_Bone[deformVertex->BoneName[0]].Matrix;
+	//		matrix[1] = m_Bone[deformVertex->BoneName[1]].Matrix;
+	//		matrix[2] = m_Bone[deformVertex->BoneName[2]].Matrix;
+	//		matrix[3] = m_Bone[deformVertex->BoneName[3]].Matrix;
 
-				outMatrix.a3 = matrix[0].a3 * deformVertex->BoneWeight[0]
-					+ matrix[1].a3 * deformVertex->BoneWeight[1]
-					+ matrix[2].a3 * deformVertex->BoneWeight[2]
-					+ matrix[3].a3 * deformVertex->BoneWeight[3];
-
-				outMatrix.a4 = matrix[0].a4 * deformVertex->BoneWeight[0]
-					+ matrix[1].a4 * deformVertex->BoneWeight[1]
-					+ matrix[2].a4 * deformVertex->BoneWeight[2]
-					+ matrix[3].a4 * deformVertex->BoneWeight[3];
+	//		{
+	//			//ウェイトを考慮してマトリクス算出
+	//			outMatrix = matrix[0] * deformVertex->BoneWeight[0]
+	//				+ matrix[1] * deformVertex->BoneWeight[1]
+	//				+ matrix[2] * deformVertex->BoneWeight[2]
+	//				+ matrix[3] * deformVertex->BoneWeight[3];
 
 
-				outMatrix.d1 = matrix[0].d1 * deformVertex->BoneWeight[0]
-					+ matrix[1].d1 * deformVertex->BoneWeight[1]
-					+ matrix[2].d1 * deformVertex->BoneWeight[2]
-					+ matrix[3].d1 * deformVertex->BoneWeight[3];
+	//			outMatrix.a1 = matrix[0].a1 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].a1 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].a1 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].a1 * deformVertex->BoneWeight[3];
 
-				outMatrix.d2 = matrix[0].d2 * deformVertex->BoneWeight[0]
-					+ matrix[1].d2 * deformVertex->BoneWeight[1]
-					+ matrix[2].d2 * deformVertex->BoneWeight[2]
-					+ matrix[3].d2 * deformVertex->BoneWeight[3];
+	//			outMatrix.a2 = matrix[0].a2 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].a2 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].a2 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].a2 * deformVertex->BoneWeight[3];
 
-				outMatrix.d3 = matrix[0].d3 * deformVertex->BoneWeight[0]
-					+ matrix[1].d3 * deformVertex->BoneWeight[1]
-					+ matrix[2].d3 * deformVertex->BoneWeight[2]
-					+ matrix[3].d3 * deformVertex->BoneWeight[3];
+	//			outMatrix.a3 = matrix[0].a3 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].a3 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].a3 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].a3 * deformVertex->BoneWeight[3];
 
-				outMatrix.d4 = matrix[0].d4 * deformVertex->BoneWeight[0]
-					+ matrix[1].d4 * deformVertex->BoneWeight[1]
-					+ matrix[2].d4 * deformVertex->BoneWeight[2]
-					+ matrix[3].d4 * deformVertex->BoneWeight[3];
-			}
+	//			outMatrix.a4 = matrix[0].a4 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].a4 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].a4 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].a4 * deformVertex->BoneWeight[3];
 
-			deformVertex->Position = mesh->mVertices[v];
-			deformVertex->Position *= outMatrix;
 
-			//法線変換用に移動成分を削除
-			outMatrix.a4 = 0.0f;
-			outMatrix.b4 = 0.0f;
-			outMatrix.c4 = 0.0f;
+	//			outMatrix.d1 = matrix[0].d1 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].d1 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].d1 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].d1 * deformVertex->BoneWeight[3];
 
-			deformVertex->Normal = mesh->mNormals[v];
-			deformVertex->Normal *= outMatrix;
+	//			outMatrix.d2 = matrix[0].d2 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].d2 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].d2 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].d2 * deformVertex->BoneWeight[3];
 
-			//頂点バッファへ書き込み
-			vertex[v].Position.x = deformVertex->Position.x;
-			vertex[v].Position.y = deformVertex->Position.y;
-			vertex[v].Position.z = deformVertex->Position.z;
+	//			outMatrix.d3 = matrix[0].d3 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].d3 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].d3 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].d3 * deformVertex->BoneWeight[3];
 
-			vertex[v].Normal.x = deformVertex->Normal.x;
-			vertex[v].Normal.y = deformVertex->Normal.y;
-			vertex[v].Normal.z = deformVertex->Normal.z;
+	//			outMatrix.d4 = matrix[0].d4 * deformVertex->BoneWeight[0]
+	//				+ matrix[1].d4 * deformVertex->BoneWeight[1]
+	//				+ matrix[2].d4 * deformVertex->BoneWeight[2]
+	//				+ matrix[3].d4 * deformVertex->BoneWeight[3];
+	//		}
 
-			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
-			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
+	//		deformVertex->Position = mesh->mVertices[v];
+	//		deformVertex->Position *= outMatrix;
 
-			vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		}
-		Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
-	}
+	//		//法線変換用に移動成分を削除
+	//		outMatrix.a4 = 0.0f;
+	//		outMatrix.b4 = 0.0f;
+	//		outMatrix.c4 = 0.0f;
+
+	//		deformVertex->Normal = mesh->mNormals[v];
+	//		deformVertex->Normal *= outMatrix;
+
+	//		//頂点バッファへ書き込み
+	//		vertex[v].Position.x = deformVertex->Position.x;
+	//		vertex[v].Position.y = deformVertex->Position.y;
+	//		vertex[v].Position.z = deformVertex->Position.z;
+
+	//		vertex[v].Normal.x = deformVertex->Normal.x;
+	//		vertex[v].Normal.y = deformVertex->Normal.y;
+	//		vertex[v].Normal.z = deformVertex->Normal.z;
+
+	//		vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
+	//		vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
+
+	//		vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	//	}
+	//	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer[m], 0);
+	//}
 
 }
 
@@ -549,33 +577,111 @@ void FbxModelRenderer::Load(const char* FileName)
 
 		// 頂点バッファ生成
 		{
-			VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
+			VERTEX_3D* notDeformVertex = new VERTEX_3D[mesh->mNumVertices];
 
 			for (unsigned int v = 0; v < mesh->mNumVertices; v++)
 			{
-				vertex[v].Position = XMFLOAT3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
-				vertex[v].Normal = XMFLOAT3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
-				vertex[v].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
-				vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				notDeformVertex[v].Position = XMFLOAT3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
+				notDeformVertex[v].Normal = XMFLOAT3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
+				notDeformVertex[v].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+				notDeformVertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 
+			// バッファ作成
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
-			bd.Usage = D3D11_USAGE_DYNAMIC;
+			bd.Usage = D3D11_USAGE_DEFAULT;
 			bd.ByteWidth = sizeof(VERTEX_3D) * mesh->mNumVertices;
-			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			bd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+			bd.CPUAccessFlags = 0;
+			bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+			bd.StructureByteStride = sizeof(VERTEX_3D);  // 各要素のサイズを設定
 
 			D3D11_SUBRESOURCE_DATA sd;
 			ZeroMemory(&sd, sizeof(sd));
-			sd.pSysMem = vertex;
+			sd.pSysMem = notDeformVertex;
+			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_NotDeformVertexBuffer);
 
-			Renderer::GetDevice()->CreateBuffer(&bd, &sd,
-				&m_VertexBuffer[m]);
+			delete[] notDeformVertex;
 
-			delete[] vertex;
+			// csで使われるsrvの作成
+			D3D11_SHADER_RESOURCE_VIEW_DESC notDeformSRVDesc;
+			ZeroMemory(&notDeformSRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+			notDeformSRVDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+			notDeformSRVDesc.Buffer.NumElements =  mesh->mNumVertices;// 頂点数
+			notDeformSRVDesc.Buffer.FirstElement = 0;
+			notDeformSRVDesc.Format = DXGI_FORMAT_UNKNOWN;
+
+
+			ID3D11ShaderResourceView* notDeformVertexSRV;
+			if (m_NotDeformVertexBuffer != nullptr)
+			{
+				Renderer::GetDevice()->CreateShaderResourceView(m_NotDeformVertexBuffer, &notDeformSRVDesc, &notDeformVertexSRV);
+			}
 		}
 
+		for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+		{
+			aiMesh* mesh = m_AiScene->mMeshes[m];
+
+			// 頂点バッファ生成
+			{
+				VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
+
+				for (unsigned int v = 0; v < mesh->mNumVertices; v++)
+				{
+					vertex[v].Position = XMFLOAT3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
+					vertex[v].Normal = XMFLOAT3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
+					vertex[v].TexCoord = XMFLOAT2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+					vertex[v].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+				}
+
+				// バッファ作成
+				D3D11_BUFFER_DESC bd;
+				ZeroMemory(&bd, sizeof(bd));
+				bd.Usage = D3D11_USAGE_DEFAULT;
+				bd.ByteWidth = sizeof(VERTEX_3D) * mesh->mNumVertices;
+				bd.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+				bd.CPUAccessFlags = 0;
+				bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+				bd.StructureByteStride = sizeof(VERTEX_3D);  // 各要素のサイズを設定
+
+				D3D11_SUBRESOURCE_DATA sd;
+				ZeroMemory(&sd, sizeof(sd));
+				sd.pSysMem = vertex;
+				Renderer::GetDevice()->CreateBuffer(&bd, &sd, vertexBuffer);
+
+				// csで書き出される用のUAV
+				D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+				uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+				uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+				uavDesc.Buffer.FirstElement = 0;
+				uavDesc.Buffer.NumElements = mesh->mNumVertices;// 頂点数
+				ID3D11UnorderedAccessView* vertexUAV;
+				HRESULT hr = Renderer::GetDevice()->CreateUnorderedAccessView(vertexBuffer, &uavDesc, &vertexUAV);
+
+				// vsで読み込まれるスキニング処理後を送るSRV
+				D3D11_SHADER_RESOURCE_VIEW_DESC updatedSrvDesc = {};
+				updatedSrvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
+				updatedSrvDesc.Buffer.FirstElement = 0;
+				updatedSrvDesc.Buffer.NumElements = mesh->mNumVertices;
+				updatedSrvDesc.Format = DXGI_FORMAT_UNKNOWN;
+
+				ID3D11ShaderResourceView* updatedSRV;
+				Renderer::GetDevice()->CreateShaderResourceView(vertexBuffer, &updatedSrvDesc, &updatedSRV);
+
+				// CSに渡す定数バッファの作成
+				D3D11_BUFFER_DESC bufferDesc = {};
+				bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+				bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+				bufferDesc.CPUAccessFlags = 0;
+				bufferDesc.ByteWidth = sizeof(/*ボーンの情報と頂点数が格納できる構造体の型*/);
+				bufferDesc.StructureByteStride = 0;
+				bufferDesc.MiscFlags = 0;
+
+				Renderer::GetDevice()->CreateBuffer(&bufferDesc, nullptr, &constantBuffer);
+			}
+		}
 
 		// インデックスバッファ生成
 		{

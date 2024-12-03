@@ -42,7 +42,8 @@ private:
 	const aiScene* m_AiScene = nullptr;
 	std::unordered_map<std::string, const aiScene*> m_Animation = {};
 
-	ID3D11Buffer** m_VertexBuffer = nullptr;
+	ID3D11Buffer* m_NotDeformVertexBuffer = nullptr; // ボーン情報を含める
+	ID3D11Buffer** m_VertexBuffer = nullptr;		 // ボーン情報を含めない
 	ID3D11Buffer** m_IndexBuffer = nullptr;
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
