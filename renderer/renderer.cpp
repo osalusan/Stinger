@@ -409,7 +409,6 @@ void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11Inpu
 		{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 3, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 4 * 6, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 4 * 10, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 4 * 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	UINT numElements = ARRAYSIZE(layout);
 
@@ -440,6 +439,27 @@ void Renderer::CreatePixelShader( ID3D11PixelShader** PixelShader, const char* F
 	m_Device->CreatePixelShader(buffer, fsize, NULL, PixelShader);
 
 	delete[] buffer;
+}
+
+void Renderer::CreateComputeShader(ID3D11ComputeShader* pComputeShader, const char* FileName)
+{
+	FILE* file;
+	long int fsize;
+
+	file = fopen(FileName, "rb");
+
+	fsize = _filelength(_fileno(file));
+	unsigned char* buffer = new unsigned char[fsize];
+	fread(buffer, fsize, 1, file);
+	fclose(file);
+
+	// 2. コンピュートシェーダーを作成
+	HRESULT hr = m_Device->CreateComputeShader(
+		buffer,				  // シェーダーバイトコードへのポインタ
+		fsize,				  // バイトコードのサイズ
+		nullptr,              // クラスリンクエイジ（通常は nullptr）
+		&pComputeShader       // 作成されたコンピュートシェーダーへのポインタ
+	);
 }
 
 

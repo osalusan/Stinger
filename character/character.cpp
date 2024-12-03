@@ -31,6 +31,7 @@ Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
+	LoadShader("cso\\skinningVS.cso", "cso\\unlitTexturePS.cso");
 }
 
 void Character::Update(const float& deltaTime)

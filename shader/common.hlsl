@@ -29,6 +29,23 @@ cbuffer MaterialBuffer : register(b3)
     MATERIAL Material;
 }
 
+//ライト構造体の定義　C言語側のLIGHT構造体と同じ内容
+struct LIGHT
+{
+    bool Enable;
+    bool3 Dummy;
+    float4 Direction;
+    float4 Diffuse;
+    float4 Ambient;
+    float4 SkyColor; //天球色
+    float4 GroundColor; //地面色
+    float4 GroundNormal; //地面法線
+    
+    float4 Position; //光の座標
+    float4 PointLightParam;
+    float4 Angle; //スポットライトのコーン
+};
+
 cbuffer LightBuffer : register(b4) //コンスタントバッファ４番で受け取る
 {
     LIGHT Light; //ライト型構造体として利用する
@@ -74,7 +91,6 @@ struct VS_IN
     float4 Normal : NORMAL0;
     float4 Diffuse : COLOR0;
     float2 TexCoord : TEXCOORD0;
-    float4 Tangent : TANGENT;
 }; //表示するポリゴンのレイアウトと同じ
 //ピクセルシェーダーへ入力されるデータを構造体の形で表現
 struct PS_IN
@@ -87,19 +103,4 @@ struct PS_IN
     float4 Tangent : TANGENT0;
     float4 Binormal : BINORMAL0;
 };
-//ライト構造体の定義　C言語側のLIGHT構造体と同じ内容
-struct LIGHT
-{
-    bool Enable;
-    bool3 Dummy;
-    float4 Direction;
-    float4 Diffuse;
-    float4 Ambient;
-    float4 SkyColor; //天球色
-    float4 GroundColor; //地面色
-    float4 GroundNormal; //地面法線
-    
-    float4 Position; //光の座標
-    float4 PointLightParam;
-    float4 Angle; //スポットライトのコーン
-};
+

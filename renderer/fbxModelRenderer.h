@@ -9,14 +9,11 @@
 #include "assimp/matrix4x4.h"
 #pragma comment (lib, "assimp/assimp-vc143-mt.lib")
 
-//変形後頂点構造体
-struct DEFORM_VERTEX
+#define MAX_BONE (256)
+struct ANIMATIONBUFF
 {
-	aiVector3D Position = { 0.0f,0.0f,0.0f };
-	aiVector3D Normal = { 0.0f,0.0f,0.0f };
-	int				BoneNum = 0;
-	std::string		BoneName[4] = { "" };			//本来はボーンインデックスで管理するべき
-	float			BoneWeight[4] = { 0 };
+	int maxVertexCount = 0;    // モデルの最大頂点数
+	XMFLOAT4X4 boneMatrix[MAX_BONE] = {}; // 各ボーンの変換行列
 };
 
 //ボーン構造体
@@ -42,13 +39,19 @@ private:
 	const aiScene* m_AiScene = nullptr;
 	std::unordered_map<std::string, const aiScene*> m_Animation = {};
 
-	ID3D11Buffer* m_NotDeformVertexBuffer = nullptr; // ボーン情報を含める
-	ID3D11Buffer** m_VertexBuffer = nullptr;		 // ボーン情報を含めない
-	ID3D11Buffer** m_IndexBuffer = nullptr;
+	unsigned int totalVertexCount = 0;
+	std::vector<ID3D11Buffer*> notDeformVertexBuffers;
+	std::vector<ID3D11ShaderResourceView*> notDeformVertexSRVs;
+	std::vector<ID3D11Buffer*> vertexBuffers;
+	std::vector<ID3D11ShaderResourceView*> updatedSRVs;
+	std::vector<ID3D11UnorderedAccessView*> vertexUAVs;
+	std::vector<ID3D11Buffer*> constantBuffers;
+	std::vector<ID3D11Buffer*> indexBuffers;
+
+	ID3D11ComputeShader* _skinCS = nullptr;
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
-	std::vector<DEFORM_VERTEX>* m_DeformVertex = {};						//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 
 	XMFLOAT3 m_Center = {};
