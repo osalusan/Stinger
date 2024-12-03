@@ -29,6 +29,43 @@ cbuffer MaterialBuffer : register(b3)
     MATERIAL Material;
 }
 
+cbuffer LightBuffer : register(b4) //コンスタントバッファ４番で受け取る
+{
+    LIGHT Light; //ライト型構造体として利用する
+}
+
+cbuffer CameraBuffer : register(b5) //バッファの５番とする
+{
+    float4 CameraPosition; //カメラ座標を受け取る変数
+}
+
+//---------------------------------
+//汎用パラメータ受け取り用
+//---------------------------------
+cbuffer ParameterBuffer : register(b6)
+{
+    float4 Parameter; //C言語側から受け取る
+}
+
+cbuffer AnimationBuffer : register(b7)
+{
+    uint maxVertexCount; // モデルの最大頂点数
+    float4x4 boneMatrix[256]; // 各ボーンの変換行列
+};
+
+struct AnimationVertex
+{
+    float4 pos; // 位置座標
+    float4 normal; // 法線
+    float4 diffuse; // 頂点色
+    float2 uv; // TextureのUV値
+    
+    // ボーンに関わるステータス
+    // 最大4つまでとする
+    int4 boneIndex;
+    float4 boneWeight;
+};
+
 //頂点シェーダーへ入力されるデータを構造体の形で表現
 //これは頂点バッファの内容そのもの
 struct VS_IN
@@ -66,20 +103,3 @@ struct LIGHT
     float4 PointLightParam;
     float4 Angle; //スポットライトのコーン
 };
-cbuffer LightBuffer : register(b4) //コンスタントバッファ４番で受け取る
-{
-    LIGHT Light; //ライト型構造体として利用する
-}
-
-cbuffer CameraBuffer : register(b5) //バッファの５番とする
-{
-    float4 CameraPosition; //カメラ座標を受け取る変数
-}
-
-//---------------------------------
-//汎用パラメータ受け取り用
-//---------------------------------
-cbuffer ParameterBuffer : register(b6)
-{
-    float4 Parameter; //C言語側から受け取る
-}
