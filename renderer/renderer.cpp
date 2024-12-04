@@ -378,7 +378,6 @@ void Renderer::SetBoneMatrix(const std::vector<XMFLOAT4X4>& Matrix)
 	Renderer::GetDeviceContext()->Map(m_BoneBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	memcpy(mappedResource.pData, Matrix.data(), sizeof(XMFLOAT4X4) * Matrix.size());
 	Renderer::GetDeviceContext()->Unmap(m_BoneBuffer, 0);
-
 }
 
 

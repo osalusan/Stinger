@@ -6,24 +6,10 @@ VS_OUTPUT main(VS_IN input)
 
     // スキニング計算処理
     float4x4 skinMatrix;
-    skinMatrix =  mul(BoneMtx[input.BoneIndex.x], input.BoneWeights.x);
+    skinMatrix = mul(BoneMtx[input.BoneIndex.x], input.BoneWeights.x);
     skinMatrix += mul(BoneMtx[input.BoneIndex.y], input.BoneWeights.y);
     skinMatrix += mul(BoneMtx[input.BoneIndex.z], input.BoneWeights.z);
     skinMatrix += mul(BoneMtx[input.BoneIndex.w], input.BoneWeights.w);
-
-    // TODO : デバッグ用 / 削除予定
-    float weight = input.BoneWeights.x + input.BoneWeights.y + input.BoneWeights.z + input.BoneWeights.w;
-    if (weight != 1.0f)
-    {
-        matrix wvp;
-        wvp = mul(World, View);
-        wvp = mul(wvp, Projection);
-    
-        // 頂点位置の変換
-        output.Position = mul(input.Position, wvp);
-        
-        return output;
-    }
     
     matrix wvp;
     wvp = mul(World, View);

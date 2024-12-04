@@ -23,7 +23,7 @@ void GameScene::Init()
 	if (m_ObjectManager == nullptr) return;
 
 	m_ObjectManager->CreatePlayer();
-	m_ObjectManager->CreateBossEnemy<MawJLaygo>(XMFLOAT3(-20.0f, 0.0f, 10.0f));
+	//m_ObjectManager->CreateBossEnemy<MawJLaygo>(XMFLOAT3(-20.0f, 0.0f, 10.0f));
 	
 	// ƒvƒŒƒCƒ„[‚ÌŸ‚Éì¬
 	if (m_Camera == nullptr)

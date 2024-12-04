@@ -18,25 +18,25 @@ struct DEFORM_VERTEX
 	aiVector3D Position;
 	aiVector3D Normal;
 	int				BoneNum= 0;
-	int				BoneIndex[4] = {0};//本来はボーンインデックスで管理するべき
+	int				BoneIndex[4] = {0};
 	float			BoneWeight[4] = {0.0f};
 };
 
 //ボーン構造体
 struct BONE
 {
-	aiMatrix4x4 Matrix = { 0.0f, 0.0f, 0.0f, 0.0f,
-						   0.0f, 0.0f, 0.0f, 0.0f,
-						   0.0f, 0.0f, 0.0f, 0.0f,
-						   0.0f, 0.0f, 0.0f, 0.0f };
-	aiMatrix4x4 AnimationMatrix = { 0.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 0.0f, 0.0f };
-	aiMatrix4x4 OffsetMatrix = { 0.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 0.0f };
+	aiMatrix4x4 Matrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+						   0.0f, 1.0f, 0.0f, 0.0f,
+						   0.0f, 0.0f, 1.0f, 0.0f,
+						   0.0f, 0.0f, 0.0f, 1.0f };
+	aiMatrix4x4 AnimationMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+									0.0f, 1.0f, 0.0f, 0.0f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f };
+	aiMatrix4x4 OffsetMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+								 0.0f, 1.0f, 0.0f, 0.0f,
+								 0.0f, 0.0f, 1.0f, 0.0f,
+								 0.0f, 0.0f, 0.0f, 1.0f };
 };
 
 class FbxModelRenderer final
@@ -49,9 +49,9 @@ private:
 	ID3D11Buffer** m_IndexBuffer = nullptr;
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
+	std::vector<DEFORM_VERTEX>* m_DeformVertex;//変形後頂点データ
 
 	// GPUスキニング用
-	std::vector<DEFORM_VERTEX>* m_DeformVertex;//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 	std::unordered_map<int, std::string> m_NameList = {};
 
