@@ -60,14 +60,6 @@ private:
 	XMFLOAT3 m_Center = {};
 	XMFLOAT3 m_Scale = {};
 
-
-	void CalcInterpolatedPosition(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-	void CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-	void CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim);
-	unsigned int FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim);
-	unsigned int FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim);
-	unsigned int FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim);
-	aiNodeAnim* FindNodeAnim(const aiAnimation* animation, const std::string& nodeName);
 public:
 	void Load(const char* FileName);
 	void Uninit();
