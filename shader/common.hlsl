@@ -85,7 +85,7 @@ struct VS_IN
     float2 TexCoord : TEXCOORD0;
     
     int4 BoneIndex : BONEINDEX0; // ボーンインデックス
-    float4 BoneWeight : BONEWEIGHTS0; // ボーンウェイト
+    float4 BoneWeight : BONEWEIGHT0; // ボーンウェイト
 }; //表示するポリゴンのレイアウトと同じ
 
 // 頂点出力構造体

@@ -1,6 +1,124 @@
 #include "main/main.h"
 #include "renderer/fbxModelRenderer.h"
 
+void FbxModelRenderer::CalcInterpolatedPosition(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumPositionKeys == 1)
+	{
+		// キーフレームが1つしかない場合、その値を使用
+		Out = pNodeAnim->mPositionKeys[0].mValue;
+		return;
+	}
+
+	// 現在のキーフレームインデックスを取得
+	unsigned int PositionIndex = FindPosition(AnimationTime, pNodeAnim);
+	unsigned int NextPositionIndex = PositionIndex + 1;
+
+	// キーフレーム間の時間差と補間割合を計算
+	float DeltaTime = static_cast<float>(pNodeAnim->mPositionKeys[NextPositionIndex].mTime - pNodeAnim->mPositionKeys[PositionIndex].mTime);
+	float Factor = (AnimationTime - static_cast<float>(pNodeAnim->mPositionKeys[PositionIndex].mTime)) / DeltaTime;
+
+	// 線形補間
+	const aiVector3D& Start = pNodeAnim->mPositionKeys[PositionIndex].mValue;
+	const aiVector3D& End = pNodeAnim->mPositionKeys[NextPositionIndex].mValue;
+	Out = Start + Factor * (End - Start);
+}
+
+void FbxModelRenderer::CalcInterpolatedRotation(aiQuaternion& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumRotationKeys == 1)
+	{
+		// キーフレームが1つしかない場合、その値を使用
+		Out = pNodeAnim->mRotationKeys[0].mValue;
+		return;
+	}
+
+	// 現在のキーフレームインデックスを取得
+	unsigned int RotationIndex = FindRotation(AnimationTime, pNodeAnim);
+	unsigned int NextRotationIndex = RotationIndex + 1;
+
+	// キーフレーム間の時間差と補間割合を計算
+	float DeltaTime = static_cast<float>(pNodeAnim->mRotationKeys[NextRotationIndex].mTime - pNodeAnim->mRotationKeys[RotationIndex].mTime);
+	float Factor = (AnimationTime - static_cast<float>(pNodeAnim->mRotationKeys[RotationIndex].mTime)) / DeltaTime;
+
+	// 球面線形補間（Slerp）
+	const aiQuaternion& Start = pNodeAnim->mRotationKeys[RotationIndex].mValue;
+	const aiQuaternion& End = pNodeAnim->mRotationKeys[NextRotationIndex].mValue;
+	aiQuaternion::Interpolate(Out, Start, End, Factor);
+	Out = Out.Normalize();
+}
+
+void FbxModelRenderer::CalcInterpolatedScaling(aiVector3D& Out, float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	if (pNodeAnim->mNumScalingKeys == 1)
+	{
+		// キーフレームが1つしかない場合、その値を使用
+		Out = pNodeAnim->mScalingKeys[0].mValue;
+		return;
+	}
+
+	// 現在のキーフレームインデックスを取得
+	unsigned int ScalingIndex = FindScaling(AnimationTime, pNodeAnim);
+	unsigned int NextScalingIndex = ScalingIndex + 1;
+
+	// キーフレーム間の時間差と補間割合を計算
+	float DeltaTime = static_cast<float>(pNodeAnim->mScalingKeys[NextScalingIndex].mTime - pNodeAnim->mScalingKeys[ScalingIndex].mTime);
+	float Factor = (AnimationTime - static_cast<float>(pNodeAnim->mScalingKeys[ScalingIndex].mTime)) / DeltaTime;
+
+	// 線形補間
+	const aiVector3D& Start = pNodeAnim->mScalingKeys[ScalingIndex].mValue;
+	const aiVector3D& End = pNodeAnim->mScalingKeys[NextScalingIndex].mValue;
+	Out = Start + Factor * (End - Start);
+}
+
+unsigned int FbxModelRenderer::FindPosition(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	for (unsigned int i = 0; i < pNodeAnim->mNumPositionKeys - 1; i++)
+	{
+		if (AnimationTime < static_cast<float>(pNodeAnim->mPositionKeys[i + 1].mTime))
+		{
+			return i;
+		}
+	}
+	return pNodeAnim->mNumPositionKeys - 1;
+}
+
+unsigned int FbxModelRenderer::FindRotation(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	for (unsigned int i = 0; i < pNodeAnim->mNumRotationKeys - 1; i++)
+	{
+		if (AnimationTime < static_cast<float>(pNodeAnim->mRotationKeys[i + 1].mTime))
+		{
+			return i;
+		}
+	}
+	return pNodeAnim->mNumRotationKeys - 1;
+}
+
+unsigned int FbxModelRenderer::FindScaling(float AnimationTime, const aiNodeAnim* pNodeAnim)
+{
+	for (unsigned int i = 0; i < pNodeAnim->mNumScalingKeys - 1; i++)
+	{
+		if (AnimationTime < static_cast<float>(pNodeAnim->mScalingKeys[i + 1].mTime))
+		{
+			return i;
+		}
+	}
+	return pNodeAnim->mNumScalingKeys - 1;
+}
+aiNodeAnim* FbxModelRenderer::FindNodeAnim(const aiAnimation* animation, const std::string& nodeName)
+{
+	for (unsigned int i = 0; i < animation->mNumChannels; i++)
+	{
+		aiNodeAnim* nodeAnim = animation->mChannels[i];
+		if (nodeAnim->mNodeName.C_Str() == nodeName)
+		{
+			return nodeAnim;
+		}
+	}
+	return nullptr;
+}
+
 void FbxModelRenderer::Draw()
 {
 	// GPUスキニング
@@ -112,84 +230,39 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	if (m_Animation.count(AnimationName1) == 0)return;
 	if (!m_Animation[AnimationName1]->HasAnimations())return;
 
-	//アニメーションデータからボーンマトリクス算出
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
 
-	// アニメーションのティック単位の時間を計算
-	float TicksPerSecond;
-	if (animation1->mTicksPerSecond != 0.0f)
-	{
-		TicksPerSecond = static_cast<float>(animation1->mTicksPerSecond);
-	}
-	else
-	{
-		TicksPerSecond = 60.0f; // デフォルトのティックレート
-	}
+	float TicksPerSecond = animation1->mTicksPerSecond != 0.0f ? static_cast<float>(animation1->mTicksPerSecond) : 25.0f;
 	float TimeInTicks = time * TicksPerSecond;
-
-	// アニメーション時間をループさせる
-	float AnimationTime = static_cast<float>(fmod(TimeInTicks, animation1->mDuration));
+	float AnimationTime = fmod(TimeInTicks, static_cast<float>(animation1->mDuration));
 
 	for (std::pair<const std::string, BONE>& pair : m_Bone)
 	{
 		BONE* bone = &m_Bone[pair.first];
+		aiNodeAnim* nodeAnim1 = FindNodeAnim(animation1, pair.first);
 
-		aiNodeAnim* nodeAnim1 = nullptr;
-
-		for (unsigned int c = 0; c < animation1->mNumChannels; c++)
-		{
-			if (animation1->mChannels[c]->mNodeName == aiString(pair.first))
-			{
-				nodeAnim1 = animation1->mChannels[c];
-				break;
-			}
-		}
-
-		int f;
-
-		aiQuaternion rot1;
-		aiVector3D pos1;
+		aiVector3D scaling;
+		aiQuaternion rotation;
+		aiVector3D position;
 
 		if (nodeAnim1)
 		{
-			// キーフレームの総数
-			unsigned int numRotKeys = nodeAnim1->mNumRotationKeys;
-			unsigned int numPosKeys = nodeAnim1->mNumPositionKeys;
-
-			// キーフレームのインデックスを計算（補間なし）
-			f = 0;
-			for (unsigned int i = 0; i < numRotKeys; i++)
-			{
-				if (AnimationTime < nodeAnim1->mRotationKeys[i].mTime)
-				{
-					break;
-				}
-				f = i;
-			}
-			rot1 = nodeAnim1->mRotationKeys[f].mValue;
-
-			f = 0;
-			for (unsigned int i = 0; i < numPosKeys; i++)
-			{
-				if (AnimationTime < nodeAnim1->mPositionKeys[i].mTime)
-				{
-					break;
-				}
-				f = i;
-			}
-			pos1 = nodeAnim1->mPositionKeys[f].mValue;
+			CalcInterpolatedScaling(scaling, AnimationTime, nodeAnim1);
+			CalcInterpolatedRotation(rotation, AnimationTime, nodeAnim1);
+			CalcInterpolatedPosition(position, AnimationTime, nodeAnim1);
 		}
 		else
 		{
-			rot1 = aiQuaternion();
-			pos1 = aiVector3D(0.0f, 0.0f, 0.0f); 
+			scaling = aiVector3D(1.0f, 1.0f, 1.0f);
+			rotation = aiQuaternion();
+			position = aiVector3D(0.0f, 0.0f, 0.0f);
 		}
 
-		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot1, pos1);
+		bone->AnimationMatrix = aiMatrix4x4(scaling, rotation, position);
 	}
 
-	//再帰的にボーンマトリクスを更新
-	aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
+	//aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
+	aiMatrix4x4 rootMatrix;
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
 
 	//頂点変換(CPUスキニング / Vertex)
@@ -587,10 +660,10 @@ void FbxModelRenderer::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	BONE* bone = &m_Bone[node->mName.C_Str()];
 
 	//マトリクスの乗算順番に注意
-	aiMatrix4x4 worldMatrix;
+	aiMatrix4x4 worldMatrix = matrix * bone->AnimationMatrix;
 
-	worldMatrix *= matrix;
-	worldMatrix *= bone->AnimationMatrix;
+	//worldMatrix *= matrix;
+	//worldMatrix *= bone->AnimationMatrix;
 
 	bone->Matrix = worldMatrix;
 	bone->Matrix *= bone->OffsetMatrix;//これを掛けないといけない
