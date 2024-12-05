@@ -46,6 +46,9 @@
     <Filter Include="behaviorTree">
       <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="taskNode">
+      <UniqueIdentifier>{6e96fa29-b300-456f-a73b-7bedd27c56d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -146,6 +149,27 @@
     </ClCompile>
     <ClCompile Include="behaviorTree\behaviorTree.cpp">
       <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="character\bossEnemy.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character\mawJLaygo.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\taskNode.cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\checkRangeTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\rollAttackTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\animationAttackTask.cpp">
+      <Filter>taskNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +281,27 @@
     <ClInclude Include="behaviorTree\sequenceNode .h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
+    <ClInclude Include="character\bossEnemy.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character\mawJLaygo.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\taskNode.h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\checkRangeTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\dashAtThePlayerTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\rollAttackTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\animationAttackTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -266,6 +311,12 @@
       <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\skinningVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\skinningPS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -49,8 +49,10 @@ void BoxCollisionComponent::GetMyObb(OBB& myObb)
 void BoxCollisionComponent::Init()
 {
 	CollisionComponent::Init();
+#if _DEBUG
 	m_Model = STATICMESH_MODEL::COLLISION_BOX;
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCollision.obj");
+#endif
 }
 
 void BoxCollisionComponent::Update()

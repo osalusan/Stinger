@@ -3,6 +3,8 @@
 #include "renderer/fbxModelRenderer.h"
 #include "component/collisionComponent.h"
 
+constexpr float DEFAULT_BLEND_VALUE = 8.0f;
+
 // ------------------------- protected -------------------------
 void Character::TakeDamage(const int& atk)
 {
@@ -28,6 +30,8 @@ void Character::ReservModel(const ANIMETION_MODEL& animeModel, const std::string
 Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
+	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
+	LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }
 
 void Character::Update(const float& deltaTime)
@@ -47,7 +51,31 @@ void Character::Update(const float& deltaTime)
 	}
 	// 移動処理
 	MoveControl(deltaTime);
+	// アニメーション制御
+	AnimationControl();
 
+	// アニメーションのブレンド制御
+	m_AnimationTime += deltaTime;
+	if (m_AnimationName != m_NextAnimationName && m_BlendRatio < 1.0f) 
+	{ 
+		m_BlendRatio += deltaTime * m_BlendTimeValue;
+	}
+	else if(m_AnimationName != m_NextAnimationName && m_BlendRatio > 1.0f)
+	{
+		m_AnimationName = m_NextAnimationName;
+		m_AnimationTime = 0.0f;
+		m_BlendRatio = 0.0f;
+	}
+	if (m_AnimationName == m_NextAnimationName && m_BlendRatio > 0.0f)
+	{ 
+		m_BlendRatio -= deltaTime * m_BlendTimeValue;
+	}
+	else if (m_AnimationName == m_NextAnimationName && m_BlendRatio < 0.0f)
+	{
+		m_BlendRatio = 0.0f;
+	}
+
+	// 速度制御
 	m_Velocity.x *= deltaTime;
 	m_Velocity.y *= deltaTime;
 	m_Velocity.z *= deltaTime;
@@ -81,11 +109,15 @@ void Character::Draw()
 
 	if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
-		//Model->Update(m_AnimationName.c_str(), m_AnimationFrame, m_NextanimationName.c_str(), m_AnimationFrame, m_BlendRatio);
+		if (m_AnimationName == m_NextAnimationName)
+		{
+			model->Update(m_AnimationName.c_str(), m_AnimationTime);
+		}
+		else if(m_AnimationName != m_NextAnimationName)
+		{
+			model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
+		}
+		
 		model->Draw();
 	}
 }
-
-
-
-

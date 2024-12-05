@@ -3,7 +3,7 @@
 
 class Player;
 
-class PlayerCamera :public Camera
+class PlayerCamera final:public Camera
 {
 private:
 	Player* m_PlayerCache = nullptr;
@@ -13,7 +13,7 @@ private:
 	int m_CurrentTime = 0;
 public:
 	using Camera::Camera;
-	~PlayerCamera();
+	virtual ~PlayerCamera()override;
 	void Init()override;
 	void Uninit()override;
 	void Update()override;

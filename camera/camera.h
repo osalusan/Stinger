@@ -11,6 +11,7 @@ protected:
 	XMFLOAT4X4 m_ViewMatrix = {};
 
 public:
+	virtual ~Camera() {};
 	virtual void Init() = 0;
 	virtual void Uninit() = 0;
 	virtual void Update() = 0;

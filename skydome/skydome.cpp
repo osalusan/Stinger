@@ -19,7 +19,7 @@ void SkyDome::Init()
 	if (m_CameraCashe == nullptr)
 	{
 		StaticMeshObject::Init();
-		m_Scale = { 100.0f,100.0f,100.0f };
+		m_Scale = { 400.0f,400.0f,400.0f };
 
 		GameScene* Scene = SceneManager::GetScene<GameScene>();
 		if (Scene == nullptr) return;

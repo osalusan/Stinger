@@ -1,22 +1,30 @@
 #pragma once
-#include "behaviorNode.h"
+#include "taskNode.h"
 
 // ç≈èâÇ…ê¨å˜ÇµÇΩÉmÅ[ÉhÇ≈èIóπ
-class SelectorNode : public BehaviorNode 
+class SelectorNode: public BehaviorNode 
 {
-private:
-    std::vector<BehaviorNode*> m_Children = {};
+protected:
+    std::vector<TaskNode*> m_Children = {};
 public:
-    virtual ~SelectorNode();
+    virtual ~SelectorNode()override;
     virtual void Init()override;
-    virtual NODE_STATUS Update() override;
+    virtual NODE_STATUS Update(const float& deltaTime) override;
 
+    template <typename T, typename... Arg>
+    void AddTaskChild(Arg&&...args)
+    {
+        TaskNode* node = new T(std::forward<Arg>(args)...);
+        if (node == nullptr) return;
+        node->Init();
+        m_Children.emplace_back(node);
+    }
     template <typename T>
-    void AddChild(T child)
+    void AddNodeChild()
     {
         BehaviorNode* node = new T;
         if (node == nullptr) return;
         node->Init();
-        m_Children.emplace_back(child);
+        m_Children.emplace_back(node);
     }
 };

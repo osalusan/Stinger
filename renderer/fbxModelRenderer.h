@@ -2,44 +2,40 @@
 
 #include "renderer/renderer.h"
 #include <unordered_map>
+#include <map>
 
 #include "assimp/cimport.h"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
 #include "assimp/matrix4x4.h"
+#include "assimp\Importer.hpp"
 #pragma comment (lib, "assimp/assimp-vc143-mt.lib")
 
-//変形後頂点構造体
-struct DEFORM_VERTEX
-{
-	aiVector3D Position = { 0.0f,0.0f,0.0f };
-	aiVector3D Normal = { 0.0f,0.0f,0.0f };
-	int				BoneNum = 0;
-	std::string		BoneName[4] = { "" };			//本来はボーンインデックスで管理するべき
-	float			BoneWeight[4] = { 0 };
-};
+// シェーダー側と同じになるように
+#define BONE_MAX (256)
 
 //ボーン構造体
 struct BONE
 {
-	aiMatrix4x4 Matrix = { 0.0f, 0.0f, 0.0f, 0.0f,
-						   0.0f, 0.0f, 0.0f, 0.0f,
-						   0.0f, 0.0f, 0.0f, 0.0f,
-						   0.0f, 0.0f, 0.0f, 0.0f };
-	aiMatrix4x4 AnimationMatrix = { 0.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 0.0f, 0.0f,
-									0.0f, 0.0f, 0.0f, 0.0f };
-	aiMatrix4x4 OffsetMatrix = { 0.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 0.0f,
-								 0.0f, 0.0f, 0.0f, 0.0f };
+	aiMatrix4x4 Matrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+						   0.0f, 1.0f, 0.0f, 0.0f,
+						   0.0f, 0.0f, 1.0f, 0.0f,
+						   0.0f, 0.0f, 0.0f, 1.0f };
+	aiMatrix4x4 AnimationMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+									0.0f, 1.0f, 0.0f, 0.0f,
+									0.0f, 0.0f, 1.0f, 0.0f,
+									0.0f, 0.0f, 0.0f, 1.0f };
+	aiMatrix4x4 OffsetMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+								 0.0f, 1.0f, 0.0f, 0.0f,
+								 0.0f, 0.0f, 1.0f, 0.0f,
+								 0.0f, 0.0f, 0.0f, 1.0f };
 };
 
 class FbxModelRenderer final
 {
 private:
 	const aiScene* m_AiScene = nullptr;
+	Assimp::Importer m_Importer;
 	std::unordered_map<std::string, const aiScene*> m_Animation = {};
 
 	ID3D11Buffer** m_VertexBuffer = nullptr;
@@ -47,12 +43,14 @@ private:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
-	std::vector<DEFORM_VERTEX>* m_DeformVertex = {};						//変形後頂点データ
+	// スキニング用
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
+	// GPUスキニング用	
+	std::vector<BONE*> m_BoneIndex;											// ボーンインデックス順のボーンリスト
+
 
 	XMFLOAT3 m_Center = {};
 	XMFLOAT3 m_Scale = {};
-
 
 public:
 	void Load(const char* FileName);
@@ -60,10 +58,10 @@ public:
 	void Draw();
 
 	void LoadAnimation(const char* FileName, const char* Name);
-	void Update(const char* AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRatio);
-	void CreateBone(aiNode* node);
-	void Update(const char* AnimationName1, int Frame1);
-	void UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix);
+	void Update(const char* AnimationName1, const float& time1, const char* AnimationName2, const float& time2, float BlendRatio);
+	void CreateBone(aiNode* node, std::map<std::string, int>& boneIndexMap, int& boneCount);
+	void Update(const char* AnimationName1,const float& time);
+	void UpdateBoneMatrix(aiNode* node,aiMatrix4x4 matrix);
 
 	const XMFLOAT3& GetCenter()const
 	{

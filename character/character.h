@@ -20,21 +20,28 @@ protected:
 	int m_Damage = 0;								// 与えるダメージ
 	bool m_IsDead = false;							// 死んでいる
 
-	unsigned int m_AnimationFrame = 0;				// アニメーションのフレーム
-	std::string m_AnimationName = "Idle";			// アニメーションの名前
-	std::string m_NextAnimationName = "Idle";		// ブレンド用、次のアニメーションの名前
-	float m_BlendRatio = 1.0f;						// アニメーションブレンドの数値
+	// アニメーション用
+	float m_AnimationTime = 0.0f;					// アニメーションのフレーム
+	std::string m_AnimationName = "";				// アニメーションの名前
+	std::string m_NextAnimationName = "";			// ブレンド用、次のアニメーションの名前
+	float m_BlendRatio = 0.0f;						// アニメーションブレンドの数値
+	float m_BlendTimeValue = 0.0f;					// どのくらいブレンドを早く行うか
 
 	virtual void MoveControl(const float& deltaTime) = 0;
 	virtual void CollisionControl() = 0;
 	virtual void CustomCollisionInfo() = 0;
+	virtual void AnimationControl() = 0;
 
 	void TakeDamage(const int& atk);
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
-
+	
 public:
 	Character();
 	virtual void Update(const float& deltaTime)override final;
 	virtual void Draw()override;
 	
+	void ChangeAnimation(const std::string& anime)
+	{
+		m_NextAnimationName = anime;
+	}
 };

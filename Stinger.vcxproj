@@ -22,11 +22,13 @@
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\selectorNode .cpp" />
     <ClCompile Include="behaviorTree\sequenceNode .cpp" />
+    <ClCompile Include="behaviorTree\taskNode.cpp" />
     <ClCompile Include="camera\camera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
     <ClCompile Include="camera\titleCamera.cpp" />
     <ClCompile Include="character\bossEnemy.cpp" />
     <ClCompile Include="character\character.cpp" />
+    <ClCompile Include="character\mawJLaygo.cpp" />
     <ClCompile Include="character\player.cpp" />
     <ClCompile Include="component\boxCollisionComponent.cpp" />
     <ClCompile Include="component\collisionComponent.cpp" />
@@ -53,17 +55,23 @@
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
+    <ClCompile Include="taskNodes\animationAttackTask.cpp" />
+    <ClCompile Include="taskNodes\checkRangeTask.cpp" />
+    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp" />
+    <ClCompile Include="taskNodes\rollAttackTask.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behaviorTree\behaviorNode.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\selectorNode .h" />
     <ClInclude Include="behaviorTree\sequenceNode .h" />
+    <ClInclude Include="behaviorTree\taskNode.h" />
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\playerCamera.h" />
     <ClInclude Include="camera\titleCamera.h" />
     <ClInclude Include="character\bossEnemy.h" />
     <ClInclude Include="character\character.h" />
+    <ClInclude Include="character\mawJLaygo.h" />
     <ClInclude Include="character\player.h" />
     <ClInclude Include="component\boxCollisionComponent.h" />
     <ClInclude Include="component\collisionComponent.h" />
@@ -92,16 +100,35 @@
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+    <ClInclude Include="taskNodes\animationAttackTask.h" />
+    <ClInclude Include="taskNodes\checkRangeTask.h" />
+    <ClInclude Include="taskNodes\dashAtThePlayerTask.h" />
+    <ClInclude Include="taskNodes\rollAttackTask.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shader\skinningPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\skinningVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="shader\unlitTexturePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -197,6 +224,7 @@
       <AdditionalIncludeDirectories>..\Stinger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -218,6 +246,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\Stinger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -229,6 +258,7 @@
     <FxCompile />
     <FxCompile>
       <ObjectFileOutput>cso\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel>5.0</ShaderModel>
     </FxCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

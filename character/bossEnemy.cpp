@@ -1,24 +1,33 @@
 #include "bossEnemy.h"
 #include "behaviorTree/behaviorTree.h"
 
-// ----------------------- protected -----------------------
-void BossEnemy::CreateTree(BehaviourTree* tree)
+// ----------------------- public -----------------------
+
+void BossEnemy::MoveControl(const float& deltaTime)
 {
-	if (m_Tree == nullptr && tree != nullptr)
-	{
-		m_Tree = tree;
-	}
 	if (m_Tree != nullptr)
 	{
-		m_Tree->Init();
+		m_Tree->Update(deltaTime);
 	}
 }
-
-// ----------------------- public -----------------------
 
 BossEnemy::~BossEnemy()
 {
 	delete m_Tree;
 	m_Tree = nullptr;
+
+	m_RunningNodeCache = nullptr;
+}
+
+void BossEnemy::Init()
+{
+	GameObject::Init();
+
+	if (m_Tree == nullptr)
+	{
+		m_Tree = new BehaviorTree;
+	}
+
+	CreateBehaviourTree();
 }
 

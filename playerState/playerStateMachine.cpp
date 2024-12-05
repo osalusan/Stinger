@@ -100,14 +100,8 @@ void PlayerStateMachine::Update(const float& deltaTime)
 		m_CurrentPlayerState->ChangeStateControl();
 	}
 
-
 	// 最後にリセット
 	m_IsGround = false;
-}
-
-void PlayerStateMachine::Draw()
-{
-	// TODO : プレイヤーのアニメーション管理
 }
 
 void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)

@@ -7,7 +7,7 @@
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
 
-constexpr XMFLOAT3 PLAYER_DEFAULT_POS = { 0.03f,0.03f,0.03f };
+constexpr XMFLOAT3 PLAYER_DEFAULT_SCALE = { 0.03f,0.03f,0.03f };
 constexpr float GRAVITY = 2200.0f;
 
 Player::Player()
@@ -24,7 +24,7 @@ Player::~Player()
 void Player::Init()
 {
 	GameObject::Init();
-	m_Scale = PLAYER_DEFAULT_POS;
+	m_Scale = PLAYER_DEFAULT_SCALE;
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;
 
@@ -47,15 +47,6 @@ void Player::Uninit()
 		m_PlayerStateMachine->Uninit();
 	}
 	Character::Uninit();
-}
-
-void Player::Draw()
-{
-	Character::Draw();
-	if (m_PlayerStateMachine != nullptr)
-	{
-		m_PlayerStateMachine->Draw();
-	}
 }
 
 // ------------------------------- private -------------------------------
@@ -105,7 +96,7 @@ void Player::CollisionControl()
 		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
 		XMStoreFloat3(&m_Position, playerVectorPos);
 
-		// 既に押し出しているからポジションは補正しなくていい
+		// 既に押し出しているから地面の高さで補正しなくていい
 		if (mtv.m128_f32[1] > 0.0f)
 		{
 			m_Velocity.y = 0.0f;
@@ -123,5 +114,13 @@ void Player::CollisionControl()
 		// 地面に触れているかどうかを伝える
 		m_PlayerStateMachine->HitGround();
 		
+	}
+}
+
+void Player::AnimationControl()
+{
+	if (m_PlayerStateMachine != nullptr)
+	{
+		ChangeAnimation(m_PlayerStateMachine->GetAnimation());
 	}
 }

@@ -7,6 +7,9 @@ struct VERTEX_3D
 	XMFLOAT3 Normal = {};
 	XMFLOAT4 Diffuse = {};
 	XMFLOAT2 TexCoord = {};
+
+	int BoneIndices[4] = { 0 }; // ボーンインデックス
+	float BoneWeights[4] = { 0.0f }; // ボーンウェイト
 };
 
 struct MATERIAL
@@ -55,7 +58,7 @@ private:
 	static ID3D11Buffer*			m_ProjectionBuffer;
 	static ID3D11Buffer*			m_MaterialBuffer;
 	static ID3D11Buffer*			m_LightBuffer;
-
+	static ID3D11Buffer*			m_BoneBuffer;
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
@@ -80,6 +83,7 @@ public:
 	static void SetViewMatrix(const XMMATRIX& ViewMatrix);
 	static void SetProjectionMatrix(const XMMATRIX& ProjectionMatrix);
 	static void SetMaterial(const MATERIAL& Material);
+	static void SetBoneMatrix(const std::vector<XMFLOAT4X4>& Matrix);
 	static void SetLight(const LIGHT& Light);
 	static void SetBlendAddEnable(const bool& enable);
 

@@ -1,11 +1,11 @@
 #pragma once
 #include "camera.h"
 
-class TitleCamera :public Camera
+class TitleCamera final:public Camera
 {
 public:
 	using Camera::Camera;
-	void Init()override;
-	void Uninit()override;
-	void Update()override;
+	virtual void Init()override;
+	virtual void Uninit()override;
+	virtual void Update()override;
 };
