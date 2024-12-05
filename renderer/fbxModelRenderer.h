@@ -53,6 +53,7 @@ private:
 
 	// GPUスキニング用
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
+	std::vector<BONE*> m_BonesByIndex;										// ボーンインデックス順のボーンリスト
 	std::unordered_map<int, std::string> m_NameList = {};
 
 

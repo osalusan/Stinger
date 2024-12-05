@@ -123,9 +123,9 @@ void FbxModelRenderer::Draw()
 {
 	// GPUスキニング
 	std::vector<XMFLOAT4X4> boneMatrix;
-	for (const auto& bone : m_Bone)
+	for (const BONE* bone : m_BonesByIndex)
 	{
-		aiMatrix4x4 aiMat = bone.second.Matrix;
+		aiMatrix4x4 aiMat = bone->Matrix;
 		XMFLOAT4X4 mat = {};
 
 		mat._11 = aiMat.a1; mat._12 = aiMat.b1; mat._13 = aiMat.c1; mat._14 = aiMat.d1;
@@ -261,6 +261,7 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 		bone->AnimationMatrix = aiMatrix4x4(scaling, rotation, position);
 	}
 
+	// ルートマトリクスを単位行列で初期化
 	//aiMatrix4x4 rootMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), aiQuaternion((float)AI_MATH_PI, 0.0f, 0.0f), aiVector3D(0.0f, 0.0f, 0.0f));
 	aiMatrix4x4 rootMatrix;
 	UpdateBoneMatrix(m_AiScene->mRootNode, rootMatrix);
@@ -692,6 +693,22 @@ void FbxModelRenderer::Load(const char* FileName)
 
 	// ボーンの作成とインデックスの割り当て
 	CreateBone(m_AiScene->mRootNode, boneNameIndex, boneCount);
+
+	// ボーンインデックス順のボーンリストを初期化
+	m_BonesByIndex.resize(boneCount, nullptr);
+
+	// ボーンリストを構築
+	for (const auto& pair : boneNameIndex)
+	{
+		const std::string& boneName = pair.first;
+		int boneIndex = pair.second;
+
+		// m_Boneからボーンへのポインタを取得
+		BONE* bone = &m_Bone[boneName];
+
+		// ボーンリストに格納
+		m_BonesByIndex[boneIndex] = bone;
+	}
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
 	{
