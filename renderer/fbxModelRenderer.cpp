@@ -15,7 +15,7 @@ void FbxModelRenderer::Draw()
 		mat._31 = aiMat.a3; mat._32 = aiMat.b3; mat._33 = aiMat.c3; mat._34 = aiMat.d3;
 		mat._41 = aiMat.a4; mat._42 = aiMat.b4; mat._43 = aiMat.c4; mat._44 = aiMat.d4;
 
-		// ”½“]
+		// “]’u
 		XMMATRIX matTranspose = XMMatrixTranspose(XMLoadFloat4x4(&mat));
 		XMStoreFloat4x4(&mat, matTranspose);
 
