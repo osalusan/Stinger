@@ -5,9 +5,9 @@ void FbxModelRenderer::Draw()
 {
 	// GPUスキニング
 	std::vector<XMFLOAT4X4> boneMatrix;
-	for (const BONE* bone : m_BonesByIndex)
+	for (const BONE* bone : m_BoneIndex)
 	{
-		aiMatrix4x4 aiMat = bone->Matrix;
+		const aiMatrix4x4& aiMat = bone->Matrix;
 		XMFLOAT4X4 mat = {};
 
 		mat._11 = aiMat.a1; mat._12 = aiMat.b1; mat._13 = aiMat.c1; mat._14 = aiMat.d1;
@@ -80,13 +80,13 @@ void FbxModelRenderer::Draw()
 
 void FbxModelRenderer::LoadAnimation(const char* FileName, const char* Name)
 {
+	// TODO :Importerを使用しての読み込みに変更
 	m_Animation[Name] = aiImportFile(FileName, aiProcess_ConvertToLeftHanded);
 	assert(m_Animation[Name]);
 }
 
 void FbxModelRenderer::CreateBone(aiNode* node, std::map<std::string, int>& boneIndexMap, int& boneCount)
 {
-
 	// ボーン名を取得
 	std::string boneName = node->mName.C_Str();
 
@@ -366,7 +366,9 @@ void FbxModelRenderer::Load(const char* FileName)
 {
 	const std::string modelPath(FileName);
 
-	m_AiScene = aiImportFile(FileName, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);
+	m_Importer.SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
+	m_AiScene = m_Importer.ReadFile(FileName, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);
+
 	assert(m_AiScene);
 
 	m_VertexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
@@ -380,7 +382,7 @@ void FbxModelRenderer::Load(const char* FileName)
 	CreateBone(m_AiScene->mRootNode, boneNameIndex, boneCount);
 
 	// ボーンインデックス順のボーンリストを初期化
-	m_BonesByIndex.resize(boneCount, nullptr);
+	m_BoneIndex.resize(boneCount, nullptr);
 
 	// ボーンリストを構築
 	for (const auto& bonePair : boneNameIndex)
@@ -392,7 +394,7 @@ void FbxModelRenderer::Load(const char* FileName)
 		BONE* bone = &m_Bone[boneName];
 
 		// ボーンリストに格納
-		m_BonesByIndex[boneIndex] = bone;
+		m_BoneIndex[boneIndex] = bone;
 	}
 
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
@@ -587,19 +589,6 @@ void FbxModelRenderer::Uninit()
 
 	delete[] m_VertexBuffer;
 	delete[] m_IndexBuffer;
-
-	for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : m_Texture)
-	{
-		pair.second->Release();
-	}
-
-	aiReleaseImport(m_AiScene);
-
-	for (std::pair<const std::string, const aiScene*> pair : m_Animation)
-	{
-		aiReleaseImport(pair.second);
-	}
-
 }
 
 

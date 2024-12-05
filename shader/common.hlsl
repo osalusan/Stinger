@@ -1,7 +1,8 @@
 //このファイルは他のシェーダーファイルへインクルードされます
 // 各種マトリクスやベクトルを受け取る変数を用意
 
-#define BONES_MAX 256
+// シェーダー側と同じになるように
+#define BONE_MAX 256
 
 cbuffer WorldBuffer : register(b0) //定数バッファ 0 番
 {
@@ -70,7 +71,7 @@ cbuffer ParameterBuffer : register(b6)
 // 定数バッファにボーンマトリクスを格納
 cbuffer BoneMatrices : register(b7)
 {
-    float4x4 BoneMtx[BONES_MAX]; // ボーンの最大数
+    float4x4 BoneMtx[BONE_MAX]; // ボーンの最大数
 };
 
 

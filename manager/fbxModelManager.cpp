@@ -35,7 +35,7 @@ void FbxModelManager::Uninit()
         if (loadModel.second == nullptr) continue;
         loadModel.second->Uninit();
 
-        delete  loadModel.second;
+        delete loadModel.second;
         loadModel.second = nullptr;
     }
     m_LoadModelPool.clear();

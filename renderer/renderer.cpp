@@ -232,7 +232,7 @@ void Renderer::Init()
 	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	bufferDesc.ByteWidth = sizeof(XMFLOAT4X4) * BONES_MAX;
+	bufferDesc.ByteWidth = sizeof(XMFLOAT4X4) * BONE_MAX;
 	bufferDesc.StructureByteStride = 0;
 	bufferDesc.MiscFlags = 0;
 
@@ -373,7 +373,7 @@ void Renderer::SetProjectionMatrix(const XMMATRIX& ProjectionMatrix)
 void Renderer::SetBoneMatrix(const std::vector<XMFLOAT4X4>& Matrix)
 {
 	// サイズオーバー
-	if (Matrix.size() > BONES_MAX)return;
+	if (Matrix.size() > BONE_MAX)return;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	Renderer::GetDeviceContext()->Map(m_BoneBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	memcpy(mappedResource.pData, Matrix.data(), sizeof(XMFLOAT4X4) * Matrix.size());

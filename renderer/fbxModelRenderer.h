@@ -8,10 +8,11 @@
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
 #include "assimp/matrix4x4.h"
+#include "assimp\Importer.hpp"
 #pragma comment (lib, "assimp/assimp-vc143-mt.lib")
 
-// ボーンの最大数
-#define BONES_MAX (256)
+// シェーダー側と同じになるように
+#define BONE_MAX (256)
 
 //ボーン構造体
 struct BONE
@@ -34,6 +35,7 @@ class FbxModelRenderer final
 {
 private:
 	const aiScene* m_AiScene = nullptr;
+	Assimp::Importer m_Importer;
 	std::unordered_map<std::string, const aiScene*> m_Animation = {};
 
 	ID3D11Buffer** m_VertexBuffer = nullptr;
@@ -41,9 +43,10 @@ private:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
-	// GPUスキニング用
+	// スキニング用
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
-	std::vector<BONE*> m_BonesByIndex;										// ボーンインデックス順のボーンリスト
+	// GPUスキニング用	
+	std::vector<BONE*> m_BoneIndex;											// ボーンインデックス順のボーンリスト
 
 
 	XMFLOAT3 m_Center = {};
