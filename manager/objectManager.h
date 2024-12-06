@@ -7,7 +7,7 @@ enum class OBJECT
 {
 	SKYDOME = 0,
 	POLYGON2D,
-	BOX,
+	STATICMESH,
 	MAX
 };
 
