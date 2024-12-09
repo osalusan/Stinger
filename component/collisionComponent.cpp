@@ -122,6 +122,23 @@ CollisionComponent::~CollisionComponent()
 #if _DEBUG
 	delete m_ModelRenderer;
 	m_ModelRenderer = nullptr;
+
+	// シェーダーの削除
+	if (m_VertexLayout != nullptr)
+	{
+		m_VertexLayout->Release();
+		m_VertexLayout = nullptr;
+	}
+	if (m_VertexShader != nullptr)
+	{
+		m_VertexShader->Release();
+		m_VertexLayout = nullptr;
+	}
+	if (m_PixelShader != nullptr)
+	{
+		m_PixelShader->Release();
+		m_VertexLayout = nullptr;
+	}
 #endif
 }
 
@@ -137,6 +154,14 @@ void CollisionComponent::Init()
 	{
 		m_ModelRenderer = new ObjModelRenderer;
 	}
+	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
+	{
+		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
+	}
+	if (m_PixelShader == nullptr)
+	{
+		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
+	}
 #endif
 }
 
@@ -150,6 +175,13 @@ void CollisionComponent::Draw()
 {
 	// エラー防止用
 #if _DEBUG
+	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
+	{
+		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
+		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
+	}
+
 	XMMATRIX world, scl, rot, trans;
 
 	scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
