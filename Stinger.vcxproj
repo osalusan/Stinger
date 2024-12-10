@@ -89,6 +89,7 @@
     <ClInclude Include="manager\textureManager.h" />
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="particle\particleEmitter.h" />
+    <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
     <ClInclude Include="playerState\playerStateIdle.h" />
     <ClInclude Include="playerState\playerStateJump.h" />

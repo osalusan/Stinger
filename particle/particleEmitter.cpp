@@ -106,6 +106,7 @@ void ParticleEmiter::Uninit()
 
 void ParticleEmiter::Update(const float& deltaTime)
 {
+	// TODO :デバッグ用 / 削除予定
 	//パーティクルの発射
 	for (int i = 0; i < PARTICLE_MAX; i++)
 	{
@@ -126,9 +127,9 @@ void ParticleEmiter::Update(const float& deltaTime)
 	{
 		if (m_Particle[i].enable)
 		{
-			m_Particle[i].position.x += m_Particle[i].velocity.x;
-			m_Particle[i].position.y += m_Particle[i].velocity.y;
-			m_Particle[i].position.z += m_Particle[i].velocity.z;
+			m_Particle[i].position.x += m_Particle[i].velocity.x * deltaTime;
+			m_Particle[i].position.y += m_Particle[i].velocity.y * deltaTime;
+			m_Particle[i].position.z += m_Particle[i].velocity.z * deltaTime;
 
 			m_Particle[i].lifetime--;
 			if (m_Particle[i].lifetime <= 0)

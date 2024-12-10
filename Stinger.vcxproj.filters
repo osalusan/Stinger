@@ -317,6 +317,9 @@
     <ClInclude Include="manager\particleManager.h">
       <Filter>manager</Filter>
     </ClInclude>
+    <ClInclude Include="particle\spiralBlueorb.h">
+      <Filter>particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
