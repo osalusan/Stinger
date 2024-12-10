@@ -22,7 +22,7 @@ public:
 		m_Target = position;
 	}
 
-	const XMMATRIX& GetViewMatrix() 
+	XMMATRIX GetViewMatrix() 
 	{
 		return XMLoadFloat4x4(&m_ViewMatrix);
 	}

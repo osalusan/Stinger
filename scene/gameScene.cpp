@@ -26,14 +26,7 @@ void GameScene::Init()
 	m_ObjectManager->CreateBossEnemy<MawJLaygo>(XMFLOAT3(-20.0f, 0.0f, 10.0f));
 	
 	// プレイヤーの次に作成
-	if (m_Camera == nullptr)
-	{
-		m_Camera = new PlayerCamera;
-	}
-	if (m_Camera != nullptr)
-	{
-		m_Camera->Init();
-	}
+	AddCameraObject<PlayerCamera>();
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);

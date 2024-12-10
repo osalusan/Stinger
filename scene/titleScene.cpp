@@ -12,14 +12,7 @@
 void TitleScene::Init()
 {
 	Scene::Init();
-	if (m_Camera == nullptr)
-	{
-		m_Camera = new TitleCamera;
-	}
-	if (m_Camera != nullptr)
-	{
-		m_Camera->Init();
-	}
+	AddCameraObject<TitleCamera>();
 
 	if (m_ObjectManager != nullptr)
 	{

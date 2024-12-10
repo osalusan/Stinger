@@ -49,6 +49,9 @@
     <Filter Include="taskNode">
       <UniqueIdentifier>{6e96fa29-b300-456f-a73b-7bedd27c56d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="particle">
+      <UniqueIdentifier>{c84b9e9c-dd23-477a-92e3-020b82d10242}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -170,6 +173,12 @@
     </ClCompile>
     <ClCompile Include="taskNodes\animationAttackTask.cpp">
       <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="particle\particleEmitter.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\particleManager.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="taskNodes\animationAttackTask.h">
       <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\particleEmitter.h">
+      <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\particleManager.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
