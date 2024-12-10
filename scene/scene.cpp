@@ -6,7 +6,14 @@
 // -------------------------- protected --------------------------
 void Scene::CreateParticleManager()
 {
-
+	if (m_ParticleManager == nullptr)
+	{
+		m_ParticleManager = new ParticleManager;
+	}
+	if (m_ParticleManager != nullptr)
+	{
+		m_ParticleManager->Init();
+	}
 }
 
 // -------------------------- public --------------------------
@@ -77,13 +84,15 @@ void Scene::Draw()
 	{
 		m_Camera->Draw();
 	}
-	// オブジェクトより前に描画
-	if (m_ParticleManager != nullptr)
-	{
-		m_ParticleManager->Draw();
-	}
+
 	if (m_ObjectManager != nullptr)
 	{
 		m_ObjectManager->Draw();
+	}
+
+	// オブジェクトより後に描画
+	if (m_ParticleManager != nullptr)
+	{
+		m_ParticleManager->Draw();
 	}
 }

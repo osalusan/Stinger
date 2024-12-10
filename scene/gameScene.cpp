@@ -3,12 +3,14 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
+#include "manager/particleManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/titleScene.h"
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
+#include "particle\particleEmitter.h"
 
 GameScene::~GameScene()
 {
@@ -31,6 +33,11 @@ void GameScene::Init()
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(4.0f,4.0f,4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
+
+	// オブジェクトの追加後に配置
+	CreateParticleManager();
+	if (m_ParticleManager == nullptr) return;
+	m_ParticleManager->AddParticleObjectArg<ParticleEmiter>(PARTICLE::BUBBLE, XMFLOAT3(0.0f, 0.0f, 5.0f));
 }
 
 void GameScene::Update(const float& deltaTime)

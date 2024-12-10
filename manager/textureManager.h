@@ -5,6 +5,7 @@
 enum class TEXTURE
 {
 	TITLE = 0,
+	PARTICLE_ORIGIN,
 	MAX
 };
 

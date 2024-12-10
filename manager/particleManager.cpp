@@ -11,7 +11,7 @@ ParticleManager::~ParticleManager()
 			particle = nullptr;
 		}
 	}
-
+	m_ParticleObjects->clear();
 }
 
 void ParticleManager::Init()

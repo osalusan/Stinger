@@ -12,7 +12,7 @@ protected:
 
 	Camera* m_Camera = nullptr;
 
-	void CreateParticleManager();
+	void CreateParticleManager(); // オブジェクトの作成後に作成
 public:
 	virtual ~Scene();
 	virtual void Init();
@@ -36,11 +36,13 @@ public:
 	{
 		return m_Camera;
 	}
-
 	ObjectManager* GetObjectManager()
 	{
 		return m_ObjectManager;
 	}
-	
+	ParticleManager* GetParticleManager()
+	{
+		return m_ParticleManager;
+	}
 
 };

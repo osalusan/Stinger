@@ -22,7 +22,7 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	m_Scale.x = size.x;
 	m_Scale.y = size.y;
 
-	TextureManager::ReservTexture(texture, fileName);
+	TextureManager::ReservTexture(m_Texture, fileName);
 
 	SetPolygon(position,size);
 }

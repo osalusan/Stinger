@@ -2,6 +2,8 @@
 #include "main/main.h"
 #define PARTICLE_MAX (500)
 
+enum class TEXTURE;
+
 class Camera;
 class ParticleEmiter
 {
@@ -15,7 +17,8 @@ protected:
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 	ID3D11Buffer* m_VertexBuffer = NULL;
-	ID3D11ShaderResourceView* m_Texture = NULL;
+
+	TEXTURE m_Texture;						// 使用テクスチャ / コンストラクタで初期化
 
 	Camera* m_CameraCache = nullptr;
 
@@ -38,6 +41,7 @@ protected:
 	float m_Count = 0;
 public:
 	ParticleEmiter();
+	ParticleEmiter(const XMFLOAT3& pos);
 	~ParticleEmiter();
 	void Init();
 	void Uninit();

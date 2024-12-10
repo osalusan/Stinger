@@ -12,6 +12,7 @@ ObjectManager::~ObjectManager()
 			object = nullptr;
 		}
 	}
+	m_GameObjects->clear();
 	delete m_Boss;
 	m_Boss = nullptr;
 	delete m_Player;
@@ -51,7 +52,7 @@ void ObjectManager::Uninit()
 			object->Uninit();
 		}
 	}
-
+	
 	if (m_Boss != nullptr)
 	{
 		m_Boss->Uninit();

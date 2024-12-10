@@ -2,9 +2,17 @@
 #include "particleEmitter.h"
 #include "camera/playerCamera.h"
 #include "manager/sceneManager.h"
-#include "scene/gameScene.h"
+#include "manager/textureManager.h"
+#include "scene/scene.h"
 ParticleEmiter::ParticleEmiter()
 {
+	m_Texture = TEXTURE::PARTICLE_ORIGIN;
+	TextureManager::ReservTexture(m_Texture, L"asset\\texture\\particleOrigin.png");
+}
+
+ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos):ParticleEmiter()
+{
+	m_Position = pos;
 }
 
 ParticleEmiter::~ParticleEmiter()
@@ -12,10 +20,6 @@ ParticleEmiter::~ParticleEmiter()
 	if (m_VertexBuffer != nullptr)
 	{
 		m_VertexBuffer->Release();
-	}
-	if (m_Texture != nullptr)
-	{
-		m_Texture->Release();
 	}
 
 	// シェーダーの削除
@@ -38,8 +42,17 @@ ParticleEmiter::~ParticleEmiter()
 
 void ParticleEmiter::Init()
 {
-	VERTEX_3D vertex[4];
 
+	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
+	{
+		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
+	}
+	if (m_PixelShader == nullptr)
+	{
+		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
+	}
+
+	VERTEX_3D vertex[4];
 
 	vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 	vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -80,16 +93,7 @@ void ParticleEmiter::Init()
 	}
 	m_Mix = true;
 
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
-	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
-	}
-
-	GameScene* scene = SceneManager::GetScene<GameScene>();
+	Scene* scene = SceneManager::GetScene<Scene>();
 	if (scene == nullptr) return;
 
 	m_CameraCache = scene->GetCamera();
@@ -139,6 +143,7 @@ void ParticleEmiter::Update(const float& deltaTime)
 void ParticleEmiter::Draw()
 {
 	if (m_CameraCache == nullptr) return;
+	if (m_VertexBuffer == nullptr) return;
 	XMMATRIX view = m_CameraCache->GetViewMatrix();
 
 	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
@@ -159,9 +164,11 @@ void ParticleEmiter::Draw()
 	UINT offset = 0;
 	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
 
+	ID3D11ShaderResourceView* texture = TextureManager::GetTexture(m_Texture);
+	if (texture == nullptr) return;
 
 	//テクスチャ設定
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &m_Texture);
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
 
 	//プリミティブポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
