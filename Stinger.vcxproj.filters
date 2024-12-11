@@ -52,6 +52,12 @@
     <Filter Include="particle">
       <UniqueIdentifier>{c84b9e9c-dd23-477a-92e3-020b82d10242}</UniqueIdentifier>
     </Filter>
+    <Filter Include="meshFiled">
+      <UniqueIdentifier>{76c84de4-7c3b-4b1d-8458-060c034dc30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shadow">
+      <UniqueIdentifier>{52d8ea7c-fe23-4034-b5f8-053d6065130d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -179,6 +185,12 @@
     </ClCompile>
     <ClCompile Include="manager\particleManager.cpp">
       <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="particle\spiralBlueorb.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
+    <ClCompile Include="meshFiled\meshFiled.cpp">
+      <Filter>meshFiled</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +332,12 @@
     <ClInclude Include="particle\spiralBlueorb.h">
       <Filter>particle</Filter>
     </ClInclude>
+    <ClInclude Include="meshFiled\meshFiled.h">
+      <Filter>meshFiled</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow\ShadowVolume.h">
+      <Filter>shadow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -337,5 +355,10 @@
     <FxCompile Include="shader\skinningPS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="particle\template.txt">
+      <Filter>particle</Filter>
+    </Text>
   </ItemGroup>
 </Project>

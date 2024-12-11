@@ -105,6 +105,7 @@
     <ClInclude Include="scene\gameScene.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\titleScene.h" />
+    <ClInclude Include="shadow\ShadowVolume.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
