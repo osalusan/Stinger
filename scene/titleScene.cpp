@@ -10,7 +10,7 @@
 #include "camera/titleCamera.h"
 #include "skydome/skydome.h"
 
-#include "particle/particleEmitter.h"
+#include "particle/spiralBlueorb.h"
 
 void TitleScene::Init()
 {
@@ -28,7 +28,7 @@ void TitleScene::Init()
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
 
-	m_ParticleManager->AddParticleObjectArg<ParticleEmiter>(PARTICLE::BUBBLE,XMFLOAT3(0.0f,0.0f,5.0f));
+	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,0.0f,15.0f));
 }
 
 void TitleScene::Update(const float& deltaTime)

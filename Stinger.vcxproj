@@ -42,6 +42,7 @@
     <ClCompile Include="manager\textureManager.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
+    <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
     <ClCompile Include="playerState\playerStateIdle.cpp" />
     <ClCompile Include="playerState\playerStateJump.cpp" />
@@ -135,6 +136,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="particle\template.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

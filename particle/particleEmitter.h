@@ -39,6 +39,9 @@ protected:
 
 	bool m_Mix = false;//‰ÁZ‡¬‚ÌƒIƒ“ƒIƒt
 	float m_Count = 0;
+
+	virtual void CreateParticleEffect(const float& deltaTime) = 0;
+	virtual void UpdateParticleEffect(const float& deltaTime) = 0;
 public:
 	ParticleEmiter();
 	ParticleEmiter(const XMFLOAT3& pos);

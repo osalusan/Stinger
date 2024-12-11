@@ -5,7 +5,7 @@
 // ‹ó”’‚Ì”z—ñ‚ª¶‚Ü‚ê‚Ä‚µ‚Ü‚¤‚©‚çNONE‚Í’Ç‰Á‚µ‚È‚¢
 enum class PARTICLE
 {
-	BUBBLE = 0,
+	SPIRAL_BLUEORB = 0,
 	MAX
 };
 

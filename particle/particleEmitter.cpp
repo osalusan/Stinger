@@ -4,6 +4,9 @@
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
 #include "scene/scene.h"
+
+// ---------------------------------- public ----------------------------------
+
 ParticleEmiter::ParticleEmiter()
 {
 	m_Texture = TEXTURE::PARTICLE_ORIGIN;
@@ -106,39 +109,10 @@ void ParticleEmiter::Uninit()
 
 void ParticleEmiter::Update(const float& deltaTime)
 {
-	// TODO :デバッグ用 / 削除予定
-	//パーティクルの発射
-	for (int i = 0; i < PARTICLE_MAX; i++)
-	{
-		if (!m_Particle[i].enable)
-		{
-			m_Particle[i].enable = true;
-			m_Particle[i].position = m_Position;
-			m_Particle[i].velocity.x = (rand() % 100 - 50) * 0.003f;
-			m_Particle[i].velocity.y = (rand() % 100 - 50) * 0.003f;
-			m_Particle[i].velocity.z = (rand() % 100 - 50) * 0.003f;
-			m_Particle[i].scale = m_Scale;
-			m_Particle[i].lifetime = 220.0f;
-			break;
-		}
-	}
-	//パーティクルの処理
-	for (int i = 0; i < PARTICLE_MAX; i++)
-	{
-		if (m_Particle[i].enable)
-		{
-			m_Particle[i].position.x += m_Particle[i].velocity.x * deltaTime;
-			m_Particle[i].position.y += m_Particle[i].velocity.y * deltaTime;
-			m_Particle[i].position.z += m_Particle[i].velocity.z * deltaTime;
-
-			m_Particle[i].lifetime--;
-			if (m_Particle[i].lifetime <= 0)
-			{
-				m_Particle[i].enable = false;
-			}
-		}
-
-	}
+	// パーティクルの作成が先
+	CreateParticleEffect(deltaTime);
+	// パーティクルを作成した後に配置
+	UpdateParticleEffect(deltaTime);
 }
 
 void ParticleEmiter::Draw()

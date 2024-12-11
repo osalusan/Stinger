@@ -10,7 +10,6 @@
 #include "scene/titleScene.h"
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
-#include "particle\particleEmitter.h"
 
 GameScene::~GameScene()
 {
@@ -37,7 +36,7 @@ void GameScene::Init()
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
-	m_ParticleManager->AddParticleObjectArg<ParticleEmiter>(PARTICLE::BUBBLE, XMFLOAT3(0.0f, 0.0f, 5.0f));
+
 }
 
 void GameScene::Update(const float& deltaTime)
