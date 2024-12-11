@@ -15,6 +15,7 @@ enum class OBJECT
 class GameObject;
 class Player;
 class BossEnemy;
+class MeshFiled;
 
 class ObjectManager final
 {
@@ -22,6 +23,7 @@ private:
 	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
 	Player* m_Player = nullptr;
 	BossEnemy* m_Boss = nullptr;
+	MeshFiled* m_Filed = nullptr;
 public:
 	~ObjectManager();
 	void Init();
@@ -64,6 +66,17 @@ public:
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
+	}
+
+	template <typename T>
+	void CreateMeshFiled()
+	{
+		if (m_Filed != nullptr) return;
+		T* filed = new T;
+		if (filed == nullptr) return;
+
+		filed->Init();
+		m_Filed = filed;
 	}
 
 	// ˆø”•t‚«‚Ìê‡‚Í‚±‚Á‚¿

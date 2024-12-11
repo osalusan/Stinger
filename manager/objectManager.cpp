@@ -1,7 +1,7 @@
 #include "objectManager.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
-
+#include "meshFiled/meshFiled.h"
 ObjectManager::~ObjectManager()
 {
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
@@ -17,10 +17,16 @@ ObjectManager::~ObjectManager()
 	m_Boss = nullptr;
 	delete m_Player;
 	m_Player = nullptr;
+	delete m_Filed;
+	m_Filed = nullptr;
 }
 
 void ObjectManager::Init()
 {
+	if (m_Filed != nullptr)
+	{
+		m_Filed->Init();
+	}
 	if (m_Player != nullptr)
 	{
 		m_Player->Init();
@@ -61,10 +67,18 @@ void ObjectManager::Uninit()
 	{
 		m_Player->Uninit();
 	}
+	if (m_Filed != nullptr)
+	{
+		m_Filed->Uninit();
+	}
 }
 
 void ObjectManager::Update(const float& deltaTime)
 {
+	if (m_Filed != nullptr)
+	{
+		m_Filed->Update();
+	}
 	if (m_Player != nullptr)
 	{
 		m_Player->Update(deltaTime);
@@ -87,6 +101,10 @@ void ObjectManager::Update(const float& deltaTime)
 
 void ObjectManager::Draw()
 {
+	if (m_Filed != nullptr)
+	{
+		m_Filed->Draw();
+	}
 	if (m_Player != nullptr)
 	{
 		m_Player->Draw();

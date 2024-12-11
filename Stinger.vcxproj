@@ -40,6 +40,7 @@
     <ClCompile Include="manager\particleManager.cpp" />
     <ClCompile Include="manager\sceneManager.cpp" />
     <ClCompile Include="manager\textureManager.cpp" />
+    <ClCompile Include="meshFiled\meshFiled.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
     <ClCompile Include="particle\spiralBlueorb.cpp" />
@@ -88,6 +89,7 @@
     <ClInclude Include="manager\particleManager.h" />
     <ClInclude Include="manager\sceneManager.h" />
     <ClInclude Include="manager\textureManager.h" />
+    <ClInclude Include="meshFiled\meshFiled.h" />
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="particle\particleEmitter.h" />
     <ClInclude Include="particle\spiralBlueorb.h" />

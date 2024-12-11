@@ -11,6 +11,7 @@
 #include "skydome/skydome.h"
 
 #include "particle/spiralBlueorb.h"
+#include "meshFiled/meshFiled.h"
 
 void TitleScene::Init()
 {
@@ -19,6 +20,7 @@ void TitleScene::Init()
 
 	if (m_ObjectManager == nullptr) return;
 
+	m_ObjectManager->CreateMeshFiled<MeshFiled>();
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	//m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 	//	XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\T_black.png");
