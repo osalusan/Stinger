@@ -177,7 +177,7 @@
     <ClCompile Include="taskNodes\rollAttackTask.cpp">
       <Filter>taskNode</Filter>
     </ClCompile>
-    <ClCompile Include="taskNodes\animationAttackTask.cpp">
+    <ClCompile Include="taskNodes\roaringTask.cpp">
       <Filter>taskNode</Filter>
     </ClCompile>
     <ClCompile Include="particle\particleEmitter.cpp">
@@ -197,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="shadow\shadowTexture.cpp">
       <Filter>shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp">
+      <Filter>behaviorTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,7 +329,7 @@
     <ClInclude Include="taskNodes\rollAttackTask.h">
       <Filter>taskNode</Filter>
     </ClInclude>
-    <ClInclude Include="taskNodes\animationAttackTask.h">
+    <ClInclude Include="taskNodes\roaringTask.h">
       <Filter>taskNode</Filter>
     </ClInclude>
     <ClInclude Include="particle\particleEmitter.h">
@@ -346,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="shadow\shadowTexture.h">
       <Filter>shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h">
+      <Filter>behaviorTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

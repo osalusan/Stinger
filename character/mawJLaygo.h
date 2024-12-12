@@ -17,11 +17,9 @@ private:
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
 	virtual void AnimationControl()override;
-
-	virtual void CreateBehaviourTree()override;
 public:
-	MawJLaygo() = delete;
-	MawJLaygo(const XMFLOAT3& pos);
+	using BossEnemy::BossEnemy;
+
 	virtual ~MawJLaygo()override;
 	virtual void Init()override;
 

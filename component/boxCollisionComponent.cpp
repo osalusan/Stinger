@@ -74,7 +74,7 @@ bool BoxCollisionComponent::CheckHitObject()
 	for (GameObject* object : m_GameObjectsCache[static_cast<int>(OBJECT::STATICMESH)])
 	{
 		if (object == nullptr) continue;
-		BoxCollisionComponent* boxCollision = object->GetBoxCollision();
+		BoxCollisionComponent* boxCollision = dynamic_cast<BoxCollisionComponent*>(object->GetBoxCollision());
 		if (boxCollision == nullptr) continue;
 		
 		OBB boxObb = {};

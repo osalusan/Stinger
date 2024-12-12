@@ -10,6 +10,7 @@
 #include "scene/titleScene.h"
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
+#include "behaviorTree/mawJLaygoBattleTree.h"
 
 GameScene::~GameScene()
 {
@@ -23,7 +24,7 @@ void GameScene::Init()
 	if (m_ObjectManager == nullptr) return;
 
 	m_ObjectManager->CreatePlayer();
-	m_ObjectManager->CreateBossEnemy<MawJLaygo>(XMFLOAT3(-20.0f, 0.0f, 10.0f));
+	m_ObjectManager->CreateBossEnemy<MawJLaygo>(new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
 	
 	// ƒvƒŒƒCƒ„[‚ÌŽŸ‚Éì¬
 	m_ObjectManager->CreateCameraObject<PlayerCamera>();

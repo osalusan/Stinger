@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
+    <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp" />
     <ClCompile Include="behaviorTree\selectorNode .cpp" />
     <ClCompile Include="behaviorTree\sequenceNode .cpp" />
     <ClCompile Include="behaviorTree\taskNode.cpp" />
@@ -61,7 +62,7 @@
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
-    <ClCompile Include="taskNodes\animationAttackTask.cpp" />
+    <ClCompile Include="taskNodes\roaringTask.cpp" />
     <ClCompile Include="taskNodes\checkRangeTask.cpp" />
     <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp" />
     <ClCompile Include="taskNodes\rollAttackTask.cpp" />
@@ -69,6 +70,7 @@
   <ItemGroup>
     <ClInclude Include="behaviorTree\behaviorNode.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
+    <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h" />
     <ClInclude Include="behaviorTree\selectorNode .h" />
     <ClInclude Include="behaviorTree\sequenceNode .h" />
     <ClInclude Include="behaviorTree\taskNode.h" />
@@ -112,7 +114,7 @@
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
-    <ClInclude Include="taskNodes\animationAttackTask.h" />
+    <ClInclude Include="taskNodes\roaringTask.h" />
     <ClInclude Include="taskNodes\checkRangeTask.h" />
     <ClInclude Include="taskNodes\dashAtThePlayerTask.h" />
     <ClInclude Include="taskNodes\rollAttackTask.h" />

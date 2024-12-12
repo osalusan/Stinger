@@ -1,14 +1,17 @@
 #pragma once
 #include "behaviorNode.h"
 
+class BossEnemy;
 class BehaviorTree
 {
 protected:
     BehaviorNode* m_Root = nullptr;
 
+    // ビヘイビアツリーの配置の最後に置く
+    void CreateRoot(BehaviorNode* root);
 public:
     ~BehaviorTree();
-    // ルートを作成
-    void CreateRoot(BehaviorNode* root);
+    virtual void CreateTree(BossEnemy* boss) = 0;
+
     void Update(const float& deltaTime);
 };
