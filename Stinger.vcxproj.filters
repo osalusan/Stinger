@@ -192,6 +192,12 @@
     <ClCompile Include="meshFiled\meshFiled.cpp">
       <Filter>meshFiled</Filter>
     </ClCompile>
+    <ClCompile Include="shadow\shadowVolume.cpp">
+      <Filter>shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="shadow\shadowTexture.cpp">
+      <Filter>shadow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -335,7 +341,10 @@
     <ClInclude Include="meshFiled\meshFiled.h">
       <Filter>meshFiled</Filter>
     </ClInclude>
-    <ClInclude Include="shadow\ShadowVolume.h">
+    <ClInclude Include="shadow\shadowVolume.h">
+      <Filter>shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow\shadowTexture.h">
       <Filter>shadow</Filter>
     </ClInclude>
   </ItemGroup>

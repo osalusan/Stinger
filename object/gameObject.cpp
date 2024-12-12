@@ -116,8 +116,6 @@ void GameObject::Draw()
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	world = scl * rot * trans;
 	Renderer::SetWorldMatrix(world);
-
-
 }
 
 

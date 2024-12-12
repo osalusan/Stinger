@@ -15,7 +15,7 @@ enum class PIVOT
 
 // ëOï˚êÈåæ
 enum class TEXTURE;
-
+class Camera;
 class Polygon2D final :public GameObject
 {
 protected:
@@ -26,9 +26,13 @@ protected:
 
 	VERTEX_3D m_Vertex[4] = {};
 	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
+	bool m_UseStencil = false;
+	Camera* m_CameraCache = nullptr;
 public:
 	Polygon2D() = delete;
 	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName);
+	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName);
+
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;

@@ -56,6 +56,8 @@
     <ClCompile Include="scene\gameScene.cpp" />
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\titleScene.cpp" />
+    <ClCompile Include="shadow\shadowTexture.cpp" />
+    <ClCompile Include="shadow\shadowVolume.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
@@ -105,7 +107,8 @@
     <ClInclude Include="scene\gameScene.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\titleScene.h" />
-    <ClInclude Include="shadow\ShadowVolume.h" />
+    <ClInclude Include="shadow\shadowTexture.h" />
+    <ClInclude Include="shadow\shadowVolume.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />

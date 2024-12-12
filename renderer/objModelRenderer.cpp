@@ -21,7 +21,9 @@ void ObjModelRenderer::Draw(const MODEL* model)
 
 		// テクスチャ設定
 		if (model->SubsetArray[i].Material.Texture)
+		{
 			Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &model->SubsetArray[i].Material.Texture);
+		}
 
 		// ポリゴン描画
 		Renderer::GetDeviceContext()->DrawIndexed(model->SubsetArray[i].IndexNum, model->SubsetArray[i].StartIndex, 0);

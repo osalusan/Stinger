@@ -1,25 +1,24 @@
 #pragma once
 #include "object/gameObject.h"
-#include "renderer/renderer.h"
 
 // 前方宣言
-enum class TEXTURE;
+class ObjModelRenderer;
+enum class STATICMESH_MODEL;
+enum class ANIMETION_MODEL;
+struct MODEL;
 
-class Polygon2D final :public GameObject
+class ShadowVolume final:public GameObject
 {
 protected:
+	STATICMESH_MODEL m_StaticModel;						// モデル本体 / コンストラクタで初期化
+	ANIMETION_MODEL m_AnimeModel;						// モデル本体 / コンストラクタで初期化
+	ObjModelRenderer* m_ModelRenderer = nullptr;
 
-	ID3D11Buffer* m_VertexBuffer = nullptr;
-	TEXTURE m_Texture;						// 使用テクスチャ / コンストラクタで初期化
-
-
-	VERTEX_3D m_Vertex[4] = {};
-	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
 public:
-	Polygon2D() {};
+	ShadowVolume() = delete;
+	ShadowVolume(const STATICMESH_MODEL& model);
+	virtual ~ShadowVolume()override;
 	virtual void Init()override;
-	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
-	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
 };

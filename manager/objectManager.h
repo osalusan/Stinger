@@ -6,13 +6,14 @@
 enum class OBJECT
 {
 	SKYDOME = 0,
-	POLYGON2D,
 	STATICMESH,
+	POLYGON2D,
 	MAX
 };
 
 // 前方宣言
 class GameObject;
+class Camera;
 class Player;
 class BossEnemy;
 class MeshFiled;
@@ -21,6 +22,7 @@ class ObjectManager final
 {
 private:
 	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
+	Camera* m_Camera = nullptr;
 	Player* m_Player = nullptr;
 	BossEnemy* m_Boss = nullptr;
 	MeshFiled* m_Filed = nullptr;
@@ -33,6 +35,11 @@ public:
 
 	void CreatePlayer();
 
+	Camera* GetCamera()
+	{
+		return m_Camera;
+	}
+
 	Player* GetPlayer()
 	{
 		return m_Player;
@@ -44,6 +51,19 @@ public:
 		{
 			objectList[i].insert(objectList[i].end(), m_GameObjects[i].begin(), m_GameObjects[i].end());
 		}
+	}
+
+	// カメラオブジェクトを一番最初に作成
+	template <typename T>
+	void CreateCameraObject()
+	{
+		if (m_Camera != nullptr) return;
+		T* camera = new T;
+		if (camera == nullptr) return;
+
+		camera->Init();
+
+		m_Camera = camera;
 	}
 
 	// 座標指定で追加

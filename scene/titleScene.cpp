@@ -10,27 +10,34 @@
 #include "camera/titleCamera.h"
 #include "skydome/skydome.h"
 
+#include "staticMeshObject/box.h"
 #include "particle/spiralBlueorb.h"
 #include "meshFiled/meshFiled.h"
+#include "shadow/shadowVolume.h"
+#include "shadow/shadowTexture.h"
+#include "manager/objModelManager.h"
 
 void TitleScene::Init()
 {
 	Scene::Init();
-	AddCameraObject<TitleCamera>();
 
 	if (m_ObjectManager == nullptr) return;
 
+	m_ObjectManager->CreateCameraObject<TitleCamera>();
 	m_ObjectManager->CreateMeshFiled<MeshFiled>();
+	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::TITLE, true, L"asset\\texture\\T_black.png");
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-	//m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-	//	XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\T_black.png");
+	//m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
 
+	//m_ObjectManager->AddGameObject<ShadowTexture>(OBJECT::POLYGON2D);
+	m_ObjectManager->AddGameObjectArg<ShadowVolume>(OBJECT::STATICMESH, STATICMESH_MODEL::BOX);
 
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
 
-	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,0.0f,15.0f));
+	//m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,0.0f,15.0f));
 }
 
 void TitleScene::Update(const float& deltaTime)

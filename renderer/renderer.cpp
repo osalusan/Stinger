@@ -146,56 +146,51 @@ void Renderer::Init()
 	blendDesc.AlphaToCoverageEnable = FALSE;
 	blendDesc.IndependentBlendEnable = FALSE;
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; //背景＊α
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;//背景＊　(1-α)
 	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	m_Device->CreateBlendState(&blendDesc, &m_BlendState );
+	m_Device->CreateBlendState(&blendDesc, &m_BlendState);
 
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;//背景＊１
 	m_Device->CreateBlendState(&blendDesc, &m_BlendStateAdd);
 	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	
+
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0;
 	m_Device->CreateBlendState(&blendDesc, &m_BlendStateMask);
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	blendDesc.AlphaToCoverageEnable = TRUE;
-	m_Device->CreateBlendState( &blendDesc, &m_BlendStateATC );
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateATC);
 
-
-	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff );
-
-
-
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 
 
 	// デプスステンシルステート設定
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
 	depthStencilDesc.DepthEnable = TRUE;
-	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	depthStencilDesc.StencilEnable = FALSE;
 
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateEnable );//深度有効ステート
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStateEnable);//深度有効ステート
 
 	//depthStencilDesc.DepthEnable = FALSE;
-	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ZERO;
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateDisable );//深度無効ステート
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStateDisable);//深度無効ステート
 
-	m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
+	m_DeviceContext->OMSetDepthStencilState(m_DepthStateEnable, NULL);
 
-
-	depthStencilDesc.DepthEnable = TRUE;
-	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthEnable = true;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-	depthStencilDesc.StencilEnable = TRUE;
 
+	depthStencilDesc.StencilEnable = true;
 	depthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
 	depthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
 
@@ -210,9 +205,7 @@ void Renderer::Init()
 	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
 	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_StencilWrite);
-
 	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_LESS;
-
 	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_StencilRead);
 
 	// サンプラーステート設定

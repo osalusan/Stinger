@@ -3,6 +3,7 @@
 #include "camera/playerCamera.h"
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
+#include "manager/objectManager.h"
 #include "scene/scene.h"
 
 // ---------------------------------- public ----------------------------------
@@ -20,6 +21,7 @@ ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos):ParticleEmiter()
 
 ParticleEmiter::~ParticleEmiter()
 {
+	m_CameraCache = nullptr;
 	if (m_VertexBuffer != nullptr)
 	{
 		m_VertexBuffer->Release();
@@ -96,10 +98,15 @@ void ParticleEmiter::Init()
 	}
 	m_Mix = true;
 
-	Scene* scene = SceneManager::GetScene<Scene>();
-	if (scene == nullptr) return;
+	if (m_CameraCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene<Scene>();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
 
-	m_CameraCache = scene->GetCamera();
+		m_CameraCache = objManager->GetCamera();
+	}
 }
 
 void ParticleEmiter::Uninit()

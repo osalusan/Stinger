@@ -2,6 +2,10 @@
 #include "renderer/renderer.h"
 #include "polygon2D/polygon2D.h"
 #include "manager/textureManager.h"
+#include "manager/sceneManager.h"
+#include "manager/objectManager.h"
+#include "scene/gameScene.h"
+#include "camera/camera.h"
 
 Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName)
 {
@@ -27,21 +31,39 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	SetPolygon(position,size);
 }
 
+Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName)
+	:Polygon2D(position,size,pivot,texture,fileName)
+{
+	m_UseStencil = useStencil;
+	m_Color = { 0.0f,0.0f,0.0f,0.5f };
+}
+
 void Polygon2D::Init()
 {
 	GameObject::Init();
 
+
 	//頂点バッファの生成
 	D3D11_BUFFER_DESC bd{};
-	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bd.CPUAccessFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA sd{};
 	sd.pSysMem = m_Vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+
+	if (m_CameraCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene<Scene>();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		m_CameraCache = objManager->GetCamera();
+	}
 }
 
 void Polygon2D::Uninit()
@@ -59,7 +81,14 @@ void Polygon2D::Update(const float& deltaTime)
 
 void Polygon2D::Draw()
 {
-	GameObject::Draw();
+	//GameObject::Draw();
+	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
+	{
+		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
+		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
+	}
+
 	//マトリクス設定
 	Renderer::SetWorldViewProjection2D();
 
@@ -75,7 +104,7 @@ void Polygon2D::Draw()
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
 	material.Diffuse = m_Color;
-	material.TextureEnable = true;
+	material.TextureEnable = !m_UseStencil;
 	Renderer::SetMaterial(material);
 
 	ID3D11ShaderResourceView* texture = TextureManager::GetTexture(m_Texture);
@@ -87,8 +116,23 @@ void Polygon2D::Draw()
 	//プリミティブポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	if (m_UseStencil)
+	{
+		// ステンシル読み込み有効
+		Renderer::SetStencilEnable(false);
+	}
+
 	//ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
+
+	if (m_UseStencil)
+	{
+		// ステンシル無効
+		Renderer::SetDepthEnable(true);
+		if (m_CameraCache == nullptr) return;
+		m_CameraCache->Draw();
+	}
+
 }
 
 void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)

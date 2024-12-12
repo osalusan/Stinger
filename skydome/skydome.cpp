@@ -2,6 +2,7 @@
 #include "scene/gameScene.h"
 #include "manager/sceneManager.h"
 #include "manager/objModelManager.h"
+#include "manager/objectManager.h"
 #include "camera/playerCamera.h"
 
 SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
@@ -11,32 +12,30 @@ SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
 
 SkyDome::~SkyDome()
 {
-	m_CameraCashe = nullptr;
+	m_CameraCache = nullptr;
 }
 
 void SkyDome::Init()
 {
-	if (m_CameraCashe == nullptr)
+	if (m_CameraCache == nullptr)
 	{
 		StaticMeshObject::Init();
 		m_Scale = { 400.0f,400.0f,400.0f };
 
-		GameScene* Scene = SceneManager::GetScene<GameScene>();
-		if (Scene == nullptr) return;
+		GameScene* scene = SceneManager::GetScene<GameScene>();
+		if (scene == nullptr) return;
 
-		m_CameraCashe = Scene->GetCamera();
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		m_CameraCache = objManager->GetCamera();
 	}
 }
 
 void SkyDome::Update(const float& deltaTime)
 {
-	if (m_CameraCashe != nullptr)
+	if (m_CameraCache != nullptr)
 	{
-		m_Position = m_CameraCashe->GetPos();
+		m_Position = m_CameraCache->GetPos();
 	}
-}
-
-void SkyDome::Draw()
-{
-	StaticMeshObject::Draw();
 }

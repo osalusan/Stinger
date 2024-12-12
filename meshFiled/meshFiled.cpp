@@ -166,17 +166,17 @@ void MeshFiled::Init()
 		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer);
 	}
 
-	m_Light.Enable = true;
-	XMFLOAT4 direction(1.0f, -1.0f, 0.0f, 1.0f);
-	XMVECTOR vecDirection = XMLoadFloat4(&direction);
-	vecDirection = XMVector4Normalize(vecDirection);
-	XMStoreFloat4(&direction, vecDirection);
-	m_Light.Direction = direction;
-	m_Light.Ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
-	m_Light.Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
-	m_Light.Position = { -400.0f, 1000.0f, 0.0f, 0.0 };
+	//m_Light.Enable = true;
+	//XMFLOAT4 direction(1.0f, -1.0f, 0.0f, 1.0f);
+	//XMVECTOR vecDirection = XMLoadFloat4(&direction);
+	//vecDirection = XMVector4Normalize(vecDirection);
+	//XMStoreFloat4(&direction, vecDirection);
+	//m_Light.Direction = direction;
+	//m_Light.Ambient = { 0.1f, 0.1f, 0.1f, 1.0f };
+	//m_Light.Diffuse = { 1.0f, 1.0f, 1.0f, 1.0f };
+	//m_Light.Position = { -400.0f, 1000.0f, 0.0f, 0.0 };
 
-	Renderer::SetLight(m_Light);
+	//Renderer::SetLight(m_Light);
 
 	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
 	{

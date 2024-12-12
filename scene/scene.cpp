@@ -21,8 +21,6 @@ Scene::~Scene()
 {
 	delete m_ParticleManager;
 	m_ParticleManager = nullptr;
-	delete m_Camera;
-	m_Camera = nullptr;
 	delete m_ObjectManager;
 	m_ObjectManager = nullptr;
 }
@@ -45,12 +43,6 @@ void Scene::Uninit()
 	{
 		m_ParticleManager->Uninit();
 	}
-
-	if (m_Camera != nullptr)
-	{
-		m_Camera->Uninit();
-	}
-
 	if (m_ObjectManager != nullptr)
 	{
 		m_ObjectManager->Uninit();
@@ -64,12 +56,6 @@ void Scene::Update(const float& deltaTime)
 	{
 		m_ObjectManager->Update(deltaTime);
 	}
-
-	// プレイヤーの後に更新
-	if (m_Camera != nullptr)
-	{
-		m_Camera->Update();
-	}
 	// カメラの後に更新
 	if (m_ParticleManager != nullptr)
 	{
@@ -79,12 +65,6 @@ void Scene::Update(const float& deltaTime)
 
 void Scene::Draw()
 {
-	// 一番最初に描画
-	if (m_Camera != nullptr)
-	{
-		m_Camera->Draw();
-	}
-
 	if (m_ObjectManager != nullptr)
 	{
 		m_ObjectManager->Draw();
