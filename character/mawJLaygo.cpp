@@ -2,6 +2,7 @@
 #include "component/boxCollisionComponent.h"
 #include "manager/fbxModelManager.h"
 #include "behaviorTree/behaviorTree.h"
+#include "meshFiled/meshFiled.h"
 
 constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
@@ -28,6 +29,10 @@ void MawJLaygo::CustomCollisionInfo()
 void MawJLaygo::CollisionControl()
 {
 	float groundHeight = 0.0f;
+	if (m_MeshFiled != nullptr)
+	{
+		groundHeight = m_MeshFiled->GetHeight(m_Position);
+	}
 
 	if (m_Position.y <= groundHeight)
 	{

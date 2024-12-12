@@ -21,4 +21,9 @@ public:
 	virtual void Draw()override;
 
 	const MODEL* GetModel();
+
+	const STATICMESH_MODEL& GetStaticModel()
+	{
+		return m_Model;
+	}
 };

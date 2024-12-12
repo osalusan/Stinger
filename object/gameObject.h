@@ -9,8 +9,8 @@ enum class COLLISION_TAG;
 class GameObject {
 protected:
 	XMFLOAT3 m_Position = {};
-	XMFLOAT3 m_Rotation = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
+	XMFLOAT3 m_Rotation = {};
 
 	// “–‚½‚è”»’è—p
 	XMFLOAT3 m_ColliPosition = {};
@@ -60,6 +60,10 @@ public:
 	const XMFLOAT3& GetScale()const
 	{
 		return m_Scale;
+	}
+	const XMFLOAT3& GetRot()const
+	{
+		return m_Rotation;
 	}
 
 	const XMFLOAT3& GetModelCenter()const

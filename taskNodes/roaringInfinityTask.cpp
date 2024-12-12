@@ -4,15 +4,16 @@
 #include "manager/fbxModelManager.h"
 #include "character/mawJLaygo.h"
 
-constexpr float MAX_TIME_ANIMEATTACK = 3.0f;
-
+constexpr float ANIMATION_MAX_TIME = 0.22f;
+constexpr float ANIMATION_MIN_TIME = 0.04f;
+constexpr float ANIMATION_SPEED = 0.2f;
+constexpr float DERAY_MAX_TIME = 0.02f;
 void RoaringInfinityTask::Init()
 {
 	if (MawJLaygo* maw = dynamic_cast<MawJLaygo*>(m_BossCache))
 	{
 		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJ_MutantRoaring60.fbx", "Roaring");
 	}
-	m_CurrentTime = MAX_TIME_ANIMEATTACK;
 }
 
 NODE_STATUS RoaringInfinityTask::Update(const float& deltaTime)
@@ -28,33 +29,39 @@ NODE_STATUS RoaringInfinityTask::Update(const float& deltaTime)
 		return NODE_STATUS::FAILURE;
 	}
 
-	if (m_CurrentTime >= MAX_TIME_ANIMEATTACK)
+	m_BossCache->ChangeAnimation("Roaring");
+
+	if (m_AnimeTime >= ANIMATION_MAX_TIME)
 	{
-		if (node == nullptr)
-		{
-			m_CurrentTime = 0.0f;
-		}
+		m_Up = false;
+		m_AnimeTime = ANIMATION_MAX_TIME - 0.001f;
+		m_DerayTime = DERAY_MAX_TIME;
+	}
+	if (m_AnimeTime <= ANIMATION_MIN_TIME)
+	{
+		m_Up = true;
+		m_AnimeTime = ANIMATION_MIN_TIME + 0.001f;
+		m_DerayTime = DERAY_MAX_TIME;
 	}
 
-	if (m_CurrentTime < MAX_TIME_ANIMEATTACK)
+	if (m_DerayTime > 0.0f)
 	{
-		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation("Roaring");
-
-		// UŒ‚ó‘Ô‚ð•Û‘¶
-		m_BossCache->SetRunningNode(this);
-
-		return NODE_STATUS::RUNNING;
+		m_DerayTime -= deltaTime * ANIMATION_SPEED;
 	}
 	else
 	{
-		if (node == this)
+		if (m_Up)
 		{
-			// UŒ‚ó‘Ô‚ðíœ
-			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATUS::SUCCESS;
+			m_AnimeTime += deltaTime * ANIMATION_SPEED;
+		}
+		else
+		{
+			m_AnimeTime -= deltaTime * ANIMATION_SPEED;
 		}
 	}
+	m_BossCache->SetAnimeTime(m_AnimeTime);
 
-	return NODE_STATUS::FAILURE;
+	m_BossCache->SetRunningNode(this);
+
+	return NODE_STATUS::RUNNING;
 }

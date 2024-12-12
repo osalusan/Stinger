@@ -11,6 +11,7 @@ enum class STATICMESH_MODEL
 {
 	SKYDOME = 0,
 	BOX,
+	TREEGATE,
 	COLLISION_BOX,
 	MAX
 };

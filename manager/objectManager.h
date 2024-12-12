@@ -6,6 +6,7 @@
 enum class OBJECT
 {
 	SKYDOME = 0,
+	SHADOW,
 	STATICMESH,
 	POLYGON2D,
 	MAX
@@ -35,17 +36,23 @@ public:
 
 	void CreatePlayer();
 
-	Camera* GetCamera()
+	Camera* GetCamera()const
 	{
 		return m_Camera;
 	}
-
-	Player* GetPlayer()
+	Player* GetPlayer()const
 	{
 		return m_Player;
 	}
-
-	void GetGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
+	BossEnemy* GetBossEnemy()const
+	{
+		return m_Boss;
+	}
+	MeshFiled* GetMeshFiled()const
+	{
+		return m_Filed;
+	}
+	void GetAllGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
 	{
 		for (int i = 0; i < static_cast<int>(OBJECT::MAX); i++)
 		{
@@ -53,6 +60,11 @@ public:
 		}
 	}
 
+	void GetGameObjects(std::vector<GameObject*>(&objectList),const OBJECT& layer)
+	{
+		const int& layerNum = static_cast<int>(layer);
+		objectList.insert(objectList.end(), m_GameObjects[layerNum].begin(), m_GameObjects[layerNum].end());
+	}
 	// カメラオブジェクトを一番最初に作成
 	template <typename T>
 	void CreateCameraObject()

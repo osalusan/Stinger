@@ -8,4 +8,6 @@ private:
 public:
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override;
+
+	void CreateShadowVolume();
 };

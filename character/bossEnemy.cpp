@@ -43,7 +43,7 @@ BossEnemy::~BossEnemy()
 
 void BossEnemy::Init()
 {
-	GameObject::Init();
+	Character::Init();
 
 	// BossEnemyのコンストラクタが呼ばれ切った後じゃないと、Taskのdynamic_castが反応しない
 	if (m_Tree != nullptr)

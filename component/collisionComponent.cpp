@@ -110,7 +110,7 @@ bool CollisionComponent::CheckHitObject()
 		ObjectManager* objectManager = gameScene->GetObjectManager();
 		if (objectManager == nullptr) return false;
 
-		objectManager->GetGameObjects(m_GameObjectsCache);
+		objectManager->GetAllGameObjects(m_GameObjectsCache);
 
 		if (m_GameObjectsCache->empty()) return false;
 	}

@@ -2,22 +2,30 @@
 #include "object/gameObject.h"
 
 // 前方宣言
-class ObjModelRenderer;
 enum class STATICMESH_MODEL;
 enum class ANIMETION_MODEL;
-struct MODEL;
 
+class ObjModelRenderer;
+class StaticMeshObject;
+class Character;
+class MeshFiled;
 class ShadowVolume final:public GameObject
 {
 protected:
-	STATICMESH_MODEL m_StaticModel;						// モデル本体 / コンストラクタで初期化
-	ANIMETION_MODEL m_AnimeModel;						// モデル本体 / コンストラクタで初期化
+	// モデル本体 / コンストラクタで初期化
+	STATICMESH_MODEL m_StaticModel;						
+	ANIMETION_MODEL m_AnimeModel;						
+
 	ObjModelRenderer* m_ModelRenderer = nullptr;
 
+	StaticMeshObject* m_StaticMeshCache = nullptr;
+	Character* m_CharacterCache = nullptr;
+
+	MeshFiled* m_MeshFiled = nullptr;
 public:
 	ShadowVolume() = delete;
-	ShadowVolume(const STATICMESH_MODEL& model);
-	ShadowVolume(const ANIMETION_MODEL& model);
+	ShadowVolume(StaticMeshObject* staticMesh);
+	ShadowVolume(Character* character);
 	virtual ~ShadowVolume()override;
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override;
