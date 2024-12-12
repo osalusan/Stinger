@@ -14,9 +14,10 @@
 #include "particle/spiralBlueorb.h"
 #include "meshFiled/meshFiled.h"
 #include "shadow/shadowVolume.h"
-#include "shadow/shadowTexture.h"
 #include "manager/objModelManager.h"
 #include "manager/fbxModelManager.h"
+#include "behaviorTree/mawJLaygoTitleTree.h"
+#include "character/mawJLaygo.h"
 
 void TitleScene::Init()
 {
@@ -31,7 +32,8 @@ void TitleScene::Init()
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	//m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
 
-	//m_ObjectManager->AddGameObject<ShadowTexture>(OBJECT::POLYGON2D);
+	m_ObjectManager->CreateBossEnemy<MawJLaygo>(new MawJLaygoTitleTree, XMFLOAT3(5.0f, 0.0f, 15.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 3.14f, 0.0f));
+
 	m_ObjectManager->AddGameObjectArg<ShadowVolume>(OBJECT::STATICMESH, ANIMETION_MODEL::PLAYER);
 
 	// オブジェクトの追加後に配置

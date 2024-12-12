@@ -17,7 +17,7 @@ void RoaringTask::Init()
 
 NODE_STATUS RoaringTask::Update(const float& deltaTime)
 {
-	if (m_BossCache == nullptr)
+	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
 		return NODE_STATUS::FAILURE;
 	}
@@ -26,14 +26,6 @@ NODE_STATUS RoaringTask::Update(const float& deltaTime)
 	if (node != nullptr && node != this)
 	{
 		return NODE_STATUS::FAILURE;
-	}
-
-	if (m_PlayerCache == nullptr)
-	{
-		if (node == nullptr)
-		{
-			m_CurrentTime = 0.0f;
-		}
 	}
 
 	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç

@@ -195,10 +195,13 @@
     <ClCompile Include="shadow\shadowVolume.cpp">
       <Filter>shadow</Filter>
     </ClCompile>
-    <ClCompile Include="shadow\shadowTexture.cpp">
-      <Filter>shadow</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="taskNodes\roaringInfinityTask.cpp">
+      <Filter>taskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
   </ItemGroup>
@@ -347,10 +350,13 @@
     <ClInclude Include="shadow\shadowVolume.h">
       <Filter>shadow</Filter>
     </ClInclude>
-    <ClInclude Include="shadow\shadowTexture.h">
-      <Filter>shadow</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="taskNodes\roaringInfinityTask.h">
+      <Filter>taskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
   </ItemGroup>

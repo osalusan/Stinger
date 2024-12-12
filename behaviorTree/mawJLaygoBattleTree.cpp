@@ -20,7 +20,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	Player* player = objectManager->GetPlayer();
 	if (player == nullptr) return;
 
-	// ビヘイビアツリーの作成
+	// -------------------------- ビヘイビアツリーの作成 --------------------------
 
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;

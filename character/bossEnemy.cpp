@@ -21,6 +21,18 @@ BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
 	m_Position = pos;
 }
 
+BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale)
+	:BossEnemy(tree,pos)
+{
+	m_Scale = scale;
+}
+
+BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& rot)
+	:BossEnemy(tree,pos,scale)
+{
+	m_Rotation = rot;
+}
+
 BossEnemy::~BossEnemy()
 {
 	delete m_Tree;

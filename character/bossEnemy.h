@@ -38,6 +38,8 @@ protected:
 public:
 	BossEnemy() = delete;
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos);
+	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale);
+	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& rot);
 	virtual ~BossEnemy()override;
 	virtual void Init();
 
