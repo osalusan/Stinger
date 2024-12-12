@@ -16,6 +16,7 @@
 #include "shadow/shadowVolume.h"
 #include "shadow/shadowTexture.h"
 #include "manager/objModelManager.h"
+#include "manager/fbxModelManager.h"
 
 void TitleScene::Init()
 {
@@ -31,13 +32,13 @@ void TitleScene::Init()
 	//m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
 
 	//m_ObjectManager->AddGameObject<ShadowTexture>(OBJECT::POLYGON2D);
-	m_ObjectManager->AddGameObjectArg<ShadowVolume>(OBJECT::STATICMESH, STATICMESH_MODEL::BOX);
+	m_ObjectManager->AddGameObjectArg<ShadowVolume>(OBJECT::STATICMESH, ANIMETION_MODEL::PLAYER);
 
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
 
-	//m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,0.0f,15.0f));
+	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,0.0f,15.0f));
 }
 
 void TitleScene::Update(const float& deltaTime)

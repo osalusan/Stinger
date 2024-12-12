@@ -99,7 +99,7 @@ void Renderer::Init()
 	// デプスステンシルビュー作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
 	depthStencilViewDesc.Format = textureDesc.Format;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
 	depthStencilViewDesc.Flags = 0;
 	if (depthStencile != nullptr)
 	{
@@ -130,7 +130,7 @@ void Renderer::Init()
 
 	m_Device->CreateRasterizerState(&rasterizerDesc, &m_RasterizerStateCullNone);
 
-	m_DeviceContext->RSSetState( m_RasterizerStateCullBack);
+	m_DeviceContext->RSSetState(m_RasterizerStateCullBack);
 
 	// ワイヤーフレーム用ラスタライザーステートの設定
 	D3D11_RASTERIZER_DESC wireframeDesc = {};

@@ -87,7 +87,7 @@ void Character::Update(const float& deltaTime)
 	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
 	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
 	{
-		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
+		if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 		{
 			m_ModelCenter = model->GetCenter();
 			m_ModelScale = model->GetScale();

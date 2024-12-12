@@ -47,6 +47,7 @@ void StaticMeshObject::Draw()
 {
 	GameObject::Draw();
 
+	// TODO :•ÏX—\’è / FBXRenderer‚Æ“¯‚¶Œ`®‚É
 	if (m_ModelRenderer != nullptr)
 	{
 		if (const MODEL* model = ObjModelManager::GetModel(m_Model))

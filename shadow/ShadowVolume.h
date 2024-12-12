@@ -17,6 +17,7 @@ protected:
 public:
 	ShadowVolume() = delete;
 	ShadowVolume(const STATICMESH_MODEL& model);
+	ShadowVolume(const ANIMETION_MODEL& model);
 	virtual ~ShadowVolume()override;
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override;
