@@ -40,7 +40,7 @@ void TitleScene::Init()
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
 
-	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,0.0f,15.0f));
+	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,4.0f,24.0f));
 
 	CreateShadowVolume();
 }
