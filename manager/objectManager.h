@@ -6,8 +6,8 @@
 enum class OBJECT
 {
 	SKYDOME = 0,
-	SHADOW,
 	STATICMESH,
+	SHADOW,
 	POLYGON2D,
 	MAX
 };

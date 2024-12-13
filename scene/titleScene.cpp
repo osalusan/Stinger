@@ -19,7 +19,9 @@
 #include "behaviorTree/mawJLaygoTitleTree.h"
 #include "character/mawJLaygo.h"
 #include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject/moveRandSizeBox.h"
 
+constexpr float DEFAULT_POSZ = 60.0f;
 void TitleScene::Init()
 {
 	Scene::Init();
@@ -32,15 +34,20 @@ void TitleScene::Init()
 		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::TITLE, true, L"asset\\texture\\T_black.png");
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	
-	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, -10.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
+	//m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, -10.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
 
-	//m_ObjectManager->CreateBossEnemy<MawJLaygo>(new MawJLaygoTitleTree, XMFLOAT3(-20.0f, 0.0f, 20.0f), XMFLOAT3(0.8f, 0.8f, 0.8f), XMFLOAT3(0.0f, 2.64f, 0.0f));
-
+	//m_ObjectManager->CreateBossEnemy<MawJLaygo>(new MawJLaygoTitleTree, XMFLOAT3(-20.0f, 0.0f, 20.0f), XMFLOAT3(0.05f, 0.05f, 0.05f), XMFLOAT3(0.0f, 2.64f, 0.0f));
+	Camera* camera = m_ObjectManager->GetCamera();
+	float cameraPosZ = camera->GetPos().z;
+	for (int i = 0; i < 20; i++)
+	{
+		m_ObjectManager->AddGameObjectArg<MoveRandSizeBox>(OBJECT::STATICMESH, cameraPosZ, DEFAULT_POSZ);
+	}
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
 
-	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,4.0f,24.0f));
+	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,4.0f, DEFAULT_POSZ));
 
 	CreateShadowVolume();
 }

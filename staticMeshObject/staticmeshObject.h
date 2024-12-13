@@ -11,6 +11,7 @@ class StaticMeshObject :public GameObject
 protected:
 	STATICMESH_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
 	ObjModelRenderer* m_ModelRenderer = nullptr;
+	XMFLOAT4 m_Color = {0.0f,1.0f,0.0f,1.0f};
 
 public:
 	StaticMeshObject() = delete;

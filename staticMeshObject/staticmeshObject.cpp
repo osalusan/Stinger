@@ -47,6 +47,14 @@ void StaticMeshObject::Draw()
 {
 	GameObject::Draw();
 
+	//マテリアル設定
+	MATERIAL material;
+	ZeroMemory(&material, sizeof(material));
+	material.Diffuse = m_Color;
+	material.TextureEnable = false;
+
+	Renderer::SetMaterial(material);
+
 	// TODO :変更予定 / FBXRendererと同じ形式に
 	if (m_ModelRenderer != nullptr)
 	{

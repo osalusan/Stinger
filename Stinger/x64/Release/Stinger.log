@@ -1,8 +1,10 @@
-﻿  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\skinningPS.cso
-E:\HAL\�A�E��i\Stinger\shader\skinningVS.hlsl(26,5-49): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\skinningVS.cso
+﻿  compilation object save succeeded; see C:\HAL\3\Stinger\cso\skinningPS.cso
+  compilation object save succeeded; see C:\HAL\3\Stinger\cso\skinningVS.cso
+  compilation object save succeeded; see C:\HAL\3\Stinger\cso\unlitTexturePS.cso
+  compilation object save succeeded; see C:\HAL\3\Stinger\cso\unlitTextureVS.cso
   behaviorTree.cpp
+  mawJLaygoBattleTree.cpp
+  mawJLaygoTitleTree.cpp
   selectorNode .cpp
   sequenceNode .cpp
   taskNode.cpp
@@ -17,12 +19,17 @@ E:\HAL\�A�E��i\Stinger\shader\skinningVS.hlsl(26,5-49): warning X3206: i
   collisionComponent.cpp
   main.cpp
   fbxModelManager.cpp
-  objModelManager.cpp
+  inputManager.cpp
   objectManager.cpp
+  objModelManager.cpp
+  コンパイル中...
+  particleManager.cpp
   sceneManager.cpp
   textureManager.cpp
+  meshFiled.cpp
   gameObject.cpp
-  コンパイル中...
+  particleEmitter.cpp
+  spiralBlueorb.cpp
   playerState.cpp
   playerStateIdle.cpp
   playerStateJump.cpp
@@ -35,17 +42,19 @@ E:\HAL\�A�E��i\Stinger\shader\skinningVS.hlsl(26,5-49): warning X3206: i
   gameScene.cpp
   scene.cpp
   titleScene.cpp
+  shadowVolume.cpp
+  コンパイル中...
   skydome.cpp
   box.cpp
   staticmeshObject.cpp
-  animationAttackTask.cpp
+  roaringInfinityTask.cpp
+  roaringTask.cpp
   checkRangeTask.cpp
   dashAtThePlayerTask.cpp
   rollAttackTask.cpp
   コード生成しています。
-  8 of 2682 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    12 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB not found, fall back to full compilation.
+  All 2810 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
@@ -57,4 +66,4 @@ DirectXTex_Release.lib(DirectXTexMipMaps.obj) : warning LNK4099: PDB '' が 'Dir
 DirectXTex_Release.lib(BC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(BC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(BC4BC5.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(BC4BC5.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(BC6HBC7.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(BC6HBC7.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
-  Stinger.vcxproj -> E:\HAL\就職作品\Stinger\x64\Release\Stinger.exe
+  Stinger.vcxproj -> C:\HAL\3\Stinger\x64\Release\Stinger.exe

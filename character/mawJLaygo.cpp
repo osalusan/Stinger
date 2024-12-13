@@ -58,7 +58,10 @@ void MawJLaygo::Init()
 {
 	BossEnemy::Init();
 	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJLaygo.fbx");
-	m_Scale = DEFAULT_SCALE_MAWJ;
+	if (m_Scale.y == 1.0f)
+	{
+		m_Scale = DEFAULT_SCALE_MAWJ;
+	}
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;
 

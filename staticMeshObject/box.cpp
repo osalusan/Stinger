@@ -4,7 +4,7 @@
 
 Box::Box() : StaticMeshObject(STATICMESH_MODEL::BOX)
 {
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCollision.obj");
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\box.obj");
 	AddBoxCollisionComponent(COLLISION_TAG::OBJECT);
 }
 

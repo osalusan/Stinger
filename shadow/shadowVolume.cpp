@@ -11,7 +11,7 @@
 #include "meshFiled/meshFiled.h"
 
 // ‹^Ž—“I‚ÈŒõŒ¹
-constexpr XMFLOAT3 LIGHT_ROT = { 0.0f,0.0f,0.7f };
+constexpr XMFLOAT3 LIGHT_ROT = { 0.0f,0.0f,0.0f };
 
 ShadowVolume::ShadowVolume(StaticMeshObject* staticMesh)
 {

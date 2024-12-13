@@ -61,6 +61,7 @@
     <ClCompile Include="shadow\shadowVolume.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
+    <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
     <ClCompile Include="taskNodes\roaringInfinityTask.cpp" />
     <ClCompile Include="taskNodes\roaringTask.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="shadow\shadowVolume.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
+    <ClInclude Include="staticMeshObject\moveRandSizeBox.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
     <ClInclude Include="taskNodes\roaringInfinityTask.h" />
     <ClInclude Include="taskNodes\roaringTask.h" />
@@ -133,6 +135,20 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="shader\skinningVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\unlitColorModelPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\unlitColorModelVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
