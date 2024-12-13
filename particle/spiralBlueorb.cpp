@@ -4,6 +4,7 @@ constexpr float MAX_LIFETIME = 3.4f;
 constexpr float DEFAULT_SPEED = 25.03f;
 constexpr float RING_SIZE_VALUE = 0.15f;
 constexpr XMFLOAT4 DEFAULT_COLOR = { 0.39f,0.75f,0.98f,1.0f };
+constexpr float DEFAULT_SIZE = 0.2f;
 
 // ---------------------------------- private ----------------------------------
 void SpiralBlueOrb::CreateParticleEffect(const float& deltaTime)
@@ -22,7 +23,7 @@ void SpiralBlueOrb::CreateParticleEffect(const float& deltaTime)
 			m_Particle[i].velocity.x = 0.0f;
 			m_Particle[i].velocity.y = 0.0f;
 			m_Particle[i].velocity.z =- DEFAULT_SPEED;
-			m_Particle[i].scale = { 0.2f ,0.2f ,0.2f };
+			m_Particle[i].scale = { DEFAULT_SIZE ,DEFAULT_SIZE ,DEFAULT_SIZE };
 			m_Particle[i].color = DEFAULT_COLOR;
 			m_Particle[i].lifetime = MAX_LIFETIME;
 

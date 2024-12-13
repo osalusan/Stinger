@@ -39,15 +39,26 @@ protected:
 
 	bool m_Mix = false;//â¡éZçáê¨ÇÃÉIÉìÉIÉt
 	float m_Count = 0;
+	bool m_Enable = true;
 
 	virtual void CreateParticleEffect(const float& deltaTime) = 0;
 	virtual void UpdateParticleEffect(const float& deltaTime) = 0;
 public:
 	ParticleEmiter();
 	ParticleEmiter(const XMFLOAT3& pos);
+	ParticleEmiter(const XMFLOAT3& pos,const bool& disable);
 	~ParticleEmiter();
 	void Init();
 	void Uninit();
 	void Update(const float& deltaTime);
 	void Draw();
+
+	void SetEnable(const bool& flag)
+	{
+		m_Enable = flag;
+	}
+	const bool& GetEnable()const
+	{
+		return m_Enable;
+	}
 };

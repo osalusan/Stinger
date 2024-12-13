@@ -179,9 +179,8 @@ int APIENTRY WinMain(
 	#if _DEBUG
 	
 	#else // releseの時のみ
-	// TODO:デバッグ用 / 変更予定
-	// ボーダレスウインドウ
-	//SetBorderlessWindow(g_Window);
+	 //ボーダレスウインドウ
+	SetBorderlessWindow(g_Window);
 	#endif
 
 	ShowWindow(g_Window, nCmdShow);

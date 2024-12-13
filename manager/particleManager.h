@@ -23,12 +23,18 @@ public:
 	void Update(const float& deltaTime);
 	void Draw();
 
-	void GetParticleObjects(std::vector<ParticleEmiter*>(&objectList)[static_cast<int>(PARTICLE::MAX)])
+	void GetAllParticleObjects(std::vector<ParticleEmiter*>(&objectList)[static_cast<int>(PARTICLE::MAX)])
 	{
 		for (int i = 0; i < static_cast<int>(PARTICLE::MAX); i++)
 		{
 			objectList[i].insert(objectList[i].end(), m_ParticleObjects[i].begin(), m_ParticleObjects[i].end());
 		}
+	}
+
+	void GetParticleObjects(std::vector<ParticleEmiter*>(&objectList),const PARTICLE& layer)
+	{
+		const int& layerNum = static_cast<int>(layer);
+		objectList.insert(objectList.end(), m_ParticleObjects[layerNum].begin(), m_ParticleObjects[layerNum].end());
 	}
 
 	// à¯êîñ≥ÇµÇ≈í«â¡

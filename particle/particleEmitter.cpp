@@ -19,6 +19,12 @@ ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos):ParticleEmiter()
 	m_Position = pos;
 }
 
+ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos, const bool& disable)
+	:ParticleEmiter(pos)
+{
+	m_Enable = disable;
+}
+
 ParticleEmiter::~ParticleEmiter()
 {
 	m_CameraCache = nullptr;
@@ -116,8 +122,12 @@ void ParticleEmiter::Uninit()
 
 void ParticleEmiter::Update(const float& deltaTime)
 {
-	// パーティクルの作成が先
-	CreateParticleEffect(deltaTime);
+	if (m_Enable)
+	{
+		// パーティクルの作成が先
+		CreateParticleEffect(deltaTime);
+	}
+
 	// パーティクルを作成した後に配置
 	UpdateParticleEffect(deltaTime);
 }

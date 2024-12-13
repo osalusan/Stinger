@@ -105,6 +105,7 @@ void ObjectManager::Update(const float& deltaTime)
 		for (GameObject* object : m_GameObjects[layer])
 		{
 			if (object == nullptr) continue;
+			if (!object->GetEnable())continue;
 
 			object->Update(deltaTime);
 		}
@@ -130,6 +131,7 @@ void ObjectManager::Draw()
 		for (GameObject* object : m_GameObjects[layer])
 		{
 			if (object == nullptr) continue;
+			if (!object->GetEnable())continue;
 
 			object->Draw();
 		}

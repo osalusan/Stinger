@@ -25,6 +25,13 @@ void TitleCamera::Update()
 	{
 		m_Position.z -= 1.0f;
 	}
+	if (InputManager::GetKeyPress('F'))
+	{
+		m_Position.z = 0.0f;
+		m_Position.y = 4.0f;
+	}
+
+
 	if (InputManager::GetKeyPress(VK_SPACE))
 	{
 		m_Position.y += 1.0f;

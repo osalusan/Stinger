@@ -22,6 +22,7 @@
 #include "staticMeshObject/moveRandSizeBox.h"
 
 constexpr float DEFAULT_POSZ = 60.0f;
+constexpr float NEXT_SCENE_TIME = 3.0f;
 void TitleScene::Init()
 {
 	Scene::Init();
@@ -31,7 +32,9 @@ void TitleScene::Init()
 	m_ObjectManager->CreateCameraObject<TitleCamera>();
 	m_ObjectManager->CreateMeshFiled<MeshFiled>();
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::TITLE, true, L"asset\\texture\\T_black.png");
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::SHADOW, true, L"asset\\texture\\T_black.png");
+	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\T_Stinger.png");
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	
 	//m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, -10.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
@@ -47,7 +50,7 @@ void TitleScene::Init()
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
 
-	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,4.0f, DEFAULT_POSZ));
+	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,4.0f, DEFAULT_POSZ),false);
 
 	CreateShadowVolume();
 }
@@ -57,7 +60,42 @@ void TitleScene::Update(const float& deltaTime)
 	Scene::Update(deltaTime);
 	if (InputManager::GetKeyPress('2'))
 	{
-		SceneManager::SetScene<GameScene>();
+		m_NextScene = true;
+		std::vector<GameObject*> objects = {};
+
+		if (m_ObjectManager == nullptr) return;
+
+		m_ObjectManager->GetGameObjects(objects, OBJECT::POLYGON2D);
+
+		for (GameObject* obj : objects)
+		{
+			if (Polygon2D* poly = dynamic_cast<Polygon2D*>(obj))
+			{
+				poly->SetEnable(false);
+				if (poly->GetTexture() == TEXTURE::TITLE)
+				{
+					poly->SetEnable(false);
+					break;
+				}
+			}
+		}
+		
+		if (m_ParticleManager == nullptr) return;
+		std::vector<ParticleEmiter*> particles = {};
+		m_ParticleManager->GetParticleObjects(particles,PARTICLE::SPIRAL_BLUEORB);
+
+		for (ParticleEmiter* particle : particles)
+		{
+			particle->SetEnable(true);
+		}
+	}
+	if (m_NextScene)
+	{
+		if (m_NextSceneTime > NEXT_SCENE_TIME)
+		{
+			SceneManager::SetScene<GameScene>();
+		}
+		m_NextSceneTime += deltaTime;
 	}
 }
 

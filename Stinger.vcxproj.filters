@@ -204,6 +204,9 @@
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
+    <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -359,6 +362,9 @@
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
+    <ClInclude Include="staticMeshObject\moveRandSizeBox.h">
+      <Filter>staticMeshObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -374,6 +380,12 @@
       <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\skinningPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitColorModelPS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitColorModelVS.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>

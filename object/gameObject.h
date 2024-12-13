@@ -21,7 +21,7 @@ protected:
 	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {};
 
-	bool m_Enable = false;		// 有効、無効
+	bool m_Enable = true;		// 有効、無効
 
 	// 描画関連
 	ID3D11VertexShader* m_VertexShader = nullptr;
@@ -43,6 +43,12 @@ public:
 	virtual void Uninit();
 	virtual void Update(const float& deltaTime);
 	virtual void Draw();
+
+	void SetEnable(const float& flag)
+	{
+		m_Enable = flag;
+	}
+
 
 	BoxCollisionComponent* GetBoxCollision()
 	{

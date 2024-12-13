@@ -38,4 +38,9 @@ public:
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
 	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
+
+	const TEXTURE& GetTexture()const
+	{
+		return m_Texture;
+	}
 };

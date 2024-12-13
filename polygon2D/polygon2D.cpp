@@ -81,13 +81,7 @@ void Polygon2D::Update(const float& deltaTime)
 
 void Polygon2D::Draw()
 {
-	//GameObject::Draw();
-	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
-	{
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
-	}
+	GameObject::Draw();
 
 	//マトリクス設定
 	Renderer::SetWorldViewProjection2D();
