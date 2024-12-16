@@ -124,20 +124,6 @@ void ShadowVolume::Draw()
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_AnimeModel))
 		{
-			const std::string& animationName = m_CharacterCache->GetAnimeName();
-			const std::string& nextAnimationName = m_CharacterCache->GetNextAnimeName();
-			const float& animeTime = m_CharacterCache->GetAnimeTime();
-			const float& blendRatio = m_CharacterCache->GetBlendRatio();
-
-			if (animationName == nextAnimationName)
-			{
-				//model->Update(animationName.c_str(), animeTime);
-			}
-			else if (animationName != nextAnimationName)
-			{
-				//model->Update(animationName.c_str(), animeTime, nextAnimationName.c_str(), 0.0f, blendRatio);
-			}
-
 			model->Draw();
 		}
 	}
