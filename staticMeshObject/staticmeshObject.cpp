@@ -55,7 +55,7 @@ void StaticMeshObject::Draw()
 
 	Renderer::SetMaterial(material);
 
-	// TODO :変更予定 / FBXRendererと同じ形式に
+	// TODO,HACK :変更予定 / FBXRendererと同じ形式に
 	if (m_ModelRenderer != nullptr)
 	{
 		if (const MODEL* model = ObjModelManager::GetModel(m_Model))

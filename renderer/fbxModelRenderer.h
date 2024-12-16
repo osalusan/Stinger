@@ -43,6 +43,8 @@ private:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
+	float m_MaxAnimeTime = 0.0f;
+
 	// スキニング用
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 	// GPUスキニング用	
@@ -71,4 +73,5 @@ public:
 	{
 		return m_Scale;
 	}
+	float GetMaxAnimeTime(const std::string& name);
 };

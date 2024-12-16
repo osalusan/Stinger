@@ -1,5 +1,5 @@
 #pragma once
-#include "behaviorNode.h"
+#include "behaviorNode/behaviorNode.h"
 
 class BossEnemy;
 class BehaviorTree

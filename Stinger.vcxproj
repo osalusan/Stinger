@@ -19,12 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="behaviorNode\selectorNode .cpp" />
+    <ClCompile Include="behaviorNode\sequenceNode .cpp" />
+    <ClCompile Include="behaviorNode\taskNode.cpp" />
+    <ClCompile Include="behaviorTaskNodes\checkRangeTask.cpp" />
+    <ClCompile Include="behaviorTaskNodes\dashAtThePlayerTask.cpp" />
+    <ClCompile Include="behaviorTaskNodes\roaringInfinityTask.cpp" />
+    <ClCompile Include="behaviorTaskNodes\roaringTask.cpp" />
+    <ClCompile Include="behaviorTaskNodes\rollAttackTask.cpp" />
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp" />
-    <ClCompile Include="behaviorTree\selectorNode .cpp" />
-    <ClCompile Include="behaviorTree\sequenceNode .cpp" />
-    <ClCompile Include="behaviorTree\taskNode.cpp" />
     <ClCompile Include="camera\camera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
     <ClCompile Include="camera\titleCamera.cpp" />
@@ -63,20 +68,20 @@
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
-    <ClCompile Include="taskNodes\roaringInfinityTask.cpp" />
-    <ClCompile Include="taskNodes\roaringTask.cpp" />
-    <ClCompile Include="taskNodes\checkRangeTask.cpp" />
-    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp" />
-    <ClCompile Include="taskNodes\rollAttackTask.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="behaviorTree\behaviorNode.h" />
+    <ClInclude Include="behaviorNode\behaviorNode.h" />
+    <ClInclude Include="behaviorNode\selectorNode .h" />
+    <ClInclude Include="behaviorNode\sequenceNode .h" />
+    <ClInclude Include="behaviorNode\taskNode.h" />
+    <ClInclude Include="behaviorTaskNodes\checkRangeTask.h" />
+    <ClInclude Include="behaviorTaskNodes\dashAtThePlayerTask.h" />
+    <ClInclude Include="behaviorTaskNodes\roaringInfinityTask.h" />
+    <ClInclude Include="behaviorTaskNodes\roaringTask.h" />
+    <ClInclude Include="behaviorTaskNodes\rollAttackTask.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h" />
-    <ClInclude Include="behaviorTree\selectorNode .h" />
-    <ClInclude Include="behaviorTree\sequenceNode .h" />
-    <ClInclude Include="behaviorTree\taskNode.h" />
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\playerCamera.h" />
     <ClInclude Include="camera\titleCamera.h" />
@@ -117,11 +122,6 @@
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
-    <ClInclude Include="taskNodes\roaringInfinityTask.h" />
-    <ClInclude Include="taskNodes\roaringTask.h" />
-    <ClInclude Include="taskNodes\checkRangeTask.h" />
-    <ClInclude Include="taskNodes\dashAtThePlayerTask.h" />
-    <ClInclude Include="taskNodes\rollAttackTask.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

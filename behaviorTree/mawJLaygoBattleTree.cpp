@@ -4,11 +4,11 @@
 #include "scene/gameScene.h"
 #include "manager\objectManager.h"
 #include "behaviorTree/behaviorTree.h"
-#include "behaviorTree/selectorNode .h"
-#include "taskNodes/dashAtThePlayerTask.h"
-#include "taskNodes/checkRangeTask.h"
-#include "taskNodes/rollAttackTask.h"
-#include "taskNodes/roaringTask.h"
+#include "behaviorNode/selectorNode .h"
+#include "behaviortaskNodes/dashAtThePlayerTask.h"
+#include "behaviortaskNodes/checkRangeTask.h"
+#include "behaviortaskNodes/rollAttackTask.h"
+#include "behaviortaskNodes/roaringTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {

@@ -63,8 +63,6 @@ void Character::Update(const float& deltaTime)
 	}
 	// 移動処理
 	MoveControl(deltaTime);
-	// アニメーション制御
-	AnimationControl();
 
 	// アニメーションのブレンド制御
 	m_AnimationTime += deltaTime;
@@ -87,6 +85,9 @@ void Character::Update(const float& deltaTime)
 		m_BlendRatio = 0.0f;
 	}
 
+
+
+
 	// 速度制御
 	m_Velocity.x *= deltaTime;
 	m_Velocity.y *= deltaTime;
@@ -105,6 +106,7 @@ void Character::Update(const float& deltaTime)
 			m_ModelScale = model->GetScale();
 		}
 	}
+
 	// 当たり判定用変数の設定 / 移動後
 	CustomCollisionInfo();
 	// 当たり判定処理

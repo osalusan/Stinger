@@ -4,8 +4,8 @@
 #include "scene/titleScene.h"
 #include "manager/objectManager.h"
 #include "behaviorTree/behaviorTree.h"
-#include "behaviorTree/selectorNode .h"
-#include "taskNodes/roaringInfinityTask.h"
+#include "behaviorNode/selectorNode .h"
+#include "behaviorTaskNodes/roaringInfinityTask.h"
 
 void MawJLaygoTitleTree::CreateTree(BossEnemy* boss)
 {

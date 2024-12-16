@@ -29,6 +29,7 @@ protected:
 	std::string m_NextAnimationName = "";			// ブレンド用、次のアニメーションの名前
 	float m_BlendRatio = 0.0f;						// アニメーションブレンドの数値
 	float m_BlendTimeValue = 0.0f;					// どのくらいブレンドを早く行うか
+	float m_MaxAnimeTime = 0.0f;					// 現在のアニメーションの最大時間
 
 	virtual void MoveControl(const float& deltaTime) = 0;
 	virtual void CollisionControl() = 0;
@@ -72,5 +73,9 @@ public:
 	const float& GetBlendRatio()const
 	{
 		return m_BlendRatio;
+	}
+	const float& GetMaxAnimeTime()const
+	{
+		return m_MaxAnimeTime;
 	}
 };
