@@ -23,7 +23,7 @@ VS_OUTPUT main(VS_IN input)
     skinMatrix[0][3] = 0.0f;
     skinMatrix[1][3] = 0.0f;
     skinMatrix[2][3] = 0.0f;
-    output.Normal = mul(input.Normal, skinMatrix);
+    output.Normal = mul(input.Normal.xyz, (float3x3)skinMatrix);
 
     output.TexCoord = input.TexCoord;
     

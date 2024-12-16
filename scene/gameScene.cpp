@@ -3,17 +3,18 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
+#include "manager/particleManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/titleScene.h"
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
+#include "behaviorTree/mawJLaygoBattleTree.h"
 
 GameScene::~GameScene()
 {
-	delete m_Camera;
-	m_Camera = nullptr;
+
 }
 
 void GameScene::Init()
@@ -23,21 +24,19 @@ void GameScene::Init()
 	if (m_ObjectManager == nullptr) return;
 
 	m_ObjectManager->CreatePlayer();
-	m_ObjectManager->CreateBossEnemy<MawJLaygo>(XMFLOAT3(-20.0f, 0.0f, 10.0f));
+	m_ObjectManager->CreateBossEnemy<MawJLaygo>(new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
 	
 	// プレイヤーの次に作成
-	if (m_Camera == nullptr)
-	{
-		m_Camera = new PlayerCamera;
-	}
-	if (m_Camera != nullptr)
-	{
-		m_Camera->Init();
-	}
+	m_ObjectManager->CreateCameraObject<PlayerCamera>();
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::BOX,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(4.0f,4.0f,4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
+	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(4.0f,4.0f,4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
+
+	// オブジェクトの追加後に配置
+	CreateParticleManager();
+	if (m_ParticleManager == nullptr) return;
+
 }
 
 void GameScene::Update(const float& deltaTime)

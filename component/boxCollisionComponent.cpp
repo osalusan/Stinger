@@ -70,10 +70,11 @@ bool BoxCollisionComponent::CheckHitObject()
 
 	GetMyObb(myObb);
 
-	for (GameObject* object : m_GameObjectsCache[static_cast<int>(OBJECT::BOX)])
+	// TODO :使用オブジェクトがスタティックメッシュ以外に追加されたら変更
+	for (GameObject* object : m_GameObjectsCache[static_cast<int>(OBJECT::STATICMESH)])
 	{
 		if (object == nullptr) continue;
-		BoxCollisionComponent* boxCollision = object->GetBoxCollision();
+		BoxCollisionComponent* boxCollision = dynamic_cast<BoxCollisionComponent*>(object->GetBoxCollision());
 		if (boxCollision == nullptr) continue;
 		
 		OBB boxObb = {};

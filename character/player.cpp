@@ -56,7 +56,9 @@ void Player::MoveControl(const float& deltaTime)
 	{
 		GameScene* scene = SceneManager::GetScene<GameScene>();
 		if (scene == nullptr) return;
-		m_CameraCache = scene->GetCamera();
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+		m_CameraCache = objManager->GetCamera();
 
 		if (m_CameraCache == nullptr) return;
 	}

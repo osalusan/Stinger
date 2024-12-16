@@ -5,27 +5,32 @@
 
 D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
-ID3D11Device*           Renderer::m_Device{};
-ID3D11DeviceContext*    Renderer::m_DeviceContext{};
-IDXGISwapChain*         Renderer::m_SwapChain{};
-ID3D11RenderTargetView* Renderer::m_RenderTargetView{};
-ID3D11DepthStencilView* Renderer::m_DepthStencilView{};
+ID3D11Device*           Renderer::m_Device = nullptr;
+ID3D11DeviceContext*    Renderer::m_DeviceContext = nullptr;
+IDXGISwapChain*         Renderer::m_SwapChain = nullptr;
+ID3D11RenderTargetView* Renderer::m_RenderTargetView = nullptr;
+ID3D11DepthStencilView* Renderer::m_DepthStencilView = nullptr;
 
-ID3D11Buffer*			Renderer::m_WorldBuffer{};
-ID3D11Buffer*			Renderer::m_ViewBuffer{};
-ID3D11Buffer*			Renderer::m_ProjectionBuffer{};
-ID3D11Buffer*			Renderer::m_MaterialBuffer{};
-ID3D11Buffer*			Renderer::m_LightBuffer{};
-ID3D11Buffer*			Renderer::m_BoneBuffer{};
-
-
-ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
-ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
+ID3D11Buffer*			Renderer::m_WorldBuffer = nullptr;
+ID3D11Buffer*			Renderer::m_ViewBuffer = nullptr;
+ID3D11Buffer*			Renderer::m_ProjectionBuffer = nullptr;
+ID3D11Buffer*			Renderer::m_MaterialBuffer = nullptr;
+ID3D11Buffer*			Renderer::m_LightBuffer = nullptr;
+ID3D11Buffer*			Renderer::m_BoneBuffer = nullptr;
 
 
-ID3D11BlendState*		Renderer::m_BlendState{};
-ID3D11BlendState*		Renderer::m_BlendStateAdd{};
-ID3D11BlendState*		Renderer::m_BlendStateATC{};
+ID3D11DepthStencilState* Renderer::m_DepthStateEnable = nullptr;
+ID3D11DepthStencilState* Renderer::m_DepthStateDisable = nullptr;
+ID3D11DepthStencilState* Renderer::m_StencilWrite = nullptr;
+ID3D11DepthStencilState* Renderer::m_StencilRead = nullptr;
+
+ID3D11BlendState*		Renderer::m_BlendState = nullptr;
+ID3D11BlendState*		Renderer::m_BlendStateAdd = nullptr;
+ID3D11BlendState*		Renderer::m_BlendStateATC = nullptr;
+ID3D11BlendState*		Renderer::m_BlendStateMask = nullptr;
+
+ID3D11RasterizerState* Renderer::m_RasterizerStateCullBack = nullptr;
+ID3D11RasterizerState* Renderer::m_RasterizerStateCullNone = nullptr;
 
 ID3D11RasterizerState*  Renderer::m_WireframeRasterState = nullptr; // ワイヤーフレーム用
 
@@ -83,7 +88,7 @@ void Renderer::Init()
 	textureDesc.Height = swapChainDesc.BufferDesc.Height;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_D16_UNORM;
+	textureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	textureDesc.SampleDesc = swapChainDesc.SampleDesc;
 	textureDesc.Usage = D3D11_USAGE_DEFAULT;
 	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
@@ -94,7 +99,7 @@ void Renderer::Init()
 	// デプスステンシルビュー作成
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
 	depthStencilViewDesc.Format = textureDesc.Format;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
 	depthStencilViewDesc.Flags = 0;
 	if (depthStencile != nullptr)
 	{
@@ -119,11 +124,13 @@ void Renderer::Init()
 	rasterizerDesc.CullMode = D3D11_CULL_BACK; 
 	rasterizerDesc.DepthClipEnable = TRUE; 
 	rasterizerDesc.MultisampleEnable = FALSE; 
+	m_Device->CreateRasterizerState(&rasterizerDesc, &m_RasterizerStateCullBack);
 
-	ID3D11RasterizerState *rs;
-	m_Device->CreateRasterizerState( &rasterizerDesc, &rs );
+	rasterizerDesc.CullMode = D3D11_CULL_NONE;
 
-	m_DeviceContext->RSSetState( rs );
+	m_Device->CreateRasterizerState(&rasterizerDesc, &m_RasterizerStateCullNone);
+
+	m_DeviceContext->RSSetState(m_RasterizerStateCullBack);
 
 	// ワイヤーフレーム用ラスタライザーステートの設定
 	D3D11_RASTERIZER_DESC wireframeDesc = {};
@@ -139,46 +146,67 @@ void Renderer::Init()
 	blendDesc.AlphaToCoverageEnable = FALSE;
 	blendDesc.IndependentBlendEnable = FALSE;
 	blendDesc.RenderTarget[0].BlendEnable = TRUE;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; //背景＊α
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;//背景＊　(1-α)
 	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	m_Device->CreateBlendState( &blendDesc, &m_BlendState );
+	m_Device->CreateBlendState(&blendDesc, &m_BlendState);
+
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;//背景＊１
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateAdd);
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = 0;
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateMask);
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	blendDesc.AlphaToCoverageEnable = TRUE;
-	m_Device->CreateBlendState( &blendDesc, &m_BlendStateATC );
+	m_Device->CreateBlendState(&blendDesc, &m_BlendStateATC);
 
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;//背景 * 1
-	m_Device->CreateBlendState(&blendDesc, &m_BlendStateAdd);
-
-	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff );
-
-
-
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 
 
 	// デプスステンシルステート設定
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
 	depthStencilDesc.DepthEnable = TRUE;
-	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	depthStencilDesc.StencilEnable = FALSE;
 
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateEnable );//深度有効ステート
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStateEnable);//深度有効ステート
 
 	//depthStencilDesc.DepthEnable = FALSE;
-	depthStencilDesc.DepthWriteMask	= D3D11_DEPTH_WRITE_MASK_ZERO;
-	m_Device->CreateDepthStencilState( &depthStencilDesc, &m_DepthStateDisable );//深度無効ステート
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStateDisable);//深度無効ステート
 
-	m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
+	m_DeviceContext->OMSetDepthStencilState(m_DepthStateEnable, NULL);
 
+	depthStencilDesc.DepthEnable = true;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 
+	depthStencilDesc.StencilEnable = true;
+	depthStencilDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+	depthStencilDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
 
+	depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR;
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_DECR;
+	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_StencilWrite);
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_LESS;
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_StencilRead);
 
 	// サンプラーステート設定
 	D3D11_SAMPLER_DESC samplerDesc{};
@@ -290,7 +318,7 @@ void Renderer::Begin()
 {
 	float clearColor[4] = { 1.0f, 1.0f, 0.0f, 1.0f };
 	m_DeviceContext->ClearRenderTargetView( m_RenderTargetView, clearColor );
-	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_DeviceContext->ClearDepthStencilView( m_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }
 
 
@@ -303,29 +331,20 @@ void Renderer::End()
 
 
 
-void Renderer::SetDepthEnable(const bool& Enable )
+void Renderer::SetDepthEnable(const bool& enable )
 {
-	if( Enable )
-		m_DeviceContext->OMSetDepthStencilState( m_DepthStateEnable, NULL );
-	else
-		m_DeviceContext->OMSetDepthStencilState( m_DepthStateDisable, NULL );
-
-}
-
-
-
-void Renderer::SetATCEnable(const bool& enable )
-{
-	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-
 	if (enable)
-		m_DeviceContext->OMSetBlendState(m_BlendStateATC, blendFactor, 0xffffffff);
+	{
+		m_DeviceContext->OMSetDepthStencilState(m_DepthStateEnable, NULL);
+	}
 	else
-		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
-
+	{
+		m_DeviceContext->OMSetDepthStencilState(m_DepthStateDisable, NULL);
+	}
 }
 
-void Renderer::SetWireframeEnable(const bool& enable) {
+void Renderer::SetWireframeEnable(const bool& enable) 
+{
 
 	if (enable) 
 	{
@@ -334,6 +353,71 @@ void Renderer::SetWireframeEnable(const bool& enable) {
 	else 
 	{
 		m_DeviceContext->RSSetState(nullptr);
+	}
+}
+
+void Renderer::SetStencilEnable(const bool& enable)
+{
+	if (enable)
+	{
+		m_DeviceContext->OMSetDepthStencilState(m_StencilWrite, NULL);
+	}
+	else
+	{
+		m_DeviceContext->OMSetDepthStencilState(m_StencilRead, NULL);
+	}
+}
+
+void Renderer::SetCullEnable(const bool& enable)
+{
+	if (enable)
+	{
+		m_DeviceContext->RSSetState(m_RasterizerStateCullBack);
+	}
+	else
+	{
+		m_DeviceContext->RSSetState(m_RasterizerStateCullNone);
+	}
+}
+void Renderer::SetATCEnable(const bool& enable)
+{
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	if (enable)
+	{
+		m_DeviceContext->OMSetBlendState(m_BlendStateATC, blendFactor, 0xffffffff);
+	}
+	else
+	{
+		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
+	}
+}
+
+void Renderer::SetBlendAddEnable(const bool& enable)
+{
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	if (enable)
+	{
+		m_DeviceContext->OMSetBlendState(m_BlendStateAdd, blendFactor, 0xffffffff);
+	}
+	else
+	{
+		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
+	}
+}
+
+void Renderer::SetBlendMaskEnable(const bool& enable)
+{
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	if (enable)
+	{
+		m_DeviceContext->OMSetBlendState(m_BlendStateMask, blendFactor, 0xffffffff);
+	}
+	else
+	{
+		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
 	}
 }
 
@@ -390,21 +474,6 @@ void Renderer::SetLight(const LIGHT& Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
 }
-
-void Renderer::SetBlendAddEnable(const bool& enable)
-{
-	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-
-	if (enable)
-		m_DeviceContext->OMSetBlendState(m_BlendStateAdd, blendFactor, 0xffffffff);
-	else
-		m_DeviceContext->OMSetBlendState(m_BlendState, blendFactor, 0xffffffff);
-}
-
-
-
-
-
 
 void Renderer::CreateVertexShader( ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName )
 {

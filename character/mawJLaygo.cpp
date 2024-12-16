@@ -1,14 +1,8 @@
 #include "mawJLaygo.h"
-#include "manager/fbxModelManager.h"
-#include "manager/sceneManager.h"
-#include "scene/gameScene.h"
 #include "component/boxCollisionComponent.h"
+#include "manager/fbxModelManager.h"
 #include "behaviorTree/behaviorTree.h"
-#include "behaviorTree/selectorNode .h"
-#include "taskNodes/dashAtThePlayerTask.h"
-#include "taskNodes/checkRangeTask.h"
-#include "taskNodes/rollAttackTask.h"
-#include "taskNodes/animationAttackTask.h"
+#include "meshFiled/meshFiled.h"
 
 constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
@@ -35,6 +29,10 @@ void MawJLaygo::CustomCollisionInfo()
 void MawJLaygo::CollisionControl()
 {
 	float groundHeight = 0.0f;
+	if (m_MeshFiled != nullptr)
+	{
+		groundHeight = m_MeshFiled->GetHeight(m_Position);
+	}
 
 	if (m_Position.y <= groundHeight)
 	{
@@ -48,44 +46,7 @@ void MawJLaygo::AnimationControl()
 	// 純粋仮想関数の為空実装
 }
 
-void MawJLaygo::CreateBehaviourTree()
-{
-	if (m_Tree == nullptr) return;
-
-	// playerのポインタを取得
-	GameScene* scene = SceneManager::GetScene<GameScene>();
-	if (scene == nullptr) return;
-	ObjectManager* objectManager = scene->GetObjectManager();
-	if (objectManager == nullptr) return;
-	Player* player = objectManager->GetPlayer();
-	if (player == nullptr) return;
-
-	// ビヘイビアツリーの作成
-
-	SelectorNode* rootNode = new SelectorNode;
-	if (rootNode == nullptr) return;
-
-	rootNode->AddTaskChild<CheckRangeTask>(this, player);
-
-	rootNode->AddTaskChild<RollAttackTask>(this, player);
-
-	rootNode->AddTaskChild<AnimationAttackTask>(this, player);
-
-	rootNode->AddTaskChild<DashAtThePlayerTask>(this, player);
-
-	// 一番最後に
-	m_Tree->CreateRoot(rootNode);
-}
-
-
 // ----------------------- public -----------------------
-
-MawJLaygo::MawJLaygo(const XMFLOAT3& pos)
-{
-	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJLaygo.fbx");
-	m_Position = pos;
-}
-
 
 MawJLaygo::~MawJLaygo()
 {
@@ -96,7 +57,11 @@ MawJLaygo::~MawJLaygo()
 void MawJLaygo::Init()
 {
 	BossEnemy::Init();
-	m_Scale = DEFAULT_SCALE_MAWJ;
+	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJLaygo.fbx");
+	if (m_Scale.y == 1.0f)
+	{
+		m_Scale = DEFAULT_SCALE_MAWJ;
+	}
 	m_EnableGravity = true;
 	m_GravityValue = GRAVITY;
 

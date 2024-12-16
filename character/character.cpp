@@ -1,7 +1,9 @@
 #include "character.h"
 #include "manager/fbxModelManager.h"
+#include "manager/sceneManager.h"
 #include "renderer/fbxModelRenderer.h"
 #include "component/collisionComponent.h"
+#include "scene/scene.h"
 
 constexpr float DEFAULT_BLEND_VALUE = 8.0f;
 
@@ -31,7 +33,17 @@ Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
+	// GameObject::Init()‚Ì‘O‚É
 	LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
+
+	if (m_MeshFiled != nullptr) return;
+	Scene* scene = SceneManager::GetScene<Scene>();
+	if (scene == nullptr) return;
+	ObjectManager* objectManager = scene->GetObjectManager();
+	if (objectManager == nullptr) return;
+	MeshFiled* filed = objectManager->GetMeshFiled();
+
+	m_MeshFiled = filed;
 }
 
 void Character::Update(const float& deltaTime)
@@ -87,7 +99,7 @@ void Character::Update(const float& deltaTime)
 	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
 	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
 	{
-		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
+		if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 		{
 			m_ModelCenter = model->GetCenter();
 			m_ModelScale = model->GetScale();

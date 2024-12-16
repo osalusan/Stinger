@@ -32,14 +32,16 @@ protected:
 	virtual void CollisionControl()override = 0;
 	virtual void CustomCollisionInfo()override = 0;
 	virtual void AnimationControl()override = 0;
-	// ビヘイビアツリーを作成
-	virtual void CreateBehaviourTree() = 0;
 
 	// 移動の所でビヘイビアツリーの制御
 	virtual void MoveControl(const float& deltaTime)override final;
 public:
+	BossEnemy() = delete;
+	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos);
+	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale);
+	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& rot);
 	virtual ~BossEnemy()override;
-	virtual void Init()override;
+	virtual void Init();
 
 	void AddVelocity(const XMFLOAT3& vel)
 	{

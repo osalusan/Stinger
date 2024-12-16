@@ -5,6 +5,7 @@
 #include "manager/inputManager.h"
 #include "renderer/renderer.h"
 #include "scene/gameScene.h"
+#include "scene/titleScene.h"
 
 Scene* SceneManager::m_Scene = nullptr;
 Scene* SceneManager::m_NextScene = nullptr;
@@ -16,7 +17,7 @@ void SceneManager::Init()
 
 	if (m_Scene == nullptr)
 	{
-		m_Scene = new GameScene;
+		m_Scene = new TitleScene;
 	}
 	if (m_Scene != nullptr)
 	{

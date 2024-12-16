@@ -9,8 +9,8 @@ enum class COLLISION_TAG;
 class GameObject {
 protected:
 	XMFLOAT3 m_Position = {};
-	XMFLOAT3 m_Rotation = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
+	XMFLOAT3 m_Rotation = {};
 
 	// 当たり判定用
 	XMFLOAT3 m_ColliPosition = {};
@@ -21,7 +21,7 @@ protected:
 	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {};
 
-	bool m_Enable = false;		// 有効、無効
+	bool m_Enable = true;		// 有効、無効
 
 	// 描画関連
 	ID3D11VertexShader* m_VertexShader = nullptr;
@@ -44,6 +44,12 @@ public:
 	virtual void Update(const float& deltaTime);
 	virtual void Draw();
 
+	void SetEnable(const float& flag)
+	{
+		m_Enable = flag;
+	}
+
+
 	BoxCollisionComponent* GetBoxCollision()
 	{
 		return m_BoxCollision;
@@ -60,6 +66,10 @@ public:
 	const XMFLOAT3& GetScale()const
 	{
 		return m_Scale;
+	}
+	const XMFLOAT3& GetRot()const
+	{
+		return m_Rotation;
 	}
 
 	const XMFLOAT3& GetModelCenter()const

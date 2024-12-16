@@ -460,7 +460,7 @@ void FbxModelRenderer::Load(const char* FileName)
 				VERTEX_3D& vert = vertex[v];
 
 				// ウェイトの合計を計算
-				float totalWeight = vert.BoneWeights[0] + vert.BoneWeights[1] + vert.BoneWeights[2] + vert.BoneWeights[3];
+				const float& totalWeight = vert.BoneWeights[0] + vert.BoneWeights[1] + vert.BoneWeights[2] + vert.BoneWeights[3];
 
 				// ウェイトの合計が0でない場合のみ正規化
 				if (totalWeight > 0.0f && totalWeight != 1.0f)
@@ -576,9 +576,6 @@ void FbxModelRenderer::Load(const char* FileName)
 	}
 }
 
-
-
-
 void FbxModelRenderer::Uninit()
 {
 	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
@@ -590,5 +587,3 @@ void FbxModelRenderer::Uninit()
 	delete[] m_VertexBuffer;
 	delete[] m_IndexBuffer;
 }
-
-

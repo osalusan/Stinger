@@ -62,10 +62,17 @@ private:
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
+	static ID3D11DepthStencilState* m_StencilWrite;
+	static ID3D11DepthStencilState* m_StencilRead;
+
 
 	static ID3D11BlendState*		m_BlendState;
 	static ID3D11BlendState*		m_BlendStateAdd; //加算合成ブレンドステート
 	static ID3D11BlendState*		m_BlendStateATC;
+	static ID3D11BlendState*		m_BlendStateMask;
+
+	static ID3D11RasterizerState* m_RasterizerStateCullBack;
+	static ID3D11RasterizerState* m_RasterizerStateCullNone;
 
 	static ID3D11RasterizerState* m_WireframeRasterState; // ワイヤーフレーム用
 
@@ -76,8 +83,14 @@ public:
 	static void End();
 
 	static void SetDepthEnable(const bool& enable);
-	static void SetATCEnable(const bool& enable);
 	static void SetWireframeEnable(const bool& enable);
+	static void SetStencilEnable(const bool& enable);
+	static void SetCullEnable(const bool& enable);
+	static void SetATCEnable(const bool& enable);
+	static void SetBlendAddEnable(const bool& enable);
+	static void SetBlendMaskEnable(const bool& enable);
+
+
 	static void SetWorldViewProjection2D();
 	static void SetWorldMatrix(const XMMATRIX& WorldMatrix);
 	static void SetViewMatrix(const XMMATRIX& ViewMatrix);
@@ -85,7 +98,6 @@ public:
 	static void SetMaterial(const MATERIAL& Material);
 	static void SetBoneMatrix(const std::vector<XMFLOAT4X4>& Matrix);
 	static void SetLight(const LIGHT& Light);
-	static void SetBlendAddEnable(const bool& enable);
 
 	static ID3D11Device* GetDevice( void ){ return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }

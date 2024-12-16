@@ -11,6 +11,28 @@ void BossEnemy::MoveControl(const float& deltaTime)
 	}
 }
 
+BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
+{
+	if (m_Tree == nullptr)
+	{
+		m_Tree = tree;
+	}
+
+	m_Position = pos;
+}
+
+BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale)
+	:BossEnemy(tree,pos)
+{
+	m_Scale = scale;
+}
+
+BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& rot)
+	:BossEnemy(tree,pos,scale)
+{
+	m_Rotation = rot;
+}
+
 BossEnemy::~BossEnemy()
 {
 	delete m_Tree;
@@ -21,13 +43,12 @@ BossEnemy::~BossEnemy()
 
 void BossEnemy::Init()
 {
-	GameObject::Init();
+	Character::Init();
 
-	if (m_Tree == nullptr)
+	// BossEnemyのコンストラクタが呼ばれ切った後じゃないと、Taskのdynamic_castが反応しない
+	if (m_Tree != nullptr)
 	{
-		m_Tree = new BehaviorTree;
+		m_Tree->CreateTree(this);
 	}
-
-	CreateBehaviourTree();
 }
 

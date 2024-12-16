@@ -53,10 +53,16 @@ protected:
 	XMFLOAT3 m_ModelScale = {};
 	XMMATRIX m_RotationMatrix = {};
 	
+
 #if _DEBUG
 	// “–‚½‚è”»’è•`‰æ—p
 	STATICMESH_MODEL m_Model;						// Init()‚Å‰Šú‰»
 	ObjModelRenderer* m_ModelRenderer = nullptr;
+
+	// •`‰æŠÖ˜A
+	ID3D11VertexShader* m_VertexShader = nullptr;
+	ID3D11PixelShader* m_PixelShader = nullptr;
+	ID3D11InputLayout* m_VertexLayout = nullptr;
 #endif // _DEBUG
 
 

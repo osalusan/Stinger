@@ -1,6 +1,7 @@
 #include "playerStateMachine.h"
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
+#include "manager/objectManager.h"
 #include "camera/playerCamera.h"
 #include "scene/gameScene.h"
 #include "playerState.h"
@@ -59,7 +60,9 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	{
 		GameScene* scene = SceneManager::GetScene<GameScene>();
 		if (scene == nullptr) return;
-		m_CameraCache = scene->GetCamera();
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+		m_CameraCache = objManager->GetCamera();
 
 		if (m_CameraCache == nullptr) return;
 	}

@@ -5,12 +5,15 @@
 // 前方宣言
 enum class ANIMETION_MODEL;
 
+class MeshFiled;
 class Character :public GameObject
 {
 protected:
 	XMFLOAT3 m_Velocity= {};
 	XMFLOAT3 m_RecordPosition = {};					// 過去座標
 	ANIMETION_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
+
+	MeshFiled* m_MeshFiled = nullptr;
 
 	// 重力
 	bool m_EnableGravity = false;
@@ -43,5 +46,31 @@ public:
 	void ChangeAnimation(const std::string& anime)
 	{
 		m_NextAnimationName = anime;
+	}
+
+	void SetAnimeTime(const float& time)
+	{
+		m_AnimationTime = time;
+	}
+
+	const ANIMETION_MODEL& GetAnimeModel()const
+	{
+		return m_Model;
+	}
+	const std::string& GetAnimeName()const
+	{
+		return m_AnimationName;
+	}
+	const std::string& GetNextAnimeName()const
+	{
+		return m_NextAnimationName;
+	}
+	const float& GetAnimeTime()const
+	{
+		return m_AnimationTime;
+	}
+	const float& GetBlendRatio()const
+	{
+		return m_BlendRatio;
 	}
 };

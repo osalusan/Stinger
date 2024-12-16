@@ -1,7 +1,8 @@
 #pragma once
 #include "staticmeshObject.h"
 
-class Box : public StaticMeshObject {
+class Box : public StaticMeshObject 
+{
 public:
 	Box();
 	Box(const XMFLOAT3& position, const XMFLOAT3& scale);

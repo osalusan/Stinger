@@ -4,6 +4,7 @@
 #include <dwrite.h>
 #include <wrl.h>
 #include <iostream>
+#include <time.h>
 
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
@@ -16,14 +17,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
 HWND g_Window;
+int g_Seed = 0;
 
 HWND GetWindow()
 {
 	return g_Window;
 }
 
+int XorShiftInt(int& state)
+{
+	state ^= state << 13;
+	state ^= state >> 17;
+	state ^= state << 5;
+	return state;
+}
+
+int GetRandom()
+{
+	return XorShiftInt(g_Seed);
+}
+
+
+
 LRESULT CALLBACK FPSWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	GetRandom();
 	switch (msg)
 	{
 	case WM_DESTROY:
@@ -35,21 +53,21 @@ LRESULT CALLBACK FPSWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 // FPSウインドウ用
-Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> pFPSRenderTarget;
-Microsoft::WRL::ComPtr<ID2D1Factory> pD2DFactory;
-Microsoft::WRL::ComPtr<IDWriteTextFormat> pTextFormat;
-Microsoft::WRL::ComPtr<IDWriteFactory> pDWriteFactory;
+Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> g_FPSRenderTarget;
+Microsoft::WRL::ComPtr<ID2D1Factory> g_D2DFactory;
+Microsoft::WRL::ComPtr<IDWriteTextFormat> g_TextFormat;
+Microsoft::WRL::ComPtr<IDWriteFactory> g_DWriteFactory;
 
 void InitializeFPSDirectWrite(HWND hwnd)
 {
-	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, pD2DFactory.GetAddressOf());
+	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, g_D2DFactory.GetAddressOf());
 	RECT rc;
 	GetClientRect(hwnd, &rc);
 
-	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, pD2DFactory.GetAddressOf());
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(pDWriteFactory.GetAddressOf()));
+	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, g_D2DFactory.GetAddressOf());
+	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(g_DWriteFactory.GetAddressOf()));
 
-	pDWriteFactory->CreateTextFormat(
+	g_DWriteFactory->CreateTextFormat(
 		L"Arial",                // フォント
 		nullptr,
 		DWRITE_FONT_WEIGHT_REGULAR,
@@ -57,36 +75,36 @@ void InitializeFPSDirectWrite(HWND hwnd)
 		DWRITE_FONT_STRETCH_NORMAL,
 		24.0f,                   // サイズ
 		L"en-us",
-		pTextFormat.GetAddressOf()
+		g_TextFormat.GetAddressOf()
 	);
 
-	hr = pD2DFactory->CreateHwndRenderTarget(
+	hr = g_D2DFactory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(hwnd, D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top)),
-		pFPSRenderTarget.GetAddressOf()
+		g_FPSRenderTarget.GetAddressOf()
 	);
 }
 
 void RenderFPSWindow(const float& fps)
 {
-	pFPSRenderTarget->BeginDraw();
-	pFPSRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+	g_FPSRenderTarget->BeginDraw();
+	g_FPSRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 
 	wchar_t fpsText[256];
 	swprintf_s(fpsText, 256, L"FPS: %.2f", fps);
 
 	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> pBrush;
-	pFPSRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), pBrush.GetAddressOf());
+	g_FPSRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), pBrush.GetAddressOf());
 
-	pFPSRenderTarget->DrawText(
+	g_FPSRenderTarget->DrawText(
 		fpsText,
 		static_cast<UINT32>(wcslen(fpsText)),
-		pTextFormat.Get(),
+		g_TextFormat.Get(),
 		D2D1::RectF(0, 0, 200, 50),  // 表示領域
 		pBrush.Get()
 	);
 
-	pFPSRenderTarget->EndDraw();
+	g_FPSRenderTarget->EndDraw();
 }
 
 // ボーダレスウインドウ
@@ -117,6 +135,8 @@ int APIENTRY WinMain(
 
 	// 乱数のシードを設定
 	srand(static_cast<unsigned int>(time(0)));
+
+	g_Seed = static_cast<int>(time(0));
 	// マウスカーソルの表示
 #if _DEBUG
 	ShowCursor(true);
@@ -159,9 +179,8 @@ int APIENTRY WinMain(
 	#if _DEBUG
 	
 	#else // releseの時のみ
-	// TODO:デバッグ用 / 変更予定
-	// ボーダレスウインドウ
-	//SetBorderlessWindow(g_Window);
+	 //ボーダレスウインドウ
+	SetBorderlessWindow(g_Window);
 	#endif
 
 	ShowWindow(g_Window, nCmdShow);
@@ -213,7 +232,7 @@ int APIENTRY WinMain(
 		InitializeFPSDirectWrite(hFPSWindow);
 
 		// フォント
-		HRESULT hr = pDWriteFactory->CreateTextFormat(
+		HRESULT hr = g_DWriteFactory->CreateTextFormat(
 			L"Arial",						// フォント
 			nullptr,                 
 			DWRITE_FONT_WEIGHT_REGULAR,		// 太さ
@@ -221,7 +240,7 @@ int APIENTRY WinMain(
 			DWRITE_FONT_STRETCH_NORMAL,		// 幅
 			24.0f,							// サイズ
 			L"en-us",                   
-			pTextFormat.GetAddressOf()
+			g_TextFormat.GetAddressOf()
 		);
 	}
 #endif

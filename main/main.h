@@ -36,5 +36,4 @@ using namespace DirectX;
 #endif
 
 HWND GetWindow();
-
-
+int GetRandom(); // +‚Æ-‚ª‚Ç‚¿‚ç‚à”­¶‚·‚é

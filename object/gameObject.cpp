@@ -93,12 +93,7 @@ void GameObject::Update(const float& deltaTime)
 
 void GameObject::Draw()
 {
-	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
-	{
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
-	}
+	// ˆê”ÔÅ‰‚É•`‰æ
 #if _DEBUG
 	UpdateBoxCollisionInfo();
 	if (m_BoxCollision != nullptr)
@@ -107,6 +102,13 @@ void GameObject::Draw()
 	}
 #endif // _DEBUG
 
+	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
+	{
+		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
+		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
+		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
+	}
+
 	XMMATRIX world, scl, rot, trans;
 
 	scl = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
@@ -114,8 +116,6 @@ void GameObject::Draw()
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	world = scl * rot * trans;
 	Renderer::SetWorldMatrix(world);
-
-
 }
 
 

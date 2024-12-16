@@ -6,22 +6,27 @@
 enum class OBJECT
 {
 	SKYDOME = 0,
+	STATICMESH,
+	SHADOW,
 	POLYGON2D,
-	BOX,
 	MAX
 };
 
 // 前方宣言
 class GameObject;
+class Camera;
 class Player;
 class BossEnemy;
+class MeshFiled;
 
 class ObjectManager final
 {
 private:
 	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
+	Camera* m_Camera = nullptr;
 	Player* m_Player = nullptr;
 	BossEnemy* m_Boss = nullptr;
+	MeshFiled* m_Filed = nullptr;
 public:
 	~ObjectManager();
 	void Init();
@@ -31,17 +36,46 @@ public:
 
 	void CreatePlayer();
 
-	Player* GetPlayer()
+	Camera* GetCamera()const
+	{
+		return m_Camera;
+	}
+	Player* GetPlayer()const
 	{
 		return m_Player;
 	}
-
-	void GetGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
+	BossEnemy* GetBossEnemy()const
+	{
+		return m_Boss;
+	}
+	MeshFiled* GetMeshFiled()const
+	{
+		return m_Filed;
+	}
+	void GetAllGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
 	{
 		for (int i = 0; i < static_cast<int>(OBJECT::MAX); i++)
 		{
 			objectList[i].insert(objectList[i].end(), m_GameObjects[i].begin(), m_GameObjects[i].end());
 		}
+	}
+
+	void GetGameObjects(std::vector<GameObject*>(&objectList),const OBJECT& layer)
+	{
+		const int& layerNum = static_cast<int>(layer);
+		objectList.insert(objectList.end(), m_GameObjects[layerNum].begin(), m_GameObjects[layerNum].end());
+	}
+	// カメラオブジェクトを一番最初に作成
+	template <typename T>
+	void CreateCameraObject()
+	{
+		if (m_Camera != nullptr) return;
+		T* camera = new T;
+		if (camera == nullptr) return;
+
+		camera->Init();
+
+		m_Camera = camera;
 	}
 
 	// 座標指定で追加
@@ -64,6 +98,17 @@ public:
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
+	}
+
+	template <typename T>
+	void CreateMeshFiled()
+	{
+		if (m_Filed != nullptr) return;
+		T* filed = new T;
+		if (filed == nullptr) return;
+
+		filed->Init();
+		m_Filed = filed;
 	}
 
 	// 引数付きの場合はこっち

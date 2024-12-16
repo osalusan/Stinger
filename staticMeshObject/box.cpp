@@ -8,15 +8,15 @@ Box::Box() : StaticMeshObject(STATICMESH_MODEL::BOX)
 	AddBoxCollisionComponent(COLLISION_TAG::OBJECT);
 }
 
-Box::Box(const XMFLOAT3& position, const XMFLOAT3& scale) : Box()
+Box::Box(const XMFLOAT3& position, const XMFLOAT3& scale)
+	:Box()
 {
 	m_Position = position;
 	m_Scale = scale;
 }
 
-Box::Box(const XMFLOAT3& position, const XMFLOAT3& scale, const XMFLOAT3& rotate) : Box()
+Box::Box(const XMFLOAT3& position, const XMFLOAT3& scale, const XMFLOAT3& rotate) 
+	: Box(position,scale)
 {
-	m_Position = position;
-	m_Scale = scale;
 	m_Rotation = rotate;
 }
