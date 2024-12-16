@@ -6,7 +6,7 @@ constexpr int RNAD_RANGE = 50;
 constexpr float SPEED_VALUE = 0.02f;
 constexpr float UP_DOWN_SPEED_VALUE = 0.027f;
 constexpr float ROTATE_VALUE = 0.001f;
-MoveRandSizeBox::MoveRandSizeBox() : StaticMeshObject(STATICMESH_MODEL::BOX)
+MoveRandSizeBox::MoveRandSizeBox() : StaticMeshObject(STATICMESH_MODEL::BOX_CENTER)
 {
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCenter.obj");
 	LoadShader("cso\\unlitColorModelVS.cso", "cso\\unlitColorModelPS.cso");
