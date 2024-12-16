@@ -1,13 +1,13 @@
-#include "roaringTask.h"
+#include "swipingTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
 
-void RoaringTask::Init()
+void SwipingTask::Init()
 {
-	ReserveAnimation("asset\\model\\MawJ_MutantRoaring.fbx", "Roaring_Enemy");
+	ReserveAnimation("asset\\model\\MawJ_Swiping.fbx", "Swiping_Enemy");
 }
 
-NODE_STATUS RoaringTask::Update(const float& deltaTime)
+NODE_STATUS SwipingTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
@@ -21,12 +21,10 @@ NODE_STATUS RoaringTask::Update(const float& deltaTime)
 		return NODE_STATUS::FAILURE;
 	}
 
-	
-
 	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::MIDDLE)
+	if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHROT)
 	{
-		if(node == nullptr)
+		if (node == nullptr)
 		{
 			m_CurrentTime = 0.0f;
 		}
@@ -53,3 +51,4 @@ NODE_STATUS RoaringTask::Update(const float& deltaTime)
 
 	return NODE_STATUS::FAILURE;
 }
+

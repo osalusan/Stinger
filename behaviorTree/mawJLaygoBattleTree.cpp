@@ -6,8 +6,8 @@
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorNode/selectorNode .h"
 #include "behaviortaskNodes/dashAtThePlayerTask.h"
+#include "behaviorTaskNodes/swipingTask.h"
 #include "behaviortaskNodes/checkRangeTask.h"
-#include "behaviortaskNodes/rollAttackTask.h"
 #include "behaviortaskNodes/roaringTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
@@ -27,7 +27,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	rootNode->AddTaskChild<CheckRangeTask>(boss, player);
 
-	rootNode->AddTaskChild<RollAttackTask>(boss, player);
+	rootNode->AddTaskChild<SwipingTask>(boss, player);
 
 	rootNode->AddTaskChild<RoaringTask>(boss, player);
 

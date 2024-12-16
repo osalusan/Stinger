@@ -1,6 +1,6 @@
 #include "playerStateRun.h"
 
-constexpr float MOVE_SPEED_MAWJ = 2000.0f;
+constexpr float MOVE_SPEED_MAWJ = 6000.0f;
 constexpr const char* RUNNING_PLAYER = "RunningPlayer";
 
 void PlayerStateRun::Init()

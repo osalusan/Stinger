@@ -9,7 +9,7 @@ void DashAtThePlayerTask::Init()
 	{
 		m_Range = 10.0f;
 	}
-	ReserveAnimation("asset\\model\\MawJ_UnarmedWalkForward60.fbx", "Walking_Enemy");
+	ReserveAnimation("asset\\model\\MawJ_UnarmedWalkForward.fbx", "Walking_Enemy");
 }
 
 NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
@@ -30,6 +30,7 @@ NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
 	const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
 	const XMFLOAT3& direction = m_BossCache->GetTargetDirection(playerPos);
 
+	m_BossCache->RotToTarget(m_PlayerCache);
 	const float& moveSpeed = m_BossCache->GetMoveSpeed() * deltaTime;
 
 	m_BossCache->AddVelocity({ direction.x * moveSpeed ,0.0f,direction.z * moveSpeed });

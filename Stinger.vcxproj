@@ -26,7 +26,7 @@
     <ClCompile Include="behaviorTaskNodes\dashAtThePlayerTask.cpp" />
     <ClCompile Include="behaviorTaskNodes\roaringInfinityTask.cpp" />
     <ClCompile Include="behaviorTaskNodes\roaringTask.cpp" />
-    <ClCompile Include="behaviorTaskNodes\rollAttackTask.cpp" />
+    <ClCompile Include="behaviorTaskNodes\swipingTask.cpp" />
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp" />
@@ -78,7 +78,7 @@
     <ClInclude Include="behaviorTaskNodes\dashAtThePlayerTask.h" />
     <ClInclude Include="behaviorTaskNodes\roaringInfinityTask.h" />
     <ClInclude Include="behaviorTaskNodes\roaringTask.h" />
-    <ClInclude Include="behaviorTaskNodes\rollAttackTask.h" />
+    <ClInclude Include="behaviorTaskNodes\swipingTask.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h" />
@@ -164,6 +164,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="behaviorTaskNodes\taskTemplate.txt" />
     <Text Include="particle\template.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

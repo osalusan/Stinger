@@ -43,6 +43,7 @@ NODE_STATUS TaskNode::Update(const float& deltaTime)
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossCache->GetAnimeModel()))
 		{
 			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
+			m_CurrentTime = m_MaxAnimTime;
 		}
 	}
 	return NODE_STATUS();

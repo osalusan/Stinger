@@ -49,13 +49,9 @@ public:
 		m_Velocity.y += vel.y;
 		m_Velocity.z += vel.z;
 	}
+	// TODO :C³—\’èA‰ñ“]‚ğ‚æ‚è©‘R‚É‚·‚éê‡‚ÍC³
+	void RotToTarget(GameObject* obj);
 
-	void AddRotation(const XMFLOAT3& rot)
-	{
-		m_Rotation.x += rot.x;
-		m_Rotation.y += rot.y;
-		m_Rotation.z += rot.z;
-	}
 	const BehaviorTree* GetBehaviourTree()const
 	{
 		return m_Tree;

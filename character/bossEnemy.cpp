@@ -1,6 +1,5 @@
 #include "bossEnemy.h"
 #include "behaviorTree/behaviorTree.h"
-
 // ----------------------- public -----------------------
 
 void BossEnemy::MoveControl(const float& deltaTime)
@@ -50,5 +49,11 @@ void BossEnemy::Init()
 	{
 		m_Tree->CreateTree(this);
 	}
+}
+
+void BossEnemy::RotToTarget(GameObject* obj)
+{
+	if (obj == nullptr) return;
+	m_Rotation.y = atan2f(GetTargetDirection(obj->GetPos()).z, GetTargetDirection(obj->GetPos()).x);
 }
 
