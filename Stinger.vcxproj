@@ -22,11 +22,11 @@
     <ClCompile Include="behaviorNode\selectorNode .cpp" />
     <ClCompile Include="behaviorNode\sequenceNode .cpp" />
     <ClCompile Include="behaviorNode\taskNode.cpp" />
-    <ClCompile Include="behaviorTaskNodes\checkRangeTask.cpp" />
-    <ClCompile Include="behaviorTaskNodes\dashAtThePlayerTask.cpp" />
-    <ClCompile Include="behaviorTaskNodes\roaringInfinityTask.cpp" />
-    <ClCompile Include="behaviorTaskNodes\roaringTask.cpp" />
-    <ClCompile Include="behaviorTaskNodes\swipingTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\roaringTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\swipingTask.cpp" />
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp" />
@@ -74,11 +74,11 @@
     <ClInclude Include="behaviorNode\selectorNode .h" />
     <ClInclude Include="behaviorNode\sequenceNode .h" />
     <ClInclude Include="behaviorNode\taskNode.h" />
-    <ClInclude Include="behaviorTaskNodes\checkRangeTask.h" />
-    <ClInclude Include="behaviorTaskNodes\dashAtThePlayerTask.h" />
-    <ClInclude Include="behaviorTaskNodes\roaringInfinityTask.h" />
-    <ClInclude Include="behaviorTaskNodes\roaringTask.h" />
-    <ClInclude Include="behaviorTaskNodes\swipingTask.h" />
+    <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />
+    <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h" />
+    <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h" />
+    <ClInclude Include="behaviorTaskNode\roaringTask.h" />
+    <ClInclude Include="behaviorTaskNode\swipingTask.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h" />
@@ -164,7 +164,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="behaviorTaskNodes\taskTemplate.txt" />
+    <Text Include="behaviorTaskNode\taskTemplate.txt" />
     <Text Include="particle\template.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

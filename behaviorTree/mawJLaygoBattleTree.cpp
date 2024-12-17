@@ -2,13 +2,13 @@
 #include "manager/fbxModelManager.h"
 #include "manager/sceneManager.h"
 #include "scene/gameScene.h"
-#include "manager\objectManager.h"
+#include "manager/objectManager.h"
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorNode/selectorNode .h"
-#include "behaviortaskNodes/dashAtThePlayerTask.h"
-#include "behaviorTaskNodes/swipingTask.h"
-#include "behaviortaskNodes/checkRangeTask.h"
-#include "behaviortaskNodes/roaringTask.h"
+#include "behaviortaskNode/dashAtThePlayerTask.h"
+#include "behaviorTaskNode/swipingTask.h"
+#include "behaviortaskNode/checkRangeTask.h"
+#include "behaviortaskNode/roaringTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {

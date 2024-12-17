@@ -192,22 +192,22 @@
     <ClCompile Include="behaviorNode\sequenceNode .cpp">
       <Filter>behaviorNode</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTaskNodes\checkRangeTask.cpp">
-      <Filter>behaviorTaskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTaskNodes\dashAtThePlayerTask.cpp">
-      <Filter>behaviorTaskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTaskNodes\roaringInfinityTask.cpp">
-      <Filter>behaviorTaskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTaskNodes\roaringTask.cpp">
-      <Filter>behaviorTaskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTaskNodes\swipingTask.cpp">
-      <Filter>behaviorTaskNode</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorNode\taskNode.cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\roaringTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\swipingTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
   </ItemGroup>
@@ -350,22 +350,22 @@
     <ClInclude Include="behaviorNode\sequenceNode .h">
       <Filter>behaviorNode</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTaskNodes\checkRangeTask.h">
-      <Filter>behaviorTaskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTaskNodes\dashAtThePlayerTask.h">
-      <Filter>behaviorTaskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTaskNodes\roaringInfinityTask.h">
-      <Filter>behaviorTaskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTaskNodes\roaringTask.h">
-      <Filter>behaviorTaskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTaskNodes\swipingTask.h">
-      <Filter>behaviorTaskNode</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorNode\taskNode.h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkRangeTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\roaringTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\swipingTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
@@ -396,7 +396,7 @@
     <Text Include="particle\template.txt">
       <Filter>particle</Filter>
     </Text>
-    <Text Include="behaviorTaskNodes\taskTemplate.txt">
+    <Text Include="behaviorTaskNode\taskTemplate.txt">
       <Filter>behaviorTaskNode</Filter>
     </Text>
   </ItemGroup>
