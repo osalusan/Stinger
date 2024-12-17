@@ -46,9 +46,6 @@
     <Filter Include="behaviorTree">
       <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="taskNode">
-      <UniqueIdentifier>{6e96fa29-b300-456f-a73b-7bedd27c56d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="particle">
       <UniqueIdentifier>{c84b9e9c-dd23-477a-92e3-020b82d10242}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,12 @@
     </Filter>
     <Filter Include="shadow">
       <UniqueIdentifier>{52d8ea7c-fe23-4034-b5f8-053d6065130d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behaviorTaskNode">
+      <UniqueIdentifier>{4daea993-5b4c-4f16-a1c9-fb7243f7b633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behaviorNode">
+      <UniqueIdentifier>{a4422139-e6a2-47ce-9dbe-3a117c25e7c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -150,12 +153,6 @@
     <ClCompile Include="playerState\playerStateJump.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTree\selectorNode .cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTree\sequenceNode .cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\behaviorTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
@@ -164,21 +161,6 @@
     </ClCompile>
     <ClCompile Include="character\mawJLaygo.cpp">
       <Filter>character</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTree\taskNode.cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\checkRangeTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\rollAttackTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\roaringTask.cpp">
-      <Filter>taskNode</Filter>
     </ClCompile>
     <ClCompile Include="particle\particleEmitter.cpp">
       <Filter>particle</Filter>
@@ -198,14 +180,35 @@
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="taskNodes\roaringInfinityTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp">
       <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\selectorNode .cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\sequenceNode .cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNodes\checkRangeTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNodes\dashAtThePlayerTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNodes\roaringInfinityTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNodes\roaringTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNodes\swipingTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\taskNode.cpp">
+      <Filter>behaviorTaskNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,16 +308,7 @@
     <ClInclude Include="playerState\playerStateJump.h">
       <Filter>playerState</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTree\behaviorNode.h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorTree\behaviorTree.h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\selectorNode .h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\sequenceNode .h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="character\bossEnemy.h">
@@ -322,21 +316,6 @@
     </ClInclude>
     <ClInclude Include="character\mawJLaygo.h">
       <Filter>character</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\taskNode.h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\checkRangeTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\dashAtThePlayerTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\rollAttackTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\roaringTask.h">
-      <Filter>taskNode</Filter>
     </ClInclude>
     <ClInclude Include="particle\particleEmitter.h">
       <Filter>particle</Filter>
@@ -356,14 +335,38 @@
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
-    <ClInclude Include="taskNodes\roaringInfinityTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h">
       <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\behaviorNode.h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\selectorNode .h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\sequenceNode .h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNodes\checkRangeTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNodes\dashAtThePlayerTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNodes\roaringInfinityTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNodes\roaringTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNodes\swipingTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\taskNode.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,6 +395,9 @@
   <ItemGroup>
     <Text Include="particle\template.txt">
       <Filter>particle</Filter>
+    </Text>
+    <Text Include="behaviorTaskNodes\taskTemplate.txt">
+      <Filter>behaviorTaskNode</Filter>
     </Text>
   </ItemGroup>
 </Project>
