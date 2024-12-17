@@ -54,6 +54,10 @@ void BossEnemy::Init()
 void BossEnemy::RotToTarget(GameObject* obj)
 {
 	if (obj == nullptr) return;
-	m_Rotation.y = atan2f(GetTargetDirection(obj->GetPos()).z, GetTargetDirection(obj->GetPos()).x);
+	const XMFLOAT3& enemyPos = GetPos();
+	const XMFLOAT3& targetPos = obj->GetPos();
+
+	// TODO :C³—\’è / ‰ñ“]‚ğ©‘R‚É
+	m_Rotation.y = atan2f(targetPos.x - enemyPos.x, targetPos.z - enemyPos.z);
 }
 

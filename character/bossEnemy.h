@@ -16,6 +16,8 @@ class BossEnemy :public Character {
 protected:
 	BehaviorTree* m_Tree = nullptr;
 
+	float m_RotValue = 0.0f;
+
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	float m_MoveSpeed = 0.0f;
 	float m_ShortRange = 0.0f;
