@@ -325,6 +325,7 @@ void Renderer::Begin()
 
 void Renderer::End()
 {
+	// 0:‚’¼“¯ŠúƒIƒt,1:‚’¼“¯ŠúƒIƒ“
 	m_SwapChain->Present( 1, 0 );
 }
 
