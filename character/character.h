@@ -23,6 +23,9 @@ protected:
 	int m_Damage = 0;								// 与えるダメージ
 	bool m_IsDead = false;							// 死んでいる
 
+	// 演出終了フラグ
+	bool m_FinishPerformance = false;
+
 	// アニメーション用
 	float m_AnimationTime = 0.0f;					// アニメーションのフレーム
 	std::string m_AnimationName = "";				// アニメーションの名前
@@ -35,7 +38,6 @@ protected:
 	virtual void CollisionControl() = 0;
 	virtual void CustomCollisionInfo() = 0;
 	virtual void AnimationControl() = 0;
-	virtual void HealthControl() = 0;
 
 	void TakeDamage(const int& atk);
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);

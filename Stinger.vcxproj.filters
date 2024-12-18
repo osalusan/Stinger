@@ -210,6 +210,9 @@
     <ClCompile Include="behaviorTaskNode\swipingTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -368,6 +371,9 @@
     <ClInclude Include="behaviorTaskNode\swipingTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkHealthTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -393,7 +399,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="particle\template.txt">
+    <Text Include="particle\template_Particle.txt">
       <Filter>particle</Filter>
     </Text>
     <Text Include="behaviorTaskNode\taskTemplate.txt">

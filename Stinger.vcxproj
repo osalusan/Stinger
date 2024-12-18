@@ -22,6 +22,7 @@
     <ClCompile Include="behaviorNode\selectorNode .cpp" />
     <ClCompile Include="behaviorNode\sequenceNode .cpp" />
     <ClCompile Include="behaviorNode\taskNode.cpp" />
+    <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
     <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp" />
     <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="behaviorNode\selectorNode .h" />
     <ClInclude Include="behaviorNode\sequenceNode .h" />
     <ClInclude Include="behaviorNode\taskNode.h" />
+    <ClInclude Include="behaviorTaskNode\checkHealthTask.h" />
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />
     <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h" />
     <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h" />
@@ -165,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="behaviorTaskNode\taskTemplate.txt" />
-    <Text Include="particle\template.txt" />
+    <Text Include="particle\template_Particle.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
