@@ -16,6 +16,9 @@ constexpr float LONG_RANGE_MAWJ = 100.0f;
 // ブレンド速度
 constexpr float DEFAULT_BLEND_VALUE_MAWJ = 4.0f;
 
+// 消費スタミナ
+constexpr float MAX_STAMINA = 10.0f;
+
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
 {
@@ -71,6 +74,8 @@ void MawJLaygo::Init()
 	m_MiddleRange = MIDDLE_RANGE_MAWJ;
 	m_LongRange = LONG_RANGE_MAWJ;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
+	m_MaxStamina = MAX_STAMINA;
+	m_StaminaValue = m_MaxStamina;
 
 	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
 }

@@ -2,6 +2,18 @@
 #include "behaviorTree/behaviorTree.h"
 // ----------------------- public -----------------------
 
+void BossEnemy::HealthControl()
+{
+	if (m_Health > 0.0f) return;
+
+	m_Health = 0.0f;
+
+	if (m_FinishPerformance)
+	{
+		m_Enable = false;
+	}
+}
+
 void BossEnemy::MoveControl(const float& deltaTime)
 {
 	if (m_Tree != nullptr)

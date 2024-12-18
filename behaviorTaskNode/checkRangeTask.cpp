@@ -4,6 +4,7 @@
 
 void CheckRangeTask::Init()
 {
+	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
 }
 
 NODE_STATUS CheckRangeTask::Update(const float& deltaTime)

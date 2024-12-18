@@ -115,6 +115,8 @@ void Character::Update(const float& deltaTime)
 	CustomCollisionInfo();
 	// ‰ß‹À•W‚Ì•Û‘¶
 	m_RecordPosition = m_Position;
+	// ‘Ì—ÍŠÇ—
+	HealthControl();
 }
 
 void Character::Draw()

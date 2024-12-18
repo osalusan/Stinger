@@ -16,24 +16,26 @@ class BossEnemy :public Character {
 protected:
 	BehaviorTree* m_Tree = nullptr;
 
-	float m_RotValue = 0.0f;
+	float m_StaminaValue = 0.0f;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	float m_MoveSpeed = 0.0f;
 	float m_ShortRange = 0.0f;
 	float m_MiddleRange = 0.0f;
 	float m_LongRange = 0.0f;
-
+	float m_MaxStamina = 0.0f;
 
 	// ボスの現在の状態
 	RANGE m_CurrentRange = RANGE::NONE;
 	// 今実行中のノード
 	BehaviorNode* m_RunningNodeCache = nullptr;
-
+	// 演出終了フラグ
+	bool m_FinishPerformance = false;
 
 	virtual void CollisionControl()override = 0;
 	virtual void CustomCollisionInfo()override = 0;
 	virtual void AnimationControl()override = 0;
+	virtual void HealthControl()override final;
 
 	// 移動の所でビヘイビアツリーの制御
 	virtual void MoveControl(const float& deltaTime)override final;
@@ -79,6 +81,10 @@ public:
 	const float& GetLongRange()const
 	{
 		return m_LongRange;
+	}
+	const float& GetStamina()const
+	{
+		return m_StaminaValue;
 	}
 
 	// 現在の状態のGetとSet
