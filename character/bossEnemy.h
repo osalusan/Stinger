@@ -36,6 +36,7 @@ protected:
 
 	// 移動の所でビヘイビアツリーの制御
 	virtual void MoveControl(const float& deltaTime)override final;
+	virtual void ParameterControl(const float& deltaTime)override final;
 public:
 	BossEnemy() = delete;
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos);
@@ -52,6 +53,8 @@ public:
 	}
 	// TODO :修正予定、回転をより自然にする場合は修正
 	void RotToTarget(GameObject* obj);
+	
+	bool UseStamina(const float& use);
 
 	const BehaviorTree* GetBehaviourTree()const
 	{
@@ -82,6 +85,10 @@ public:
 	const float& GetStamina()const
 	{
 		return m_StaminaValue;
+	}
+	const float& GetaMaxStamina()
+	{
+		return m_MaxStamina;
 	}
 
 	// 現在の状態のGetとSet

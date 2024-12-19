@@ -8,6 +8,22 @@
 constexpr float DEFAULT_BLEND_VALUE = 8.0f;
 
 // ------------------------- protected -------------------------
+
+void Character::ParameterControl(const float& deltaTime)
+{
+	// 過去座標の保存
+	m_RecordPosition = m_Position;
+
+	if (m_Health <= 0)
+	{
+		if (m_FinishPerformance)
+		{
+			m_Enable = false;
+		}
+	}
+}
+
+
 void Character::TakeDamage(const int& atk)
 {
 	if (atk <= 0 || m_Health <= 0) return;
@@ -105,22 +121,14 @@ void Character::Update(const float& deltaTime)
 		}
 	}
 
-	// 当たり判定用変数の設定 / 移動後
+	// 当たり判定用変数の設定 / 移動後に呼ぶ
 	CustomCollisionInfo();
 	// 当たり判定処理
 	CollisionControl();
-	// 当たり判定用変数の設定 / 当たり判定後
+	// 当たり判定用変数の設定 / 当たり判定後に呼ぶ
 	CustomCollisionInfo();
-	// 過去座標の保存
-	m_RecordPosition = m_Position;
-
-	if (m_Health <= 0)
-	{
-		if (m_FinishPerformance)
-		{
-			m_Enable = false;
-		}
-	}
+	// パラメータの制御 / 移動、当たり判定の後に呼ぶ
+	ParameterControl(deltaTime);
 }
 
 void Character::Draw()

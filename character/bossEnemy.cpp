@@ -17,6 +17,17 @@ void BossEnemy::MoveControl(const float& deltaTime)
 	}
 }
 
+void BossEnemy::ParameterControl(const float& deltaTime)
+{
+	Character::ParameterControl(deltaTime);
+	m_StaminaValue += deltaTime;
+
+	if (m_StaminaValue > m_MaxStamina)
+	{
+		m_StaminaValue = m_MaxStamina;
+	}
+}
+
 BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
 {
 	if (m_Tree == nullptr)
@@ -66,5 +77,17 @@ void BossEnemy::RotToTarget(GameObject* obj)
 
 	// TODO :C³—\’è / ‰ñ“]‚ğ©‘R‚É
 	m_Rotation.y = atan2f(targetPos.x - enemyPos.x, targetPos.z - enemyPos.z);
+}
+
+bool BossEnemy::UseStamina(const float& use)
+{
+	if (m_StaminaValue - use < 0.0f)
+	{
+		return false;
+	}
+
+	m_StaminaValue -= use;
+
+	return true;
 }
 

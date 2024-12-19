@@ -39,6 +39,8 @@ protected:
 	virtual void CustomCollisionInfo() = 0;
 	virtual void AnimationControl() = 0;
 
+	virtual void ParameterControl(const float& deltaTime);
+
 	void TakeDamage(const int& atk);
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
 	
