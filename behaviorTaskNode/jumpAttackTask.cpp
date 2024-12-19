@@ -3,8 +3,9 @@
 #include "character/bossEnemy.h"
 
 constexpr float USE_STAMINA_VALUE = 0.3f;
-constexpr float LANDING_MIN_VALUE = 0.1f; // 着地に合わせる用
-constexpr float LANDING_MAX_VALUE = 0.48f; // 着地に合わせる用
+// 着地に合わせる用
+constexpr float LANDING_MIN_VALUE = 0.1f;
+constexpr float LANDING_MAX_VALUE = 0.48f;
 void JumpAttackTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\JumpAttack_MawJ.fbx", "JumpAttack_MawJ");

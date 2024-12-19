@@ -1,8 +1,61 @@
-﻿  meshFiled.cpp
+﻿  selectorNode .cpp
+  sequenceNode .cpp
+  taskNode.cpp
+  checkHealthTask.cpp
+  checkRangeTask.cpp
+  dashAtThePlayerTask.cpp
+  deadTask.cpp
+  jumpAttackTask.cpp
+  roaringInfinityTask.cpp
+  roaringTask.cpp
+  swipingTask.cpp
+  behaviorTree.cpp
+  mawJLaygoBattleTree.cpp
+  mawJLaygoTitleTree.cpp
+  camera.cpp
+  playerCamera.cpp
+  titleCamera.cpp
+  bossEnemy.cpp
+  character.cpp
+  mawJLaygo.cpp
+  コンパイル中...
+  player.cpp
+  boxCollisionComponent.cpp
+  collisionComponent.cpp
+  main.cpp
+  fbxModelManager.cpp
+  inputManager.cpp
+  objectManager.cpp
+  objModelManager.cpp
+  particleManager.cpp
+  sceneManager.cpp
+  textureManager.cpp
+  meshFiled.cpp
+  gameObject.cpp
+  particleEmitter.cpp
+  spiralBlueorb.cpp
+  playerState.cpp
+  playerStateIdle.cpp
+  playerStateJump.cpp
+  playerStateMachine.cpp
+  playerStateRun.cpp
+  コンパイル中...
+  polygon2D.cpp
+  fbxModelRenderer.cpp
+  objModelRenderer.cpp
+  renderer.cpp
+  gameScene.cpp
+  scene.cpp
+  titleScene.cpp
+  shadowVolume.cpp
+  skydome.cpp
+  box.cpp
+  moveRandSizeBox.cpp
+  staticmeshObject.cpp
   コード生成しています。
-  1 of 2900 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    7 functions had inline decision re-evaluated but remain unchanged
+  558 of 2952 functions (18.9%) were compiled, the rest were copied from previous compilation.
+    104 functions were new in current compilation
+    295 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

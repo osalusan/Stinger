@@ -32,21 +32,21 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SequenceNode* healthNode = rootNode->AddNodeChild<SequenceNode>();
 	if (healthNode == nullptr) return;
 
+	// 体力の確認
 	healthNode->AddTaskChild<CheckHealthTask>(boss, player);
-
+	// 死亡
 	healthNode->AddTaskChild<DeadTask>(boss, player);
 
 	SelectorNode* attackNode = rootNode->AddNodeChild<SelectorNode>();
 	if (attackNode == nullptr) return;
 
+	// 範囲の確認
 	attackNode->AddTaskChild<CheckRangeTask>(boss, player);
-
+	// 攻撃
 	attackNode->AddTaskChild<SwipingTask>(boss, player);
-
 	attackNode->AddTaskChild<JumpAttackTask>(boss, player);
-
 	attackNode->AddTaskChild<RoaringTask>(boss, player);
-
+	// 攻撃不可
 	attackNode->AddTaskChild<DashAtThePlayerTask>(boss, player);
 
 	// 一番最後に
