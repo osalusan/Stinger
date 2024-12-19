@@ -4,7 +4,7 @@
 
 void RoaringTask::Init()
 {
-	ReserveAnimation("asset\\model\\MawJ_MutantRoaring.fbx", "Roaring_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\MutantRoaring_MawJ.fbx", "Roaring_MawJ");
 }
 
 NODE_STATUS RoaringTask::Update(const float& deltaTime)

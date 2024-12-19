@@ -26,6 +26,7 @@
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
     <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp" />
     <ClCompile Include="behaviorTaskNode\deadTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp" />
     <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp" />
     <ClCompile Include="behaviorTaskNode\roaringTask.cpp" />
     <ClCompile Include="behaviorTaskNode\swipingTask.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />
     <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h" />
     <ClInclude Include="behaviorTaskNode\deadTask.h" />
+    <ClInclude Include="behaviorTaskNode\jumpAttackTask.h" />
     <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h" />
     <ClInclude Include="behaviorTaskNode\roaringTask.h" />
     <ClInclude Include="behaviorTaskNode\swipingTask.h" />

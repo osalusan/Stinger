@@ -62,7 +62,7 @@ MawJLaygo::~MawJLaygo()
 void MawJLaygo::Init()
 {
 	BossEnemy::Init();
-	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\MawJLaygo.fbx");
+	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\mawJ\\MawJLaygo.fbx");
 	if (m_Scale.y == 1.0f)
 	{
 		m_Scale = DEFAULT_SCALE_MAWJ;

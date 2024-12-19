@@ -76,10 +76,13 @@ void ObjModelManager::LoadModel(const char* fileName, MODEL* model)
 			CreateShaderResourceView(Renderer::GetDevice(), image.GetImages(), image.GetImageCount(), metadata, &model->SubsetArray[i].Material.Texture);
 
 			if (model->SubsetArray[i].Material.Texture)
+			{
 				model->SubsetArray[i].Material.Material.TextureEnable = true;
+			}
 			else
+			{
 				model->SubsetArray[i].Material.Material.TextureEnable = false;
-
+			}
 		}
 	}
 

@@ -9,7 +9,7 @@ void DashAtThePlayerTask::Init()
 	{
 		m_Range = 10.0f;
 	}
-	ReserveAnimation("asset\\model\\MawJ_UnarmedWalkForward.fbx", "Walking_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\UnarmedWalkForward_MawJ.fbx", "Walking_MawJ");
 }
 
 NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
