@@ -85,9 +85,6 @@ void Character::Update(const float& deltaTime)
 		m_BlendRatio = 0.0f;
 	}
 
-
-
-
 	// ë¨ìxêßå‰
 	m_Velocity.x *= deltaTime;
 	m_Velocity.y *= deltaTime;
@@ -115,6 +112,15 @@ void Character::Update(const float& deltaTime)
 	CustomCollisionInfo();
 	// âﬂãéç¿ïWÇÃï€ë∂
 	m_RecordPosition = m_Position;
+<<<<<<< HEAD
+
+	if (m_Health <= 0)
+	{
+		if (m_FinishPerformance)
+		{
+			m_Enable = false;
+		}
+=======
 	if (m_Health > 0) return;
 
 	m_Health = 0;
@@ -122,6 +128,7 @@ void Character::Update(const float& deltaTime)
 	if (m_FinishPerformance)
 	{
 		m_Enable = false;
+>>>>>>> 8ab46e3f6ae377530c39d0216c6f130f486f695c
 	}
 }
 

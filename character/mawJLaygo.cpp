@@ -8,6 +8,8 @@ constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
 constexpr float MOVE_SPEED_MAWJ = 2000.0f;
 
+constexpr int DEFAULT_HEALTH_MAWJ = 100;
+
 // çUåÇîÕàÕ
 constexpr float SHORT_RANGE_MAWJ = 30.0f;
 constexpr float MIDDLE_RANGE_MAWJ = 70.0f;
@@ -65,10 +67,11 @@ void MawJLaygo::Init()
 	{
 		m_Scale = DEFAULT_SCALE_MAWJ;
 	}
-	m_EnableGravity = true;
-	m_GravityValue = GRAVITY;
 
 	// ÉpÉâÉÅÅ[É^ê›íË
+	m_EnableGravity = true;
+	m_GravityValue = GRAVITY;
+	m_Health = DEFAULT_HEALTH_MAWJ;
 	m_MoveSpeed = MOVE_SPEED_MAWJ;
 	m_ShortRange = SHORT_RANGE_MAWJ;
 	m_MiddleRange = MIDDLE_RANGE_MAWJ;
