@@ -19,7 +19,6 @@ void Character::TakeDamage(const int& atk)
 		m_Health = 0;
 		m_IsDead = true;
 	}
-
 }
 
 void Character::ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path)
@@ -63,6 +62,8 @@ void Character::Update(const float& deltaTime)
 	}
 	// 移動処理
 	MoveControl(deltaTime);
+	// アニメーション制御
+	AnimationControl();
 
 	// アニメーションのブレンド制御
 	m_AnimationTime += deltaTime;
@@ -112,7 +113,6 @@ void Character::Update(const float& deltaTime)
 	CustomCollisionInfo();
 	// 過去座標の保存
 	m_RecordPosition = m_Position;
-<<<<<<< HEAD
 
 	if (m_Health <= 0)
 	{
@@ -120,15 +120,6 @@ void Character::Update(const float& deltaTime)
 		{
 			m_Enable = false;
 		}
-=======
-	if (m_Health > 0) return;
-
-	m_Health = 0;
-
-	if (m_FinishPerformance)
-	{
-		m_Enable = false;
->>>>>>> 8ab46e3f6ae377530c39d0216c6f130f486f695c
 	}
 }
 

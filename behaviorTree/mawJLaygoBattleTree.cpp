@@ -5,10 +5,13 @@
 #include "manager/objectManager.h"
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorNode/selectorNode .h"
+#include "behaviorNode/sequenceNode .h"
 #include "behaviortaskNode/dashAtThePlayerTask.h"
 #include "behaviorTaskNode/swipingTask.h"
 #include "behaviortaskNode/checkRangeTask.h"
 #include "behaviortaskNode/roaringTask.h"
+#include "behaviorTaskNode/checkHealthTask.h"
+#include "behaviorTaskNode/deadTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -25,13 +28,23 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddTaskChild<CheckRangeTask>(boss, player);
+	SequenceNode* healthNode = rootNode->AddNodeChild<SequenceNode>();
+	if (healthNode == nullptr) return;
 
-	rootNode->AddTaskChild<SwipingTask>(boss, player);
+	healthNode->AddTaskChild<CheckHealthTask>(boss, player);
 
-	rootNode->AddTaskChild<RoaringTask>(boss, player);
+	healthNode->AddTaskChild<DeadTask>(boss, player);
 
-	rootNode->AddTaskChild<DashAtThePlayerTask>(boss, player);
+	SelectorNode* attackNode = rootNode->AddNodeChild<SelectorNode>();
+	if (attackNode == nullptr) return;
+
+	attackNode->AddTaskChild<CheckRangeTask>(boss, player);
+
+	attackNode->AddTaskChild<SwipingTask>(boss, player);
+
+	attackNode->AddTaskChild<RoaringTask>(boss, player);
+
+	attackNode->AddTaskChild<DashAtThePlayerTask>(boss, player);
 
 	// àÍî‘ç≈å„Ç…
 	CreateRoot(rootNode);

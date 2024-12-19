@@ -1,11 +1,19 @@
 #include "bossEnemy.h"
 #include "behaviorTree/behaviorTree.h"
+// TODO:削除予定 / デバッグ用
+#include "manager/inputManager.h"
 // ----------------------- public -----------------------
 void BossEnemy::MoveControl(const float& deltaTime)
 {
 	if (m_Tree != nullptr)
 	{
 		m_Tree->Update(deltaTime);
+	}
+
+	// TODO :削除予定 / デバッグ用
+	if (InputManager::GetKeyPress('0'))
+	{
+		TakeDamage(2000);
 	}
 }
 

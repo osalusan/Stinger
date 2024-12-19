@@ -1,3 +1,5 @@
+// ----------------- H -----------------
+
 #pragma once
 #include "behaviorNode/taskNode.h"
 
@@ -9,6 +11,7 @@ public:
 	virtual NODE_STATUS Update(const float& deltaTime) override;
 };
 
+// ----------------- CPP-----------------
 
 #include "character/player.h"
 #include "character/bossEnemy.h"

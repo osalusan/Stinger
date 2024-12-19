@@ -4,7 +4,7 @@
 
 void SwipingTask::Init()
 {
-	ReserveAnimation("asset\\model\\MawJ_Swiping.fbx", "Swiping_Enemy");
+	ReserveAnimation("asset\\model\\MawJ_Swiping.fbx", "Swiping_MawJ");
 }
 
 NODE_STATUS SwipingTask::Update(const float& deltaTime)

@@ -5,7 +5,7 @@
 class SelectorNode: public BehaviorNode 
 {
 protected:
-    std::vector<TaskNode*> m_Children = {};
+    std::vector<BehaviorNode*> m_Children = {};
 public:
     virtual ~SelectorNode()override;
     virtual void Init()override;
@@ -19,12 +19,16 @@ public:
         node->Init();
         m_Children.emplace_back(node);
     }
+
     template <typename T>
-    void AddNodeChild()
+    T* AddNodeChild()
     {
-        BehaviorNode* node = new T;
-        if (node == nullptr) return;
-        node->Init();
-        m_Children.emplace_back(node);
+        T* node = new T;
+        if (node != nullptr)
+        {
+            node->Init();
+            m_Children.emplace_back(node);
+        }
+        return node;
     }
 };

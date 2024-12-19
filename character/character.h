@@ -81,4 +81,8 @@ public:
 	{
 		return m_MaxAnimeTime;
 	}
+	const int& GetHealth()const
+	{
+		return m_Health;
+	}
 };
