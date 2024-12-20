@@ -74,6 +74,8 @@ void Player::MoveControl(const float& deltaTime)
 
 		// Y‚¾‚¯+
 		m_Velocity.y += m_PlayerStateMachine->GetVelocity().y;
+
+		m_Rotation = m_PlayerStateMachine->GetRotation();
 	}
 }
 

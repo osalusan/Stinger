@@ -39,6 +39,7 @@ private:
 	MOVE_DIRECTION m_FandB = MOVE_DIRECTION::NONE;	// 前と後ろのどちらかに移動している
 
 	XMFLOAT3 m_Velocity = {};
+	XMFLOAT3 m_Rotation = {};
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
@@ -61,6 +62,10 @@ public:
 	const XMFLOAT3& GetVelocity()const
 	{
 		return m_Velocity;
+	}
+	const XMFLOAT3& GetRotation()const
+	{
+		return m_Rotation;
 	}
 
 	const MOVE_DIRECTION& GetMoveRandL()const
@@ -100,5 +105,9 @@ public:
 	void SetVelocityY(const float& y)
 	{
 		m_Velocity.y = y;
+	}
+	void SetRotationY(const float& y)
+	{
+		m_Rotation.y = y;
 	}
 };
