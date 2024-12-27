@@ -42,6 +42,7 @@
     <ClCompile Include="character\player.cpp" />
     <ClCompile Include="component\boxCollisionComponent.cpp" />
     <ClCompile Include="component\collisionComponent.cpp" />
+    <ClCompile Include="component\shaderComponent.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="manager\fbxModelManager.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="component\boxCollisionComponent.h" />
     <ClInclude Include="component\collisionComponent.h" />
     <ClInclude Include="component\component.h" />
+    <ClInclude Include="component\shaderComponent.h" />
     <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="main\main.h" />
     <ClInclude Include="manager\fbxModelManager.h" />

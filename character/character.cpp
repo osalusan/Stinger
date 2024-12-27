@@ -3,6 +3,7 @@
 #include "manager/sceneManager.h"
 #include "renderer/fbxModelRenderer.h"
 #include "component/collisionComponent.h"
+#include "component/shaderComponent.h"
 #include "scene/scene.h"
 
 constexpr float DEFAULT_BLEND_VALUE = 8.0f;
@@ -49,7 +50,7 @@ Character::Character()
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
 	// GameObject::Init()‚Ì‘O‚É
-	LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
+	AddComponent<ShaderComponent>(this,"cso\\skinningVS.cso", "cso\\skinningPS.cso");
 
 	if (m_MeshFiled != nullptr) return;
 	Scene* scene = SceneManager::GetScene<Scene>();

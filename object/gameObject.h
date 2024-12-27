@@ -4,6 +4,7 @@
 
 // 前方宣言
 class BoxCollisionComponent;
+class Component;
 enum class COLLISION_TAG;
 
 // 当たり判定用
@@ -25,7 +26,8 @@ struct CollisionData
 	}
 };
 
-class GameObject {
+class GameObject 
+{
 protected:
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
@@ -37,15 +39,9 @@ protected:
 
 	bool m_Enable = true;		// 有効、無効
 
-	// 描画関連
-	ID3D11VertexShader* m_VertexShader = nullptr;
-	ID3D11PixelShader* m_PixelShader = nullptr;
-	ID3D11InputLayout* m_VertexLayout = nullptr;
-
+	std::vector<Component*> m_Components = {};
 	std::vector<CollisionData*> m_BoxCollisions = {};
 
-	// シェーダーを変更したい時にコンストラクタで呼ぶ
-	void LoadShader(const std::string& vsFileName, const std::string& psFileName);
 	// コリジョンを追加したい時に呼ぶ
 	void AddBoxCollisionComponent(const COLLISION_TAG& tag);
 	// Updateに書かないとModelCenterなどが取得できない
@@ -57,6 +53,18 @@ public:
 	virtual void Uninit();
 	virtual void Update(const float& deltaTime);
 	virtual void Draw();
+
+	template <typename T, typename... Arg>
+	T* AddComponent(Arg&&...args)
+	{
+		T* component = new T(std::forward<Arg>(args)...);
+		if (component == nullptr) return nullptr;
+
+		component->Init();
+		m_Components.emplace_back(component);
+
+		return component;
+	}
 
 	void SetEnable(const float& flag)
 	{

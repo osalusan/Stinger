@@ -219,6 +219,9 @@
     <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="component\shaderComponent.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\deadTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="component\shaderComponent.h">
+      <Filter>component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

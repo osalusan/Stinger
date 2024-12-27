@@ -1,6 +1,7 @@
 #include "staticmeshObject.h"
 #include "manager/objModelManager.h"
 #include "renderer/objModelRenderer.h"
+#include "component/shaderComponent.h"
 #include "component/boxCollisionComponent.h"
 
 StaticMeshObject::StaticMeshObject(const STATICMESH_MODEL& model)
@@ -21,6 +22,7 @@ void StaticMeshObject::Init()
 	{
 		m_ModelRenderer = new ObjModelRenderer;
 	}
+	AddComponent<ShaderComponent>(this);
 }
 
 void StaticMeshObject::Update(const float& deltaTime)

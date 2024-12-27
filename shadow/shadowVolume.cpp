@@ -9,6 +9,7 @@
 #include "character/character.h"
 #include "staticMeshObject/staticmeshObject.h"
 #include "meshFiled/meshFiled.h"
+#include "component/shaderComponent.h"
 
 // ‹^Ž—“I‚ÈŒõŒ¹
 constexpr XMFLOAT3 LIGHT_ROT = { 0.0f,0.0f,0.0f };
@@ -34,7 +35,7 @@ ShadowVolume::ShadowVolume(Character* character)
 	m_AnimeModel = m_CharacterCache->GetAnimeModel();
 
 	// GameObject::Init()‚Ì‘O‚É
-	LoadShader("cso\\skinningVS.cso", "cso\\skinningPS.cso");
+	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }
 
 ShadowVolume::~ShadowVolume()

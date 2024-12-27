@@ -1,20 +1,9 @@
 #include "gameObject.h"
 #include "renderer/renderer.h"
+#include "component/component.h"
 #include "component/boxCollisionComponent.h"
 
 // --------------------- private ---------------------
-
-void GameObject::LoadShader(const std::string& vsFileName, const std::string& psFileName)
-{
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
-	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, vsFileName.c_str());
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, psFileName.c_str());
-	}
-}
 
 void GameObject::AddBoxCollisionComponent(const COLLISION_TAG& tag)
 {
@@ -55,41 +44,30 @@ GameObject::~GameObject()
 
 		delete boxCollision;
 		boxCollision = nullptr;
-	}
 
-	// シェーダーの削除
-	if (m_VertexLayout != nullptr)
-	{
-		m_VertexLayout->Release();
-		m_VertexLayout = nullptr;
+		delete colliData;
+		colliData = nullptr;
 	}
-	if (m_VertexShader != nullptr)
-	{
-		m_VertexShader->Release();
-		m_VertexLayout = nullptr;
-	}
-	if (m_PixelShader != nullptr)
-	{
-		m_PixelShader->Release();
-		m_VertexLayout = nullptr;
-	}	
 }
 
 void GameObject::Init()
 {
-	// コンストラクタでshaderを指定しなかった場合
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
+	for (Component* component : m_Components)
 	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout,"cso\\unlitTextureVS.cso");
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
+		if (component == nullptr) continue;
+
+		component->Init();
 	}
 }
 
 void GameObject::Uninit()
 {
+	for (Component* component : m_Components)
+	{
+		if (component == nullptr) continue;
+
+		component->Uninit();
+	}
 	for (CollisionData* colliData : m_BoxCollisions)
 	{
 		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
@@ -108,6 +86,12 @@ void GameObject::Update(const float& deltaTime)
 
 		boxCollision->Update();
 	}
+	for (Component* component : m_Components)
+	{
+		if (component == nullptr) continue;
+
+		component->Update();
+	}
 }
 
 void GameObject::Draw()
@@ -123,21 +107,12 @@ void GameObject::Draw()
 		boxCollision->Draw();
 	}
 #endif // _DEBUG
-
-	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
+	for (Component* component : m_Components)
 	{
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
+		if (component == nullptr) continue;
+
+		component->Draw();
 	}
-
-	XMMATRIX world, scl, rot, trans;
-
-	scl = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	rot = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	world = scl * rot * trans;
-	Renderer::SetWorldMatrix(world);
 }
 
 

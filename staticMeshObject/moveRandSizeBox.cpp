@@ -1,6 +1,7 @@
 #include "moveRandSizeBox.h"
 #include "manager/objModelManager.h"
 #include "component/boxCollisionComponent.h"
+#include "component/shaderComponent.h"
 
 constexpr int RNAD_RANGE = 50;
 constexpr float SPEED_VALUE = 0.02f;
@@ -9,7 +10,7 @@ constexpr float ROTATE_VALUE = 0.001f;
 MoveRandSizeBox::MoveRandSizeBox() : StaticMeshObject(STATICMESH_MODEL::BOX_CENTER)
 {
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCenter.obj");
-	LoadShader("cso\\unlitColorModelVS.cso", "cso\\unlitColorModelPS.cso");
+	AddComponent<ShaderComponent>(this, "cso\\unlitColorModelVS.cso", "cso\\unlitColorModelPS.cso");
 
 	m_Speed = static_cast<float>(rand() % RNAD_RANGE) * SPEED_VALUE;
 	m_Position.x = static_cast<float>(GetRandom() % (RNAD_RANGE / 2));
