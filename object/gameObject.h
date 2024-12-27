@@ -28,7 +28,7 @@ protected:
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 
-	BoxCollisionComponent* m_BoxCollision = nullptr;
+	std::vector<BoxCollisionComponent*> m_BoxCollisions = {};
 
 	// シェーダーを変更したい時にコンストラクタで呼ぶ
 	void LoadShader(const std::string& vsFileName, const std::string& psFileName);
@@ -49,10 +49,9 @@ public:
 		m_Enable = flag;
 	}
 
-
-	BoxCollisionComponent* GetBoxCollision()
+	std::vector<BoxCollisionComponent*> GetBoxCollisions()
 	{
-		return m_BoxCollision;
+		return m_BoxCollisions;
 	}
 
 	const bool& GetEnable()const

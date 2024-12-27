@@ -24,15 +24,18 @@ constexpr float MAX_STAMINA = 10.0f;
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
 {
+
+
 	m_ColliPosition = m_Position;
 	m_ColliRotation = m_Rotation;
-	m_ColliScale.x = m_Scale.x * 0.5f;
+	m_ColliScale.x = m_Scale.x * 0.2f;
 	m_ColliScale.y = m_Scale.y;
-	m_ColliScale.z = m_Scale.z * 0.5f;
+	m_ColliScale.z = m_Scale.z * 0.2f;
 }
 
 void MawJLaygo::CollisionControl()
 {
+
 	float groundHeight = 0.0f;
 	if (m_MeshFiled != nullptr)
 	{
@@ -80,5 +83,5 @@ void MawJLaygo::Init()
 	m_MaxStamina = MAX_STAMINA;
 	m_StaminaValue = m_MaxStamina;
 
-	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
+	AddBoxCollisionComponent(COLLISION_TAG::ENEMY_BOSS);
 }

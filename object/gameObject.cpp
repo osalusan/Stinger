@@ -18,22 +18,23 @@ void GameObject::LoadShader(const std::string& vsFileName, const std::string& ps
 
 void GameObject::AddBoxCollisionComponent(const COLLISION_TAG& tag)
 {
-	if (m_BoxCollision == nullptr)
-	{
-		m_BoxCollision = new BoxCollisionComponent(this);
-	}
-	if (m_BoxCollision != nullptr)
-	{
-		m_BoxCollision->Init();
-		m_BoxCollision->SetCollisionTag(tag);
-	}
+	BoxCollisionComponent* boxCollision = new BoxCollisionComponent(this);
+	if (boxCollision == nullptr) return;
+
+	boxCollision->Init();
+	boxCollision->SetCollisionTag(tag);
+
+	m_BoxCollisions.emplace_back(boxCollision);
 }
 
 void GameObject::UpdateBoxCollisionInfo()
 {
-	if (m_BoxCollision != nullptr)
+	// 何も追加しない時の初期値
+	for (BoxCollisionComponent* boxCollision : m_BoxCollisions)
 	{
-		m_BoxCollision->SetBoxCollisionInfo(m_ColliPosition, m_ColliScale, m_ModelCenter, m_ModelScale, GetColliRotationMatrix());
+		if (boxCollision == nullptr) continue;
+
+		boxCollision->SetBoxCollisionInfo(m_ColliPosition, m_ColliScale, m_ModelCenter, m_ModelScale, GetColliRotationMatrix());
 	}
 }
 
@@ -41,8 +42,11 @@ void GameObject::UpdateBoxCollisionInfo()
 
 GameObject::~GameObject()
 {
-	delete m_BoxCollision;
-	m_BoxCollision = nullptr;
+	for (BoxCollisionComponent* box : m_BoxCollisions)
+	{
+		delete box;
+		box = nullptr;
+	}
 
 	// シェーダーの削除
 	if (m_VertexLayout != nullptr)
@@ -77,17 +81,21 @@ void GameObject::Init()
 
 void GameObject::Uninit()
 {
-	if (m_BoxCollision != nullptr)
+	for (BoxCollisionComponent* box : m_BoxCollisions)
 	{
-		m_BoxCollision->Uninit();
+		if (box == nullptr) continue;
+
+		box->Uninit();
 	}
 }
 
 void GameObject::Update(const float& deltaTime)
 {
-	if (m_BoxCollision != nullptr)
+	for (BoxCollisionComponent* box : m_BoxCollisions)
 	{
-		m_BoxCollision->Update();
+		if (box == nullptr) continue;
+
+		box->Update();
 	}
 }
 
@@ -96,9 +104,11 @@ void GameObject::Draw()
 	// 一番最初に描画
 #if _DEBUG
 	UpdateBoxCollisionInfo();
-	if (m_BoxCollision != nullptr)
+	for (BoxCollisionComponent* box : m_BoxCollisions)
 	{
-		m_BoxCollision->Draw();
+		if (box == nullptr) continue;
+
+		box->Draw();
 	}
 #endif // _DEBUG
 

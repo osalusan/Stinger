@@ -90,24 +90,29 @@ void Player::CustomCollisionInfo()
 
 void Player::CollisionControl()
 {
-	if (m_BoxCollision == nullptr || m_PlayerStateMachine == nullptr) return;
+	if (m_PlayerStateMachine == nullptr) return;
 
 	UpdateBoxCollisionInfo();
 
-	if (m_BoxCollision->CheckHitObject(OBJECT::STATICMESH))
+	for (BoxCollisionComponent* boxCollision : m_BoxCollisions)
 	{
-		XMVECTOR mtv = m_BoxCollision->GetMtv();
+		if (boxCollision == nullptr) continue;
 
-		// 位置をMTV分だけ移動
-		XMVECTOR playerVectorPos = XMLoadFloat3(&m_Position);
-		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
-		XMStoreFloat3(&m_Position, playerVectorPos);
-
-		// 既に押し出しているから地面の高さで補正しなくていい
-		if (mtv.m128_f32[1] > 0.0f)
+		if (boxCollision->CheckHitObject(OBJECT::STATICMESH))
 		{
-			m_Velocity.y = 0.0f;
-			m_PlayerStateMachine->HitGround();
+			XMVECTOR mtv = boxCollision->GetMtv();
+
+			// 位置をMTV分だけ移動
+			XMVECTOR playerVectorPos = XMLoadFloat3(&m_Position);
+			playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
+			XMStoreFloat3(&m_Position, playerVectorPos);
+
+			// 既に押し出しているから地面の高さで補正しなくていい
+			if (mtv.m128_f32[1] > 0.0f)
+			{
+				m_Velocity.y = 0.0f;
+				m_PlayerStateMachine->HitGround();
+			}
 		}
 	}
 
@@ -119,8 +124,7 @@ void Player::CollisionControl()
 		m_Velocity.y = 0.0f;
 
 		// 地面に触れているかどうかを伝える
-		m_PlayerStateMachine->HitGround();
-		
+		m_PlayerStateMachine->HitGround();	
 	}
 }
 
