@@ -4,6 +4,7 @@
 #include "manager/sceneManager.h"
 #include "scene/gameScene.h"
 #include "component/boxCollisionComponent.h"
+#include "component/shaderComponent.h"
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
 
@@ -31,7 +32,9 @@ void Player::Init()
 	m_GravityValue = GRAVITY;
 	m_Health = DEFAULT_HEALTH_PLAYER;
 
-	AddBoxCollisionComponent(COLLISION_TAG::PLAYER);
+	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::PLAYER);
+	// 当たり判定の後に追加
+	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");
 
 	if (m_PlayerStateMachine == nullptr)
 	{
@@ -81,43 +84,35 @@ void Player::MoveControl(const float& deltaTime)
 
 void Player::CustomCollisionInfo()
 {
-	for (CollisionData* colliData : m_BoxCollisions)
-	{
-		colliData->ColliPosition = m_Position;
-		colliData->ColliRotation = m_Rotation;
-		colliData->ColliScale.x = m_Scale.x * 0.2f;
-		colliData->ColliScale.y = m_Scale.y;
-		colliData->ColliScale.z = m_Scale.z * 0.2f;
-	}
+	const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
+	if (m_BoxCollCache == nullptr) return;
+
+	m_BoxCollCache->SetBoxCollisionInfo(m_Position, customScale,m_ModelCenter,m_ModelScale, GetRotationMatrix());
 }
 
 void Player::CollisionControl()
 {
 	if (m_PlayerStateMachine == nullptr) return;
 
-	UpdateBoxCollisionInfo();
-	for (CollisionData* colliData : m_BoxCollisions)
+	if (m_BoxCollCache == nullptr) return;
+
+	if (m_BoxCollCache->CheckHitObject(OBJECT::STATICMESH))
 	{
-		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
-		if (boxCollision == nullptr)continue;
+		XMVECTOR mtv = m_BoxCollCache->GetMtv();
 
-		if (boxCollision->CheckHitObject(OBJECT::STATICMESH))
+		// 位置をMTV分だけ移動
+		XMVECTOR playerVectorPos = XMLoadFloat3(&m_Position);
+		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
+		XMStoreFloat3(&m_Position, playerVectorPos);
+
+		// 既に押し出しているから地面の高さで補正しなくていい
+		if (mtv.m128_f32[1] > 0.0f)
 		{
-			XMVECTOR mtv = boxCollision->GetMtv();
-
-			// 位置をMTV分だけ移動
-			XMVECTOR playerVectorPos = XMLoadFloat3(&m_Position);
-			playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
-			XMStoreFloat3(&m_Position, playerVectorPos);
-
-			// 既に押し出しているから地面の高さで補正しなくていい
-			if (mtv.m128_f32[1] > 0.0f)
-			{
-				m_Velocity.y = 0.0f;
-				m_PlayerStateMachine->HitGround();
-			}
+			m_Velocity.y = 0.0f;
+			m_PlayerStateMachine->HitGround();
 		}
 	}
+
 
 	float groundHeight = 0.0f;
 
@@ -127,7 +122,7 @@ void Player::CollisionControl()
 		m_Velocity.y = 0.0f;
 
 		// 地面に触れているかどうかを伝える
-		m_PlayerStateMachine->HitGround();	
+		m_PlayerStateMachine->HitGround();
 	}
 }
 

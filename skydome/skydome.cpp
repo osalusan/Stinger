@@ -4,6 +4,7 @@
 #include "manager/objModelManager.h"
 #include "manager/objectManager.h"
 #include "camera/playerCamera.h"
+#include "component/shaderComponent.h"
 
 SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
 {
@@ -17,6 +18,7 @@ SkyDome::~SkyDome()
 
 void SkyDome::Init()
 {
+	AddComponent<ShaderComponent>(this);
 	if (m_CameraCache == nullptr)
 	{
 		StaticMeshObject::Init();

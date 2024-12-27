@@ -73,11 +73,13 @@ bool BoxCollisionComponent::CheckHitObject(const OBJECT& object)
 	for (GameObject* object : m_GameObjectsCache[static_cast<int>(object)])
 	{
 		if (object == nullptr) continue;
-		for (CollisionData* colliData : object->GetBoxCollisions())
-		{
-			BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
-			if (boxCollision == nullptr) continue;
 
+		std::vector<BoxCollisionComponent*> boxCollisions = {};
+		if (object->GetComponents(boxCollisions)) continue;
+
+		for (BoxCollisionComponent* boxCollision : boxCollisions)
+		{
+			if (boxCollision == nullptr) continue;
 			if (m_GameObject == boxCollision->GetGameObject()) continue;
 
 			OBB boxObb = {};
@@ -138,7 +140,7 @@ bool BoxCollisionComponent::CheckHitObject(const OBJECT& object)
 				// 当たったオブジェクトを格納
 				SetHitObject(object);
 			}
-		}
+		}	
 	}
 
 	if (!m_HitGameObjectsCache.empty())

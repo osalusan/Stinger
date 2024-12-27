@@ -49,8 +49,6 @@ Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
-	// GameObject::Init()‚Ì‘O‚É
-	AddComponent<ShaderComponent>(this,"cso\\skinningVS.cso", "cso\\skinningPS.cso");
 
 	if (m_MeshFiled != nullptr) return;
 	Scene* scene = SceneManager::GetScene<Scene>();

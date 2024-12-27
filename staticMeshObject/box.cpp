@@ -1,11 +1,13 @@
 #include "box.h"
 #include "manager/objModelManager.h"
 #include "component/boxCollisionComponent.h"
+#include "component/shaderComponent.h"
 
 Box::Box() : StaticMeshObject(STATICMESH_MODEL::BOX)
 {
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\box.obj");
-	AddBoxCollisionComponent(COLLISION_TAG::OBJECT);
+	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::OBJECT);
+	AddComponent<ShaderComponent>(this);
 }
 
 Box::Box(const XMFLOAT3& position, const XMFLOAT3& scale)

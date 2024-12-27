@@ -3,11 +3,14 @@
 
 class Camera;
 class PlayerStateMachine;
+class BoxCollisionComponent;
 
 class Player final:public Character {
 private:
 
 	Camera* m_CameraCache = nullptr;
+	BoxCollisionComponent* m_BoxCollCache = nullptr;
+
 	PlayerStateMachine* m_PlayerStateMachine = nullptr;
 
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか

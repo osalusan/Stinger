@@ -22,7 +22,6 @@ void StaticMeshObject::Init()
 	{
 		m_ModelRenderer = new ObjModelRenderer;
 	}
-	AddComponent<ShaderComponent>(this);
 }
 
 void StaticMeshObject::Update(const float& deltaTime)
@@ -31,20 +30,16 @@ void StaticMeshObject::Update(const float& deltaTime)
 	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
 	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
 	{
+		if (m_BoxCollCache == nullptr) return;
+
 		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
 		{
 			m_ModelCenter = model->Center;
 			m_ModelScale = model->Scale;
 		}
-		for (CollisionData* colliData : m_BoxCollisions)
-		{
-			colliData->ColliPosition = m_Position;
-			colliData->ColliRotation = m_Rotation;
-			colliData->ColliScale = m_Scale;
-		}
 	}
-	// Model‚ÌCenter‚âScale‚ðŠi”[‚µ‚½‚ç
-	UpdateBoxCollisionInfo();
+
+	m_BoxCollCache->SetBoxCollisionInfo(m_Position, m_Scale, m_ModelCenter, m_ModelScale, GetRotationMatrix());
 }
 
 void StaticMeshObject::Draw()

@@ -1,5 +1,6 @@
 #include "mawJLaygo.h"
 #include "component/boxCollisionComponent.h"
+#include "component/shaderComponent.h"
 #include "manager/fbxModelManager.h"
 #include "behaviorTree/behaviorTree.h"
 #include "meshFiled/meshFiled.h"
@@ -24,13 +25,13 @@ constexpr float MAX_STAMINA = 10.0f;
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
 {
-	for (CollisionData* colliData : m_BoxCollisions)
+	for (BoxCollisionComponent* boxColli : m_BoxCollisionCaches)
 	{
-		colliData->ColliPosition = m_Position;
-		colliData->ColliRotation = m_Rotation;
-		colliData->ColliScale.x = m_Scale.x * 0.2f;
-		colliData->ColliScale.y = m_Scale.y;
-		colliData->ColliScale.z = m_Scale.z * 0.2f;
+		if (boxColli == nullptr) continue;
+
+		// TODO :変更予定 / デバッグ用
+		const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
+		boxColli->SetBoxCollisionInfo(m_Position, customScale, m_ModelCenter, m_ModelScale, GetRotationMatrix());
 	}
 }
 
@@ -84,5 +85,7 @@ void MawJLaygo::Init()
 	m_MaxStamina = MAX_STAMINA;
 	m_StaminaValue = m_MaxStamina;
 
-	AddBoxCollisionComponent(COLLISION_TAG::ENEMY_BOSS);
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS));
+	// 当たり判定の後に追加
+	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }

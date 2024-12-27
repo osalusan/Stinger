@@ -7,25 +7,6 @@ class BoxCollisionComponent;
 class Component;
 enum class COLLISION_TAG;
 
-// 当たり判定用
-struct CollisionData
-{
-	BoxCollisionComponent* BoxCollisions = nullptr;
-	XMFLOAT3 ColliPosition = {};
-	XMFLOAT3 ColliRotation = {};
-	XMFLOAT3 ColliScale = { 1.0f, 1.0f, 1.0f };
-
-	//当たり判定の回転マトリックスを取得
-	XMMATRIX GetColliRotationMatrix()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			ColliRotation.x, ColliRotation.y, ColliRotation.z);
-
-		return rotationMatrix;
-	}
-};
-
 class GameObject 
 {
 protected:
@@ -40,12 +21,6 @@ protected:
 	bool m_Enable = true;		// 有効、無効
 
 	std::vector<Component*> m_Components = {};
-	std::vector<CollisionData*> m_BoxCollisions = {};
-
-	// コリジョンを追加したい時に呼ぶ
-	void AddBoxCollisionComponent(const COLLISION_TAG& tag);
-	// Updateに書かないとModelCenterなどが取得できない
-	void UpdateBoxCollisionInfo();
 
 public:
 	virtual ~GameObject();
@@ -66,14 +41,24 @@ public:
 		return component;
 	}
 
+	template <typename T>
+	bool GetComponents(std::vector<T*>& components)
+	{
+		for (Component* component : m_Components)
+		{
+			if (component == nullptr) continue;
+
+			if (T* tComponent = dynamic_cast<T*>(component))
+			{
+				components.emplace_back(tComponent);
+			}
+		}
+		return !components.empty();
+	}
+
 	void SetEnable(const float& flag)
 	{
 		m_Enable = flag;
-	}
-
-	std::vector<CollisionData*> GetBoxCollisions()
-	{
-		return m_BoxCollisions;
 	}
 
 	const bool& GetEnable()const

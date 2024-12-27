@@ -142,6 +142,13 @@ bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
 	return true;
 }
 
+CollisionComponent::CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag)
+	:Component(gameObject)
+{
+	m_CollisionTag = tag;
+	m_Model = STATICMESH_MODEL::BOX_CENTER;
+}
+
 CollisionComponent::~CollisionComponent()
 {
 #if _DEBUG
@@ -195,10 +202,9 @@ void CollisionComponent::Uninit()
 	m_GameObjectsCache->clear();
 }
 
-// 呼び出し元に「#if _DEBUG」を
+
 void CollisionComponent::Draw()
 {
-	// エラー防止用
 #if _DEBUG
 	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
 	{

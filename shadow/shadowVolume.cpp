@@ -97,9 +97,6 @@ void ShadowVolume::Update(const float& deltaTime)
 	{
 		m_Position.y = m_MeshFiled->GetHeight(m_Position) - (m_ModelScale.y * m_Scale.y);
 	}
-
-	// Model‚ÌCenter‚âScale‚ðŠi”[‚µ‚½‚ç
-	UpdateBoxCollisionInfo();
 }
 
 void ShadowVolume::Draw()

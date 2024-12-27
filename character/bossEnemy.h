@@ -9,12 +9,14 @@ enum class RANGE
 	LONG
 };
 
+
 class BehaviorTree;
 class BehaviorNode;
 
 class BossEnemy :public Character {
 protected:
 	BehaviorTree* m_Tree = nullptr;
+	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 
 	float m_StaminaValue = 0.0f;
 

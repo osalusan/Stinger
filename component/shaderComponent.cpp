@@ -4,14 +4,8 @@
 ShaderComponent::ShaderComponent(GameObject* gameObject, const std::string& vsFileName, const std::string& psFileName)
 	:Component(gameObject)
 {
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
-	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, vsFileName.c_str());
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, psFileName.c_str());
-	}
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, vsFileName.c_str());
+	Renderer::CreatePixelShader(&m_PixelShader, psFileName.c_str());
 }
 
 ShaderComponent::~ShaderComponent()

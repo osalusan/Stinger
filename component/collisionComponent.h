@@ -83,6 +83,7 @@ protected:
 	void SetHitObject(GameObject* hitObj);
 public:
 	using Component::Component;
+	CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag);
 	virtual ~CollisionComponent()override;
 	virtual void Init()override;
 	virtual void Uninit()override;
