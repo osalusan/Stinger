@@ -6,6 +6,7 @@
 #include "manager/objectManager.h"
 #include "scene/gameScene.h"
 #include "camera/camera.h"
+#include "component/shaderComponent.h"
 
 Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName)
 {
@@ -29,6 +30,8 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	TextureManager::ReservTexture(m_Texture, fileName);
 
 	SetPolygon(position,size);
+
+	AddComponent<ShaderComponent>(this);
 }
 
 Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName)
