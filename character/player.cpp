@@ -81,11 +81,14 @@ void Player::MoveControl(const float& deltaTime)
 
 void Player::CustomCollisionInfo()
 {
-	m_ColliPosition = m_Position;
-	m_ColliRotation = m_Rotation;
-	m_ColliScale.x = m_Scale.x * 0.5f;
-	m_ColliScale.y = m_Scale.y;
-	m_ColliScale.z = m_Scale.z * 0.5f;
+	for (CollisionData* colliData : m_BoxCollisions)
+	{
+		colliData->ColliPosition = m_Position;
+		colliData->ColliRotation = m_Rotation;
+		colliData->ColliScale.x = m_Scale.x * 0.2f;
+		colliData->ColliScale.y = m_Scale.y;
+		colliData->ColliScale.z = m_Scale.z * 0.2f;
+	}
 }
 
 void Player::CollisionControl()
@@ -93,10 +96,10 @@ void Player::CollisionControl()
 	if (m_PlayerStateMachine == nullptr) return;
 
 	UpdateBoxCollisionInfo();
-
-	for (BoxCollisionComponent* boxCollision : m_BoxCollisions)
+	for (CollisionData* colliData : m_BoxCollisions)
 	{
-		if (boxCollision == nullptr) continue;
+		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
+		if (boxCollision == nullptr)continue;
 
 		if (boxCollision->CheckHitObject(OBJECT::STATICMESH))
 		{

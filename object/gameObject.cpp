@@ -24,17 +24,24 @@ void GameObject::AddBoxCollisionComponent(const COLLISION_TAG& tag)
 	boxCollision->Init();
 	boxCollision->SetCollisionTag(tag);
 
-	m_BoxCollisions.emplace_back(boxCollision);
+	CollisionData* colliData = new CollisionData;
+	if (colliData == nullptr) return;
+
+	colliData->BoxCollisions = boxCollision;
+
+	m_BoxCollisions.emplace_back(colliData);
 }
 
 void GameObject::UpdateBoxCollisionInfo()
 {
 	// 何も追加しない時の初期値
-	for (BoxCollisionComponent* boxCollision : m_BoxCollisions)
+	for (CollisionData* colliData : m_BoxCollisions)
 	{
+		if (colliData == nullptr) continue;
+		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
 		if (boxCollision == nullptr) continue;
 
-		boxCollision->SetBoxCollisionInfo(m_ColliPosition, m_ColliScale, m_ModelCenter, m_ModelScale, GetColliRotationMatrix());
+		boxCollision->SetBoxCollisionInfo(colliData->ColliPosition, colliData->ColliScale, m_ModelCenter, m_ModelScale, colliData->GetColliRotationMatrix());
 	}
 }
 
@@ -42,10 +49,12 @@ void GameObject::UpdateBoxCollisionInfo()
 
 GameObject::~GameObject()
 {
-	for (BoxCollisionComponent* box : m_BoxCollisions)
+	for (CollisionData* colliData : m_BoxCollisions)
 	{
-		delete box;
-		box = nullptr;
+		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
+
+		delete boxCollision;
+		boxCollision = nullptr;
 	}
 
 	// シェーダーの削除
@@ -81,21 +90,23 @@ void GameObject::Init()
 
 void GameObject::Uninit()
 {
-	for (BoxCollisionComponent* box : m_BoxCollisions)
+	for (CollisionData* colliData : m_BoxCollisions)
 	{
-		if (box == nullptr) continue;
+		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
+		if (boxCollision == nullptr) continue;
 
-		box->Uninit();
+		boxCollision->Uninit();
 	}
 }
 
 void GameObject::Update(const float& deltaTime)
 {
-	for (BoxCollisionComponent* box : m_BoxCollisions)
+	for (CollisionData* colliData : m_BoxCollisions)
 	{
-		if (box == nullptr) continue;
+		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
+		if (boxCollision == nullptr) continue;
 
-		box->Update();
+		boxCollision->Update();
 	}
 }
 
@@ -104,11 +115,12 @@ void GameObject::Draw()
 	// 一番最初に描画
 #if _DEBUG
 	UpdateBoxCollisionInfo();
-	for (BoxCollisionComponent* box : m_BoxCollisions)
+	for (CollisionData* colliData : m_BoxCollisions)
 	{
-		if (box == nullptr) continue;
+		BoxCollisionComponent* boxCollision = colliData->BoxCollisions;
+		if (boxCollision == nullptr) continue;
 
-		box->Draw();
+		boxCollision->Draw();
 	}
 #endif // _DEBUG
 

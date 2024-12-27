@@ -34,10 +34,12 @@ void StaticMeshObject::Update(const float& deltaTime)
 			m_ModelCenter = model->Center;
 			m_ModelScale = model->Scale;
 		}
-
-		m_ColliPosition = m_Position;
-		m_ColliRotation = m_Rotation;
-		m_ColliScale = m_Scale;
+		for (CollisionData* colliData : m_BoxCollisions)
+		{
+			colliData->ColliPosition = m_Position;
+			colliData->ColliRotation = m_Rotation;
+			colliData->ColliScale = m_Scale;
+		}
 	}
 	// Model‚ÌCenter‚âScale‚ðŠi”[‚µ‚½‚ç
 	UpdateBoxCollisionInfo();

@@ -6,16 +6,30 @@
 class BoxCollisionComponent;
 enum class COLLISION_TAG;
 
+// 当たり判定用
+struct CollisionData
+{
+	BoxCollisionComponent* BoxCollisions = nullptr;
+	XMFLOAT3 ColliPosition = {};
+	XMFLOAT3 ColliRotation = {};
+	XMFLOAT3 ColliScale = { 1.0f, 1.0f, 1.0f };
+
+	//当たり判定の回転マトリックスを取得
+	XMMATRIX GetColliRotationMatrix()const
+	{
+		XMMATRIX rotationMatrix;
+		rotationMatrix = XMMatrixRotationRollPitchYaw(
+			ColliRotation.x, ColliRotation.y, ColliRotation.z);
+
+		return rotationMatrix;
+	}
+};
+
 class GameObject {
 protected:
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
 	XMFLOAT3 m_Rotation = {};
-
-	// 当たり判定用
-	XMFLOAT3 m_ColliPosition = {};
-	XMFLOAT3 m_ColliRotation = {};
-	XMFLOAT3 m_ColliScale = { 1.0f, 1.0f, 1.0f };
 
 	// Model関係
 	XMFLOAT3 m_ModelCenter = {};
@@ -28,7 +42,7 @@ protected:
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 
-	std::vector<BoxCollisionComponent*> m_BoxCollisions = {};
+	std::vector<CollisionData*> m_BoxCollisions = {};
 
 	// シェーダーを変更したい時にコンストラクタで呼ぶ
 	void LoadShader(const std::string& vsFileName, const std::string& psFileName);
@@ -49,7 +63,7 @@ public:
 		m_Enable = flag;
 	}
 
-	std::vector<BoxCollisionComponent*> GetBoxCollisions()
+	std::vector<CollisionData*> GetBoxCollisions()
 	{
 		return m_BoxCollisions;
 	}
@@ -125,15 +139,6 @@ public:
 		return rotationMatrix;
 	}
 
-	//当たり判定の回転マトリックスを取得
-	XMMATRIX GetColliRotationMatrix()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			m_ColliRotation.x, m_ColliRotation.y, m_ColliRotation.z);
-
-		return rotationMatrix;
-	}
 	// ターゲットへのベクトルを取得
 	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos) {
 		
