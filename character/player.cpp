@@ -94,7 +94,7 @@ void Player::CollisionControl()
 
 	UpdateBoxCollisionInfo();
 
-	if (m_BoxCollision->CheckHitCollision(COLLISION_TAG::OBJECT))
+	if (m_BoxCollision->CheckHitObject(OBJECT::STATICMESH))
 	{
 		XMVECTOR mtv = m_BoxCollision->GetMtv();
 

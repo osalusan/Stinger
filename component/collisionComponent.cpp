@@ -100,8 +100,33 @@ void CollisionComponent::SetHitObject(GameObject* hitObj)
 	}
 }
 
-bool CollisionComponent::CheckHitObject()
+bool CollisionComponent::CheckHitObject(const OBJECT& object)
 {
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
+	// オブジェクト一覧の取得
+	if (m_GameObjectsCache->empty())
+	{
+		GameScene* gameScene = SceneManager::GetScene<GameScene>();
+		if (gameScene == nullptr) return false;
+		ObjectManager* objectManager = gameScene->GetObjectManager();
+		if (objectManager == nullptr) return false;
+
+		objectManager->GetAllGameObjects(m_GameObjectsCache);
+
+		if (m_GameObjectsCache->empty()) return false;
+	}
+	return true;
+}
+
+bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
+{
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
 	// オブジェクト一覧の取得
 	if (m_GameObjectsCache->empty())
 	{
@@ -207,25 +232,4 @@ void CollisionComponent::SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3
 	m_ModelCenter = modelCenterPos;
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;
-}
-
-bool CollisionComponent::CheckHitCollision(const COLLISION_TAG& tag)
-{
-	m_HitGameObjectsCache.clear();
-	m_MinOverlap = FLT_MAX;
-	m_MtvAxis = {};
-
-	switch (tag)
-	{
-	case COLLISION_TAG::OBJECT:
-		if (CheckHitObject())
-		{
-			return true;
-		}
-		break;
-	default:
-		break;
-	}
-
-	return false;
 }

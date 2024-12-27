@@ -75,7 +75,8 @@ protected:
 	std::vector<GameObject*> m_HitGameObjectsCache = {};								// 当たったオブジェクトを保存
 	std::vector<GameObject*> m_GameObjectsCache[static_cast<int>(OBJECT::MAX)] = {};	// オブジェクトを保存
 
-	virtual bool CheckHitObject();
+	virtual bool CheckHitObject(const OBJECT& object);
+	virtual bool CheckHitObject(const COLLISION_TAG& tag);
 
 	bool HitOBB(const OBB& obb1, const OBB& obb2);
 	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb);
@@ -88,8 +89,6 @@ public:
 	virtual void Draw()override;
 
 	void SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);
-
-	bool CheckHitCollision(const COLLISION_TAG& tag);
 
 	// コンポーネントをインスタンス化する時に一緒に
 	void SetCollisionTag(const COLLISION_TAG& tag)
@@ -105,7 +104,6 @@ public:
 	{
 		return m_Scale;
 	}
-
 	const XMFLOAT3& GetModelCenter()const
 	{
 		return m_ModelCenter;
@@ -118,10 +116,14 @@ public:
 	{
 		return m_RotationMatrix;
 	}
-
 	const COLLISION_TAG& GetCollisionTag()
 	{
 		return m_CollisionTag;
+	}
+
+	const GameObject* GetGameObject()
+	{
+		return m_GameObject;
 	}
 
 	// 当たったオブジェクトを一つ取得

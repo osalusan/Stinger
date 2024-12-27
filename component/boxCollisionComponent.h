@@ -12,7 +12,8 @@ public:
 	using CollisionComponent::CollisionComponent;
 	virtual void Init()override;
 	virtual void Update()override;
-	virtual bool CheckHitObject()override;
+	virtual bool CheckHitObject(const OBJECT& object)override;
+	virtual bool CheckHitObject(const COLLISION_TAG& tag)override;
 
 	const XMVECTOR& GetMtv()
 	{
