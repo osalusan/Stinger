@@ -4,6 +4,7 @@
 #include "manager/fbxModelManager.h"
 #include "behaviorTree/behaviorTree.h"
 #include "meshFiled/meshFiled.h"
+#include "renderer/fbxModelRenderer.h"
 
 constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 constexpr float GRAVITY = 1200.0f;
@@ -30,8 +31,11 @@ void MawJLaygo::CustomCollisionInfo()
 		if (boxColli == nullptr) continue;
 
 		// TODO :変更予定 / デバッグ用
-		const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
-		boxColli->SetBoxCollisionInfo(m_Position, customScale, m_ModelCenter, m_ModelScale, GetRotationMatrix());
+		if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
+		{
+			const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
+			boxColli->SetBoxCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
+		}
 	}
 }
 

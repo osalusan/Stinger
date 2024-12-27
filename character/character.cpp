@@ -110,16 +110,6 @@ void Character::Update(const float& deltaTime)
 	m_Position.y += m_Velocity.y;
 	m_Position.z += m_Velocity.z;
 
-	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
-	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
-	{
-		if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
-		{
-			m_ModelCenter = model->GetCenter();
-			m_ModelScale = model->GetScale();
-		}
-	}
-
 	// “–‚½‚è”»’è—p•Ï”‚ÌÝ’è / ˆÚ“®Œã‚ÉŒÄ‚Ô
 	CustomCollisionInfo();
 	// “–‚½‚è”»’èˆ—

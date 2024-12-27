@@ -14,10 +14,6 @@ protected:
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
 	XMFLOAT3 m_Rotation = {};
 
-	// Model関係
-	XMFLOAT3 m_ModelCenter = {};
-	XMFLOAT3 m_ModelScale = {};
-
 	bool m_Enable = true;		// 有効、無効
 
 	std::vector<Component*> m_Components = {};
@@ -76,15 +72,6 @@ public:
 	const XMFLOAT3& GetRot()const
 	{
 		return m_Rotation;
-	}
-
-	const XMFLOAT3& GetModelCenter()const
-	{
-		return m_ModelCenter;
-	}
-	const XMFLOAT3& GetModelScale()const
-	{
-		return m_ModelScale;
 	}
 
 	//前方ベクトルの取得

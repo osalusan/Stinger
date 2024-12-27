@@ -2,6 +2,7 @@
 #include "manager/fbxModelManager.h"
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
+#include "renderer/fbxModelRenderer.h"
 #include "scene/gameScene.h"
 #include "component/boxCollisionComponent.h"
 #include "component/shaderComponent.h"
@@ -87,7 +88,11 @@ void Player::CustomCollisionInfo()
 	const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
 	if (m_BoxCollCache == nullptr) return;
 
-	m_BoxCollCache->SetBoxCollisionInfo(m_Position, customScale,m_ModelCenter,m_ModelScale, GetRotationMatrix());
+	if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
+	{
+		const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
+		m_BoxCollCache->SetBoxCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
+	}
 }
 
 void Player::CollisionControl()

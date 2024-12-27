@@ -27,19 +27,14 @@ void StaticMeshObject::Init()
 void StaticMeshObject::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
-	// “–‚½‚è”»’èˆ—‚Ì‘O‚É / ‰‰ñ‚Ì‚Ý
-	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
+
+	// “–‚½‚è”»’èˆ—‚Ì‘O‚É
+	if (m_BoxCollCache == nullptr) return;
+
+	if (const MODEL* model = ObjModelManager::GetModel(m_Model))
 	{
-		if (m_BoxCollCache == nullptr) return;
-
-		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
-		{
-			m_ModelCenter = model->Center;
-			m_ModelScale = model->Scale;
-		}
+		m_BoxCollCache->SetBoxCollisionInfo(m_Position, m_Scale, model->Center, model->Scale, GetRotationMatrix());
 	}
-
-	m_BoxCollCache->SetBoxCollisionInfo(m_Position, m_Scale, m_ModelCenter, m_ModelScale, GetRotationMatrix());
 }
 
 void StaticMeshObject::Draw()

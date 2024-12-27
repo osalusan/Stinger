@@ -70,24 +70,12 @@ void ShadowVolume::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
 
-	if (m_StaticMeshCache != nullptr)
-	{
-		m_Position.x = m_StaticMeshCache->GetPos().x;
-		m_Position.z = m_StaticMeshCache->GetPos().z;
-		m_Scale = m_StaticMeshCache->GetScale();
-		m_Rotation = m_StaticMeshCache->GetRot();
-		m_ModelCenter = m_StaticMeshCache->GetModelCenter();
-		m_ModelScale = m_StaticMeshCache->GetModelScale();
-	}
-	else if (m_CharacterCache != nullptr)
-	{
-		m_Position.x = m_CharacterCache->GetPos().x;
-		m_Position.z = m_CharacterCache->GetPos().z;
-		m_Scale = m_CharacterCache->GetScale();
-		m_Rotation = m_CharacterCache->GetRot();
-		m_ModelCenter = m_CharacterCache->GetModelCenter();
-		m_ModelScale = m_CharacterCache->GetModelScale();
-	}
+	if (m_StaticMeshCache == nullptr) return;
+
+	m_Position.x = m_StaticMeshCache->GetPos().x;
+	m_Position.z = m_StaticMeshCache->GetPos().z;
+	m_Scale = m_StaticMeshCache->GetScale();
+	m_Rotation = m_StaticMeshCache->GetRot();
 
 	m_Rotation.x += LIGHT_ROT.x;
 	m_Rotation.y += LIGHT_ROT.y;
@@ -95,7 +83,10 @@ void ShadowVolume::Update(const float& deltaTime)
 
 	if (m_MeshFiled != nullptr)
 	{
-		m_Position.y = m_MeshFiled->GetHeight(m_Position) - (m_ModelScale.y * m_Scale.y);
+		if (const MODEL* model = ObjModelManager::GetModel(m_StaticMeshCache->GetStaticModel()))
+		{
+			m_Position.y = m_MeshFiled->GetHeight(m_Position) - (model->Scale.y * m_Scale.y);
+		}
 	}
 }
 
