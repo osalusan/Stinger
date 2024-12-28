@@ -45,7 +45,7 @@ private:
 
 	float m_MaxAnimeTime = 0.0f;
 
-	// スキニング用
+	// 格納用
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 	// GPUスキニング用	
 	std::vector<BONE*> m_BoneIndex;											// ボーンインデックス順のボーンリスト
@@ -64,7 +64,11 @@ public:
 	void CreateBone(aiNode* node, std::map<std::string, int>& boneIndexMap, int& boneCount);
 	void Update(const char* AnimationName1,const float& time);
 	void UpdateBoneMatrix(aiNode* node,aiMatrix4x4 matrix);
-
+	
+	const std::unordered_map<std::string, BONE>& GetBone()const
+	{
+		return m_Bone;
+	}
 	const XMFLOAT3& GetCenter()const
 	{
 		return m_Center;

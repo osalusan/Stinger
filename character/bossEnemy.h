@@ -21,6 +21,7 @@ protected:
 	float m_StaminaValue = 0.0f;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
+	int   m_MaxHealth = 0;
 	float m_MoveSpeed = 0.0f;
 	float m_ShortRange = 0.0f;
 	float m_MiddleRange = 0.0f;
@@ -57,6 +58,9 @@ public:
 	void RotToTarget(GameObject* obj);
 	
 	bool UseStamina(const float& use);
+
+	// CSVからエネミーのデータを取得
+	void EnemyDataLoadCSV(const std::string& filePath);
 
 	const BehaviorTree* GetBehaviourTree()const
 	{

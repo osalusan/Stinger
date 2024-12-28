@@ -33,7 +33,11 @@ void MawJLaygo::CustomCollisionInfo()
 		// TODO :変更予定 / デバッグ用
 		if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 		{
-			const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
+			for (auto& pair : model->GetBone())
+			{
+				
+			}
+			const XMFLOAT3& customScale = { m_Scale.x * 0.5f ,m_Scale.y ,m_Scale.z * 0.5f };
 			boxColli->SetBoxCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
 		}
 	}
@@ -71,11 +75,13 @@ MawJLaygo::~MawJLaygo()
 void MawJLaygo::Init()
 {
 	BossEnemy::Init();
-	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\mawJ\\MawJLaygo.fbx");
+	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\mawJ\\mawJLaygo.fbx");
 	if (m_Scale.y == 1.0f)
 	{
 		m_Scale = DEFAULT_SCALE_MAWJ;
 	}
+
+	EnemyDataLoadCSV("asset\\csv\\mawJLaygo.csv");
 
 	// パラメータ設定
 	m_EnableGravity = true;

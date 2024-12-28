@@ -2,6 +2,7 @@
 #include "component.h"
 #include "main/main.h"
 #include "manager/objectManager.h"
+#include <string>
 
 enum class COLLISION_TAG
 {
@@ -45,6 +46,7 @@ class ObjModelRenderer;
 class CollisionComponent :public Component
 {
 protected:
+	std::string m_CollisionName = {};
 	bool m_Enable = false;		// “–‚½‚è”»’è‚Ì—LŒø–³Œø
 
 	XMFLOAT3 m_Position = {};
@@ -84,6 +86,7 @@ protected:
 public:
 	using Component::Component;
 	CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag);
+	CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag,const std::string& name);
 	virtual ~CollisionComponent()override;
 	virtual void Init()override;
 	virtual void Uninit()override;

@@ -1,5 +1,8 @@
 #include "bossEnemy.h"
 #include "behaviorTree/behaviorTree.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 // TODO:削除予定 / デバッグ用
 #include "manager/inputManager.h"
 // ----------------------- public -----------------------
@@ -91,3 +94,38 @@ bool BossEnemy::UseStamina(const float& use)
 	return true;
 }
 
+// 敵の基本データの読み込み
+void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
+{
+	std::ifstream ifs(filePath);
+	if (!ifs) return;
+
+	std::string line;
+	int noLoad = 0;
+
+	// 1行ずつ読み込み
+	while (std::getline(ifs, line))
+	{
+		// ヘッダ行と1行目は読み飛ばす
+		if (noLoad < 1)
+		{
+			noLoad++;
+			continue;
+		}
+
+		// 空行はスキップ
+		if (line.empty()) continue;
+
+		// カンマで区切る
+		std::stringstream ss(line);
+		std::string column;
+		std::vector<std::string> tokens;
+
+		while (std::getline(ss, column, ','))
+		{
+			tokens.emplace_back(column);
+		}
+
+		m_MaxHealth = std::stoi(tokens[0]);
+	}
+}
