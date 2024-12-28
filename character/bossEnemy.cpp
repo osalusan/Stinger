@@ -106,7 +106,7 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 	// 1行ずつ読み込み
 	while (std::getline(ifs, line))
 	{
-		// ヘッダ行と1行目は読み飛ばす
+		// 1行目は読み飛ばす
 		if (noLoad < 1)
 		{
 			noLoad++;
