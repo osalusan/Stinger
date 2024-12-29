@@ -9,21 +9,6 @@ StaticMeshObject::StaticMeshObject(const STATICMESH_MODEL& model)
 	m_Model = model;
 }
 
-StaticMeshObject::~StaticMeshObject()
-{
-	delete m_ModelRenderer;
-	m_ModelRenderer = nullptr;
-}
-
-void StaticMeshObject::Init()
-{
-	GameObject::Init();
-	if (m_ModelRenderer == nullptr)
-	{
-		m_ModelRenderer = new ObjModelRenderer;
-	}
-}
-
 void StaticMeshObject::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
@@ -31,9 +16,10 @@ void StaticMeshObject::Update(const float& deltaTime)
 	// “–‚½‚è”»’èˆ—‚Ì‘O‚É
 	if (m_BoxCollCache == nullptr) return;
 
-	if (const MODEL* model = ObjModelManager::GetModel(m_Model))
+	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
-		m_BoxCollCache->SetBoxCollisionInfo(m_Position, m_Scale, model->Center, model->Scale, GetRotationMatrix());
+		MODEL* modelData = model->GetModel();
+		m_BoxCollCache->SetBoxCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, GetRotationMatrix());
 	}
 }
 
@@ -50,16 +36,16 @@ void StaticMeshObject::Draw()
 	Renderer::SetMaterial(material);
 
 	// TODO,HACK :•ÏX—\’è / FBXRenderer‚Æ“¯‚¶Œ`Ž®‚É
-	if (m_ModelRenderer != nullptr)
+
+	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
-		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
-		{
-			m_ModelRenderer->Draw(model);
-		}
+		if (model == nullptr) return;
+		model->Draw();
 	}
+	
 }
 
-const MODEL* StaticMeshObject::GetModel()
+const ObjModelRenderer* StaticMeshObject::GetModel()const
 {
 	return ObjModelManager::GetModel(m_Model);
 }

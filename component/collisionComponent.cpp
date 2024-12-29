@@ -158,8 +158,6 @@ CollisionComponent::CollisionComponent(GameObject* gameObject, const COLLISION_T
 CollisionComponent::~CollisionComponent()
 {
 #if _DEBUG
-	delete m_ModelRenderer;
-	m_ModelRenderer = nullptr;
 
 	// シェーダーの削除
 	if (m_VertexLayout != nullptr)
@@ -188,10 +186,6 @@ void CollisionComponent::Init()
 		m_Scale = m_GameObject->GetScale();
 	}
 #if _DEBUG
-	if (m_ModelRenderer == nullptr)
-	{
-		m_ModelRenderer = new ObjModelRenderer;
-	}
 	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
 	{
 		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
@@ -227,13 +221,13 @@ void CollisionComponent::Draw()
 	world = scl * rot * trans;
 	Renderer::SetWorldMatrix(world);
 
-	if (m_ModelRenderer != nullptr)
+	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
-		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
-		{
-			m_ModelRenderer->DrawCollision(model);
-		}
+		if (model == nullptr) return;
+
+		model->DrawCollision();
 	}
+	
 #endif // _DEBUG
 }
 

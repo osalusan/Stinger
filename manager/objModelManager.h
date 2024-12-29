@@ -6,6 +6,7 @@
 struct MODEL;
 struct MODEL_OBJ;
 struct MODEL_MATERIAL;
+class ObjModelRenderer;
 
 enum class STATICMESH_MODEL
 {
@@ -20,7 +21,7 @@ enum class STATICMESH_MODEL
 class ObjModelManager final
 {
 private:
-	static std::unordered_map<STATICMESH_MODEL, MODEL*> m_LoadModelPool;
+	static std::unordered_map<STATICMESH_MODEL, ObjModelRenderer*> m_LoadModelPool;
 	static std::unordered_map<STATICMESH_MODEL, std::string> m_ReservModelPool;
 
 	static void LoadModel(const char* FileName, MODEL* Model);
@@ -31,5 +32,5 @@ public:
 	static void Init();
 	static void Uninit();
 	static void ReservModel(const STATICMESH_MODEL& model, const std::string& fileName);
-	static const MODEL* GetModel(const STATICMESH_MODEL& model);
+	static ObjModelRenderer* GetModel(const STATICMESH_MODEL& model);
 };

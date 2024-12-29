@@ -40,7 +40,6 @@ class ObjectManager;
 
 #if _DEBUG
 enum class STATICMESH_MODEL;
-class ObjModelRenderer;
 #endif // _DEBUG
 
 class CollisionComponent :public Component
@@ -59,7 +58,6 @@ protected:
 #if _DEBUG
 	// “–‚½‚è”»’è•`‰æ—p
 	STATICMESH_MODEL m_Model;						// Init()‚Å‰Šú‰»
-	ObjModelRenderer* m_ModelRenderer = nullptr;
 
 	// •`‰æŠÖ˜A
 	ID3D11VertexShader* m_VertexShader = nullptr;

@@ -8,7 +8,7 @@
 
 #pragma comment(lib, "shlwapi.lib")
 
-std::unordered_map<STATICMESH_MODEL, MODEL*> ObjModelManager::m_LoadModelPool = {};
+std::unordered_map<STATICMESH_MODEL, ObjModelRenderer*> ObjModelManager::m_LoadModelPool = {};
 std::unordered_map<STATICMESH_MODEL, std::string> ObjModelManager::m_ReservModelPool = {};
 
 // ------------------------------- private -----------------------------------
@@ -580,7 +580,7 @@ void ObjModelManager::Load(const STATICMESH_MODEL& staticModel, const std::strin
 
 	LoadModel(fileName.c_str(), model);
 
-	m_LoadModelPool.emplace(staticModel, model);
+	m_LoadModelPool.emplace(staticModel, new ObjModelRenderer(model));
 }
 // ------------------------------- public -----------------------------------
 
@@ -589,6 +589,8 @@ void ObjModelManager::Init()
 	// ÉÇÉfÉãÇÃì«Ç›çûÇ›
 	for (const std::pair<const STATICMESH_MODEL, const std::string>& reservModel : m_ReservModelPool)
 	{
+		if (m_LoadModelPool.count(reservModel.first) > 0) continue;
+
 		Load(reservModel.first, reservModel.second);
 	}
 
@@ -597,21 +599,11 @@ void ObjModelManager::Init()
 
 void ObjModelManager::Uninit()
 {
-	for (std::pair<const STATICMESH_MODEL , MODEL*>& pair : m_LoadModelPool)
+	for (std::pair<const STATICMESH_MODEL , ObjModelRenderer*>& pair : m_LoadModelPool)
 	{
 		if (pair.second == nullptr) continue;
-		if (pair.second->VertexBuffer == nullptr || pair.second->IndexBuffer == nullptr) continue;
 
-		pair.second->VertexBuffer->Release();
-		pair.second->IndexBuffer->Release();
-
-		for (unsigned int i = 0; i < pair.second->SubsetNum; i++)
-		{
-			if (pair.second->SubsetArray[i].Material.Texture)
-				pair.second->SubsetArray[i].Material.Texture->Release();
-		}
-
-		delete[] pair.second->SubsetArray;
+		pair.second->Uninit();
 
 		delete pair.second;
 		pair.second = nullptr;
@@ -626,7 +618,7 @@ void ObjModelManager::ReservModel(const STATICMESH_MODEL& model, const std::stri
 	m_ReservModelPool.emplace(model,fileName);
 }
 
-const MODEL* ObjModelManager::GetModel(const STATICMESH_MODEL& model)
+ObjModelRenderer* ObjModelManager::GetModel(const STATICMESH_MODEL& model)
 {
 	return m_LoadModelPool[model];
 }

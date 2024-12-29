@@ -38,23 +38,9 @@ ShadowVolume::ShadowVolume(Character* character)
 	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }
 
-ShadowVolume::~ShadowVolume()
-{
-	delete m_ModelRenderer;
-	m_ModelRenderer = nullptr;
-}
-
 void ShadowVolume::Init()
 {
 	GameObject::Init();
-	// TODO :変更予定 / ObjModelManagerの修正後に変更
-	if (m_StaticMeshCache != nullptr)
-	{
-		if (m_ModelRenderer == nullptr)
-		{
-			m_ModelRenderer = new ObjModelRenderer;
-		}
-	}
 
 	// メッシュフィールドの生成より後に
 	Scene* scene = SceneManager::GetScene<Scene>();
@@ -83,9 +69,12 @@ void ShadowVolume::Update(const float& deltaTime)
 
 	if (m_MeshFiled != nullptr)
 	{
-		if (const MODEL* model = ObjModelManager::GetModel(m_StaticMeshCache->GetStaticModel()))
+		if (ObjModelRenderer* model = ObjModelManager::GetModel(m_StaticMeshCache->GetStaticModel()))
 		{
-			m_Position.y = m_MeshFiled->GetHeight(m_Position) - (model->Scale.y * m_Scale.y);
+			if (model == nullptr) return;
+
+			MODEL* modelData = model->GetModel();
+			m_Position.y = m_MeshFiled->GetHeight(m_Position) - (modelData->Scale.y * m_Scale.y);
 		}
 	}
 }
@@ -101,13 +90,14 @@ void ShadowVolume::Draw()
 
 	if (m_StaticMeshCache != nullptr)
 	{
-		if (m_ModelRenderer != nullptr)
+
+		if (ObjModelRenderer* model = ObjModelManager::GetModel(m_StaticMeshCache->GetStaticModel()))
 		{
-			if (const MODEL* model = ObjModelManager::GetModel(m_StaticModel))
-			{
-				m_ModelRenderer->Draw(model);
-			}
+			if (model == nullptr) return;
+
+			model->Draw();
 		}
+
 	}
 	else if (m_CharacterCache != nullptr)
 	{
