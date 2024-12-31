@@ -17,7 +17,7 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	const XMVECTOR& Interval = XMVectorSubtract(obb2.Center, obb1.Center);
 
 	// 軸のリスト
-	XMVECTOR axes[15];
+	XMVECTOR axes[15] = {};
 	int axisCount = 0;
 
 	// OBB1の軸
@@ -218,7 +218,15 @@ void CollisionComponent::Draw()
 	scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
 	rot = m_RotationMatrix;
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+	
 	world = scl * rot * trans;
+
+	if (m_CollisionName != "")
+	{
+		// TODO :修正予定 / バグってる
+		//world = XMMatrixMultiply(m_OffsetMatrix,world);
+	}
+	
 	Renderer::SetWorldMatrix(world);
 
 	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
@@ -231,7 +239,7 @@ void CollisionComponent::Draw()
 #endif // _DEBUG
 }
 
-void CollisionComponent::SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix)
 {
 	m_Position = pos;
 	m_Scale = scale;
@@ -239,3 +247,12 @@ void CollisionComponent::SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;
 }
+
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+{
+	m_Position = pos;
+	m_ModelScale = modelScale;
+	m_RotationMatrix = rotateMatrix;
+	m_OffsetMatrix = worldMatrix;
+}
+

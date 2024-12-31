@@ -26,19 +26,20 @@ constexpr float MAX_STAMINA = 10.0f;
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
 {
-	for (BoxCollisionComponent* boxColli : m_BoxCollisionCaches)
+	if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
-		if (boxColli == nullptr) continue;
+		if (model == nullptr) return;
 
-		// TODO :変更予定 / デバッグ用
-		if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
+		for (BoxCollisionComponent* boxColli : m_BoxCollisionCaches)
 		{
-			for (auto& pair : model->GetBone())
+			if (boxColli == nullptr) continue;
+
+			for (const std::pair<std::string, BONE>& bonePair : model->GetBone())
 			{
-				
+				if (bonePair.first != boxColli->GetName()) continue;
+
+				boxColli->SetCollisionInfo(m_Position, model->GetScale(), GetRotationMatrix(), bonePair.second.WorldMatrix);
 			}
-			const XMFLOAT3& customScale = { m_Scale.x * 0.5f ,m_Scale.y ,m_Scale.z * 0.5f };
-			boxColli->SetBoxCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
 		}
 	}
 }
@@ -95,7 +96,20 @@ void MawJLaygo::Init()
 	m_MaxStamina = MAX_STAMINA;
 	m_StaminaValue = m_MaxStamina;
 
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:Hips"));
+
+	for (BoxCollisionComponent* box : m_BoxCollisionCaches)
+	{
+		if (box == nullptr) continue;
+
+		// 部位ごとに追加していく
+		if (box->GetName() == "mixamorig:Hips")
+		{
+			box->SetScale({ m_Scale.x * 0.5f,m_Scale.y * 0.8f ,m_Scale.z * 0.5f });
+		}
+	}
+
+	
 	// 当たり判定の後に追加
 	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");
 }

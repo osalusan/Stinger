@@ -91,7 +91,7 @@ void Player::CustomCollisionInfo()
 	if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
 		const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
-		m_BoxCollCache->SetBoxCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
+		m_BoxCollCache->SetCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
 	}
 }
 

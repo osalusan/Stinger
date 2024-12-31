@@ -45,15 +45,15 @@ enum class STATICMESH_MODEL;
 class CollisionComponent :public Component
 {
 protected:
-	std::string m_CollisionName = {};
+	std::string m_CollisionName = "";
 	bool m_Enable = false;		// 当たり判定の有効無効
 
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = {};
-	XMFLOAT3 m_ModelCenter = {};
-	XMFLOAT3 m_ModelScale = {};
+	XMFLOAT3 m_ModelCenter = {0.0f,0.0f,0.0f}; // 必要ない時の為に初期値０
+	XMFLOAT3 m_ModelScale = {1.0f,1.0f,1.0f};  // 必要ない時の為に初期値１
 	XMMATRIX m_RotationMatrix = {};
-	
+	XMMATRIX m_OffsetMatrix = {};
 
 #if _DEBUG
 	// 当たり判定描画用
@@ -90,14 +90,22 @@ public:
 	virtual void Uninit()override;
 	virtual void Draw()override;
 
-	void SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);
-
+	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix); // 大きさを変えたい時
+	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix); // 本体に付属させたい時
+	void SetScale(const XMFLOAT3& scl)
+	{
+		m_Scale = scl;
+	}
 	// コンポーネントをインスタンス化する時に一緒に
 	void SetCollisionTag(const COLLISION_TAG& tag)
 	{
 		m_CollisionTag = tag;
 	}
 
+	const std::string& GetName()
+	{
+		return m_CollisionName;
+	}
 	const XMFLOAT3& GetPos()const
 	{
 		return m_Position;
@@ -118,7 +126,7 @@ public:
 	{
 		return m_RotationMatrix;
 	}
-	const COLLISION_TAG& GetCollisionTag()
+	const COLLISION_TAG& GetCollisionTag()const
 	{
 		return m_CollisionTag;
 	}

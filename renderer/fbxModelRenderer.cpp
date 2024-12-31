@@ -347,10 +347,10 @@ void FbxModelRenderer::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	BONE* bone = &m_Bone[node->mName.C_Str()];
 
 	//マトリクスの乗算順番に注意
-	aiMatrix4x4 worldMatrix;
-
-	worldMatrix *= matrix;
+	aiMatrix4x4 worldMatrix = matrix;
 	worldMatrix *= bone->AnimationMatrix;
+
+	bone->WorldMatrix = AiMatrixToXMMATRIX(worldMatrix);
 
 	bone->Matrix = worldMatrix;
 	bone->Matrix *= bone->OffsetMatrix;//これを掛けないといけない

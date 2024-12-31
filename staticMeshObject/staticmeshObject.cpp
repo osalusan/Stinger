@@ -19,7 +19,7 @@ void StaticMeshObject::Update(const float& deltaTime)
 	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
 		MODEL* modelData = model->GetModel();
-		m_BoxCollCache->SetBoxCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, GetRotationMatrix());
+		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, GetRotationMatrix());
 	}
 }
 
