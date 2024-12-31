@@ -72,10 +72,13 @@ void ObjModelRenderer::Uninit()
 	for (unsigned int i = 0; i < m_Model->SubsetNum; i++)
 	{
 		if (m_Model->SubsetArray[i].Material.Texture)
+		{
 			m_Model->SubsetArray[i].Material.Texture->Release();
+		}	
 	}
 
 	delete[] m_Model->SubsetArray;
+	delete[] m_Model;
 }
 
 void ObjModelRenderer::SetModel(MODEL* model)
