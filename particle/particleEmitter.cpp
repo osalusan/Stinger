@@ -7,11 +7,9 @@
 #include "scene/scene.h"
 
 // ---------------------------------- public ----------------------------------
-
 ParticleEmiter::ParticleEmiter()
 {
-	m_Texture = TEXTURE::PARTICLE_ORIGIN;
-	TextureManager::ReservTexture(m_Texture, L"asset\\texture\\particleOrigin.png");
+	m_Texture = TEXTURE::MAX;
 }
 
 ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos):ParticleEmiter()
@@ -61,6 +59,13 @@ void ParticleEmiter::Init()
 	if (m_PixelShader == nullptr)
 	{
 		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
+	}
+	ReservTexture();
+
+	if (m_Texture == TEXTURE::MAX)
+	{
+		m_Texture = TEXTURE::PARTICLE_ORIGIN;
+		TextureManager::ReservTexture(m_Texture, L"asset\\texture\\particleOrigin.png");
 	}
 
 	VERTEX_3D vertex[4];

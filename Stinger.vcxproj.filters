@@ -222,6 +222,9 @@
     <ClCompile Include="component\shaderComponent.cpp">
       <Filter>component</Filter>
     </ClCompile>
+    <ClCompile Include="particle\lightning.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="component\shaderComponent.h">
       <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\lightning.h">
+      <Filter>particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

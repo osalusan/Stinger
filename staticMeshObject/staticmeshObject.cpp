@@ -35,8 +35,6 @@ void StaticMeshObject::Draw()
 
 	Renderer::SetMaterial(material);
 
-	// TODO,HACK :•ÏX—\’è / FBXRenderer‚Æ“¯‚¶Œ`®‚É
-
 	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
 		if (model == nullptr) return;

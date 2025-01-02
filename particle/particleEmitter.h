@@ -43,6 +43,8 @@ protected:
 
 	virtual void CreateParticleEffect(const float& deltaTime) = 0;
 	virtual void UpdateParticleEffect(const float& deltaTime) = 0;
+
+	virtual void ReservTexture() = 0;
 public:
 	ParticleEmiter();
 	ParticleEmiter(const XMFLOAT3& pos);

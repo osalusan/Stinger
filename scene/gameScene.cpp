@@ -11,6 +11,7 @@
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
 #include "behaviorTree/mawJLaygoBattleTree.h"
+#include "particle/lightning.h"
 
 GameScene::~GameScene()
 {
@@ -36,6 +37,8 @@ void GameScene::Init()
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
 	if (m_ParticleManager == nullptr) return;
+
+	m_ParticleManager->AddParticleObjectArg<Lightning>(PARTICLE::LIGHTNING, XMFLOAT3(0.0f, 4.0f, 0.0f));
 
 }
 
