@@ -22,11 +22,11 @@ protected:
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	int   m_MaxHealth = 0;
+	float m_MaxStamina = 0.0f;
 	float m_MoveSpeed = 0.0f;
 	float m_ShortRange = 0.0f;
 	float m_MiddleRange = 0.0f;
 	float m_LongRange = 0.0f;
-	float m_MaxStamina = 0.0f;
 
 	// ボスの現在の状態
 	RANGE m_CurrentRange = RANGE::NONE;

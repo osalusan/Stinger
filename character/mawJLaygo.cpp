@@ -7,21 +7,9 @@
 #include "renderer/fbxModelRenderer.h"
 
 constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
-constexpr float GRAVITY = 1200.0f;
-constexpr float MOVE_SPEED_MAWJ = 2000.0f;
-
-constexpr int DEFAULT_HEALTH_MAWJ = 100;
-
-// 攻撃範囲
-constexpr float SHORT_RANGE_MAWJ = 30.0f;
-constexpr float MIDDLE_RANGE_MAWJ = 70.0f;
-constexpr float LONG_RANGE_MAWJ = 100.0f;
 
 // ブレンド速度
 constexpr float DEFAULT_BLEND_VALUE_MAWJ = 4.0f;
-
-// 消費スタミナ
-constexpr float MAX_STAMINA = 10.0f;
 
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
@@ -86,15 +74,7 @@ void MawJLaygo::Init()
 
 	// パラメータ設定
 	m_EnableGravity = true;
-	m_GravityValue = GRAVITY;
-	m_Health = DEFAULT_HEALTH_MAWJ;
-	m_MoveSpeed = MOVE_SPEED_MAWJ;
-	m_ShortRange = SHORT_RANGE_MAWJ;
-	m_MiddleRange = MIDDLE_RANGE_MAWJ;
-	m_LongRange = LONG_RANGE_MAWJ;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
-	m_MaxStamina = MAX_STAMINA;
-	m_StaminaValue = m_MaxStamina;
 
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:Hips"));
 

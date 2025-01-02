@@ -127,5 +127,14 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		}
 
 		m_MaxHealth = std::stoi(tokens[0]);
+		m_MaxStamina = std::stoi(tokens[1]);
+		m_MoveSpeed = std::stoi(tokens[2]);
+		m_GravityValue = std::stoi(tokens[3]);
+		m_ShortRange = std::stoi(tokens[4]);
+		m_MiddleRange = std::stoi(tokens[5]);
+		m_LongRange = std::stoi(tokens[6]);
+
+		m_Health = m_MaxHealth;
+		m_StaminaValue = m_MaxStamina;
 	}
 }
