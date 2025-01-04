@@ -15,8 +15,15 @@ protected:
 	float m_MaxAnimTime = 0.0f;
 	std::string m_AnimeName = "";
 
+	// パラメータ
+	float m_DamageValue = 0.0f;
+	float m_SpeedValue = 0.0f;
+	float m_UseStaminaValue = 0.0f;
+
 	// アニメーションを使用する際は、必ず呼ぶ
 	void ReserveAnimation(const std::string& fileName, const std::string& animationName);
+	// 技の場合は必ず呼ぶ
+	void InitSkillData(const int& layer);
 public:
 	TaskNode() = delete;
 	TaskNode(BossEnemy* boss, Player* player);

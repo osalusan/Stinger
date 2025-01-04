@@ -55,6 +55,8 @@ BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& sc
 
 BossEnemy::~BossEnemy()
 {
+	m_EnemySkillData.clear();
+
 	delete m_Tree;
 	m_Tree = nullptr;
 
@@ -94,22 +96,31 @@ bool BossEnemy::UseStamina(const float& use)
 	return true;
 }
 
-// 敵の基本データの読み込み
+// 敵の基本データの読み込み / ビヘイビアツリーの作成より先に呼び出す
 void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 {
 	std::ifstream ifs(filePath);
 	if (!ifs) return;
 
 	std::string line;
-	int noLoad = 0;
+	int loadLine = 0;
+	int loadCount = 0;
+
+	std::vector<std::string> baseStatas = {};
 
 	// 1行ずつ読み込み
 	while (std::getline(ifs, line))
 	{
+		loadLine++;
+		
 		// 1行目は読み飛ばす
-		if (noLoad < 1)
+		if (loadLine == 1) continue;
+
+		loadCount++;
+		// 必要ない情報を弾く
+		if (loadCount >= 2)
 		{
-			noLoad++;
+			loadCount = 0;
 			continue;
 		}
 
@@ -119,20 +130,39 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		// カンマで区切る
 		std::stringstream ss(line);
 		std::string column;
-		std::vector<std::string> tokens;
+		std::vector<float> skillData = {};
 
 		while (std::getline(ss, column, ','))
 		{
-			tokens.emplace_back(column);
+			if (column.empty()) continue;
+
+			// 基礎ステータス
+			if (loadLine == 2)
+			{
+				baseStatas.emplace_back(column);
+			}
+			else // スキルを格納
+			{
+				skillData.emplace_back(std::stof(column));
+			}
 		}
 
-		m_MaxHealth = std::stoi(tokens[0]);
-		m_MaxStamina = std::stoi(tokens[1]);
-		m_MoveSpeed = std::stoi(tokens[2]);
-		m_GravityValue = std::stoi(tokens[3]);
-		m_ShortRange = std::stoi(tokens[4]);
-		m_MiddleRange = std::stoi(tokens[5]);
-		m_LongRange = std::stoi(tokens[6]);
+		if (loadLine >= 3)
+		{
+			m_EnemySkillData.emplace_back(skillData);
+		}
+	}
+
+	// TODO :追加予定 / 攻撃力
+	if (baseStatas.size() == 8)
+	{
+		m_MaxHealth = std::stoi(baseStatas[0]);
+		m_MaxStamina = std::stof(baseStatas[1]);
+		m_MoveSpeed = std::stof(baseStatas[2]);
+		m_GravityValue = std::stof(baseStatas[3]);
+		m_ShortRange = std::stof(baseStatas[4]);
+		m_MiddleRange = std::stof(baseStatas[5]);
+		m_LongRange = std::stof(baseStatas[6]);
 
 		m_Health = m_MaxHealth;
 		m_StaminaValue = m_MaxStamina;

@@ -16,6 +16,18 @@ void TaskNode::ReserveAnimation(const std::string& fileName, const std::string& 
 	}
 }
 
+void TaskNode::InitSkillData(const int& layer)
+{
+	if (m_BossCache == nullptr) return;
+
+	const std::vector<float>& skillData = m_BossCache->GetSkillData(layer);
+	if (skillData.empty())return;
+
+	m_DamageValue = skillData[0];
+	m_SpeedValue = skillData[1];
+	m_UseStaminaValue = skillData[2];
+}
+
 // ---------------------------- public ----------------------------
 TaskNode::TaskNode(BossEnemy* boss, Player* player)
 {

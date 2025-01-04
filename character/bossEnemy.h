@@ -18,6 +18,8 @@ protected:
 	BehaviorTree* m_Tree = nullptr;
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 
+	std::vector<std::vector<float>> m_EnemySkillData = {};
+
 	float m_StaminaValue = 0.0f;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
@@ -102,12 +104,17 @@ public:
 	{
 		m_CurrentRange = range;
 	}
-	const RANGE& GetCurrentRange()const
+	const RANGE& GetCurrentRange() const
 	{
 		return m_CurrentRange;
 	}
 	void SetRunningNode(BehaviorNode* node)
 	{
 		m_RunningNodeCache = node;
+	}
+
+	const std::vector<float>& GetSkillData(const int& skillNo) const
+	{
+		return m_EnemySkillData[skillNo];
 	}
 };

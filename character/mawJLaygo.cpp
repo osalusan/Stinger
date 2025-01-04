@@ -63,14 +63,16 @@ MawJLaygo::~MawJLaygo()
 
 void MawJLaygo::Init()
 {
+	// ビヘイビアツリーの作成より先に呼ぶ
+	EnemyDataLoadCSV("asset\\csv\\mawJLaygo.csv");
+
 	BossEnemy::Init();
+
 	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\mawJ\\mawJLaygo.fbx");
 	if (m_Scale.y == 1.0f)
 	{
 		m_Scale = DEFAULT_SCALE_MAWJ;
 	}
-
-	EnemyDataLoadCSV("asset\\csv\\mawJLaygo.csv");
 
 	// パラメータ設定
 	m_EnableGravity = true;

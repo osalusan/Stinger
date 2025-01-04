@@ -2,13 +2,13 @@
 #include "character/player.h"
 #include "character/bossEnemy.h"
 
-constexpr float USE_STAMINA_VALUE = 0.3f;
 // ’…’n‚É‡‚í‚¹‚é—p
 constexpr float LANDING_MIN_VALUE = 0.1f;
 constexpr float LANDING_MAX_VALUE = 0.48f;
 void JumpAttackTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\JumpAttack_MawJ.fbx", "JumpAttack_MawJ");
+	InitSkillData(1);
 }
 
 NODE_STATUS JumpAttackTask::Update(const float& deltaTime)
@@ -30,7 +30,7 @@ NODE_STATUS JumpAttackTask::Update(const float& deltaTime)
 	if (m_CurrentTime >= m_MaxAnimTime && currentRange == RANGE::MIDDLE)
 	{
 		const float& maxStamina = m_BossCache->GetaMaxStamina();
-		if (m_BossCache->UseStamina(maxStamina * USE_STAMINA_VALUE))
+		if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 		{
 			if (node == nullptr)
 			{
