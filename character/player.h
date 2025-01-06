@@ -21,7 +21,8 @@ private:
 	virtual void AnimationControl()override;
 	void PlayerDataLoadCSV(const std::string& filePath);
 public:
-	Player();
+	Player() = delete;
+	Player(const XMFLOAT3& pos);
 	virtual ~Player()override;
 	virtual void Init()override;
 	virtual void Uninit()override;

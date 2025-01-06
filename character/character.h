@@ -1,6 +1,5 @@
 #pragma once
 #include "object/gameObject.h"
-#include "component/collisionComponent.h"
 
 // ‘O•ûéŒ¾
 enum class ANIMETION_MODEL;

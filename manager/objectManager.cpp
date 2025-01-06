@@ -73,18 +73,3 @@ void ObjectManager::Draw()
 		}
 	}
 }
-
-void ObjectManager::CreatePlayer()
-{
-	if (m_PlayerCache != nullptr) return;
-	
-	Player* player = new Player;
-	
-	if (player != nullptr)
-	{
-		player->Init();
-	}
-
-	m_GameObjects[static_cast<int>(OBJECT::FILED)].emplace_back(player);
-	m_PlayerCache = player;
-}

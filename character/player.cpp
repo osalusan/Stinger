@@ -14,9 +14,10 @@
 
 constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
 
-Player::Player()
+Player::Player(const XMFLOAT3& pos)
 {
 	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\akai.fbx");
+	m_Position = pos;
 }
 
 Player::~Player()

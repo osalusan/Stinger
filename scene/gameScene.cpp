@@ -19,11 +19,11 @@ void GameScene::Init()
 
 	if (m_ObjectManager == nullptr) return;
 
-	m_ObjectManager->CreatePlayer();
-	m_ObjectManager->CreateBossEnemy<MawJLaygo>(new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
+	m_ObjectManager->AddGameObjectArg<Player>(OBJECT::PLAYER,XMFLOAT3(0.0f,0.0f,0.0f));
+	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
 	
 	// プレイヤーの次に作成
-	m_ObjectManager->CreateCameraObject<PlayerCamera>();
+	m_ObjectManager->AddGameObject<PlayerCamera>(OBJECT::CAMERA_MAIN);
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);

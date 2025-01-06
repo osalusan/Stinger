@@ -5,19 +5,17 @@
 #include "manager/inputManager.h"
 #include "manager/textureManager.h"
 #include "manager/particleManager.h"
+#include "manager/fbxModelManager.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/gameScene.h"
 #include "camera/titleCamera.h"
 #include "skydome/skydome.h"
-
-#include "staticMeshObject/box.h"
 #include "particle/spiralBlueorb.h"
 #include "meshFiled/meshFiled.h"
 #include "shadow/shadowVolume.h"
-#include "manager/objModelManager.h"
-#include "manager/fbxModelManager.h"
 #include "behaviorTree/mawJLaygoTitleTree.h"
 #include "character/mawJLaygo.h"
+#include "staticMeshObject/box.h"
 #include "staticMeshObject/staticmeshObject.h"
 #include "staticMeshObject/moveRandSizeBox.h"
 
@@ -29,8 +27,8 @@ void TitleScene::Init()
 
 	if (m_ObjectManager == nullptr) return;
 
-	m_ObjectManager->CreateCameraObject<TitleCamera>();
-	m_ObjectManager->CreateMeshFiled<MeshFiled>();
+	m_ObjectManager->AddGameObject<TitleCamera>(OBJECT::CAMERA_MAIN);
+	m_ObjectManager->AddGameObject<MeshFiled>(OBJECT::FILED);
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::SHADOW, true, L"asset\\texture\\T_black.png");
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,

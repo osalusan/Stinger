@@ -1,4 +1,5 @@
 #include "character.h"
+#include "component/collisionComponent.h"
 #include "manager/fbxModelManager.h"
 #include "manager/sceneManager.h"
 #include "renderer/fbxModelRenderer.h"

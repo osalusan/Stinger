@@ -1,11 +1,15 @@
 #pragma once
 #include <list>
 #include <vector>
+#include "character/player.h"
+#include "character/bossEnemy.h"
+#include "camera/camera.h"
+#include "meshFiled/meshFiled.h"
 
 // 空白の配列が生まれてしまうからNONEは追加しない
 enum class OBJECT
 {
-	CAMERA = 0,
+	CAMERA_MAIN = 0,
 	SKYDOME,
 	FILED,
 	PLAYER,
@@ -16,10 +20,6 @@ enum class OBJECT
 	MAX
 };
 
-// 前方宣言
-class GameObject;
-class Camera;
-class Player;
 class BossEnemy;
 class MeshFiled;
 
@@ -37,8 +37,6 @@ public:
 	void Uninit();
 	void Update(const float& deltaTime);
 	void Draw();
-
-	void CreatePlayer();
 
 	Camera* GetCamera()const
 	{
@@ -70,47 +68,6 @@ public:
 		objectList.insert(objectList.end(), m_GameObjects[layerNum].begin(), m_GameObjects[layerNum].end());
 	}
 
-	// カメラオブジェクトを一番最初に作成
-	template <typename T>
-	void CreateCameraObject()
-	{
-		if (m_CameraCache != nullptr) return;
-		T* camera = new T;
-		if (camera == nullptr) return;
-
-		camera->Init();
-
-		m_GameObjects[static_cast<int>(OBJECT::CAMERA)].emplace_back(camera);
-		m_CameraCache = camera;
-	}
-
-	// 座標指定で追加
-	template <typename T, typename... Arg>
-	void CreateBossEnemy(Arg&&...args)
-	{
-		if (m_BossCache != nullptr) return;
-		T* boss = new T(std::forward<Arg>(args)...);
-		if (boss == nullptr) return;
-
-		boss->Init();
-
-		m_GameObjects[static_cast<int>(OBJECT::BOSS)].emplace_back(boss);
-		m_BossCache = boss;
-	}
-
-	template <typename T>
-	void CreateMeshFiled()
-	{
-		if (m_FiledCache != nullptr) return;
-		T* filed = new T;
-		if (filed == nullptr) return;
-
-		filed->Init();
-
-		m_GameObjects[static_cast<int>(OBJECT::FILED)].emplace_back(filed);
-		m_FiledCache = filed;
-	}
-
 	// 引数無しで追加
 	template <typename T>
 	void AddGameObject(const OBJECT& layer)
@@ -120,6 +77,22 @@ public:
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
+
+		if (layer == OBJECT::CAMERA_MAIN && m_CameraCache == nullptr)
+		{
+			if (Camera* camera = dynamic_cast<Camera*>(gameObject))
+			{
+				m_CameraCache = camera;
+			}
+		}
+		if (layer == OBJECT::FILED && m_FiledCache == nullptr)
+		{
+			if (MeshFiled* filed = dynamic_cast<MeshFiled*>(gameObject))
+			{
+				m_FiledCache = filed;
+			}
+		}
+
 	}
 
 	// 引数付きの場合はこっち
@@ -131,5 +104,20 @@ public:
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
+
+		if (layer == OBJECT::PLAYER && m_PlayerCache == nullptr)
+		{
+			if (Player* player = dynamic_cast<Player*>(gameObject))
+			{
+				m_PlayerCache = player;
+			}
+		}
+		if (layer == OBJECT::BOSS && m_BossCache == nullptr)
+		{
+			if (BossEnemy* boss = dynamic_cast<BossEnemy*>(gameObject))
+			{
+				m_BossCache = boss;
+			}
+		}
 	}
 };

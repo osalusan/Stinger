@@ -35,9 +35,6 @@ struct OBB
 	}
 };
 
-// ‘O•ûéŒ¾
-class ObjectManager;
-
 #if _DEBUG
 enum class STATICMESH_MODEL;
 #endif // _DEBUG
