@@ -63,10 +63,10 @@ MawJLaygo::~MawJLaygo()
 
 void MawJLaygo::Init()
 {
+	GameObject::Init();
 	// ビヘイビアツリーの作成より先に呼ぶ
 	EnemyDataLoadCSV("asset\\csv\\mawJLaygo.csv");
-
-	BossEnemy::Init();
+	CreateTree();
 
 	ReservModel(ANIMETION_MODEL::MAWJLAYGO, "asset\\model\\mawJ\\mawJLaygo.fbx");
 	if (m_Scale.y == 1.0f)
