@@ -6,5 +6,4 @@ class LoadCamera final :public Camera
 public:
 	using Camera::Camera;
 	virtual void Init()override;
-	virtual void Uninit()override;
 };
