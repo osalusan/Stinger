@@ -5,7 +5,7 @@
 
 void DeadTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\Dying_MawJ.fbx", "Dead_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\dying_MawJ.fbx", "dead_MawJ");
 }
 
 NODE_STATUS DeadTask::Update(const float& deltaTime)

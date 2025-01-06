@@ -7,7 +7,7 @@ constexpr float LANDING_MIN_VALUE = 0.1f;
 constexpr float LANDING_MAX_VALUE = 0.48f;
 void JumpAttackTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\JumpAttack_MawJ.fbx", "JumpAttack_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_MawJ.fbx", "jumpAttack_MawJ");
 	InitSkillData(1);
 }
 

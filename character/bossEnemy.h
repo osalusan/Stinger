@@ -31,6 +31,8 @@ protected:
 	float m_LongRange = 0.0f;
 	float m_AttackPower = 0.0f;
 	float m_RotSpeed = 0.0f;
+	float m_MinWaitTime = 0.0f;
+	float m_MaxWaitTime = 0.0f;
 
 	// ƒ{ƒX‚ÌŒ»İ‚Ìó‘Ô
 	RANGE m_CurrentRange = RANGE::NONE;
@@ -97,9 +99,17 @@ public:
 	{
 		return m_StaminaValue;
 	}
-	const float& GetaMaxStamina()
+	const float& GetaMaxStamina()const
 	{
 		return m_MaxStamina;
+	}
+	const float& GetMinWaitTime()const
+	{
+		return m_MinWaitTime;
+	}
+	const float& GetMaxWaitTime()const
+	{
+		return m_MaxWaitTime;
 	}
 
 	// Œ»İ‚Ìó‘Ô‚ÌGet‚ÆSet
@@ -107,7 +117,7 @@ public:
 	{
 		m_CurrentRange = range;
 	}
-	const RANGE& GetCurrentRange() const
+	const RANGE& GetCurrentRange()const
 	{
 		return m_CurrentRange;
 	}
@@ -116,7 +126,7 @@ public:
 		m_RunningNodeCache = node;
 	}
 
-	const std::vector<float>& GetSkillData(const int& skillNo) const
+	const std::vector<float>& GetSkillData(const int& skillNo)const
 	{
 		return m_EnemySkillData[skillNo];
 	}

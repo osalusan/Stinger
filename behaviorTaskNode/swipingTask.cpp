@@ -4,7 +4,7 @@
 
 void SwipingTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\Swiping_MawJ.fbx", "Swiping_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\swiping_MawJ.fbx", "swiping_MawJ");
 	InitSkillData(0);
 }
 
