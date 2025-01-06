@@ -5,7 +5,11 @@
 // ‹ó”’‚Ì”z—ñ‚ª¶‚Ü‚ê‚Ä‚µ‚Ü‚¤‚©‚çNONE‚Í’Ç‰Á‚µ‚È‚¢
 enum class OBJECT
 {
-	SKYDOME = 0,
+	CAMERA = 0,
+	SKYDOME,
+	FILED,
+	PLAYER,
+	BOSS,
 	STATICMESH,
 	SHADOW,
 	POLYGON2D,

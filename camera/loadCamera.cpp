@@ -6,7 +6,7 @@ void LoadCamera::Init()
 	// ƒJƒƒ‰‚ÌŒü‚«
 	m_Target.z = 50.0f;
 	m_Position.z = 0.0f;
-	m_Position.y = 4.0f;
+	m_Position.y = 0.0f;
 }
 
 void LoadCamera::Uninit()

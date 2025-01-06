@@ -125,6 +125,15 @@ void ObjectManager::Draw()
 		m_Filed->Draw();
 	}
 
+	if (m_Player != nullptr)
+	{
+		m_Player->Draw();
+	}
+	if (m_Boss != nullptr)
+	{
+		m_Boss->Draw();
+	}
+
 	// TODO : ˆÊ’u‚ğ•ÏX—\’è / Polygon2D‚ªGameObject‚ğŒp³‚µ‚È‚­‚È‚Á‚½‚ç
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
@@ -135,15 +144,6 @@ void ObjectManager::Draw()
 
 			object->Draw();
 		}
-	}
-
-	if (m_Player != nullptr)
-	{
-		m_Player->Draw();
-	}
-	if (m_Boss != nullptr)
-	{
-		m_Boss->Draw();
 	}
 }
 

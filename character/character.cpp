@@ -49,6 +49,11 @@ Character::Character()
 {
 	m_Model = ANIMETION_MODEL::MAX;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
+}
+
+void Character::Init()
+{
+	GameObject::Init();
 
 	if (m_MeshFiled != nullptr) return;
 	Scene* scene = SceneManager::GetScene();
