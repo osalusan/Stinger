@@ -13,6 +13,7 @@
 #include "behaviorTaskNode/checkHealthTask.h"
 #include "behaviorTaskNode/deadTask.h"
 #include "behaviorTaskNode/jumpAttackTask.h"
+#include "behaviorTaskNode/waitTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -40,6 +41,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* attackNode = rootNode->AddNodeChild<SelectorNode>();
 	if (attackNode == nullptr) return;
 
+	// ‘Ò‹@
+	attackNode->AddTaskChild<WaitTask>(boss, player);
 	// ”ÍˆÍ‚ÌŠm”F
 	attackNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// UŒ‚

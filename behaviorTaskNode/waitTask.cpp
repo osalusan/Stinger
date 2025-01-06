@@ -33,6 +33,7 @@ NODE_STATUS WaitTask::Update(const float& deltaTime)
 		m_BossCache->ChangeAnimation(m_AnimeName);
 		// ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
+		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 
 		return NODE_STATUS::RUNNING;
 	}
@@ -41,6 +42,8 @@ NODE_STATUS WaitTask::Update(const float& deltaTime)
 		if (node == this)
 		{
 			// ó‘Ô‚ðíœ
+			m_CurrentTime = 0.0f;
+			m_Wait = false;
 			m_BossCache->SetRunningNode(nullptr);
 			return NODE_STATUS::SUCCESS;
 		}
