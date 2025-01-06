@@ -43,7 +43,7 @@ void ShadowVolume::Init()
 	GameObject::Init();
 
 	// メッシュフィールドの生成より後に
-	Scene* scene = SceneManager::GetScene<Scene>();
+	Scene* scene = SceneManager::GetScene();
 	if (scene == nullptr) return;
 	ObjectManager* objectManager = scene->GetObjectManager();
 	if (objectManager == nullptr) return;

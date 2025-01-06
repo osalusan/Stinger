@@ -51,7 +51,7 @@ Character::Character()
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE;
 
 	if (m_MeshFiled != nullptr) return;
-	Scene* scene = SceneManager::GetScene<Scene>();
+	Scene* scene = SceneManager::GetScene();
 	if (scene == nullptr) return;
 	ObjectManager* objectManager = scene->GetObjectManager();
 	if (objectManager == nullptr) return;

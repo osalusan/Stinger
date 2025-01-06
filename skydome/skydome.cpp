@@ -24,7 +24,7 @@ void SkyDome::Init()
 		StaticMeshObject::Init();
 		m_Scale = { 400.0f,400.0f,400.0f };
 
-		GameScene* scene = SceneManager::GetScene<GameScene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 
 		ObjectManager* objManager = scene->GetObjectManager();

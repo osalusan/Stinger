@@ -60,7 +60,7 @@ void Polygon2D::Init()
 
 	if (m_CameraCache == nullptr)
 	{
-		Scene* scene = SceneManager::GetScene<Scene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objManager = scene->GetObjectManager();
 		if (objManager == nullptr) return;

@@ -20,7 +20,7 @@ void PlayerCamera::Init()
 {
 	if (m_PlayerCache == nullptr)
 	{
-		GameScene* scene = SceneManager::GetScene<GameScene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objectManager = scene->GetObjectManager();
 		if (objectManager == nullptr) return;

@@ -63,7 +63,7 @@ MawJLaygo::~MawJLaygo()
 
 void MawJLaygo::Init()
 {
-	GameObject::Init();
+	Character::Init();
 	// ビヘイビアツリーの作成より先に呼ぶ
 	EnemyDataLoadCSV("asset\\csv\\mawJLaygo.csv");
 	CreateTree();

@@ -27,7 +27,7 @@ Player::~Player()
 
 void Player::Init()
 {
-	GameObject::Init();
+	Character::Init();
 	// ˆê”ÔÅ‰‚ÉŒÄ‚Ô
 	PlayerDataLoadCSV("asset\\csv\\player.csv");
 

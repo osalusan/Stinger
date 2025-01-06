@@ -66,7 +66,7 @@ void PlayerStateMachine::Update(const float& deltaTime)
 {
 	if (m_CameraCache == nullptr)
 	{
-		GameScene* scene = SceneManager::GetScene<GameScene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objManager = scene->GetObjectManager();
 		if (objManager == nullptr) return;

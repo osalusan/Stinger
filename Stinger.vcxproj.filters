@@ -234,6 +234,12 @@
     <ClCompile Include="camera\loadCamera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTree\mawJLaygoLoadTree.cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -415,6 +421,12 @@
     </ClInclude>
     <ClInclude Include="camera\loadCamera.h">
       <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\mawJLaygoLoadTree.h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\loadIdleTask.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

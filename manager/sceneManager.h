@@ -10,6 +10,7 @@ class SceneManager final
 private:
 	static Scene* m_Scene;
 	static Scene* m_NextScene;
+	static Scene* m_OldScene;
 	static Scene* m_LoadScene;
 	static bool m_LoadFinish;
 public:
@@ -21,11 +22,9 @@ public:
 
 	static void ChangeScene();
 
-	template<typename T>
-	static T* GetScene()
+	static Scene* GetScene()
 	{ 
-		T* scene = dynamic_cast<T*>(m_Scene);
-		return scene;
+		return m_Scene;
 	}
 
 	template<typename T>

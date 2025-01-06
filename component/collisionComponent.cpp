@@ -109,7 +109,7 @@ bool CollisionComponent::CheckHitObject(const OBJECT& object)
 	// オブジェクト一覧の取得
 	if (m_GameObjectsCache->empty())
 	{
-		GameScene* gameScene = SceneManager::GetScene<GameScene>();
+		Scene* gameScene = SceneManager::GetScene();
 		if (gameScene == nullptr) return false;
 		ObjectManager* objectManager = gameScene->GetObjectManager();
 		if (objectManager == nullptr) return false;
@@ -130,7 +130,7 @@ bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
 	// オブジェクト一覧の取得
 	if (m_GameObjectsCache->empty())
 	{
-		GameScene* gameScene = SceneManager::GetScene<GameScene>();
+		Scene* gameScene = SceneManager::GetScene();
 		if (gameScene == nullptr) return false;
 		ObjectManager* objectManager = gameScene->GetObjectManager();
 		if (objectManager == nullptr) return false;
