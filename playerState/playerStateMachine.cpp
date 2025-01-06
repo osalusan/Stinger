@@ -8,6 +8,13 @@
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
 #include "playerStateJump.h"
+#include "character/player.h"
+
+PlayerStateMachine::PlayerStateMachine(Player* player)
+{
+	if (player == nullptr || m_PlayerCache != nullptr) return;
+	m_PlayerCache = player;
+}
 
 PlayerStateMachine::~PlayerStateMachine()
 {
@@ -17,6 +24,7 @@ PlayerStateMachine::~PlayerStateMachine()
 		PlayerStatePool.second = nullptr;
 	}
 	m_PlayerStatePool.clear();
+	m_PlayerCache = nullptr;
 }
 
 void PlayerStateMachine::Init()
@@ -101,6 +109,18 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	{
 		m_CurrentPlayerState->Update(deltaTime);
 		m_CurrentPlayerState->ChangeStateControl();
+	}
+
+	// ステートの更新の後に呼ぶ
+	if (m_PlayerCache != nullptr)
+	{
+		m_PlayerCache->SetVelocityX(m_Velocity.x);
+		m_PlayerCache->SetVelocityZ(m_Velocity.z);
+
+		// Yだけ+
+		m_PlayerCache->SetVelocityY(m_PlayerCache->GetVelocity().y + m_Velocity.y);
+
+		m_PlayerCache->SetRotationY(m_Rotation.y);
 	}
 
 	// 最後にリセット

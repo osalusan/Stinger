@@ -100,14 +100,14 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 	// ステータスの要素を追加した分だけ、if文の数値も変更
 	if (baseStatas.size() == 11)
 	{
-		m_MaxHealth = std::stoi(baseStatas[0]);
+		m_MaxHealth = std::stof(baseStatas[0]);
 		m_MaxStamina = std::stof(baseStatas[1]);
 		m_MoveSpeed = std::stof(baseStatas[2]);
 		m_GravityValue = std::stof(baseStatas[3]);
 		m_ShortRange = std::stof(baseStatas[4]);
 		m_MiddleRange = std::stof(baseStatas[5]);
 		m_LongRange = std::stof(baseStatas[6]);
-		m_AttackPower = std::stof(baseStatas[7]);
+		m_Attack = std::stof(baseStatas[7]);
 		m_RotSpeed = std::stof(baseStatas[8]);
 		m_MinWaitTime = std::stof(baseStatas[9]);
 		m_MaxWaitTime = std::stof(baseStatas[10]);

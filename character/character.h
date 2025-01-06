@@ -19,8 +19,13 @@ protected:
 	bool m_EnableGravity = false;
 	float m_GravityValue = 0.0f;
 
-	int m_Health = 0;								// 体力
-	int m_Damage = 0;								// 与えるダメージ
+	// 共通のパラメータ
+	float m_Health = 0;								// 体力
+	float m_MaxHealth = 0;							// 最大体力
+	float m_RotSpeed = 0.0f;						// 回転速度
+	float m_Attack = 0.0f;							// 攻撃力
+	float m_MoveSpeed = 0.0f;						// 移動速度
+
 	bool m_IsDead = false;							// 死んでいる
 
 	// 演出終了フラグ
@@ -83,8 +88,22 @@ public:
 	{
 		return m_MaxAnimeTime;
 	}
-	const int& GetHealth()const
+	
+	// パラメータのGet
+	const float& GetHealth()const
 	{
 		return m_Health;
+	}
+	const float& GetAttack()const
+	{
+		return m_Attack;
+	}
+	const float& GetMoveSpeed()const
+	{
+		return m_MoveSpeed;
+	}
+	const float& GetRotSpeed()const
+	{
+		return m_RotSpeed;
 	}
 };

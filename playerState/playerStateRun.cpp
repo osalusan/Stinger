@@ -1,7 +1,5 @@
 #include "playerStateRun.h"
-
-constexpr float MOVE_SPEED_MAWJ = 6000.0f;
-constexpr float ROTATE_SPEED_PLAYER_RUN = 5.0f;	// âÒì]ë¨ìx
+#include "character/player.h"
 
 void PlayerStateRun::Init()
 {
@@ -50,8 +48,14 @@ void PlayerStateRun::Update(const float& deltaTime)
 	XMFLOAT3 normalizeVelocity = {};
 	XMStoreFloat3(&normalizeVelocity, normalizdVelocityVec);
 
-	m_PlayerMachine->SetVelocityX(normalizeVelocity.x * MOVE_SPEED_MAWJ * deltaTime);
-	m_PlayerMachine->SetVelocityZ(normalizeVelocity.z * MOVE_SPEED_MAWJ * deltaTime);
+	// GetÇÃÇ› / ï“èWïsâ¬
+	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+	if (playerCache == nullptr) return;
+	const float& moveSpeed = playerCache->GetMoveSpeed();
+	const float& rotSpeed = playerCache->GetRotSpeed();
+
+	m_PlayerMachine->SetVelocityX(normalizeVelocity.x * moveSpeed * deltaTime);
+	m_PlayerMachine->SetVelocityZ(normalizeVelocity.z * moveSpeed * deltaTime);
 
 	float currentAngle = m_PlayerMachine->GetRotation().y;
 	const float& targetAngle = atan2f(normalizeVelocity.x, normalizeVelocity.z);
@@ -67,7 +71,7 @@ void PlayerStateRun::Update(const float& deltaTime)
 	}
 
 	// è≠ÇµÇ∏Ç¬ç∑ÇñÑÇﬂÇÈ
-	currentAngle += angleDiff * ROTATE_SPEED_PLAYER_RUN * deltaTime;
+	currentAngle += angleDiff * rotSpeed * deltaTime;
 
 	if (normalizeVelocity.x != 0.0f || normalizeVelocity.z != 0.0f)
 	{

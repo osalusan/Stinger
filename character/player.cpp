@@ -8,11 +8,11 @@
 #include "component/shaderComponent.h"
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
-constexpr float GRAVITY = 2200.0f;
-
-constexpr int DEFAULT_HEALTH_PLAYER = 10;
 
 Player::Player()
 {
@@ -28,10 +28,11 @@ Player::~Player()
 void Player::Init()
 {
 	GameObject::Init();
+	// 一番最初に呼ぶ
+	PlayerDataLoadCSV("asset\\csv\\player.csv");
+
 	m_Scale = DEFAULT_SCALE_PLAYER;
 	m_EnableGravity = true;
-	m_GravityValue = GRAVITY;
-	m_Health = DEFAULT_HEALTH_PLAYER;
 
 	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::PLAYER);
 	// 当たり判定の後に追加
@@ -39,7 +40,7 @@ void Player::Init()
 
 	if (m_PlayerStateMachine == nullptr)
 	{
-		m_PlayerStateMachine = new PlayerStateMachine;
+		m_PlayerStateMachine = new PlayerStateMachine(this);
 	}
 	if (m_PlayerStateMachine != nullptr)
 	{
@@ -59,27 +60,9 @@ void Player::Uninit()
 // ------------------------------- private -------------------------------
 void Player::MoveControl(const float& deltaTime)
 {
-	if (m_CameraCache == nullptr)
-	{
-		GameScene* scene = SceneManager::GetScene<GameScene>();
-		if (scene == nullptr) return;
-		ObjectManager* objManager = scene->GetObjectManager();
-		if (objManager == nullptr) return;
-		m_CameraCache = objManager->GetCamera();
-
-		if (m_CameraCache == nullptr) return;
-	}
-
 	if (m_PlayerStateMachine != nullptr)
 	{
 		m_PlayerStateMachine->Update(deltaTime);
-		m_Velocity.x = m_PlayerStateMachine->GetVelocity().x;
-		m_Velocity.z = m_PlayerStateMachine->GetVelocity().z;
-
-		// Yだけ+
-		m_Velocity.y += m_PlayerStateMachine->GetVelocity().y;
-
-		m_Rotation = m_PlayerStateMachine->GetRotation();
 	}
 }
 
@@ -136,5 +119,60 @@ void Player::AnimationControl()
 	if (m_PlayerStateMachine != nullptr)
 	{
 		ChangeAnimation(m_PlayerStateMachine->GetAnimation());
+	}
+}
+
+// 敵の基本データの読み込み / ビヘイビアツリーの作成より先に呼び出す
+void Player::PlayerDataLoadCSV(const std::string& filePath)
+{
+	std::ifstream ifs(filePath);
+	if (!ifs) return;
+
+	std::string line;
+	int loadLine = 0;
+	int loadCount = 0;
+
+	std::vector<std::string> baseStatas = {};
+
+	// 1行ずつ読み込み
+	while (std::getline(ifs, line))
+	{
+		loadLine++;
+
+		// 1行目は読み飛ばす
+		if (loadLine == 1) continue;
+
+		// 空行はスキップ
+		if (line.empty()) continue;
+
+		// カンマで区切る
+		std::stringstream ss(line);
+		std::string column;
+		std::vector<float> skillData = {};
+
+		while (std::getline(ss, column, ','))
+		{
+			if (column.empty()) continue;
+
+			// 基礎ステータス格納
+			if (loadLine == 2)
+			{
+				baseStatas.emplace_back(column);
+			}
+
+			if (loadLine >= 4) break;
+		}
+	}
+
+	// ステータスの要素を追加した分だけ、if文の数値も変更
+	if (baseStatas.size() == 5)
+	{
+		m_MaxHealth = std::stof(baseStatas[0]);
+		m_Attack = std::stof(baseStatas[1]);
+		m_MoveSpeed = std::stof(baseStatas[2]);
+		m_GravityValue = std::stof(baseStatas[3]);
+		m_RotSpeed = std::stof(baseStatas[4]);
+
+		m_Health = m_MaxHealth;
 	}
 }

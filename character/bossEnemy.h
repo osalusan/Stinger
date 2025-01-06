@@ -23,14 +23,10 @@ protected:
 	float m_StaminaValue = 0.0f;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
-	int   m_MaxHealth = 0;
 	float m_MaxStamina = 0.0f;
-	float m_MoveSpeed = 0.0f;
 	float m_ShortRange = 0.0f;
 	float m_MiddleRange = 0.0f;
 	float m_LongRange = 0.0f;
-	float m_AttackPower = 0.0f;
-	float m_RotSpeed = 0.0f;
 	float m_MinWaitTime = 0.0f;
 	float m_MaxWaitTime = 0.0f;
 
@@ -79,10 +75,6 @@ public:
 	}
 
 	// パラメータ系のGet
-	const float& GetMoveSpeed()const
-	{
-		return m_MoveSpeed;
-	}	
 	const float& GetShortRange()const
 	{
 		return m_ShortRange;

@@ -25,12 +25,15 @@ enum class MOVE_DIRECTION
 };
 // 前方宣言
 class PlayerState;
+class Player;
 class Camera;
 
 class PlayerStateMachine final
 {
 private:
+	Player* m_PlayerCache = nullptr;
 	Camera* m_CameraCache = nullptr;
+
 	PlayerState* m_CurrentPlayerState = nullptr;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
 
@@ -47,6 +50,8 @@ private:
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
 public:
+	PlayerStateMachine() = delete;
+	PlayerStateMachine(Player* player);
 	~PlayerStateMachine();
 	void Init();
 	void Uninit();
@@ -58,6 +63,11 @@ public:
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// 地面に当たった
+
+	const Player* GetPlayerCache()const
+	{
+		return m_PlayerCache;
+	}
 
 	const XMFLOAT3& GetVelocity()const
 	{

@@ -14,7 +14,7 @@ NODE_STATUS CheckHealthTask::Update(const float& deltaTime)
 		return NODE_STATUS::SUCCESS;
 	}
 	
-	const int& enemyHealth = m_BossCache->GetHealth();
+	const float& enemyHealth = m_BossCache->GetHealth();
 	if (enemyHealth <= 0)
 	{
 		return NODE_STATUS::SUCCESS;
