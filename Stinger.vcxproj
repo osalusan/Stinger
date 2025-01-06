@@ -35,6 +35,7 @@
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp" />
     <ClCompile Include="camera\camera.cpp" />
+    <ClCompile Include="camera\loadCamera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
     <ClCompile Include="camera\titleCamera.cpp" />
     <ClCompile Include="character\bossEnemy.cpp" />
@@ -67,6 +68,7 @@
     <ClCompile Include="renderer\objModelRenderer.cpp" />
     <ClCompile Include="renderer\renderer.cpp" />
     <ClCompile Include="scene\gameScene.cpp" />
+    <ClCompile Include="scene\loadScene.cpp" />
     <ClCompile Include="scene\scene.cpp" />
     <ClCompile Include="scene\titleScene.cpp" />
     <ClCompile Include="shadow\shadowVolume.cpp" />
@@ -93,6 +95,7 @@
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h" />
     <ClInclude Include="camera\camera.h" />
+    <ClInclude Include="camera\loadCamera.h" />
     <ClInclude Include="camera\playerCamera.h" />
     <ClInclude Include="camera\titleCamera.h" />
     <ClInclude Include="character\bossEnemy.h" />
@@ -127,6 +130,7 @@
     <ClInclude Include="renderer\objModelRenderer.h" />
     <ClInclude Include="renderer\renderer.h" />
     <ClInclude Include="scene\gameScene.h" />
+    <ClInclude Include="scene\loadScene.h" />
     <ClInclude Include="scene\scene.h" />
     <ClInclude Include="scene\titleScene.h" />
     <ClInclude Include="shadow\shadowVolume.h" />

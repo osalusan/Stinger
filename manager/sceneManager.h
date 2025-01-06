@@ -10,12 +10,16 @@ class SceneManager final
 private:
 	static Scene* m_Scene;
 	static Scene* m_NextScene;
+	static Scene* m_LoadScene;
+	static bool m_LoadFinish;
 public:
 
 	static void Init();
 	static void Uninit();
 	static void Update(const float& deltaTime);
 	static void Draw();
+
+	static void ChangeScene();
 
 	template<typename T>
 	static T* GetScene()

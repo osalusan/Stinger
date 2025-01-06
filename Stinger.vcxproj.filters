@@ -228,6 +228,12 @@
     <ClCompile Include="behaviorTaskNode\waitTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="scene\loadScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\loadCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -403,6 +409,12 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\waitTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\loadScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\loadCamera.h">
+      <Filter>camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -13,11 +13,6 @@
 #include "behaviorTree/mawJLaygoBattleTree.h"
 #include "particle/lightning.h"
 
-GameScene::~GameScene()
-{
-
-}
-
 void GameScene::Init()
 {
 	Scene::Init();

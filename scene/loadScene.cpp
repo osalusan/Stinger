@@ -1,0 +1,23 @@
+#include "loadScene.h"
+#include "manager/objectManager.h"
+#include "manager/textureManager.h"
+#include "camera/loadCamera.h"
+#include "polygon2D/polygon2D.h"
+#include "skydome/skydome.h"
+
+void LoadScene::Init()
+{
+	Scene::Init();
+
+	if (m_ObjectManager == nullptr) return;
+
+	m_ObjectManager->CreateCameraObject<LoadCamera>();
+	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
+		XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), XMFLOAT2(SCREEN_WIDTH * 0.35f, SCREEN_HEIGHT * 0.2f), PIVOT::RIGHT_BOTTOM, TEXTURE::LOADING, L"asset\\texture\\loading.png");
+	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+}
+
+void LoadScene::Update(const float& deltaTime)
+{
+
+}
