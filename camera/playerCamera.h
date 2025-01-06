@@ -15,6 +15,5 @@ public:
 	using Camera::Camera;
 	virtual ~PlayerCamera()override;
 	void Init()override;
-	void Uninit()override;
-	void Update()override;
+	void Update(const float& deltaTime)override;
 };

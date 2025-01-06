@@ -27,10 +27,10 @@ class ObjectManager final
 {
 private:
 	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
-	Camera* m_Camera = nullptr;
-	Player* m_Player = nullptr;
-	BossEnemy* m_Boss = nullptr;
-	MeshFiled* m_Filed = nullptr;
+	Camera* m_CameraCache = nullptr;
+	Player* m_PlayerCache = nullptr;
+	BossEnemy* m_BossCache = nullptr;
+	MeshFiled* m_FiledCache = nullptr;
 public:
 	~ObjectManager();
 	void Init();
@@ -42,19 +42,19 @@ public:
 
 	Camera* GetCamera()const
 	{
-		return m_Camera;
+		return m_CameraCache;
 	}
 	Player* GetPlayer()const
 	{
-		return m_Player;
+		return m_PlayerCache;
 	}
 	BossEnemy* GetBossEnemy()const
 	{
-		return m_Boss;
+		return m_BossCache;
 	}
 	MeshFiled* GetMeshFiled()const
 	{
-		return m_Filed;
+		return m_FiledCache;
 	}
 	void GetAllGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
 	{
@@ -69,28 +69,46 @@ public:
 		const int& layerNum = static_cast<int>(layer);
 		objectList.insert(objectList.end(), m_GameObjects[layerNum].begin(), m_GameObjects[layerNum].end());
 	}
+
 	// カメラオブジェクトを一番最初に作成
 	template <typename T>
 	void CreateCameraObject()
 	{
-		if (m_Camera != nullptr) return;
+		if (m_CameraCache != nullptr) return;
 		T* camera = new T;
 		if (camera == nullptr) return;
 
 		camera->Init();
 
-		m_Camera = camera;
+		m_GameObjects[static_cast<int>(OBJECT::CAMERA)].emplace_back(camera);
+		m_CameraCache = camera;
 	}
 
 	// 座標指定で追加
 	template <typename T, typename... Arg>
 	void CreateBossEnemy(Arg&&...args)
 	{
+		if (m_BossCache != nullptr) return;
 		T* boss = new T(std::forward<Arg>(args)...);
 		if (boss == nullptr) return;
 
 		boss->Init();
-		m_Boss = boss;
+
+		m_GameObjects[static_cast<int>(OBJECT::BOSS)].emplace_back(boss);
+		m_BossCache = boss;
+	}
+
+	template <typename T>
+	void CreateMeshFiled()
+	{
+		if (m_FiledCache != nullptr) return;
+		T* filed = new T;
+		if (filed == nullptr) return;
+
+		filed->Init();
+
+		m_GameObjects[static_cast<int>(OBJECT::FILED)].emplace_back(filed);
+		m_FiledCache = filed;
 	}
 
 	// 引数無しで追加
@@ -102,17 +120,6 @@ public:
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
-	}
-
-	template <typename T>
-	void CreateMeshFiled()
-	{
-		if (m_Filed != nullptr) return;
-		T* filed = new T;
-		if (filed == nullptr) return;
-
-		filed->Init();
-		m_Filed = filed;
 	}
 
 	// 引数付きの場合はこっち

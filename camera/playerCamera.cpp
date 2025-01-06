@@ -18,6 +18,7 @@ PlayerCamera::~PlayerCamera()
 
 void PlayerCamera::Init()
 {
+	GameObject::Init();
 	if (m_PlayerCache == nullptr)
 	{
 		Scene* scene = SceneManager::GetScene();
@@ -31,13 +32,10 @@ void PlayerCamera::Init()
 	m_Length = LENGTH;
 }
 
-void PlayerCamera::Uninit()
+void PlayerCamera::Update(const float& deltaTime)
 {
-	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
-}
+	GameObject::Update(deltaTime);
 
-void PlayerCamera::Update()
-{
 	POINT MousePos{};
 	GetCursorPos(&MousePos);
 
