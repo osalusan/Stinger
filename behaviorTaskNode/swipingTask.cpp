@@ -28,7 +28,7 @@ NODE_STATUS SwipingTask::Update(const float& deltaTime)
 		if (node == nullptr)
 		{
 			m_CurrentTime = 0.0f;
-			m_BossCache->RotToTarget(m_PlayerCache);
+			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 		}
 	}
 

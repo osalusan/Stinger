@@ -3,9 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-// TODO:削除予定 / デバッグ用
+// TODO :完成直前時に削除予定 / デバッグ用
 #include "manager/inputManager.h"
-// ----------------------- public -----------------------
+// ----------------------- protected -----------------------
 void BossEnemy::MoveControl(const float& deltaTime)
 {
 	if (m_Tree != nullptr)
@@ -31,69 +31,13 @@ void BossEnemy::ParameterControl(const float& deltaTime)
 	}
 }
 
-BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
+// BossEnemyのコンストラクタが呼ばれ切った後じゃないと、Taskのdynamic_castが反応しない
+void BossEnemy::CreateTree()
 {
-	if (m_Tree == nullptr)
-	{
-		m_Tree = tree;
-	}
-
-	m_Position = pos;
-}
-
-BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale)
-	:BossEnemy(tree,pos)
-{
-	m_Scale = scale;
-}
-
-BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& rot)
-	:BossEnemy(tree,pos,scale)
-{
-	m_Rotation = rot;
-}
-
-BossEnemy::~BossEnemy()
-{
-	m_EnemySkillData.clear();
-
-	delete m_Tree;
-	m_Tree = nullptr;
-
-	m_RunningNodeCache = nullptr;
-}
-
-void BossEnemy::Init()
-{
-	Character::Init();
-
-	// BossEnemyのコンストラクタが呼ばれ切った後じゃないと、Taskのdynamic_castが反応しない
 	if (m_Tree != nullptr)
 	{
 		m_Tree->CreateTree(this);
 	}
-}
-
-void BossEnemy::RotToTarget(GameObject* obj)
-{
-	if (obj == nullptr) return;
-	const XMFLOAT3& enemyPos = GetPos();
-	const XMFLOAT3& targetPos = obj->GetPos();
-
-	// TODO :修正予定 / 回転を自然に
-	m_Rotation.y = atan2f(targetPos.x - enemyPos.x, targetPos.z - enemyPos.z);
-}
-
-bool BossEnemy::UseStamina(const float& use)
-{
-	if (m_StaminaValue - use < 0.0f)
-	{
-		return false;
-	}
-
-	m_StaminaValue -= use;
-
-	return true;
 }
 
 // 敵の基本データの読み込み / ビヘイビアツリーの作成より先に呼び出す
@@ -112,7 +56,7 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 	while (std::getline(ifs, line))
 	{
 		loadLine++;
-		
+
 		// 1行目は読み飛ばす
 		if (loadLine == 1) continue;
 
@@ -153,8 +97,7 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		}
 	}
 
-	// TODO :追加予定 / 攻撃力
-	if (baseStatas.size() == 8)
+	if (baseStatas.size() == 9)
 	{
 		m_MaxHealth = std::stoi(baseStatas[0]);
 		m_MaxStamina = std::stof(baseStatas[1]);
@@ -163,8 +106,82 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		m_ShortRange = std::stof(baseStatas[4]);
 		m_MiddleRange = std::stof(baseStatas[5]);
 		m_LongRange = std::stof(baseStatas[6]);
+		m_AttackPower = std::stof(baseStatas[7]);
+		m_RotSpeed = std::stof(baseStatas[8]);
 
 		m_Health = m_MaxHealth;
 		m_StaminaValue = m_MaxStamina;
 	}
 }
+
+// ----------------------- public -----------------------
+
+BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
+{
+	if (m_Tree == nullptr)
+	{
+		m_Tree = tree;
+	}
+
+	m_Position = pos;
+}
+
+BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale)
+	:BossEnemy(tree,pos)
+{
+	m_Scale = scale;
+}
+
+BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& rot)
+	:BossEnemy(tree,pos,scale)
+{
+	m_Rotation = rot;
+}
+
+BossEnemy::~BossEnemy()
+{
+	m_EnemySkillData.clear();
+
+	delete m_Tree;
+	m_Tree = nullptr;
+
+	m_RunningNodeCache = nullptr;
+}
+
+void BossEnemy::RotToTarget(GameObject* obj,const float& deltaTime)
+{
+	if (obj == nullptr) return;
+	const XMFLOAT3& enemyPos = m_Position;
+	const XMFLOAT3& targetPos = obj->GetPos();
+
+	float currentAngle = m_Rotation.y;
+	const float& targetAngle = atan2f(targetPos.x - enemyPos.x, targetPos.z - enemyPos.z);
+
+	float angleDiff = targetAngle - currentAngle;
+	while (angleDiff > XM_PI)
+	{
+		angleDiff -= XM_2PI;
+	}
+	while (angleDiff < -XM_PI)
+	{
+		angleDiff += XM_2PI;
+	}
+
+	// 少しずつ差を埋める
+	currentAngle += angleDiff * m_RotSpeed * deltaTime;
+
+	m_Rotation.y = currentAngle;
+}
+
+bool BossEnemy::UseStamina(const float& use)
+{
+	if (m_StaminaValue - use < 0.0f)
+	{
+		return false;
+	}
+
+	m_StaminaValue -= use;
+
+	return true;
+}
+

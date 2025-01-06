@@ -37,7 +37,7 @@ NODE_STATUS JumpAttackTask::Update(const float& deltaTime)
 				m_CurrentTime = 0.0f;
 				const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
 				const XMFLOAT3& bossPos = m_BossCache->GetPos();
-				m_BossCache->RotToTarget(m_PlayerCache);
+				m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 				// à⁄ìÆãóó£ê›íË
 				m_MoveVector.x = (playerPos.x - bossPos.x) / (m_MaxAnimTime * (LANDING_MAX_VALUE - LANDING_MIN_VALUE));
 				m_MoveVector.z = (playerPos.z - bossPos.z) / (m_MaxAnimTime * (LANDING_MAX_VALUE - LANDING_MIN_VALUE));

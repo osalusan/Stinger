@@ -29,6 +29,8 @@ protected:
 	float m_ShortRange = 0.0f;
 	float m_MiddleRange = 0.0f;
 	float m_LongRange = 0.0f;
+	float m_AttackPower = 0.0f;
+	float m_RotSpeed = 0.0f;
 
 	// ボスの現在の状態
 	RANGE m_CurrentRange = RANGE::NONE;
@@ -42,13 +44,17 @@ protected:
 	// 移動の所でビヘイビアツリーの制御
 	virtual void MoveControl(const float& deltaTime)override final;
 	virtual void ParameterControl(const float& deltaTime)override final;
+
+	// ビヘイビアツリーを使用する場合に子クラスで呼ぶ
+	void CreateTree();
+	// CSVからエネミーのデータを取得
+	void EnemyDataLoadCSV(const std::string& filePath);
 public:
 	BossEnemy() = delete;
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos);
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale);
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& rot);
 	virtual ~BossEnemy()override;
-	virtual void Init();
 
 	void AddVelocity(const XMFLOAT3& vel)
 	{
@@ -56,13 +62,10 @@ public:
 		m_Velocity.y += vel.y;
 		m_Velocity.z += vel.z;
 	}
-	// TODO :修正予定、回転をより自然にする場合は修正
-	void RotToTarget(GameObject* obj);
+
+	void RotToTarget(GameObject* obj, const float& deltaTime);
 	
 	bool UseStamina(const float& use);
-
-	// CSVからエネミーのデータを取得
-	void EnemyDataLoadCSV(const std::string& filePath);
 
 	const BehaviorTree* GetBehaviourTree()const
 	{
