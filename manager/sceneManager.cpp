@@ -11,7 +11,6 @@
 
 Scene* SceneManager::m_Scene = nullptr;
 Scene* SceneManager::m_NextScene = nullptr;
-Scene* SceneManager::m_OldScene = nullptr;
 Scene* SceneManager::m_LoadScene = nullptr;
 bool SceneManager::m_LoadFinish = true;
 
@@ -23,7 +22,7 @@ void SceneManager::Init()
 	// ロードシーンの作成 / GetSceneを前提に作られてるから、m_Sceneで一度作成しないといけない
 	if (m_Scene == nullptr)
 	{
-		m_Scene = new GameScene;
+		m_Scene = new LoadScene;
 	}
 	if (m_Scene != nullptr)
 	{
@@ -126,19 +125,20 @@ void SceneManager::ChangeScene()
 {
 	if (m_NextScene != nullptr)
 	{
-		if (m_OldScene != nullptr)
+		if (m_Scene != nullptr)
 		{
-			m_OldScene->Uninit();
+			m_Scene->Uninit();
 		}
-		delete m_OldScene;
-		m_OldScene = nullptr;
-
-		if (m_NextScene != nullptr)
-		{
-			m_NextScene->Init();
-		}
+		delete m_Scene;
+		m_Scene = nullptr;
 
 		m_Scene = m_NextScene;
+
+		if (m_Scene != nullptr)
+		{
+			m_Scene->Init();
+		}
+	
 		m_NextScene = nullptr;
 
 		InputManager::Init();
@@ -147,6 +147,6 @@ void SceneManager::ChangeScene()
 		TextureManager::Init();
 	}
 	// ロード終了
-	m_LoadFinish = true;
+	//m_LoadFinish = true;
 }
 

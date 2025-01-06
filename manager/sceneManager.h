@@ -10,7 +10,6 @@ class SceneManager final
 private:
 	static Scene* m_Scene;
 	static Scene* m_NextScene;
-	static Scene* m_OldScene;
 	static Scene* m_LoadScene;
 	static bool m_LoadFinish;
 public:
