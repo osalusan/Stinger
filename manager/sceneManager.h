@@ -15,6 +15,7 @@ private:
 	static LoadScene* m_LoadScene;
 	static Fade* m_Fade;
 	static bool m_LoadFinish;
+	static bool m_UseLoadScene;
 public:
 
 	static void Init();

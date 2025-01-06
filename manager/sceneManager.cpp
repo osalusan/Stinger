@@ -15,6 +15,7 @@ Scene* SceneManager::m_NextScene = nullptr;
 LoadScene* SceneManager::m_LoadScene = nullptr;
 Fade* SceneManager::m_Fade = nullptr;
 bool SceneManager::m_LoadFinish = true;
+bool SceneManager::m_UseLoadScene = false;
 
 void SceneManager::Init()
 {
@@ -97,34 +98,61 @@ void SceneManager::Uninit()
 void SceneManager::Update(const float& deltaTime)
 {
 	InputManager::Update();
+	if (m_LoadScene == nullptr) return;
+	if (m_Scene == nullptr) return;
+	if (m_Fade == nullptr) return;
 
-	if (m_Scene != nullptr)
+	if (m_UseLoadScene)
 	{
-		if (m_LoadScene->GetLoad())
-		{
-			if (m_LoadScene == nullptr) return;
-			m_LoadScene->Update(deltaTime);
-		}
-		else
-		{
-			m_Scene->Update(deltaTime);
-		}	
+		if (m_LoadScene == nullptr) return;
+		m_LoadScene->Update(deltaTime);
+	}
+	else
+	{
+		m_Scene->Update(deltaTime);
 	}
 
-	if (m_Fade == nullptr) return;
 	m_Fade->Update(deltaTime);
 
-
-	if (m_LoadScene->GetLoad() && m_LoadFinish)
+	// ロードシーンからそれぞれのシーンへ
+	if (m_UseLoadScene)
 	{
+		if (!m_LoadScene->GetLoad())
+		{
+			if (m_Fade->GetFadeInComplete())
+			{
+				m_Fade->StartFadeOut();
+			}
+
+			if (m_Fade->GetFadeOutComplete())
+			{
+				m_Fade->StartFadeIn();
+				m_UseLoadScene = false;
+			}
+		}
+	}
+
+	// ロードシーンへの切り替え
+	if (m_NextScene != nullptr)
+	{
+		if (!m_LoadFinish) return;
+		// フェードインフラグリセット用
 		m_Fade->GetFadeInComplete();
 
-		//m_Fade->StartFadeOut();
-		//if (m_LoadScene == nullptr) return;
+		m_Fade->StartFadeOut();
+		m_LoadScene->Update(deltaTime);
 
-		//if (!m_Fade->GetFadeOutComplete()) return;
+		if (!m_Fade->GetFadeOutComplete()) return;
 
-		//m_Fade->StartFadeIn();
+
+		// ロード開始
+		m_LoadScene->LoadStart();
+		m_Fade->StartFadeIn();
+		m_LoadFinish = false;
+		m_UseLoadScene = true;
+
+		std::thread th(&ChangeScene); // スレッド
+		th.detach();
 	}
 }
 
@@ -134,7 +162,7 @@ void SceneManager::Draw()
 
 	if (m_Scene != nullptr)
 	{
-		if (m_LoadScene->GetLoad())
+		if (m_UseLoadScene)
 		{
 			if (m_LoadScene == nullptr) return;
 			m_LoadScene->Draw();
@@ -151,31 +179,6 @@ void SceneManager::Draw()
 	}
 
 	Renderer::End();
-
-	if (m_NextScene != nullptr)
-	{
-		if (!m_LoadFinish) return;
-
-		if (m_Fade != nullptr)
-		{
-			m_Fade->StartFadeOut();
-			if (m_LoadScene == nullptr) return;
-
-			if (!m_Fade->GetFadeOutComplete()) return;
-		}
-
-		// ロード開始
-		m_LoadScene->LoadStart();
-		m_LoadFinish = false;
-
-		if (m_Fade != nullptr)
-		{
-			m_Fade->StartFadeIn();
-		}
-
-		std::thread th(&ChangeScene); // スレッド
-		th.detach();
-	}
 }
 
 void SceneManager::ChangeScene()
@@ -196,12 +199,12 @@ void SceneManager::ChangeScene()
 			m_Scene->Init();
 		}
 	
+		m_NextScene = nullptr;
+
 		InputManager::Init();
 		FbxModelManager::Init();
 		ObjModelManager::Init();
-		TextureManager::Init();
-
-		m_NextScene = nullptr;
+		TextureManager::Init();	
 	}
 
 	// ロード終了

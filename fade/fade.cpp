@@ -76,13 +76,12 @@ const bool Fade::GetFadeOutComplete()
 {
 	if (!m_FadeIn && !m_FadeOut) return false;
 
-	if (m_CurrentTime < m_FADE_MAX && m_FadeOut)
+	if (m_CurrentTime < m_FADE_MAX || !m_FadeOut)
 	{
 		return false;
 	}
 
 	m_FadeOut = false;
-	m_CurrentTime = 1.0f;
 	return true;
 }
 
@@ -90,12 +89,11 @@ const bool Fade::GetFadeInComplete()
 {
 	if (!m_FadeIn && !m_FadeOut) return false;
 
-	if (m_CurrentTime > 0.0f && m_FadeIn)
+	if (m_CurrentTime > 0.0f || !m_FadeIn)
 	{
 		return false;
 	}
 
 	m_FadeIn = false;
-	m_CurrentTime = 0.0f;
 	return true;
 }
