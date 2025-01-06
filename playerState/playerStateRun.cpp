@@ -2,11 +2,10 @@
 
 constexpr float MOVE_SPEED_MAWJ = 6000.0f;
 constexpr float ROTATE_SPEED_PLAYER_RUN = 5.0f;	// ‰ñ“]‘¬“x
-constexpr const char* RUNNING_PLAYER = "RunningPlayer";
 
 void PlayerStateRun::Init()
 {
-	LoadAnimation("asset\\model\\Akai_Run.fbx", RUNNING_PLAYER);
+	LoadAnimation("asset\\model\\player\\run_Akai.fbx", "run_Player");
 }
 
 void PlayerStateRun::Unit()
@@ -16,6 +15,7 @@ void PlayerStateRun::Unit()
 
 void PlayerStateRun::Update(const float& deltaTime)
 {
+	PlayerState::Update(deltaTime);
 	if (m_PlayerMachine == nullptr) return;
 	const XMFLOAT3& forwardVector = m_PlayerMachine->GetCameraForward();
 	const XMFLOAT3& rightVector = m_PlayerMachine->GetCameraRight();
@@ -52,8 +52,6 @@ void PlayerStateRun::Update(const float& deltaTime)
 
 	m_PlayerMachine->SetVelocityX(normalizeVelocity.x * MOVE_SPEED_MAWJ * deltaTime);
 	m_PlayerMachine->SetVelocityZ(normalizeVelocity.z * MOVE_SPEED_MAWJ * deltaTime);
-
-	m_PlayerMachine->SetAnimation(RUNNING_PLAYER);
 
 	float currentAngle = m_PlayerMachine->GetRotation().y;
 	const float& targetAngle = atan2f(normalizeVelocity.x, normalizeVelocity.z);

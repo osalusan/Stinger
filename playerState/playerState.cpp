@@ -3,6 +3,7 @@
 
 void PlayerState::LoadAnimation(const std::string& fileName, const std::string& animationName)
 {
+	m_AnimeName = animationName;
 	if (!m_LoadAnimation)
 	{
 		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, fileName, animationName);
@@ -29,4 +30,14 @@ void PlayerState::ChangePlayerState(const PLAYER_STATE& playerState)
 	{
 		m_PlayerMachine->SetPlayerState(playerState);
 	}
+}
+
+void PlayerState::Update(const float& deltaTime)
+{
+	if (m_PlayerMachine == nullptr) return;
+
+	if (m_AnimeName != "")
+	{
+		m_PlayerMachine->SetAnimation(m_AnimeName);
+	}	
 }

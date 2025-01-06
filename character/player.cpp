@@ -16,7 +16,7 @@ constexpr int DEFAULT_HEALTH_PLAYER = 10;
 
 Player::Player()
 {
-	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\Akai.fbx");
+	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\akai.fbx");
 }
 
 Player::~Player()

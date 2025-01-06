@@ -1,11 +1,9 @@
 #include "playerStateIdle.h"
 #include "playerStateMachine.h"
 
-constexpr const char* IDLE_PLAYER = "IdlePlayer";
-
 void PlayerStateIdle::Init()
 {
-	LoadAnimation("asset\\model\\Akai_Idle.fbx", IDLE_PLAYER);
+	LoadAnimation("asset\\model\\player\\idle_Akai.fbx", "idle_Player");
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
@@ -19,12 +17,11 @@ void PlayerStateIdle::Unit()
 
 void PlayerStateIdle::Update(const float& deltaTime)
 {
+	PlayerState::Update(deltaTime);
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
 	}
-
-	m_PlayerMachine->SetAnimation(IDLE_PLAYER);
 }
 
 void PlayerStateIdle::ChangeStateControl()
@@ -33,12 +30,13 @@ void PlayerStateIdle::ChangeStateControl()
 	
 	// 優先順位順
 
+	// 浮いている、ジャンプしていると
 	if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
-	{// 浮いている、ジャンプしていると
+	{
 		ChangePlayerState(PLAYER_STATE::JUMP);
-	}
+	}// 移動していると
 	else if (m_PlayerMachine->GetMoveRandL() != MOVE_DIRECTION::NONE || m_PlayerMachine->GetMoveFandB() != MOVE_DIRECTION::NONE)
-	{// 移動していると
+	{
 		ChangePlayerState(PLAYER_STATE::RUN);
 	}
 }
