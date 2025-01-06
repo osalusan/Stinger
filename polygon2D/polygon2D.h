@@ -39,6 +39,10 @@ public:
 	virtual void Draw()override;
 	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
 
+	void SetAlfa(const float& alfa)
+	{
+		m_Color.w = alfa;
+	}
 	const TEXTURE& GetTexture()const
 	{
 		return m_Texture;

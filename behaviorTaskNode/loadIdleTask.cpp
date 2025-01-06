@@ -1,6 +1,10 @@
 #include "loadIdleTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
+#include "manager/sceneManager.h"
+#include "manager/objectManager.h"
+#include "scene/loadScene.h"
+#include "camera/camera.h"
 
 void LoadIdleTask::Init()
 {
@@ -13,6 +17,23 @@ NODE_STATUS LoadIdleTask::Update(const float& deltaTime)
 	if (m_BossCache == nullptr)
 	{
 		return NODE_STATUS::FAILURE;
+	}
+
+	if (m_CameraCache == nullptr)
+	{
+		LoadScene* scene = SceneManager::GetLoadScene();
+		if (scene == nullptr) return NODE_STATUS::FAILURE;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return NODE_STATUS::FAILURE;
+		Camera* camera = objManager->GetCamera();
+		if (camera == nullptr) return NODE_STATUS::FAILURE;
+
+		m_CameraCache = camera;
+	}
+	
+	if (m_CameraCache != nullptr)
+	{
+		m_BossCache->RotToTarget(m_CameraCache,deltaTime);
 	}
 
 	m_BossCache->ChangeAnimation(m_AnimeName);

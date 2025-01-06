@@ -4,13 +4,16 @@
 
 // ‘O•ûéŒ¾
 class Scene;
+class LoadScene;
+class Fade;
 
 class SceneManager final
 {
 private:
 	static Scene* m_Scene;
 	static Scene* m_NextScene;
-	static Scene* m_LoadScene;
+	static LoadScene* m_LoadScene;
+	static Fade* m_Fade;
 	static bool m_LoadFinish;
 public:
 
@@ -24,6 +27,14 @@ public:
 	static Scene* GetScene()
 	{ 
 		return m_Scene;
+	}
+	static LoadScene* GetLoadScene()
+	{
+		return m_LoadScene;
+	}
+	static bool& GetLoadFinish()
+	{
+		return m_LoadFinish;
 	}
 
 	template<typename T>

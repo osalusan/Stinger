@@ -61,6 +61,9 @@
     <Filter Include="behaviorNode">
       <UniqueIdentifier>{a4422139-e6a2-47ce-9dbe-3a117c25e7c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="fade">
+      <UniqueIdentifier>{b279a4b6-5a71-4895-9220-3ec95af75685}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -240,6 +243,7 @@
     <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="fade\fade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -427,6 +431,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\loadIdleTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="fade\fade.h">
+      <Filter>fade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

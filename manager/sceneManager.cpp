@@ -7,11 +7,13 @@
 #include "scene/gameScene.h"
 #include "scene/titleScene.h"
 #include "scene/loadScene.h"
+#include "fade/fade.h"
 #include <thread>
 
 Scene* SceneManager::m_Scene = nullptr;
 Scene* SceneManager::m_NextScene = nullptr;
-Scene* SceneManager::m_LoadScene = nullptr;
+LoadScene* SceneManager::m_LoadScene = nullptr;
+Fade* SceneManager::m_Fade = nullptr;
 bool SceneManager::m_LoadFinish = true;
 
 void SceneManager::Init()
@@ -28,7 +30,12 @@ void SceneManager::Init()
 	{
 		m_Scene->Init();
 	}
-	m_LoadScene = m_Scene;
+
+	if (LoadScene* scene = dynamic_cast<LoadScene*>(m_Scene))
+	{
+		m_LoadScene = scene;
+	}
+
 	m_Scene = nullptr;
 
 	if (m_Scene == nullptr)
@@ -41,6 +48,15 @@ void SceneManager::Init()
 		m_Scene->Init();
 	}
 
+	if (m_Fade == nullptr)
+	{
+		m_Fade = new Fade;
+	}
+	if (m_Fade != nullptr)
+	{
+		m_Fade->Init();
+	}
+
 	// 一番最後に
 	FbxModelManager::Init();
 	ObjModelManager::Init();
@@ -50,6 +66,13 @@ void SceneManager::Init()
 
 void SceneManager::Uninit()
 {	
+	if (m_Fade != nullptr)
+	{
+		m_Fade->Uninit();
+	}
+	delete m_Fade;
+	m_Fade = nullptr;
+
 	if (m_LoadScene != nullptr)
 	{
 		m_LoadScene->Uninit();
@@ -77,7 +100,7 @@ void SceneManager::Update(const float& deltaTime)
 
 	if (m_Scene != nullptr)
 	{
-		if (!m_LoadFinish)
+		if (m_LoadScene->GetLoad())
 		{
 			if (m_LoadScene == nullptr) return;
 			m_LoadScene->Update(deltaTime);
@@ -87,6 +110,22 @@ void SceneManager::Update(const float& deltaTime)
 			m_Scene->Update(deltaTime);
 		}	
 	}
+
+	if (m_Fade == nullptr) return;
+	m_Fade->Update(deltaTime);
+
+
+	if (m_LoadScene->GetLoad() && m_LoadFinish)
+	{
+		m_Fade->GetFadeInComplete();
+
+		//m_Fade->StartFadeOut();
+		//if (m_LoadScene == nullptr) return;
+
+		//if (!m_Fade->GetFadeOutComplete()) return;
+
+		//m_Fade->StartFadeIn();
+	}
 }
 
 void SceneManager::Draw()
@@ -95,7 +134,7 @@ void SceneManager::Draw()
 
 	if (m_Scene != nullptr)
 	{
-		if (!m_LoadFinish)
+		if (m_LoadScene->GetLoad())
 		{
 			if (m_LoadScene == nullptr) return;
 			m_LoadScene->Draw();
@@ -106,18 +145,36 @@ void SceneManager::Draw()
 		}
 	}
 
+	if (m_Fade != nullptr)
+	{
+		m_Fade->Draw();
+	}
+
 	Renderer::End();
 
 	if (m_NextScene != nullptr)
 	{
-		if (m_LoadFinish)
-		{
-			// ロード開始
-			m_LoadFinish = false;
+		if (!m_LoadFinish) return;
 
-			std::thread th(&ChangeScene); // スレッド
-			th.detach();
+		if (m_Fade != nullptr)
+		{
+			m_Fade->StartFadeOut();
+			if (m_LoadScene == nullptr) return;
+
+			if (!m_Fade->GetFadeOutComplete()) return;
 		}
+
+		// ロード開始
+		m_LoadScene->LoadStart();
+		m_LoadFinish = false;
+
+		if (m_Fade != nullptr)
+		{
+			m_Fade->StartFadeIn();
+		}
+
+		std::thread th(&ChangeScene); // スレッド
+		th.detach();
 	}
 }
 
@@ -139,14 +196,15 @@ void SceneManager::ChangeScene()
 			m_Scene->Init();
 		}
 	
-		m_NextScene = nullptr;
-
 		InputManager::Init();
 		FbxModelManager::Init();
 		ObjModelManager::Init();
 		TextureManager::Init();
+
+		m_NextScene = nullptr;
 	}
+
 	// ロード終了
-	//m_LoadFinish = true;
+	m_LoadFinish = true;
 }
 

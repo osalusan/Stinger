@@ -47,6 +47,7 @@
     <ClCompile Include="component\boxCollisionComponent.cpp" />
     <ClCompile Include="component\collisionComponent.cpp" />
     <ClCompile Include="component\shaderComponent.cpp" />
+    <ClCompile Include="fade\fade.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="manager\fbxModelManager.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="component\component.h" />
     <ClInclude Include="component\shaderComponent.h" />
     <ClInclude Include="directXTex\DirectXTex.h" />
+    <ClInclude Include="fade\fade.h" />
     <ClInclude Include="main\main.h" />
     <ClInclude Include="manager\fbxModelManager.h" />
     <ClInclude Include="manager\inputManager.h" />
