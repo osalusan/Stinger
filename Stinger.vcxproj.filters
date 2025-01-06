@@ -225,6 +225,9 @@
     <ClCompile Include="particle\lightning.cpp">
       <Filter>particle</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\waitTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="particle\lightning.h">
       <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\waitTask.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
