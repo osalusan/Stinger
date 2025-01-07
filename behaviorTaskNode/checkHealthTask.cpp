@@ -3,7 +3,7 @@
 
 void CheckHealthTask::Init()
 {
-	m_TaskName = u8"体力確認";
+	m_TaskName = "体力確認";
 }
 
 NODE_STATUS CheckHealthTask::Update(const float& deltaTime)

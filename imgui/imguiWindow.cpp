@@ -98,8 +98,12 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
         name = "noNameError";
     }
 
+    // utf-8に変換
+    std::wstring wstr = ToWString(name, 932);
+    std::string utf8Name = ToUtf8(wstr);
+
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if (ImGui::TreeNode(name.c_str()))
+    if (ImGui::TreeNode(utf8Name.c_str()))
     {
         for (const BehaviorNode* child : root->GetChildren())
         {
@@ -107,4 +111,36 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
         }
         ImGui::TreePop();
     }
+}
+
+// --------------------------------- private ---------------------------------
+std::wstring ImguiWindow::ToWString(const std::string& str, UINT codePage)
+{
+    int sizeNeeded = MultiByteToWideChar(codePage, 0, str.c_str(), -1, nullptr, 0);
+    if (sizeNeeded == 0) {
+        // エラー処理
+        return L"";
+    }
+
+    std::wstring wstr(sizeNeeded, L'\0');
+    MultiByteToWideChar(codePage, 0, str.c_str(), -1, &wstr[0], sizeNeeded);
+    // C++17以降では末尾のヌル文字のケアが必要、消したい場合は
+    wstr.resize(sizeNeeded - 1);
+    return wstr;
+}
+
+std::string ImguiWindow::ToUtf8(const std::wstring& wstr)
+{
+    // UTF-8へ変換
+    int sizeNeeded = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+    if (sizeNeeded == 0) {
+        // エラー処理
+        return "";
+    }
+
+    std::string str(sizeNeeded, '\0');
+    WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], sizeNeeded, nullptr, nullptr);
+    // こちらも末尾のヌル文字のケアが必要になる場合があるので必要なら resize
+    str.resize(sizeNeeded - 1);
+    return str;
 }

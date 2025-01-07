@@ -30,7 +30,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>(u8"体力管理シーケンス");
+	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
 
 	// 体力の確認
@@ -38,7 +38,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// 死亡
 	healthSeqNode->AddTaskChild<DeadTask>(boss, player);
 
-	BehaviorNode* attackSelNode = rootNode->AddNodeChild<SelectorNode>(u8"攻撃管理セレクター");
+	BehaviorNode* attackSelNode = rootNode->AddNodeChild<SelectorNode>("攻撃管理セレクター");
 	if (attackSelNode == nullptr) return;
 
 	// 待機

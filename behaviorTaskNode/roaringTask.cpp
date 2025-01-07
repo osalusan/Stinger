@@ -5,8 +5,7 @@
 void RoaringTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring_MawJ");
-	// TODO :削除予定 / ビヘイビアツリーの可視化テスト後削除 
-	m_TaskName = u8"威嚇";
+	m_TaskName = "威嚇";
 }
 
 NODE_STATUS RoaringTask::Update(const float& deltaTime)

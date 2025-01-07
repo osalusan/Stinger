@@ -1,6 +1,5 @@
 #pragma once
 #include "behaviorNode.h"
-#include <string>
 
 class BossEnemy;
 class Player;
@@ -23,7 +22,7 @@ protected:
 	// アニメーションを使用する際は、必ず呼ぶ
 	void ReserveAnimation(const std::string& fileName, const std::string& animationName);
 	// 技の場合は必ず呼ぶ
-	void InitSkillData(const int& layer);
+	void InitSkillData(const std::string& skillName);
 public:
 	TaskNode() = delete;
 	TaskNode(BossEnemy* boss, Player* player);

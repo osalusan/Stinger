@@ -5,9 +5,8 @@
 void SwipingTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\swiping_MawJ.fbx", "swiping_MawJ");
-	InitSkillData(0);
-	// TODO :削除予定 / ビヘイビアツリーの可視化テスト後削除 
-	m_TaskName = u8"殴り";
+	m_TaskName = "殴り";
+	InitSkillData(m_TaskName);
 }
 
 NODE_STATUS SwipingTask::Update(const float& deltaTime)

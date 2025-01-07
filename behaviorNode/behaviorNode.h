@@ -12,7 +12,7 @@ enum class NODE_STATUS
 class BehaviorNode 
 {
 protected:
-    std::string m_TaskName = {};                // ""‚Ì‘O‚É u8 ‚ð‚Â‚¯ / Imgui‚Ì•û‚É–¼‘O‚ª•\Ž¦‚³‚ê‚È‚¢‚©‚ç
+    std::string m_TaskName = {};
     std::vector<BehaviorNode*> m_Children = {};
 
 public:

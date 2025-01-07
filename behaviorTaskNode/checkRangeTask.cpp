@@ -4,7 +4,7 @@
 
 void CheckRangeTask::Init()
 {
-	m_TaskName = u8"範囲確認";
+	m_TaskName = "範囲確認";
 }
 
 NODE_STATUS CheckRangeTask::Update(const float& deltaTime)

@@ -8,9 +8,8 @@ constexpr float LANDING_MAX_VALUE = 0.48f;
 void JumpAttackTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_MawJ.fbx", "jumpAttack_MawJ");
-	InitSkillData(1);
-	// TODO :削除予定 / ビヘイビアツリーの可視化テスト後削除 
-	m_TaskName = u8"ジャンプ攻撃";
+	m_TaskName = "ジャンプ攻撃";
+	InitSkillData(m_TaskName);
 }
 
 NODE_STATUS JumpAttackTask::Update(const float& deltaTime)

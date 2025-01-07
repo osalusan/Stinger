@@ -16,11 +16,11 @@ void TaskNode::ReserveAnimation(const std::string& fileName, const std::string& 
 	}
 }
 
-void TaskNode::InitSkillData(const int& layer)
+void TaskNode::InitSkillData(const std::string& skillName)
 {
 	if (m_BossCache == nullptr) return;
 
-	const std::vector<float>& skillData = m_BossCache->GetSkillData(layer);
+	const std::vector<float>& skillData = m_BossCache->GetSkillData(skillName);
 	if (skillData.empty())return;
 
 	m_DamageValue = skillData[0];

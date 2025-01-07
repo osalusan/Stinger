@@ -1,5 +1,6 @@
 #pragma once
 #include "character/character.h"
+#include <unordered_map>
 
 enum class RANGE
 {
@@ -18,7 +19,7 @@ protected:
 	BehaviorTree* m_Tree = nullptr;
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 
-	std::vector<std::vector<float>> m_EnemySkillData = {};
+	std::unordered_map<std::string,std::vector<float>> m_EnemySkillData = {};
 
 	float m_StaminaValue = 0.0f;
 
@@ -118,8 +119,8 @@ public:
 		m_RunningNodeCache = node;
 	}
 
-	const std::vector<float>& GetSkillData(const int& skillNo)const
+	const std::vector<float>& GetSkillData(const std::string& skillName)const
 	{
-		return m_EnemySkillData[skillNo];
+		return m_EnemySkillData.at(skillName);
 	}
 };
