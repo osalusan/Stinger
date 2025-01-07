@@ -145,12 +145,6 @@ int APIENTRY WinMain(
 	ShowCursor(true);
 #endif
 
-
-	//// 乱数エンジンを初期化する (mt19937はよく使われる乱数生成器)
-	//std::random_device rd;  // ノイズを使用したシード
-	//std::mt19937 gen(rd()); // メルセンヌ・ツイスタ法を使用
-	//std::uniform_int_distribution<> distrib(1, 100); // 1から100の間の整数を生成
-
 	WNDCLASSEX wcex = { 0 };
 	{
 		wcex.cbSize = sizeof(WNDCLASSEX);
