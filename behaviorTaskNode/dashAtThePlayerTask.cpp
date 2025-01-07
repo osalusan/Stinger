@@ -10,6 +10,8 @@ void DashAtThePlayerTask::Init()
 		m_Range = 10.0f;
 	}
 	ReserveAnimation("asset\\model\\mawJ\\unarmedWalkForward_MawJ.fbx", "walking_MawJ");
+	// TODO :削除予定 / ビヘイビアツリーの可視化テスト後削除 
+	m_TaskName = u8"走ってプレイヤーに向かう";
 }
 
 NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)

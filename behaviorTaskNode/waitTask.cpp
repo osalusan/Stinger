@@ -5,6 +5,8 @@
 void WaitTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\idle_MawJ.fbx", "idle_MawJ");
+	// TODO :削除予定 / ビヘイビアツリーの可視化テスト後削除 
+	m_TaskName = u8"待機";
 }
 
 NODE_STATUS WaitTask::Update(const float& deltaTime)

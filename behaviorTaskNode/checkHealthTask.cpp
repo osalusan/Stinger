@@ -3,7 +3,7 @@
 
 void CheckHealthTask::Init()
 {
-	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
+	m_TaskName = u8"‘Ì—ÍŠm”F";
 }
 
 NODE_STATUS CheckHealthTask::Update(const float& deltaTime)

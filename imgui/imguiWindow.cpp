@@ -1,6 +1,11 @@
 #include "imguiWindow.h"
 #include "main/main.h"
+#include "scene/scene.h"
 #include "renderer/renderer.h"
+#include "manager/objectManager.h"
+#include "character/bossEnemy.h"
+#include "behaviorTree/behaviorTree.h"
+#include "behaviorNode/selectorNode.h"
 #include "imgui.h"
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
@@ -11,6 +16,11 @@ ImguiWindow::ImguiWindow()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    m_Font = io.Fonts->AddFontFromFileTTF("imgui/fonts/VL_Gothic_Regular.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    if (m_Font != nullptr)
+    {
+        io.Fonts->Build();
+    }
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     
@@ -33,16 +43,43 @@ ImguiWindow::~ImguiWindow()
     ImGui::DestroyContext();
 }
 
+void ImguiWindow::GetRootNode(Scene* scene)
+{
+    if (scene == nullptr) return;
+    ObjectManager* objManager = scene->GetObjectManager();
+    if (objManager == nullptr) return;
+    BossEnemy* boss = objManager->GetBossEnemy();
+    if (boss == nullptr) return;
+    const BehaviorTree* tree = boss->GetBehaviourTree();
+    if (tree == nullptr) return;
+
+    m_RootNodeCache = tree->GetRootNode();
+}
+
 void ImguiWindow::Update(const float& deltaTime)
 {
     ImGui_ImplWin32_NewFrame();
     ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
+    // NewFrameの後
+    if (m_Font != nullptr)
+    {
+        ImGui::PushFont(m_Font);
+    }
+ 
 
     const float& fps = 1.0f / deltaTime;
 
     ImGui::Begin("DebugWindow");
     ImGui::Text("FPS :%f", fps);
+    ImGui::Text(u8"ビヘイビアツリー");
+
+    DrawBehaviorTree(m_RootNodeCache);
+
+    if (m_Font != nullptr)
+    {
+        ImGui::PopFont();
+    }
     ImGui::End();
 }
 
@@ -50,4 +87,23 @@ void ImguiWindow::Draw()
 {
     ImGui::Render();  // 描画コマンドの生成
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // 実行
+}
+
+void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
+{
+    if (root == nullptr) return;
+    std::string name = root->GetTaskName().c_str();
+    if (name == "")
+    {
+        name = "noNameError";
+    }
+
+    if (ImGui::TreeNode(name.c_str()))
+    {
+        for (const BehaviorNode* child : root->GetChildren())
+        {
+            DrawBehaviorTree(child);
+        }
+        ImGui::TreePop();
+    }
 }

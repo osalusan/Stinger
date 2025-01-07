@@ -71,6 +71,14 @@ void SceneManager::Init()
 		m_Fade->Init();
 	}
 
+#if _DEBUG
+	// SceneÇÃInitÇÃå„Ç…
+	if (m_ImguiWindow != nullptr)
+	{
+		m_ImguiWindow->GetRootNode(m_Scene);
+	}
+#endif // _DEBUG
+
 	// àÍî‘ç≈å„Ç…
 	FbxModelManager::Init();
 	ObjModelManager::Init();

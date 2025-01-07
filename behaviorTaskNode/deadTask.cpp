@@ -6,6 +6,8 @@
 void DeadTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\dying_MawJ.fbx", "dead_MawJ");
+	// TODO :削除予定 / ビヘイビアツリーの可視化テスト後削除 
+	m_TaskName = u8"死亡";
 }
 
 NODE_STATUS DeadTask::Update(const float& deltaTime)

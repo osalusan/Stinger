@@ -15,6 +15,7 @@ void BehaviorTree::CreateRoot(BehaviorNode* root)
     if (m_Root != nullptr)
     {
         m_Root->Init();
+        m_Root->SetTaskName(u8"ルートノード");
     }
 }
 
