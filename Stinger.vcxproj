@@ -58,7 +58,6 @@
     <ClCompile Include="manager\textureManager.cpp" />
     <ClCompile Include="meshFiled\meshFiled.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
-    <ClCompile Include="particle\lightning.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
     <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
@@ -123,7 +122,6 @@
     <ClInclude Include="manager\textureManager.h" />
     <ClInclude Include="meshFiled\meshFiled.h" />
     <ClInclude Include="object\gameObject.h" />
-    <ClInclude Include="particle\lightning.h" />
     <ClInclude Include="particle\particleEmitter.h" />
     <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
