@@ -243,7 +243,9 @@
     <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="fade\fade.cpp" />
+    <ClCompile Include="fade\fade.cpp">
+      <Filter>fade</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
