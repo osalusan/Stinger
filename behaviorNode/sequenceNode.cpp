@@ -1,4 +1,4 @@
-#include "sequenceNode .h"
+#include "sequenceNode.h"
 
 SequenceNode::~SequenceNode()
 {

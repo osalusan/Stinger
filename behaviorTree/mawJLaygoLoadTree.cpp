@@ -4,7 +4,7 @@
 #include "scene/loadScene.h"
 #include "manager/objectManager.h"
 #include "behaviorTree/behaviorTree.h"
-#include "behaviorNode/selectorNode .h"
+#include "behaviorNode/selectorNode.h"
 #include "behaviorTaskNode/loadIdleTask.h"
 
 void MawJLaygoLoadTree::CreateTree(BossEnemy* boss)

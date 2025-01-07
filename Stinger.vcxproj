@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="behaviorNode\selectorNode .cpp" />
-    <ClCompile Include="behaviorNode\sequenceNode .cpp" />
+    <ClCompile Include="behaviorNode\selectorNode.cpp" />
+    <ClCompile Include="behaviorNode\sequenceNode.cpp" />
     <ClCompile Include="behaviorNode\taskNode.cpp" />
     <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
@@ -89,8 +89,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behaviorNode\behaviorNode.h" />
-    <ClInclude Include="behaviorNode\selectorNode .h" />
-    <ClInclude Include="behaviorNode\sequenceNode .h" />
+    <ClInclude Include="behaviorNode\selectorNode.h" />
+    <ClInclude Include="behaviorNode\sequenceNode.h" />
     <ClInclude Include="behaviorNode\taskNode.h" />
     <ClInclude Include="behaviorTaskNode\checkHealthTask.h" />
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />

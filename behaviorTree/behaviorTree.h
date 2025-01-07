@@ -14,4 +14,10 @@ public:
     virtual void CreateTree(BossEnemy* boss) = 0;
 
     void Update(const float& deltaTime);
+
+    // •ÏX•s‰Â
+    const BehaviorNode* GetRootNode()const
+    {
+        return m_Root;
+    }
 };

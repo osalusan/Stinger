@@ -192,10 +192,10 @@
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp">
       <Filter>staticMeshObject</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorNode\selectorNode .cpp">
+    <ClCompile Include="behaviorNode\selectorNode.cpp">
       <Filter>behaviorNode</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorNode\sequenceNode .cpp">
+    <ClCompile Include="behaviorNode\sequenceNode.cpp">
       <Filter>behaviorNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorNode\taskNode.cpp">
@@ -404,10 +404,10 @@
     <ClInclude Include="behaviorNode\behaviorNode.h">
       <Filter>behaviorNode</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorNode\selectorNode .h">
+    <ClInclude Include="behaviorNode\selectorNode.h">
       <Filter>behaviorNode</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorNode\sequenceNode .h">
+    <ClInclude Include="behaviorNode\sequenceNode.h">
       <Filter>behaviorNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorNode\taskNode.h">
