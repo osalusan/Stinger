@@ -75,7 +75,7 @@ bool BoxCollisionComponent::CheckHitObject(const OBJECT& object)
 		if (object == nullptr) continue;
 
 		std::vector<BoxCollisionComponent*> boxCollisions = {};
-		if (object->GetComponents(boxCollisions)) continue;
+		if (!object->GetComponents(boxCollisions)) continue;
 
 		for (BoxCollisionComponent* boxCollision : boxCollisions)
 		{
