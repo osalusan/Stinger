@@ -8,12 +8,16 @@
 #include "scene/titleScene.h"
 #include "scene/loadScene.h"
 #include "fade/fade.h"
+#include "imgui/imguiWindow.h"
 #include <thread>
 
 Scene* SceneManager::m_Scene = nullptr;
 Scene* SceneManager::m_NextScene = nullptr;
 LoadScene* SceneManager::m_LoadScene = nullptr;
 Fade* SceneManager::m_Fade = nullptr;
+#if _DEBUG
+ImguiWindow* SceneManager::m_ImguiWindow = nullptr;
+#endif // _DEBUG
 bool SceneManager::m_LoadFinish = true;
 bool SceneManager::m_UseLoadScene = false;
 
@@ -21,6 +25,15 @@ void SceneManager::Init()
 {
 	Renderer::Init();
 	InputManager::Init();
+
+#if _DEBUG
+	// RendererのInitの後に生成
+	if (m_ImguiWindow == nullptr)
+	{
+		m_ImguiWindow = new ImguiWindow;
+	}
+#endif // _DEBUG
+
 
 	// ロードシーンの作成 / GetSceneを前提に作られてるから、m_Sceneで一度作成しないといけない
 	if (m_Scene == nullptr)
@@ -89,6 +102,11 @@ void SceneManager::Uninit()
 	delete m_Scene;
 	m_Scene = nullptr;
 
+#if _DEBUG
+	delete m_ImguiWindow;
+	m_ImguiWindow = nullptr;
+#endif // _DEBUG
+
 	FbxModelManager::Uninit();
 	ObjModelManager::Uninit();
 	TextureManager::Uninit();
@@ -98,6 +116,14 @@ void SceneManager::Uninit()
 void SceneManager::Update(const float& deltaTime)
 {
 	InputManager::Update();
+
+#if _DEBUG
+	if (m_ImguiWindow != nullptr)
+	{
+		m_ImguiWindow->Update(deltaTime);
+	}
+#endif // _DEBUG
+
 	if (m_LoadScene == nullptr) return;
 	if (m_Scene == nullptr) return;
 	if (m_Fade == nullptr) return;
@@ -177,6 +203,13 @@ void SceneManager::Draw()
 	{
 		m_Fade->Draw();
 	}
+
+#if _DEBUG
+	if (m_ImguiWindow != nullptr)
+	{
+		m_ImguiWindow->Draw();
+	}
+#endif // _DEBUG
 
 	Renderer::End();
 }

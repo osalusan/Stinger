@@ -6,6 +6,7 @@
 class Scene;
 class LoadScene;
 class Fade;
+class ImguiWindow;
 
 class SceneManager final
 {
@@ -14,6 +15,9 @@ private:
 	static Scene* m_NextScene;
 	static LoadScene* m_LoadScene;
 	static Fade* m_Fade;
+#if _DEBUG
+	static ImguiWindow* m_ImguiWindow;
+#endif // _DEBUG
 	static bool m_LoadFinish;
 	static bool m_UseLoadScene;
 public:
