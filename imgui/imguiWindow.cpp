@@ -98,6 +98,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
         name = "noNameError";
     }
 
+    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::TreeNode(name.c_str()))
     {
         for (const BehaviorNode* child : root->GetChildren())
