@@ -11,7 +11,7 @@
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
 #include "behaviorTree/mawJLaygoBattleTree.h"
-#include "staticMeshObject/transparentWall.h"
+#include "object/transparentWall.h"
 
 constexpr XMFLOAT3 WALL_MAX = { 150.0f, 100.0f, 150.0f }; // •Ç‚ÌÅ‘å”ÍˆÍ
 void GameScene::Init()

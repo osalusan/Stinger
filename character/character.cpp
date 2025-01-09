@@ -51,7 +51,7 @@ void Character::CheckWorldWallPos()
 	{
 		m_Position.x = m_WorldWall.x;
 	}
-	else if (-m_Position.x < -m_WorldWall.x)
+	else if (m_Position.x < -m_WorldWall.x)
 	{
 		m_Position.x = -m_WorldWall.x;
 	}
@@ -67,7 +67,7 @@ void Character::CheckWorldWallPos()
 	{
 		m_Position.z = m_WorldWall.z;
 	}
-	else if (-m_Position.z < -m_WorldWall.z)
+	else if (m_Position.z < -m_WorldWall.z)
 	{
 		m_Position.z = -m_WorldWall.z;
 	}
