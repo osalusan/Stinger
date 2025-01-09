@@ -113,6 +113,11 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
     }
 }
 
+void ImguiWindow::ClearNode()
+{
+    m_RootNodeCache = nullptr;
+}
+
 // --------------------------------- private ---------------------------------
 std::wstring ImguiWindow::ToWString(const std::string& str, UINT codePage)
 {

@@ -25,5 +25,5 @@ public:
     void Update(const float& deltaTime);
     void Draw();
     void DrawBehaviorTree(const BehaviorNode* root);
-    
+    void ClearNode();
 };

@@ -163,6 +163,9 @@ void SceneManager::Update(const float& deltaTime)
 			{
 				m_Fade->StartFadeIn();
 				m_UseLoadScene = false;
+#if _DEBUG
+				m_ImguiWindow->GetRootNode(m_Scene);
+#endif // _DEBUG
 			}
 		}
 	}
@@ -185,6 +188,9 @@ void SceneManager::Update(const float& deltaTime)
 		m_Fade->StartFadeIn();
 		m_LoadFinish = false;
 		m_UseLoadScene = true;
+#if _DEBUG
+		m_ImguiWindow->ClearNode();
+#endif // _DEBUG
 
 		std::thread th(&ChangeScene); // ƒXƒŒƒbƒh
 		th.detach();

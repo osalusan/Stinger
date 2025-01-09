@@ -146,7 +146,9 @@ CollisionComponent::CollisionComponent(GameObject* gameObject,const COLLISION_TA
 	:Component(gameObject)
 {
 	m_CollisionTag = tag;
+#if _DEBUG
 	m_Model = STATICMESH_MODEL::BOX_CENTER;
+#endif
 }
 
 CollisionComponent::CollisionComponent(GameObject* gameObject, const COLLISION_TAG& tag, const std::string& name)
