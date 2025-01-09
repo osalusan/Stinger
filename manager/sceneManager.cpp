@@ -7,6 +7,7 @@
 #include "scene/gameScene.h"
 #include "scene/titleScene.h"
 #include "scene/loadScene.h"
+#include "scene/debugScene.h"
 #include "fade/fade.h"
 #include "imgui/imguiWindow.h"
 #include <thread>
@@ -55,7 +56,7 @@ void SceneManager::Init()
 	if (m_Scene == nullptr)
 	{
 		// TODO :完成前にタイトルに変更 / デバッグ用
-		m_Scene = new GameScene;
+		m_Scene = new DebugScene;
 	}
 	if (m_Scene != nullptr)
 	{

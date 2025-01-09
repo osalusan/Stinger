@@ -77,6 +77,7 @@
     <ClCompile Include="renderer\fbxModelRenderer.cpp" />
     <ClCompile Include="renderer\objModelRenderer.cpp" />
     <ClCompile Include="renderer\renderer.cpp" />
+    <ClCompile Include="scene\debugScene.cpp" />
     <ClCompile Include="scene\gameScene.cpp" />
     <ClCompile Include="scene\loadScene.cpp" />
     <ClCompile Include="scene\scene.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="renderer\fbxModelRenderer.h" />
     <ClInclude Include="renderer\objModelRenderer.h" />
     <ClInclude Include="renderer\renderer.h" />
+    <ClInclude Include="scene\debugScene.h" />
     <ClInclude Include="scene\gameScene.h" />
     <ClInclude Include="scene\loadScene.h" />
     <ClInclude Include="scene\scene.h" />

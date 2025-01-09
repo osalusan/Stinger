@@ -270,6 +270,9 @@
     <ClCompile Include="imgui\imguiWindow.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="scene\debugScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -484,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="imgui\imguiWindow.h">
       <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\debugScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
