@@ -142,6 +142,27 @@ bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
 	return true;
 }
 
+bool CollisionComponent::CheckHitAllObject()
+{
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
+	// オブジェクト一覧の取得
+	if (m_GameObjectsCache->empty())
+	{
+		Scene* gameScene = SceneManager::GetScene();
+		if (gameScene == nullptr) return false;
+		ObjectManager* objectManager = gameScene->GetObjectManager();
+		if (objectManager == nullptr) return false;
+
+		objectManager->GetAllGameObjects(m_GameObjectsCache);
+
+		if (m_GameObjectsCache->empty()) return false;
+	}
+	return true;
+}
+
 CollisionComponent::CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag)
 	:Component(gameObject)
 {

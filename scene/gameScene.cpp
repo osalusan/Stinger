@@ -12,6 +12,7 @@
 #include "character/mawJLaygo.h"
 #include "behaviorTree/mawJLaygoBattleTree.h"
 
+
 void GameScene::Init()
 {
 	Scene::Init();

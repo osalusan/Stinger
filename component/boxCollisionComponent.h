@@ -14,6 +14,7 @@ public:
 	virtual void Update()override;
 	virtual bool CheckHitObject(const OBJECT& object)override;
 	virtual bool CheckHitObject(const COLLISION_TAG& tag)override;
+	virtual bool CheckHitAllObject()override;
 
 	const XMVECTOR& GetMtv()
 	{

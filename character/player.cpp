@@ -85,7 +85,7 @@ void Player::CollisionControl()
 
 	if (m_BoxCollCache == nullptr) return;
 
-	if (m_BoxCollCache->CheckHitObject(OBJECT::STATICMESH))
+	if (m_BoxCollCache->CheckHitAllObject())
 	{
 		XMVECTOR mtv = m_BoxCollCache->GetMtv();
 

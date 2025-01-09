@@ -273,6 +273,9 @@
     <ClCompile Include="scene\debugScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
+    <ClCompile Include="object\transparentWall.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -490,6 +493,9 @@
     </ClInclude>
     <ClInclude Include="scene\debugScene.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="object\transparentWall.h">
+      <Filter>object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

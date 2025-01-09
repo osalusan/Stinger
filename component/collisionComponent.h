@@ -74,6 +74,7 @@ protected:
 
 	virtual bool CheckHitObject(const OBJECT& object);
 	virtual bool CheckHitObject(const COLLISION_TAG& tag);
+	virtual bool CheckHitAllObject();
 
 	bool HitOBB(const OBB& obb1, const OBB& obb2);
 	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb);
