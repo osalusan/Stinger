@@ -47,7 +47,7 @@ protected:
 
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = {};
-	XMFLOAT3 m_ModelCenter = {0.0f,0.0f,0.0f}; // 必要ない時の為に初期値０
+	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {1.0f,1.0f,1.0f};  // 必要ない時の為に初期値１
 	XMMATRIX m_RotationMatrix = {};
 	XMMATRIX m_OffsetMatrix = {};
@@ -98,6 +98,10 @@ public:
 	void SetCollisionTag(const COLLISION_TAG& tag)
 	{
 		m_CollisionTag = tag;
+	}
+	void SetPos(const XMFLOAT3& pos)
+	{
+		m_Position = pos;
 	}
 
 	const std::string& GetName()

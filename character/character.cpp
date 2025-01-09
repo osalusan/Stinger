@@ -45,6 +45,34 @@ void Character::ReservModel(const ANIMETION_MODEL& animeModel, const std::string
 	m_Model = animeModel;
 }
 
+void Character::CheckWorldWallPos()
+{
+	if (m_Position.x > m_WorldWall.x)
+	{
+		m_Position.x = m_WorldWall.x;
+	}
+	else if (-m_Position.x < -m_WorldWall.x)
+	{
+		m_Position.x = -m_WorldWall.x;
+	}
+	if (m_Position.y > m_WorldWall.y)
+	{
+		m_Position.y = m_WorldWall.y;
+	}
+	else if (-m_Position.y < -m_WorldWall.y)
+	{
+		m_Position.x = 10.0f;
+	}
+	if (m_Position.z > m_WorldWall.z)
+	{
+		m_Position.z = m_WorldWall.z;
+	}
+	else if (-m_Position.z < -m_WorldWall.z)
+	{
+		m_Position.z = -m_WorldWall.z;
+	}
+}
+
 // ------------------------- public -------------------------
 Character::Character()
 {
@@ -64,6 +92,7 @@ void Character::Init()
 	MeshFiled* filed = objectManager->GetMeshFiled();
 
 	m_MeshFiled = filed;
+	m_WorldWall = scene->GetWorldWall();
 }
 
 void Character::Update(const float& deltaTime)

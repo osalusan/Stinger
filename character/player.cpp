@@ -3,7 +3,6 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "renderer/fbxModelRenderer.h"
-#include "scene/gameScene.h"
 #include "component/boxCollisionComponent.h"
 #include "component/shaderComponent.h"
 #include "camera/playerCamera.h"
@@ -69,12 +68,11 @@ void Player::MoveControl(const float& deltaTime)
 
 void Player::CustomCollisionInfo()
 {
-	const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
+	const XMFLOAT3& customScale = { m_Scale.x * 0.4f ,m_Scale.y ,m_Scale.z * 1.0f };
 	if (m_BoxCollCache == nullptr) return;
 
 	if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_Model))
 	{
-		const XMFLOAT3& customScale = { m_Scale.x * 0.2f ,m_Scale.y ,m_Scale.z * 0.2f };
 		m_BoxCollCache->SetCollisionInfo(m_Position, customScale, model->GetCenter(), model->GetScale(), GetRotationMatrix());
 	}
 }
@@ -85,8 +83,14 @@ void Player::CollisionControl()
 
 	if (m_BoxCollCache == nullptr) return;
 
-	if (m_BoxCollCache->CheckHitAllObject())
+	const int& maxCount = 5;
+	int count = 0;
+	XMFLOAT3 recPos = {};
+	while(m_BoxCollCache->CheckHitAllObject())
 	{
+		count++;
+		if (m_BoxCollCache->GetHitGameObject<GameObject>() == nullptr) break;
+
 		XMVECTOR mtv = m_BoxCollCache->GetMtv();
 
 		// 位置をMTV分だけ移動
@@ -94,14 +98,35 @@ void Player::CollisionControl()
 		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
 		XMStoreFloat3(&m_Position, playerVectorPos);
 
+		// 角の目り込みバグ防止
+		std::vector<GameObject*> objects = {};
+		m_BoxCollCache->GetHitGameObjects(objects);
+		if (objects.size() >= 2)
+		{
+			if (m_Position.x == recPos.x && m_Position.z == recPos.z)
+			{
+				m_Position.x = m_RecordPosition.x;
+				m_Position.z = m_RecordPosition.z;
+				count = maxCount;
+			}
+			else
+			{
+				recPos = m_Position;
+			}
+		}
+
+		m_BoxCollCache->SetPos(m_Position);
+
 		// 既に押し出しているから地面の高さで補正しなくていい
 		if (mtv.m128_f32[1] > 0.0f)
 		{
 			m_Velocity.y = 0.0f;
 			m_PlayerStateMachine->HitGround();
 		}
+		if (count >= maxCount) break;	// 無限ループしないように
 	}
 
+	CheckWorldWallPos();
 
 	float groundHeight = 0.0f;
 

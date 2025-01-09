@@ -36,21 +36,27 @@ void GameObject::Uninit()
 
 void GameObject::Update(const float& deltaTime)
 {
-	for (Component* component : m_Components)
+	if (m_Enable)
 	{
-		if (component == nullptr) continue;
+		for (Component* component : m_Components)
+		{
+			if (component == nullptr) continue;
 
-		component->Update();
+			component->Update();
+		}
 	}
 }
 
 void GameObject::Draw()
 {
-	for (Component* component : m_Components)
+	if (m_Enable)
 	{
-		if (component == nullptr) continue;
+		for (Component* component : m_Components)
+		{
+			if (component == nullptr) continue;
 
-		component->Draw();
+			component->Draw();
+		}
 	}
 }
 

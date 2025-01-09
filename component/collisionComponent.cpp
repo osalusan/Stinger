@@ -41,7 +41,7 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 		float overlap = (rA + rB) - L;
 		if (overlap < 0.0f) return false;
 
-		if (overlap < minOverlap)
+		if (overlap < minOverlap && overlap != FLT_MAX)
 		{
 			minOverlap = overlap;
 			mtvAxis = axis;

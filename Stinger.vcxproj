@@ -66,7 +66,6 @@
     <ClCompile Include="manager\textureManager.cpp" />
     <ClCompile Include="meshFiled\meshFiled.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
-    <ClCompile Include="object\transparentWall.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
     <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
@@ -88,6 +87,7 @@
     <ClCompile Include="staticMeshObject\box.cpp" />
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
+    <ClCompile Include="staticMeshObject\transparentWall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behaviorNode\behaviorNode.h" />
@@ -141,7 +141,6 @@
     <ClInclude Include="manager\textureManager.h" />
     <ClInclude Include="meshFiled\meshFiled.h" />
     <ClInclude Include="object\gameObject.h" />
-    <ClInclude Include="object\transparentWall.h" />
     <ClInclude Include="particle\particleEmitter.h" />
     <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
@@ -163,6 +162,7 @@
     <ClInclude Include="staticMeshObject\box.h" />
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+    <ClInclude Include="staticMeshObject\transparentWall.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

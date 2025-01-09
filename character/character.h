@@ -14,6 +14,7 @@ protected:
 
 	MeshFiled* m_MeshFiled = nullptr;
 
+	XMFLOAT3 m_WorldWall = {};						// 移動限界
 	// 重力
 	bool m_EnableGravity = false;
 	float m_GravityValue = 0.0f;
@@ -47,7 +48,7 @@ protected:
 
 	void TakeDamage(const int& atk);
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
-	
+	void CheckWorldWallPos();		// ワールドの範囲外に出たら範囲内に戻す
 public:
 	Character();
 	virtual void Init()override;

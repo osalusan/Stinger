@@ -273,8 +273,8 @@
     <ClCompile Include="scene\debugScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="object\transparentWall.cpp">
-      <Filter>object</Filter>
+    <ClCompile Include="staticMeshObject\transparentWall.cpp">
+      <Filter>staticMeshObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,8 +494,8 @@
     <ClInclude Include="scene\debugScene.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="object\transparentWall.h">
-      <Filter>object</Filter>
+    <ClInclude Include="staticMeshObject\transparentWall.h">
+      <Filter>staticMeshObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

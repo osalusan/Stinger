@@ -27,6 +27,8 @@ void StaticMeshObject::Draw()
 {
 	GameObject::Draw();
 
+	if (!m_Visible) return;
+
 	//ƒ}ƒeƒŠƒAƒ‹Ý’è
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
@@ -39,8 +41,7 @@ void StaticMeshObject::Draw()
 	{
 		if (model == nullptr) return;
 		model->Draw();
-	}
-	
+	}	
 }
 
 const ObjModelRenderer* StaticMeshObject::GetModel()const
