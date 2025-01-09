@@ -8,24 +8,24 @@ void WaitTask::Init()
 	m_TaskName = "‘Ò‹@";
 }
 
-NODE_STATUS WaitTask::Update(const float& deltaTime)
+NODE_STATE WaitTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
 	if (node != nullptr && node != this)
 	{
 		m_Wait = true;
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	if (!m_Wait)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	if (m_CurrentTime < m_BossCache->GetMaxWaitTime())
@@ -36,7 +36,7 @@ NODE_STATUS WaitTask::Update(const float& deltaTime)
 		m_BossCache->SetRunningNode(this);
 		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 
-		return NODE_STATUS::RUNNING;
+		return NODE_STATE::RUNNING;
 	}
 	else
 	{
@@ -46,9 +46,9 @@ NODE_STATUS WaitTask::Update(const float& deltaTime)
 			m_CurrentTime = 0.0f;
 			m_Wait = false;
 			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATUS::SUCCESS;
+			return NODE_STATE::SUCCESS;
 		}
 	}
 
-	return NODE_STATUS::FAILURE;
+	return NODE_STATE::FAILURE;
 }

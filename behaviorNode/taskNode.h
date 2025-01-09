@@ -28,5 +28,5 @@ public:
 	TaskNode(BossEnemy* boss, Player* player);
 	virtual ~TaskNode()override;
 	virtual void Init()override = 0;
-	virtual NODE_STATUS Update(const float& deltaTime) override;
+	virtual NODE_STATE Update(const float& deltaTime) override;
 };

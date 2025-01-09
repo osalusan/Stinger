@@ -9,5 +9,5 @@ protected:
 public:
     virtual ~SelectorNode()override;
     virtual void Init()override;
-    virtual NODE_STATUS Update(const float& deltaTime) override;
+    virtual NODE_STATE Update(const float& deltaTime) override;
 };

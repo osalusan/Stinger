@@ -11,22 +11,22 @@ void LoadIdleTask::Init()
 	ReserveAnimation("asset\\model\\mawJ\\loadIdle_MawJ.fbx", "loadIdle_MawJ");
 }
 
-NODE_STATUS LoadIdleTask::Update(const float& deltaTime)
+NODE_STATE LoadIdleTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	if (m_CameraCache == nullptr)
 	{
 		LoadScene* scene = SceneManager::GetLoadScene();
-		if (scene == nullptr) return NODE_STATUS::FAILURE;
+		if (scene == nullptr) return NODE_STATE::FAILURE;
 		ObjectManager* objManager = scene->GetObjectManager();
-		if (objManager == nullptr) return NODE_STATUS::FAILURE;
+		if (objManager == nullptr) return NODE_STATE::FAILURE;
 		Camera* camera = objManager->GetCamera();
-		if (camera == nullptr) return NODE_STATUS::FAILURE;
+		if (camera == nullptr) return NODE_STATE::FAILURE;
 
 		m_CameraCache = camera;
 	}
@@ -38,5 +38,5 @@ NODE_STATUS LoadIdleTask::Update(const float& deltaTime)
 
 	m_BossCache->ChangeAnimation(m_AnimeName);
 
-	return NODE_STATUS::SUCCESS;
+	return NODE_STATE::SUCCESS;
 }

@@ -14,18 +14,21 @@ void SelectorNode::Init()
 
 }
 
-NODE_STATUS SelectorNode::Update(const float& deltaTime)
+NODE_STATE SelectorNode::Update(const float& deltaTime)
 {
     for (BehaviorNode* child : m_Children)
     {
         if (child == nullptr) continue;
 
-        NODE_STATUS status = child->Update(deltaTime);
+        NODE_STATE state = child->Update(deltaTime);
+        child->SetCurrentState(state);
+        m_CurrentState = state;
 
-        if (status != NODE_STATUS::FAILURE)
-        {
-            return status;
+        if (state != NODE_STATE::FAILURE)
+        {       
+            return state;
         }
     }
-    return NODE_STATUS::FAILURE;
+    m_CurrentState = NODE_STATE::FAILURE;
+    return NODE_STATE::FAILURE;
 }

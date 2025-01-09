@@ -8,18 +8,18 @@ void RoaringTask::Init()
 	m_TaskName = "ˆÐŠd";
 }
 
-NODE_STATUS RoaringTask::Update(const float& deltaTime)
+NODE_STATE RoaringTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
 	if (node != nullptr && node != this)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	
@@ -40,7 +40,7 @@ NODE_STATUS RoaringTask::Update(const float& deltaTime)
 		// UŒ‚ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
 
-		return NODE_STATUS::RUNNING;
+		return NODE_STATE::RUNNING;
 	}
 	else
 	{
@@ -48,9 +48,9 @@ NODE_STATUS RoaringTask::Update(const float& deltaTime)
 		{
 			// UŒ‚ó‘Ô‚ðíœ
 			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATUS::SUCCESS;
+			return NODE_STATE::SUCCESS;
 		}
 	}
 
-	return NODE_STATUS::FAILURE;
+	return NODE_STATE::FAILURE;
 }

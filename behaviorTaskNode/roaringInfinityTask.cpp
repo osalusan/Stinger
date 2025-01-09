@@ -13,18 +13,18 @@ void RoaringInfinityTask::Init()
 	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring_MawJ");
 }
 
-NODE_STATUS RoaringInfinityTask::Update(const float& deltaTime)
+NODE_STATE RoaringInfinityTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
 	if (node != nullptr && node != this)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	m_BossCache->ChangeAnimation("Roaring");
@@ -61,5 +61,5 @@ NODE_STATUS RoaringInfinityTask::Update(const float& deltaTime)
 
 	m_BossCache->SetRunningNode(this);
 
-	return NODE_STATUS::RUNNING;
+	return NODE_STATE::RUNNING;
 }

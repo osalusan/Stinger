@@ -47,7 +47,7 @@ TaskNode::~TaskNode()
 	m_BossCache = nullptr;
 }
 
-NODE_STATUS TaskNode::Update(const float& deltaTime)
+NODE_STATE TaskNode::Update(const float& deltaTime)
 {
 	// アニメーションしないタスクを一番最初にはじくように
 	if (m_AnimeName != "" && m_MaxAnimTime == 0.0f && m_BossCache != nullptr)
@@ -58,5 +58,5 @@ NODE_STATUS TaskNode::Update(const float& deltaTime)
 			m_CurrentTime = m_MaxAnimTime;
 		}
 	}
-	return NODE_STATUS();
+	return NODE_STATE();
 }

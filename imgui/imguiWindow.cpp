@@ -102,6 +102,16 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
     std::wstring wstr = ToWString(name, 932);
     std::string utf8Name = ToUtf8(wstr);
 
+    if (root->GetNodeState() != NODE_STATE::FAILURE)
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // ï∂éöêF
+    }
+    else
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // ï∂éöêF
+    }
+
+    
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::TreeNode(utf8Name.c_str()))
     {
@@ -111,6 +121,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
         }
         ImGui::TreePop();
     }
+    ImGui::PopStyleColor(1);
 }
 
 void ImguiWindow::ClearNode()

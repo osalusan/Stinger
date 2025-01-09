@@ -13,18 +13,12 @@ void DashAtThePlayerTask::Init()
 	m_TaskName = "ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä‘–‚é";
 }
 
-NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
+NODE_STATE DashAtThePlayerTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
-	}
-
-	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_BossCache->GetCurrentRange() == RANGE::SHROT)
-	{
-		return NODE_STATUS::SUCCESS;
+		return NODE_STATE::FAILURE;
 	}
 
 	// ˆÚ“®ˆ—
@@ -38,5 +32,5 @@ NODE_STATUS DashAtThePlayerTask::Update(const float& deltaTime)
 
 	m_BossCache->ChangeAnimation(m_AnimeName);
 
-	return NODE_STATUS::FAILURE;
+	return NODE_STATE::RUNNING;
 }

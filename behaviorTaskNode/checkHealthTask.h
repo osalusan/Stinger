@@ -7,6 +7,6 @@ class CheckHealthTask final : public TaskNode
 public:
 	using TaskNode::TaskNode;
 	virtual void Init()override;
-	virtual NODE_STATUS Update(const float& deltaTime) override;
+	virtual NODE_STATE Update(const float& deltaTime) override;
 
 };

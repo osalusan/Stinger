@@ -12,18 +12,18 @@ void JumpAttackTask::Init()
 	InitSkillData(m_TaskName);
 }
 
-NODE_STATUS JumpAttackTask::Update(const float& deltaTime)
+NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
 	if (node != nullptr && node != this)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	const RANGE& currentRange = m_BossCache->GetCurrentRange();
@@ -58,7 +58,7 @@ NODE_STATUS JumpAttackTask::Update(const float& deltaTime)
 			m_BossCache->AddVelocity(m_MoveVector);
 		}
 
-		return NODE_STATUS::RUNNING;
+		return NODE_STATE::RUNNING;
 	}
 	else
 	{
@@ -66,9 +66,9 @@ NODE_STATUS JumpAttackTask::Update(const float& deltaTime)
 		{
 			// ó‘Ô‚ðíœ
 			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATUS::SUCCESS;
+			return NODE_STATE::SUCCESS;
 		}
 	}
 
-	return NODE_STATUS::FAILURE;
+	return NODE_STATE::FAILURE;
 }

@@ -1,6 +1,7 @@
 #pragma once
-#include "behaviorNode/behaviorNode.h"
 
+// 前方宣言
+class BehaviorNode;
 class BossEnemy;
 class BehaviorTree
 {
@@ -9,6 +10,7 @@ protected:
 
     // ビヘイビアツリーの配置の最後に置く
     void CreateRoot(BehaviorNode* root);
+    void ClearNodeState(BehaviorNode* root);
 public:
     ~BehaviorTree();
     virtual void CreateTree(BossEnemy* boss) = 0;

@@ -15,18 +15,21 @@ void SequenceNode::Init()
 
 }
 
-NODE_STATUS SequenceNode::Update(const float& deltaTime)
+NODE_STATE SequenceNode::Update(const float& deltaTime)
 {
     for (BehaviorNode* child : m_Children)
     {
         if (child == nullptr) continue;
 
-        NODE_STATUS status = child->Update(deltaTime);
+        NODE_STATE state = child->Update(deltaTime);
+        child->SetCurrentState(state);
+        m_CurrentState = state;
 
-        if (status != NODE_STATUS::SUCCESS)
+        if (state != NODE_STATE::SUCCESS)
         {
-            return status;
+            return state;
         }
     }
-    return NODE_STATUS::SUCCESS;
+    m_CurrentState = NODE_STATE::SUCCESS;
+    return NODE_STATE::SUCCESS;
 }

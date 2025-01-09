@@ -9,12 +9,12 @@ void DeadTask::Init()
 	m_TaskName = "死亡";
 }
 
-NODE_STATUS DeadTask::Update(const float& deltaTime)
+NODE_STATE DeadTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
@@ -30,10 +30,10 @@ NODE_STATUS DeadTask::Update(const float& deltaTime)
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
 
-		return NODE_STATUS::RUNNING;
+		return NODE_STATE::RUNNING;
 	}
 
 	// アニメーション仕切ったら動きを止める
 	m_BossCache->SetAnimeTime(m_MaxAnimTime - deltaTime);
-	return NODE_STATUS::SUCCESS;
+	return NODE_STATE::SUCCESS;
 }
