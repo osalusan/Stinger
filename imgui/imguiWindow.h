@@ -5,11 +5,13 @@
 
 class BehaviorNode;
 class Scene;
+class BossEnemy;
 struct ImFont;
 class ImguiWindow
 {
 private:
     const BehaviorNode* m_RootNodeCache = nullptr;
+    const BossEnemy* m_BossEnemy = nullptr;
     std::vector<std::string> m_TaskName = {};
 
     ImFont* m_Font;

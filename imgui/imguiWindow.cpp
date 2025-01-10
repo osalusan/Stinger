@@ -53,6 +53,7 @@ void ImguiWindow::GetRootNode(Scene* scene)
     const BehaviorTree* tree = boss->GetBehaviourTree();
     if (tree == nullptr) return;
 
+    m_BossEnemy = boss;
     m_RootNodeCache = tree->GetRootNode();
 }
 
@@ -72,6 +73,10 @@ void ImguiWindow::Update(const float& deltaTime)
 
     ImGui::Begin("DebugWindow");
     ImGui::Text("FPS :%f", fps);
+    if (m_BossEnemy != nullptr)
+    {
+        ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemy->GetStamina(), m_BossEnemy->GetaMaxStamina());
+    }
     ImGui::Text(u8"ビヘイビアツリー");
 
     DrawBehaviorTree(m_RootNodeCache);
