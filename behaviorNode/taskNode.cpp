@@ -4,6 +4,19 @@
 #include "manager/fbxModelManager.h"
 #include "character/mawJLaygo.h"
 
+// ---------------------------- private ----------------------------
+float TaskNode::FindSkillData(const std::string& name)
+{
+	if (m_skillData.count(name) >= 1)
+	{
+		return m_skillData.at(name);
+	}
+	else
+	{
+		return 0.0f;
+	}
+}
+
 // ---------------------------- protected ----------------------------
 void TaskNode::ReserveAnimation(const std::string& fileName, const std::string& animationName)
 {
@@ -20,12 +33,12 @@ void TaskNode::InitSkillData(const std::string& skillName)
 {
 	if (m_BossCache == nullptr) return;
 
-	const std::vector<float>& skillData = m_BossCache->GetSkillData(skillName);
-	if (skillData.empty())return;
+	m_skillData = m_BossCache->GetSkillData(skillName);
+	if (m_skillData.empty())return;
 
-	m_DamageValue = skillData[0];
-	m_SpeedValue = skillData[1];
-	m_UseStaminaValue = skillData[2];
+	m_DamageValue = FindSkillData("çUåÇî{ó¶");
+	m_SpeedValue = FindSkillData("ë¨ìxî{ó¶");
+	m_UseStaminaValue = FindSkillData("è¡îÔÉXÉ^É~ÉiäÑçá");
 }
 
 // ---------------------------- public ----------------------------

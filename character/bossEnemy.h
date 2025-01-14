@@ -19,7 +19,7 @@ protected:
 	BehaviorTree* m_Tree = nullptr;
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 
-	std::unordered_map<std::string,std::vector<float>> m_EnemySkillData = {};
+	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_EnemySkillData = {};
 
 	float m_StaminaValue = 0.0f;
 
@@ -119,7 +119,7 @@ public:
 		m_RunningNodeCache = node;
 	}
 
-	const std::vector<float>& GetSkillData(const std::string& skillName)const
+	const std::unordered_map<std::string, float>& GetSkillData(const std::string& skillName)const
 	{
 		return m_EnemySkillData.at(skillName);
 	}

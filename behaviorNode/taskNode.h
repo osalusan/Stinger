@@ -1,11 +1,15 @@
 #pragma once
 #include "behaviorNode.h"
+#include <unordered_map>
 
 class BossEnemy;
 class Player;
 
 class TaskNode : public BehaviorNode
 {
+private:
+	float FindSkillData(const std::string& name);
+	std::unordered_map<std::string, float> m_skillData = {};
 protected:
 	BossEnemy* m_BossCache = nullptr;
 	Player* m_PlayerCache = nullptr;

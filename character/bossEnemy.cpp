@@ -49,9 +49,11 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 	std::string line;
 	int loadLine = 0;
 	int loadCount = 0;
+	int loadCellCnt = 0;
 	std::string skillName = {};
 
 	std::vector<std::string> baseStatas = {};
+	std::vector<std::string> skillOptionNameData = {};
 
 	// 1行ずつ読み込み
 	while (std::getline(ifs, line))
@@ -62,6 +64,7 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		if (loadLine == 1) continue;
 
 		loadCount++;
+		loadCellCnt = 0;
 
 		// 空行はスキップ
 		if (line.empty()) continue;
@@ -75,12 +78,19 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		{
 			if (column.empty()) continue;
 
-			// 1列目のみ読む
-			if (loadCount >= 2)
+			loadCellCnt++;
+
+			if (loadCount == 2)
 			{
-				skillName = column;
-				loadCount = 0;
-				break;
+				if (loadCellCnt == 1)
+				{
+					skillName = column;
+				}
+				else if(loadCellCnt >= 2)
+				{
+					skillOptionNameData.emplace_back(column);
+				}
+				continue;
 			}
 
 			// 基礎ステータス
@@ -98,8 +108,21 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		{
 			if (skillData.size() != 0)
 			{
-				m_EnemySkillData.emplace(skillName, skillData);
+				int loop = 0;
+				for (const std::string& skillOptionName : skillOptionNameData)
+				{
+					m_EnemySkillData[skillName].emplace(skillOptionName, skillData[loop]);
+					loop++;
+				}
 			}
+		}
+		if (loadCount == 1)
+		{
+			skillOptionNameData.clear();
+		}	
+		else if (loadCount >= 2)
+		{
+			loadCount = 0;
 		}
 	}
 
