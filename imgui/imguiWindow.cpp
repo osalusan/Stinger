@@ -76,6 +76,7 @@ void ImguiWindow::Update(const float& deltaTime)
     if (m_BossEnemy != nullptr)
     {
         ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemy->GetStamina(), m_BossEnemy->GetaMaxStamina());
+        ImGui::Text(u8"体力 :%f / %f", m_BossEnemy->GetHealth(), m_BossEnemy->GetMaxHealth());
     }
     ImGui::Text(u8"ビヘイビアツリー");
 
