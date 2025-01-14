@@ -33,6 +33,7 @@ protected:
 
 	// アニメーション用
 	float m_AnimationTime = 0.0f;					// アニメーションのフレーム
+	float m_NextAnimationTime = 0.0f;				// 次のアニメーションのフレーム
 	std::string m_AnimationName = "";				// アニメーションの名前
 	std::string m_NextAnimationName = "";			// ブレンド用、次のアニメーションの名前
 	float m_BlendRatio = 0.0f;						// アニメーションブレンドの数値
@@ -64,7 +65,10 @@ public:
 	{
 		m_AnimationTime = time;
 	}
-
+	void SetNextAnimationTime(const float& time)
+	{
+		m_NextAnimationTime = time;
+	}
 	const ANIMETION_MODEL& GetAnimeModel()const
 	{
 		return m_Model;
@@ -94,6 +98,10 @@ public:
 	const float& GetHealth()const
 	{
 		return m_Health;
+	}	
+	const float& GetMaxHealth()const
+	{
+		return m_MaxHealth;
 	}
 	const float& GetAttack()const
 	{

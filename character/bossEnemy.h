@@ -121,6 +121,12 @@ public:
 
 	const std::unordered_map<std::string, float>& GetSkillData(const std::string& skillName)const
 	{
-		return m_EnemySkillData.at(skillName);
+		if (m_EnemySkillData.count(skillName) >= 1)
+		{
+			return m_EnemySkillData.at(skillName);
+		}
+		// ƒeƒ“ƒ|ƒ‰ƒŠŒx—p
+		static const std::unordered_map<std::string, float> emptyMap = {};
+		return emptyMap;
 	}
 };

@@ -18,6 +18,10 @@ void BossEnemy::MoveControl(const float& deltaTime)
 	{
 		TakeDamage(2000);
 	}
+	if (InputManager::GetKeyPress('9'))
+	{
+		TakeDamage(1);
+	}
 }
 
 void BossEnemy::ParameterControl(const float& deltaTime)

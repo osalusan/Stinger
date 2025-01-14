@@ -39,6 +39,40 @@ void TaskNode::InitSkillData(const std::string& skillName)
 	m_DamageValue = FindSkillData("UŒ‚”{—¦");
 	m_SpeedValue = FindSkillData("‘¬“x”{—¦");
 	m_UseStaminaValue = FindSkillData("Á”ïƒXƒ^ƒ~ƒiŠ„‡");
+	m_DerivationHealth = FindSkillData("”h¶‹Z‚Ì”­¶‘Ì—ÍŠ„‡");
+}
+
+NODE_STATE TaskNode::UpdateChildren(const float& deltaTime)
+{
+	if (m_BossCache == nullptr) return NODE_STATE::FAILURE;
+
+	for (BehaviorNode* child : m_Children)
+	{
+		if (child == nullptr) continue;
+
+		NODE_STATE state = child->Update(deltaTime);
+		child->SetCurrentState(state);
+		m_CurrentState = state;
+		return state;
+	}
+	return NODE_STATE::FAILURE;
+}
+
+bool TaskNode::CheckRunningNode(BehaviorNode* currentNode)
+{
+	bool hit = true;
+	if (currentNode != nullptr && currentNode != this)
+	{
+		hit = false;
+		for (BehaviorNode* child : m_Children)
+		{
+			if (child == currentNode)
+			{
+				hit = true;
+			}
+		}
+	}
+	return hit;
 }
 
 // ---------------------------- public ----------------------------

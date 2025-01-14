@@ -7,7 +7,8 @@
 #include "behaviorNode/selectorNode.h"
 #include "behaviorNode/sequenceNode.h"
 #include "behaviortaskNode/dashAtThePlayerTask.h"
-#include "behaviorTaskNode/swipingTask.h"
+#include "behaviorTaskNode/leftSwipingTask.h"
+#include "behaviorTaskNode/rightSwipingTask.h"
 #include "behaviortaskNode/checkRangeTask.h"
 #include "behaviortaskNode/roaringTask.h"
 #include "behaviorTaskNode/checkHealthTask.h"
@@ -46,7 +47,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ”ÍˆÍ‚ÌŠm”F
 	attackSelNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// UŒ‚
-	attackSelNode->AddTaskChild<SwipingTask>(boss, player);
+	BehaviorNode* leftSwiping = attackSelNode->AddTaskChild<LeftSwipingTask>(boss, player);
+	leftSwiping->AddTaskChild<RightSwipingTask>(boss, player);
 	attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
 	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
 	// UŒ‚•s‰Â

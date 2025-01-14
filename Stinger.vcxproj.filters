@@ -213,7 +213,7 @@
     <ClCompile Include="behaviorTaskNode\roaringTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTaskNode\swipingTask.cpp">
+    <ClCompile Include="behaviorTaskNode\leftSwipingTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp">
@@ -278,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="object\transparentWall.cpp">
       <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\rightSwipingTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -434,7 +437,7 @@
     <ClInclude Include="behaviorTaskNode\roaringTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTaskNode\swipingTask.h">
+    <ClInclude Include="behaviorTaskNode\leftSwipingTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\checkHealthTask.h">
@@ -502,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="object\transparentWall.h">
       <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\rightSwipingTask.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

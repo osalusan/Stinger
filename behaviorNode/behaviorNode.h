@@ -21,12 +21,13 @@ public:
     virtual NODE_STATE Update(const float& deltaTime) = 0;
 
     template <typename T, typename... Arg>
-    void AddTaskChild(Arg&&...args)
+    BehaviorNode* AddTaskChild(Arg&&...args)
     {
-        T* node = new T(std::forward<Arg>(args)...);
-        if (node == nullptr) return;
+        BehaviorNode* node = new T(std::forward<Arg>(args)...);
+        if (node == nullptr) return nullptr;
         node->Init();
         m_Children.emplace_back(node);
+        return node;
     }
 
     template <typename T>

@@ -124,7 +124,8 @@ void Character::Update(const float& deltaTime)
 	else if(m_AnimationName != m_NextAnimationName && m_BlendRatio > 1.0f)
 	{
 		m_AnimationName = m_NextAnimationName;
-		m_AnimationTime = 0.0f;
+		m_AnimationTime = m_NextAnimationTime;
+		m_NextAnimationTime = 0.0f;
 		m_BlendRatio = 0.0f;
 	}
 	if (m_AnimationName == m_NextAnimationName && m_BlendRatio > 0.0f)
@@ -167,7 +168,7 @@ void Character::Draw()
 		}
 		else if(m_AnimationName != m_NextAnimationName)
 		{
-			model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), 0.0f, m_BlendRatio);
+			model->Update(m_AnimationName.c_str(), m_AnimationTime, m_NextAnimationName.c_str(), m_NextAnimationTime, m_BlendRatio);
 		}
 		
 		model->Draw();
