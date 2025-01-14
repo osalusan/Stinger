@@ -7,6 +7,56 @@
 #include "character/character.h"
 #include "renderer/objModelRenderer.h"
 
+// ------------------------ private ------------------------
+void CollisionComponent::UseBoneMatrix()
+{
+	if (m_CollisionName != "")
+	{
+		XMVECTOR  scale;         // スケール
+		XMVECTOR  rotQuat;       // 回転
+		XMVECTOR  translation;   // 平行移動
+
+		// 行列を分解
+		bool success = XMMatrixDecompose
+		(
+			&scale,
+			&rotQuat,
+			&translation,
+			m_BoneMatrix
+		);
+
+		if (!success) return;
+
+		const XMFLOAT3& objScale = m_GameObject->GetScale();
+		m_Position.y += translation.m128_f32[1] * (objScale.y - m_Scale.y);
+
+		//XMVECTOR vOffset = XMLoadFloat3(&m_Position);
+		//// 1) 回転を適用 (rotQuat でオフセットベクトルを回す)
+		//XMVECTOR vRotatedOffset = XMVector3Rotate(vOffset, rotQuat);
+
+		//// 2) 平行移動を足す (translation)
+		//XMVECTOR vWorldPos = XMVectorAdd(vRotatedOffset, translation);
+
+		//// 3) 書き戻す
+		//XMFLOAT3 worldPos;
+		//XMStoreFloat3(&worldPos, vWorldPos);
+
+		//m_Position = worldPos;  // これがボーンに追従したオブジェクトの座標
+
+		//m_Position.x += (translation.m128_f32[2] * (objScale.x - m_Scale.x)) * cosf(m_Rotation.y);
+		//m_Position.z += (translation.m128_f32[2] * (objScale.z - m_Scale.z)) * sinf(m_Rotation.y);
+
+
+		//m_Position.x += translation.m128_f32[0] * (m_Scale.x * scale.m128_f32[0]);
+		//m_Position.y += translation.m128_f32[1] * (m_Scale.y * scale.m128_f32[1]);
+		//m_Position.z += translation.m128_f32[2] * (m_Scale.z * scale.m128_f32[2]);
+
+
+		//XMMATRIX rotationMatrix = XMMatrixRotationQuaternion(rotQuat);
+		//m_RotationMatrix *= rotationMatrix;
+	}
+}
+
 // ------------------------ protected ------------------------
 bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 {
@@ -243,12 +293,6 @@ void CollisionComponent::Draw()
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	
 	world = scl * rot * trans;
-
-	if (m_CollisionName != "")
-	{
-		// TODO :修正予定 / バグってる
-		//world = XMMatrixMultiply(m_OffsetMatrix,world);
-	}
 	
 	Renderer::SetWorldMatrix(world);
 
@@ -269,13 +313,16 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& s
 	m_ModelCenter = modelCenterPos;
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;
+	UseBoneMatrix();
 }
 
-void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& modelScale, const XMFLOAT3& rot, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
 	m_Position = pos;
 	m_ModelScale = modelScale;
+	m_Rotation = rot;
 	m_RotationMatrix = rotateMatrix;
-	m_OffsetMatrix = worldMatrix;
+	m_BoneMatrix = worldMatrix;
+	UseBoneMatrix();
 }
 

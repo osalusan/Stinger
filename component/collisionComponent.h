@@ -41,16 +41,21 @@ enum class STATICMESH_MODEL;
 
 class CollisionComponent :public Component
 {
+private:
+	// ボーンにコリジョンをつける用
+	void UseBoneMatrix();
+
 protected:
 	std::string m_CollisionName = "";
 	bool m_Enable = false;		// 当たり判定の有効無効
 
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = {};
+	XMFLOAT3 m_Rotation = {};
 	XMFLOAT3 m_ModelCenter = {};
 	XMFLOAT3 m_ModelScale = {1.0f,1.0f,1.0f};  // 必要ない時の為に初期値１
 	XMMATRIX m_RotationMatrix = {};
-	XMMATRIX m_OffsetMatrix = {};
+	XMMATRIX m_BoneMatrix = {};
 
 #if _DEBUG
 	// 当たり判定描画用
@@ -89,7 +94,7 @@ public:
 	virtual void Draw()override;
 
 	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix); // 大きさを変えたい時
-	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix); // 本体に付属させたい時
+	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& modelScale, const XMFLOAT3& rot, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
 	void SetScale(const XMFLOAT3& scl)
 	{
 		m_Scale = scl;

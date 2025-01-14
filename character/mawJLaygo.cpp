@@ -26,7 +26,7 @@ void MawJLaygo::CustomCollisionInfo()
 			{
 				if (bonePair.first != boxColli->GetName()) continue;
 
-				boxColli->SetCollisionInfo(m_Position, model->GetScale(), GetRotationMatrix(), bonePair.second.WorldMatrix);
+				boxColli->SetCollisionInfo(m_Position, model->GetScale(),m_Rotation, GetRotationMatrix(), bonePair.second.WorldMatrix);
 			}
 		}
 	}
@@ -78,7 +78,8 @@ void MawJLaygo::Init()
 	m_EnableGravity = true;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
 
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:Hips"));
+	// m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:Hips"));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:RightHand"));
 
 	for (BoxCollisionComponent* box : m_BoxCollisionCaches)
 	{
@@ -88,6 +89,10 @@ void MawJLaygo::Init()
 		if (box->GetName() == "mixamorig:Hips")
 		{
 			box->SetScale({ m_Scale.x * 0.5f,m_Scale.y * 0.8f ,m_Scale.z * 0.5f });
+		}
+		if (box->GetName() == "mixamorig:RightHand")
+		{
+			box->SetScale({ m_Scale.x * 0.3f,m_Scale.y * 0.3f ,m_Scale.z * 0.3f });
 		}
 	}
 
