@@ -10,6 +10,7 @@ constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 
 // ブレンド速度
 constexpr float DEFAULT_BLEND_VALUE_MAWJ = 4.0f;
+constexpr XMFLOAT3 HAND_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 0.1f,DEFAULT_SCALE_MAWJ.y * 0.1f,DEFAULT_SCALE_MAWJ.z * 0.1f };
 
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
@@ -26,7 +27,7 @@ void MawJLaygo::CustomCollisionInfo()
 			{
 				if (bonePair.first != boxColli->GetName()) continue;
 
-				boxColli->SetCollisionInfo(m_Position, model->GetScale(),m_Rotation, GetRotationMatrix(), bonePair.second.WorldMatrix);
+				boxColli->SetCollisionInfo(m_Position, model->GetScale(), GetRotationMatrix(), bonePair.second.WorldMatrix);
 			}
 		}
 	}
@@ -78,21 +79,32 @@ void MawJLaygo::Init()
 	m_EnableGravity = true;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
 
+
+	// パーツの名前
+	const std::string& hip = "mixamorig:Hips";
+	const std::string& rightHand = "mixamorig:RightHand";
+	const std::string& leftHand = "mixamorig:LeftHand";
+
 	// m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:Hips"));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:RightHand"));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, "mixamorig:LeftHand"));
 
 	for (BoxCollisionComponent* box : m_BoxCollisionCaches)
 	{
 		if (box == nullptr) continue;
 
 		// 部位ごとに追加していく
-		if (box->GetName() == "mixamorig:Hips")
+		if (box->GetName() == hip)
 		{
 			box->SetScale({ m_Scale.x * 0.5f,m_Scale.y * 0.8f ,m_Scale.z * 0.5f });
 		}
-		if (box->GetName() == "mixamorig:RightHand")
+		if (box->GetName() == rightHand)
 		{
-			box->SetScale({ m_Scale.x * 0.25f,m_Scale.y * 0.3f ,m_Scale.z * 0.25f });
+			box->SetScale(HAND_SCALE_MAWJ);
+		}
+		if (box->GetName() == leftHand)
+		{
+			box->SetScale(HAND_SCALE_MAWJ);
 		}
 	}
 

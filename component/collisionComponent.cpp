@@ -20,9 +20,10 @@ void CollisionComponent::UseBoneMatrix()
 
 		world = scl * rot * trans;
 
-
-		XMMATRIX modelScale = XMMatrixScaling(1.0f / m_Scale.x, 1.0f / m_Scale.y, 1.0f / m_Scale.z); // モデルにスケールを合わせる
-		XMMATRIX matrixScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+		const XMFLOAT3& objScale = m_GameObject->GetScale();
+		const XMFLOAT3& customScale = { objScale.x - m_Scale.x, objScale.y - m_Scale.y, objScale.z - m_Scale.z};
+		XMMATRIX modelScale = XMMatrixScaling(1.0f / customScale.x, 1.0f / customScale.y, 1.0f / customScale.z); // モデルにスケールを合わせる
+		XMMATRIX matrixScale = XMMatrixScaling(customScale.x, customScale.y, customScale.z);
 
 		world = modelScale * m_BoneMatrix * matrixScale * world;
 
