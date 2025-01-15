@@ -12,48 +12,53 @@ void CollisionComponent::UseBoneMatrix()
 {
 	if (m_CollisionName != "")
 	{
-		XMVECTOR  scale;         // スケール
-		XMVECTOR  rotQuat;       // 回転
-		XMVECTOR  translation;   // 平行移動
+		XMMATRIX world, scl, rot, trans;
 
-		// 行列を分解
-		bool success = XMMatrixDecompose
-		(
-			&scale,
-			&rotQuat,
-			&translation,
-			m_BoneMatrix
-		);
+		scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
+		rot = m_RotationMatrix;
+		trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
-		if (!success) return;
-
-		const XMFLOAT3& objScale = m_GameObject->GetScale();
-		m_Position.y += translation.m128_f32[1] * (objScale.y - m_Scale.y);
-
-		//XMVECTOR vOffset = XMLoadFloat3(&m_Position);
-		//// 1) 回転を適用 (rotQuat でオフセットベクトルを回す)
-		//XMVECTOR vRotatedOffset = XMVector3Rotate(vOffset, rotQuat);
-
-		//// 2) 平行移動を足す (translation)
-		//XMVECTOR vWorldPos = XMVectorAdd(vRotatedOffset, translation);
-
-		//// 3) 書き戻す
-		//XMFLOAT3 worldPos;
-		//XMStoreFloat3(&worldPos, vWorldPos);
-
-		//m_Position = worldPos;  // これがボーンに追従したオブジェクトの座標
-
-		//m_Position.x += (translation.m128_f32[2] * (objScale.x - m_Scale.x)) * cosf(m_Rotation.y);
-		//m_Position.z += (translation.m128_f32[2] * (objScale.z - m_Scale.z)) * sinf(m_Rotation.y);
+		world = scl * rot * trans;
 
 
-		//m_Position.x += translation.m128_f32[0] * (m_Scale.x * scale.m128_f32[0]);
-		//m_Position.y += translation.m128_f32[1] * (m_Scale.y * scale.m128_f32[1]);
-		//m_Position.z += translation.m128_f32[2] * (m_Scale.z * scale.m128_f32[2]);
+		XMMATRIX modelScale = XMMatrixScaling(1.0f / m_Scale.x, 1.0f / m_Scale.y, 1.0f / m_Scale.z); // モデルにスケールを合わせる
+		XMMATRIX matrixScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
 
+		world = modelScale * m_BoneMatrix * matrixScale * world;
 
-		//XMMATRIX rotationMatrix = XMMatrixRotationQuaternion(rotQuat);
-		//m_RotationMatrix *= rotationMatrix;
+		m_Position.x = world.r[3].m128_f32[0];
+		m_Position.y = world.r[3].m128_f32[1];
+		m_Position.z = world.r[3].m128_f32[2];
+
+		world.r[3].m128_f32[0] = 0.0f;
+		world.r[3].m128_f32[1] = 0.0f;
+		world.r[3].m128_f32[2] = 0.0f;
+
+		m_RotationMatrix = world;
+
+		//const XMFLOAT3& objScale = m_GameObject->GetScale();
+		//m_Position.y += translation.m128_f32[1] * (objScale.y - m_Scale.y);
+
+		//// 回転に対応していない
+		//m_Position.x += translation.m128_f32[0] * (objScale.x - m_Scale.x);
+		//m_Position.z += translation.m128_f32[2] * (objScale.z - m_Scale.z);
+
+		//XMVECTOR currentPosition = XMLoadFloat3(&m_Position);
+
+		//// ボーンの中心(平行移動成分)
+		//XMVECTOR boneCenter = translation;  // 必要に応じてスケール差分を反映
+
+		//// 現在の座標を「ボーン中心からの相対座標」に変換
+		//XMVECTOR relativePos = currentPosition - boneCenter;
+
+		//// ボーンの回転で relativePos を回転させる
+		//XMVECTOR rotatedPos = XMVector3Rotate(relativePos, rotQuat);
+
+		//// 回転後の相対座標に、ボーンの平行移動を再度足して
+		//XMVECTOR newPosition = boneCenter + rotatedPos;
+
+		//// 最終的な m_Position を更新
+		//XMStoreFloat3(&m_Position, newPosition);
 	}
 }
 
@@ -293,6 +298,14 @@ void CollisionComponent::Draw()
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	
 	world = scl * rot * trans;
+
+	//if (m_CollisionName != "")
+	//{
+	//	XMMATRIX modelScale = XMMatrixScaling(1.0f / m_Scale.x, 1.0f / m_Scale.y, 1.0f / m_Scale.z); // モデルにスケールを合わせる
+	//	XMMATRIX matrixScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
+	//
+	//	world = modelScale * m_BoneMatrix * matrixScale * world;
+	//}
 	
 	Renderer::SetWorldMatrix(world);
 

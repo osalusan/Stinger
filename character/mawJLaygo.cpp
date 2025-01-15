@@ -92,7 +92,7 @@ void MawJLaygo::Init()
 		}
 		if (box->GetName() == "mixamorig:RightHand")
 		{
-			box->SetScale({ m_Scale.x * 0.3f,m_Scale.y * 0.3f ,m_Scale.z * 0.3f });
+			box->SetScale({ m_Scale.x * 0.25f,m_Scale.y * 0.3f ,m_Scale.z * 0.25f });
 		}
 	}
 
