@@ -298,14 +298,6 @@ void CollisionComponent::Draw()
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 	
 	world = scl * rot * trans;
-
-	//if (m_CollisionName != "")
-	//{
-	//	XMMATRIX modelScale = XMMatrixScaling(1.0f / m_Scale.x, 1.0f / m_Scale.y, 1.0f / m_Scale.z); // モデルにスケールを合わせる
-	//	XMMATRIX matrixScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	//
-	//	world = modelScale * m_BoneMatrix * matrixScale * world;
-	//}
 	
 	Renderer::SetWorldMatrix(world);
 
@@ -329,11 +321,10 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& s
 	UseBoneMatrix();
 }
 
-void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& modelScale, const XMFLOAT3& rot, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
 	m_Position = pos;
 	m_ModelScale = modelScale;
-	m_Rotation = rot;
 	m_RotationMatrix = rotateMatrix;
 	m_BoneMatrix = worldMatrix;
 	UseBoneMatrix();
