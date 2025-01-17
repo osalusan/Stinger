@@ -20,6 +20,7 @@ protected:
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 
 	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_EnemySkillData = {};
+	std::unordered_map<std::string, XMFLOAT3> m_CollOffsetPos = {};
 
 	float m_StaminaValue = 0.0f;
 

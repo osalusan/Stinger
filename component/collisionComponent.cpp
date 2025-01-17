@@ -27,39 +27,22 @@ void CollisionComponent::UseBoneMatrix()
 
 		world = modelScale * m_BoneMatrix * matrixScale * world;
 
-		m_Position.x = world.r[3].m128_f32[0];
-		m_Position.y = world.r[3].m128_f32[1];
-		m_Position.z = world.r[3].m128_f32[2];
+
+		XMMATRIX reverseScale = scl * 100.0f;
+
+		XMVECTOR scale, rotationQuat, pos = {};
+
+		XMMatrixDecompose(&scale, &rotationQuat, &pos, world);
+
+		m_Position.x = pos.m128_f32[0];
+		m_Position.y = pos.m128_f32[1];
+		m_Position.z = pos.m128_f32[2];
 
 		world.r[3].m128_f32[0] = 0.0f;
 		world.r[3].m128_f32[1] = 0.0f;
 		world.r[3].m128_f32[2] = 0.0f;
 
 		m_RotationMatrix = world;
-
-		//const XMFLOAT3& objScale = m_GameObject->GetScale();
-		//m_Position.y += translation.m128_f32[1] * (objScale.y - m_Scale.y);
-
-		//// 回転に対応していない
-		//m_Position.x += translation.m128_f32[0] * (objScale.x - m_Scale.x);
-		//m_Position.z += translation.m128_f32[2] * (objScale.z - m_Scale.z);
-
-		//XMVECTOR currentPosition = XMLoadFloat3(&m_Position);
-
-		//// ボーンの中心(平行移動成分)
-		//XMVECTOR boneCenter = translation;  // 必要に応じてスケール差分を反映
-
-		//// 現在の座標を「ボーン中心からの相対座標」に変換
-		//XMVECTOR relativePos = currentPosition - boneCenter;
-
-		//// ボーンの回転で relativePos を回転させる
-		//XMVECTOR rotatedPos = XMVector3Rotate(relativePos, rotQuat);
-
-		//// 回転後の相対座標に、ボーンの平行移動を再度足して
-		//XMVECTOR newPosition = boneCenter + rotatedPos;
-
-		//// 最終的な m_Position を更新
-		//XMStoreFloat3(&m_Position, newPosition);
 	}
 }
 
