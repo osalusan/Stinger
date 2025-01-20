@@ -350,7 +350,7 @@ void FbxModelRenderer::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	aiMatrix4x4 worldMatrix = matrix;
 	worldMatrix *= bone->AnimationMatrix;
 
-	bone->WorldMatrix = AiMatrixToXMMATRIX(worldMatrix);
+	bone->WorldMatrix = worldMatrix;
 
 	bone->Matrix = worldMatrix;
 	bone->Matrix *= bone->OffsetMatrix;//‚±‚ê‚ðŠ|‚¯‚È‚¢‚Æ‚¢‚¯‚È‚¢

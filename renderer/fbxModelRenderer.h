@@ -29,7 +29,11 @@ struct BONE
 								 0.0f, 1.0f, 0.0f, 0.0f,
 								 0.0f, 0.0f, 1.0f, 0.0f,
 								 0.0f, 0.0f, 0.0f, 1.0f };
-	XMMATRIX WorldMatrix = {};
+
+	aiMatrix4x4 WorldMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+							 0.0f, 1.0f, 0.0f, 0.0f,
+							 0.0f, 0.0f, 1.0f, 0.0f,
+							 0.0f, 0.0f, 0.0f, 1.0f };
 };
 class FbxModelRenderer final
 {
@@ -79,7 +83,7 @@ public:
 	}
 	float GetMaxAnimeTime(const std::string& name);
 
-	XMMATRIX AiMatrixToXMMATRIX(const aiMatrix4x4& mat) 
+	XMMATRIX AiMatrixToXMMATRIX(const aiMatrix4x4& mat) const
 	{
 		return XMMATRIX(
 			mat.a1, mat.b1, mat.c1, mat.d1,

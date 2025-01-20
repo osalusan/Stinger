@@ -20,8 +20,6 @@ private:
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
 	virtual void AnimationControl()override;
-
-	void BoneOffset(const BONE& bone);
 public:
 	using BossEnemy::BossEnemy;
 
