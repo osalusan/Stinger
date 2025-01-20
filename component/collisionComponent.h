@@ -90,8 +90,9 @@ public:
 	virtual void Uninit()override;
 	virtual void Draw()override;
 
+	// 毎フレーム値を入れるように
 	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix); // 大きさを変えたい時
-	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
+	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
 	void SetScale(const XMFLOAT3& scl)
 	{
 		m_Scale = scl;

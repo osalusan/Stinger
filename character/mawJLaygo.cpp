@@ -95,7 +95,7 @@ void MawJLaygo::CustomCollisionInfo()
 				offsetPos.x,
 				offsetPos.y,
 				offsetPos.z };
-			boxColli->SetCollisionInfo(customPos, customScl,model->GetScale(), GetRotationMatrix(), bonePair.second.WorldMatrix);
+			boxColli->SetCollisionInfo(customPos, customScl,model->GetCenter(), model->GetScale(), GetRotationMatrix(), bonePair.second.WorldMatrix);
 		}
 	}
 
@@ -155,26 +155,6 @@ void MawJLaygo::Init()
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, HIP_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHTHAND_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFTHAND_NAME_MAWJ));
-
-	for (BoxCollisionComponent* box : m_BoxCollisionCaches)
-	{
-		if (box == nullptr) continue;
-
-		// •”ˆÊ‚²‚Æ‚É’Ç‰Á‚µ‚Ä‚¢‚­
-		if (box->GetName() == HIP_NAME_MAWJ)
-		{
-			box->SetScale(HIP_COLL_SCALE_MAWJ);
-		}
-		if (box->GetName() == RIGHTHAND_NAME_MAWJ)
-		{
-			box->SetScale(HAND_COLL_SCALE_MAWJ);
-		}
-		if (box->GetName() == LEFTHAND_NAME_MAWJ)
-		{
-			box->SetScale(HAND_COLL_SCALE_MAWJ);
-		}
-	}
-
 	
 	// “–‚½‚è”»’è‚ÌŒã‚É’Ç‰Á
 	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");

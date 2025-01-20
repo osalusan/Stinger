@@ -310,10 +310,11 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& s
 	UseBoneMatrix();
 }
 
-void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos,const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
 	m_Position = pos;
 	m_Scale = scl;
+	m_ModelCenter = modelCenterPos;
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;
 	m_BoneMatrix = worldMatrix;
