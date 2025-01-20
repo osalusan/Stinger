@@ -66,8 +66,6 @@ protected:
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 #endif // _DEBUG
 
-
-
 	// 押し出し用
 	XMVECTOR m_MtvAxis = {};		// MTVの軸
 	float m_MinOverlap = 0.0f;		// 最小オーバーラップ量
@@ -93,7 +91,7 @@ public:
 	virtual void Draw()override;
 
 	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix); // 大きさを変えたい時
-	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
+	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
 	void SetScale(const XMFLOAT3& scl)
 	{
 		m_Scale = scl;
@@ -135,6 +133,10 @@ public:
 	const COLLISION_TAG& GetCollisionTag()const
 	{
 		return m_CollisionTag;
+	}
+	const XMMATRIX& GetBoneMatrix()const
+	{
+		return m_BoneMatrix;
 	}
 
 	const GameObject* GetGameObject()

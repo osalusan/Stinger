@@ -8,6 +8,9 @@ enum class MAWJ_ANIMATION
 	ROARING
 };
 
+// ‘O•ûéŒ¾
+struct BONE;
+
 class MawJLaygo final:public BossEnemy
 {
 private:
@@ -17,6 +20,8 @@ private:
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
 	virtual void AnimationControl()override;
+
+	void BoneOffset(const BONE& bone);
 public:
 	using BossEnemy::BossEnemy;
 

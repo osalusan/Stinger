@@ -12,31 +12,36 @@ void CollisionComponent::UseBoneMatrix()
 {
 	if (m_CollisionName != "")
 	{
+		if (m_GameObject == nullptr) return;
+
 		XMMATRIX world, scl, rot, trans;
+		XMMATRIX parentWorld, parentScl, parentRot, parentTrans;
 
-		scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
-		rot = m_RotationMatrix;
-		trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+		const XMFLOAT3& parentScale = m_GameObject->GetScale();
+		const XMFLOAT3& parentPos = m_GameObject->GetPos();
 
-		world = scl * rot * trans;
+		parentScl = XMMatrixScaling(parentScale.x, parentScale.y, parentScale.z);
+		parentRot = m_GameObject->GetRotationMatrix();
+		parentTrans = XMMatrixTranslation(parentPos.x, parentPos.y, parentPos.z);
 
-		const XMFLOAT3& objScale = m_GameObject->GetScale();
-		const XMFLOAT3& customScale = { objScale.x - m_Scale.x, objScale.y - m_Scale.y, objScale.z - m_Scale.z};
-		XMMATRIX modelScale = XMMatrixScaling(1.0f / customScale.x, 1.0f / customScale.y, 1.0f / customScale.z); // モデルにスケールを合わせる
-		XMMATRIX matrixScale = XMMatrixScaling(customScale.x, customScale.y, customScale.z);
+		parentWorld = parentScl * parentRot * parentTrans;
 
-		world = modelScale * m_BoneMatrix * matrixScale * world;
+		scl = XMMatrixScaling((1.0f / parentScale.x) * m_Scale.x, (1.0f / parentScale.y) * m_Scale.y, (1.0f / parentScale.z) * m_Scale.z);
+		rot = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
+		trans = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 
+		world = rot * trans * scl * m_BoneMatrix * parentWorld;
 
-		XMMATRIX reverseScale = scl * 100.0f;
+		XMVECTOR decScl, decRot, decTrans = {};
+		XMMatrixDecompose(&decScl, &decRot, &decTrans, world);
 
-		XMVECTOR scale, rotationQuat, pos = {};
+		m_Position.x = decTrans.m128_f32[0];
+		m_Position.y = decTrans.m128_f32[1];
+		m_Position.z = decTrans.m128_f32[2];
 
-		XMMatrixDecompose(&scale, &rotationQuat, &pos, world);
-
-		m_Position.x = pos.m128_f32[0];
-		m_Position.y = pos.m128_f32[1];
-		m_Position.z = pos.m128_f32[2];
+		m_Scale.x = decScl.m128_f32[0];
+		m_Scale.y = decScl.m128_f32[1];
+		m_Scale.z = decScl.m128_f32[2];
 
 		world.r[3].m128_f32[0] = 0.0f;
 		world.r[3].m128_f32[1] = 0.0f;
@@ -280,9 +285,9 @@ void CollisionComponent::Draw()
 	scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
 	rot = m_RotationMatrix;
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	
+
 	world = scl * rot * trans;
-	
+
 	Renderer::SetWorldMatrix(world);
 
 	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
@@ -291,7 +296,7 @@ void CollisionComponent::Draw()
 
 		model->DrawCollision();
 	}
-	
+
 #endif // _DEBUG
 }
 
@@ -305,9 +310,10 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& s
 	UseBoneMatrix();
 }
 
-void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
 	m_Position = pos;
+	m_Scale = scl;
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;
 	m_BoneMatrix = worldMatrix;
