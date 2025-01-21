@@ -285,6 +285,7 @@
     <ClCompile Include="playerState\playerStateHoldWeapon.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
+    <ClCompile Include="playerState\playerStateParry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -513,6 +514,9 @@
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="playerState\playerStateHoldWeapon.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateParry.h">
       <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>

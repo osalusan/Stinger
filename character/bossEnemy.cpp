@@ -184,6 +184,18 @@ BossEnemy::~BossEnemy()
 	m_RunningNodeCache = nullptr;
 }
 
+void BossEnemy::TakeDamage(const float& atk)
+{
+	if (atk <= 0 || m_Health <= 0) return;
+
+	m_Health -= atk;
+
+	if (m_Health <= 0)
+	{
+		m_Health = 0;
+	}
+}
+
 void BossEnemy::RotToTarget(GameObject* obj,const float& deltaTime)
 {
 	if (obj == nullptr) return;

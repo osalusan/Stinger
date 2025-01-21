@@ -26,8 +26,6 @@ protected:
 	float m_Attack = 0.0f;							// 攻撃力
 	float m_MoveSpeed = 0.0f;						// 移動速度
 
-	bool m_IsDead = false;							// 死んでいる
-
 	// 演出終了フラグ
 	bool m_FinishPerformance = false;
 
@@ -47,7 +45,6 @@ protected:
 
 	virtual void ParameterControl(const float& deltaTime);
 
-	void TakeDamage(const int& atk);
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
 	void CheckWorldWallPos();		// ワールドの範囲外に出たら範囲内に戻す
 public:
@@ -55,7 +52,9 @@ public:
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override final;
 	virtual void Draw()override;
-	
+
+	virtual void TakeDamage(const float& atk) = 0;
+
 	void ChangeAnimation(const std::string& anime)
 	{
 		m_NextAnimationName = anime;
@@ -68,6 +67,10 @@ public:
 	void SetNextAnimationTime(const float& time)
 	{
 		m_NextAnimationTime = time;
+	}
+	void SetHealth(const float& health)
+	{
+		m_Health = health;
 	}
 	const ANIMETION_MODEL& GetAnimeModel()const
 	{

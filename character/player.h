@@ -15,6 +15,10 @@ private:
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか
 	bool m_UseAttack = false;
 
+	// データ保存用
+	float m_MinParryTime = 0.0f;
+	float m_MaxParryTime = 0.0f;
+
 	virtual void MoveControl(const float& deltaTime)override;
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
@@ -26,6 +30,8 @@ public:
 	virtual ~Player()override;
 	virtual void Init()override;
 	virtual void Uninit()override;
+
+	virtual void TakeDamage(const float& atk)override;
 
 	const XMFLOAT3& GetVelocity()const
 	{
@@ -46,5 +52,14 @@ public:
 	void SetRotationY(const float& y)
 	{
 		m_Rotation.y = y;
+	}
+
+	const float& GetMinParryTime()const
+	{
+		return m_MinParryTime;
+	}
+	const float& GetMaxParryTime()const
+	{
+		return m_MaxParryTime;
 	}
 };

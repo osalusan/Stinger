@@ -54,6 +54,7 @@ public:
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale);
 	BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& rot);
 	virtual ~BossEnemy()override;
+	virtual void TakeDamage(const float& atk)override;
 
 	void AddVelocity(const XMFLOAT3& vel)
 	{

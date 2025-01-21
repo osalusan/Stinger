@@ -1,6 +1,9 @@
 #include "waitTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
+// TODO : 完成前に削除予定 / デバッグ用
+#include "manager/inputManager.h"
+
 
 void WaitTask::Init()
 {
@@ -26,6 +29,12 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 	if (!m_Wait)
 	{
 		return NODE_STATE::FAILURE;
+	}
+
+	// TODO : 完成前に削除予定 / デバッグ用
+	if (InputManager::GetKeyPress('V'))
+	{
+		m_PlayerCache->TakeDamage(1.0f);
 	}
 
 	if (m_CurrentTime < m_BossCache->GetMaxWaitTime())

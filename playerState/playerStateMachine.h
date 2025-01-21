@@ -10,6 +10,7 @@ enum class PLAYER_STATE
 	JUMP,
 	DAMAGE,
 	HOLD_WEAPON,
+	PARRY,
 	RUN,
 	DEAD,
 	MAX
@@ -48,6 +49,8 @@ private:
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
 	bool m_IsHold = false;							// 構えているか
+	bool m_IsHitAttacked = false;					// 攻撃を受けたか
+	bool m_IsInvincible = false;					// 無敵状態かどうか
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
@@ -100,12 +103,23 @@ public:
 	{
 		return m_IsHold;
 	}
+	const bool& GetIsHitAttacked()const
+	{
+		return m_IsHitAttacked;
+	}
+	const bool& GetIsInvincible()const
+	{
+		return m_IsInvincible;
+	}
 	const std::string& GetAnimation()const
 	{
 		return m_NextAnimationName;
 	}
 
-
+	void SetIsHitDamage(const bool& hit)
+	{
+		m_IsHitAttacked = hit;
+	}
 	void SetAnimation(const std::string& anime)
 	{
 		m_NextAnimationName = anime;

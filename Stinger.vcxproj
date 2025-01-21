@@ -75,6 +75,7 @@
     <ClCompile Include="playerState\playerStateIdle.cpp" />
     <ClCompile Include="playerState\playerStateJump.cpp" />
     <ClCompile Include="playerState\playerStateMachine.cpp" />
+    <ClCompile Include="playerState\playerStateParry.cpp" />
     <ClCompile Include="playerState\playerStateRun.cpp" />
     <ClCompile Include="polygon2D\polygon2D.cpp" />
     <ClCompile Include="renderer\fbxModelRenderer.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="playerState\playerStateIdle.h" />
     <ClInclude Include="playerState\playerStateJump.h" />
     <ClInclude Include="playerState\playerStateMachine.h" />
+    <ClInclude Include="playerState\playerStateParry.h" />
     <ClInclude Include="playerState\playerStateRun.h" />
     <ClInclude Include="polygon2D\polygon2D.h" />
     <ClInclude Include="renderer\fbxModelRenderer.h" />

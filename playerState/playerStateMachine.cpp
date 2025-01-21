@@ -10,6 +10,7 @@
 #include "playerStateRun.h"
 #include "playerStateJump.h"
 #include "playerStateHoldWeapon.h"
+#include "playerStateParry.h"
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
@@ -39,6 +40,7 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::JUMP, new PlayerStateJump(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::HOLD_WEAPON, new PlayerStateHoldWeapon(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::PARRY, new PlayerStateParry(this));
 	}
 	// èâä˙âª
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
@@ -133,6 +135,7 @@ void PlayerStateMachine::Update(const float& deltaTime)
 
 	// ç≈å„Ç…ÉäÉZÉbÉg
 	m_IsGround = false;
+	m_IsHitAttacked = false;
 }
 
 void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)

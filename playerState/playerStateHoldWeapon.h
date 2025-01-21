@@ -5,9 +5,9 @@ class ObjectManager;
 class PlayerStateHoldWeapon final:public PlayerState
 {
 private:
-	ObjectManager* m_ObjManagerCache = nullptr;
 	float m_CurrentTime = 0.0f;
-
+	float m_MinParryTime = 0.0f;
+	float m_MaxParryTime = 0.0f;
 public:
 	using PlayerState::PlayerState;
 	virtual void Init()override;

@@ -57,6 +57,23 @@ void Player::Uninit()
 	Character::Uninit();
 }
 
+void Player::TakeDamage(const float& atk)
+{
+	if (atk <= 0 || m_Health <= 0) return;
+
+	m_Health -= atk;
+
+	if (m_PlayerStateMachine != nullptr)
+	{
+		m_PlayerStateMachine->SetIsHitDamage(true);
+	}
+
+	if (m_Health <= 0)
+	{
+		m_Health = 0;
+	}
+}
+
 // ------------------------------- private -------------------------------
 void Player::MoveControl(const float& deltaTime)
 {
@@ -191,13 +208,15 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 	}
 
 	// ステータスの要素を追加した分だけ、if文の数値も変更
-	if (baseStatas.size() == 5)
+	if (baseStatas.size() == 7)
 	{
 		m_MaxHealth = std::stof(baseStatas[0]);
 		m_Attack = std::stof(baseStatas[1]);
 		m_MoveSpeed = std::stof(baseStatas[2]);
 		m_GravityValue = std::stof(baseStatas[3]);
 		m_RotSpeed = std::stof(baseStatas[4]);
+		m_MinParryTime = std::stof(baseStatas[5]);
+		m_MaxParryTime = std::stof(baseStatas[6]);
 
 		m_Health = m_MaxHealth;
 	}

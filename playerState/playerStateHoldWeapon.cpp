@@ -1,22 +1,14 @@
 #include "playerStateHoldWeapon.h"
-#include "manager/sceneManager.h"
-#include "manager/objectManager.h"
-#include "scene/scene.h"
+#include "character/player.h"
+
 void PlayerStateHoldWeapon::Init()
 {
 	m_CurrentTime = 0.0f;
-	if (m_ObjManagerCache != nullptr)
-	{
-		// TODO :変更予定 / パリィ演出確認用
-		m_ObjManagerCache->SetSlowTime(0.9f);
-		m_ObjManagerCache->SetSlowValue(0.0f);
-	}
-	if (m_ObjManagerCache == nullptr)
-	{
-		Scene* scene = SceneManager::GetScene();
-		if (scene == nullptr) return;
-		m_ObjManagerCache = scene->GetObjectManager();
-	}
+	// Getのみ / 編集不可
+	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+	if (playerCache == nullptr) return;
+	m_MinParryTime = playerCache->GetMinParryTime();
+	m_MaxParryTime = playerCache->GetMaxParryTime();
 }
 
 void PlayerStateHoldWeapon::Unit()
@@ -36,11 +28,18 @@ void PlayerStateHoldWeapon::ChangeStateControl()
 
 	// 優先順位順
 
-	// TODO :変更予定 / パリィ演出確認用
-	if (!m_PlayerMachine->GetIsHold())
+	if (m_PlayerMachine->GetIsHitAttacked())
+	{
+		if (m_CurrentTime >= m_MinParryTime && m_CurrentTime <= m_MaxParryTime)
+		{
+			ChangePlayerState(PLAYER_STATE::PARRY);
+		}
+		// TODO :追加予定 / 被ダメ時のステートへ
+	}
+	else if (!m_PlayerMachine->GetIsHold())
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
-		if (m_ObjManagerCache == nullptr) return;
-		m_ObjManagerCache->SetSlowTime(0.0f);
 	}
+
+
 }

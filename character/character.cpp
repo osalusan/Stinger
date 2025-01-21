@@ -25,20 +25,6 @@ void Character::ParameterControl(const float& deltaTime)
 	}
 }
 
-
-void Character::TakeDamage(const int& atk)
-{
-	if (atk <= 0 || m_Health <= 0) return;
-
-	m_Health -= atk;
-
-	if (m_Health <= 0)
-	{
-		m_Health = 0;
-		m_IsDead = true;
-	}
-}
-
 void Character::ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path)
 {
 	FbxModelManager::ReservModel(animeModel, path);
