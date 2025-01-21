@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="behaviorNode\behaviorNode.cpp" />
     <ClCompile Include="behaviorNode\selectorNode.cpp" />
     <ClCompile Include="behaviorNode\sequenceNode.cpp" />
     <ClCompile Include="behaviorNode\taskNode.cpp" />

@@ -1,14 +1,5 @@
 #include "selectorNode.h"
 
-SelectorNode::~SelectorNode()
-{
-    for (BehaviorNode* child : m_Children)
-    {
-        delete child;
-        child = nullptr;
-    }
-}
-
 void SelectorNode::Init()
 {
 

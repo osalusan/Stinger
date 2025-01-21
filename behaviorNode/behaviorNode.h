@@ -16,7 +16,7 @@ protected:
     std::vector<BehaviorNode*> m_Children = {};
     NODE_STATE m_CurrentState = NODE_STATE::FAILURE;
 public:
-    virtual ~BehaviorNode() {};
+    virtual ~BehaviorNode();
     virtual void Init() = 0;
     virtual NODE_STATE Update(const float& deltaTime) = 0;
 
