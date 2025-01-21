@@ -30,8 +30,12 @@ void PlayerStateIdle::ChangeStateControl()
 	
 	// 優先順位順
 
-	// 浮いている、ジャンプしていると
-	if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
+	// 構えていると
+	if (m_PlayerMachine->GetIsHold())
+	{
+		ChangePlayerState(PLAYER_STATE::HOLD_WEAPON);
+	}// 浮いている、ジャンプしていると
+	else if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
 	{
 		ChangePlayerState(PLAYER_STATE::JUMP);
 	}// 移動していると

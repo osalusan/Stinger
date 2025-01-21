@@ -81,6 +81,12 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_RandL = MOVE_DIRECTION::NONE;
 	m_FandB = MOVE_DIRECTION::NONE;
 	m_IsJamp = false;
+	m_IsHold = false;
+
+	if (InputManager::GetMouseRightPress())
+	{
+		m_IsHold = true;
+	}
 
 	if (InputManager::GetKeyPress('A'))
 	{

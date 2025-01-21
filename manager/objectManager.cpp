@@ -48,14 +48,25 @@ void ObjectManager::Uninit()
 
 void ObjectManager::Update(const float& deltaTime)
 {
+	float deltaTimeSlow = deltaTime;
+
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
+		if (m_SlowTime > 0.0f)
+		{
+			if (layer == static_cast<int>(OBJECT::PLAYER) || layer == static_cast<int>(OBJECT::BOSS))
+			{
+				m_SlowTime -= deltaTime;
+				deltaTimeSlow *= m_SlowValue;
+			}
+		}
+
 		for (GameObject* object : m_GameObjects[layer])
 		{
 			if (object == nullptr) continue;
 			if (!object->GetEnable())continue;
 
-			object->Update(deltaTime);
+			object->Update(deltaTimeSlow);
 		}
 	}
 }

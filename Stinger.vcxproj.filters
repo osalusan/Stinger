@@ -282,6 +282,9 @@
     <ClCompile Include="behaviorTaskNode\rightSwipingTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="playerState\playerStateHoldWeapon.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -508,6 +511,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\rightSwipingTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateHoldWeapon.h">
+      <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

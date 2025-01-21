@@ -20,6 +20,7 @@ private:
 #endif // _DEBUG
 	static bool m_LoadFinish;
 	static bool m_UseLoadScene;
+
 public:
 
 	static void Init();
@@ -37,7 +38,7 @@ public:
 	{
 		return m_LoadScene;
 	}
-	static bool& GetLoadFinish()
+	static bool GetLoadFinish()
 	{
 		return m_LoadFinish;
 	}

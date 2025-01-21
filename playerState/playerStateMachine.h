@@ -47,6 +47,7 @@ private:
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
+	bool m_IsHold = false;							// 構えているか
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
@@ -94,6 +95,10 @@ public:
 	const bool& GetIsGround()const
 	{
 		return m_IsGround;
+	}
+	const bool& GetIsHold()const
+	{
+		return m_IsHold;
 	}
 	const std::string& GetAnimation()const
 	{

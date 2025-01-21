@@ -31,6 +31,9 @@ private:
 	Player* m_PlayerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;
 	MeshFiled* m_FiledCache = nullptr;
+
+	float m_SlowTime = 0.0f;
+	float m_SlowValue = 0.0f;
 public:
 	~ObjectManager();
 	void Init();
@@ -54,6 +57,21 @@ public:
 	{
 		return m_FiledCache;
 	}
+	bool GetSlow()
+	{
+		if (m_SlowTime <= 0.0f) return false;
+		return true;
+	}
+	void SetSlowTime(const float& time)
+	{
+		m_SlowTime = time;
+	}
+	void SetSlowValue(const float& value)
+	{
+		m_SlowValue = value;
+	}
+
+
 	void GetAllGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
 	{
 		for (int i = 0; i < static_cast<int>(OBJECT::MAX); i++)
