@@ -9,6 +9,7 @@ enum class PLAYER_STATE
 	IDLE,
 	JUMP,
 	DAMAGE,
+	HOLD_WEAPON,
 	RUN,
 	DEAD,
 	MAX

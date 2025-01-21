@@ -4,11 +4,12 @@
 #include "manager/objectManager.h"
 #include "camera/playerCamera.h"
 #include "scene/gameScene.h"
+#include "character/player.h"
 #include "playerState.h"
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
 #include "playerStateJump.h"
-#include "character/player.h"
+#include "playerStateHoldWeapon.h"
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
@@ -37,6 +38,7 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::IDLE, new PlayerStateIdle(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::JUMP, new PlayerStateJump(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::HOLD_WEAPON, new PlayerStateHoldWeapon(this));
 	}
 	// èâä˙âª
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
