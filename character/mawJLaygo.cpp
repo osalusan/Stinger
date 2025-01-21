@@ -10,15 +10,39 @@ constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 
 // ブレンド速度
 constexpr float DEFAULT_BLEND_VALUE_MAWJ = 4.0f;
+// 当たり判定のスケール調整
 constexpr XMFLOAT3 TEST_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.0f,DEFAULT_SCALE_MAWJ.z * 1.0f };
-constexpr XMFLOAT3 HAND_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.125f,DEFAULT_SCALE_MAWJ.y * 1.13f,DEFAULT_SCALE_MAWJ.z * 1.125f };
-constexpr XMFLOAT3 HIP_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.65f,DEFAULT_SCALE_MAWJ.y * 2.4f,DEFAULT_SCALE_MAWJ.z * 2.5f };
+constexpr XMFLOAT3 HIP_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.35f,DEFAULT_SCALE_MAWJ.y * 0.7f,DEFAULT_SCALE_MAWJ.z * 2.4f };
+constexpr XMFLOAT3 SPINE_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.3f,DEFAULT_SCALE_MAWJ.y * 0.8f,DEFAULT_SCALE_MAWJ.z * 2.3f };
+constexpr XMFLOAT3 NECK_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.2f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 HAND_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.125f,DEFAULT_SCALE_MAWJ.y * 1.25f,DEFAULT_SCALE_MAWJ.z * 1.425f };
+constexpr XMFLOAT3 ARM_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.15f,DEFAULT_SCALE_MAWJ.y * 1.1f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 ARMFORE_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.15f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 SHOULDER_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.12f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 FOOT_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 0.9f,DEFAULT_SCALE_MAWJ.y * 1.1f,DEFAULT_SCALE_MAWJ.z * 1.2f };
+constexpr XMFLOAT3 LEG_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 0.9f,DEFAULT_SCALE_MAWJ.y * 1.4f,DEFAULT_SCALE_MAWJ.z * 1.3f };
+constexpr XMFLOAT3 UPLEG_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.4f };
 
 constexpr const char* HIP_NAME_MAWJ = "mixamorig:Hips";
+constexpr const char* SPINE_NAME_MAWJ = "mixamorig:Spine";
+constexpr const char* SPINE1_NAME_MAWJ = "mixamorig:Spine1";
+constexpr const char* SPINE2_NAME_MAWJ = "mixamorig:Spine2";
+constexpr const char* NECK_NAME_MAWJ = "mixamorig:Neck";
 constexpr const char* RIGHTHAND_NAME_MAWJ = "mixamorig:RightHand";
 constexpr const char* LEFTHAND_NAME_MAWJ = "mixamorig:LeftHand";
-constexpr const char* RIGHT_ARM = "mixamorig:RightArm";
-constexpr const char* LEFT_ARM = "mixamorig:LeftArm";
+constexpr const char* RIGHT_ARM_NAME_MAWJ = "mixamorig:RightArm";
+constexpr const char* LEFT_ARM_NAME_MAWJ = "mixamorig:LeftArm";
+constexpr const char* RIGHT_FOREARM_NAME_MAWJ = "mixamorig:RightForeArm";
+constexpr const char* LEFT_FOREARM_NAME_MAWJ = "mixamorig:LeftForeArm";
+constexpr const char* RIGHT_SHOULDER_NAME_MAWJ = "mixamorig:RightShoulder";
+constexpr const char* LEFT_SHOULDER_NAME_MAWJ = "mixamorig:LeftShoulder";
+constexpr const char* RIGHT_FOOT_NAME_MAWJ = "mixamorig:RightFoot";
+constexpr const char* LEFT_FOOT_NAME_MAWJ = "mixamorig:LeftFoot";
+constexpr const char* RIGHT_LEG_NAME_MAWJ = "mixamorig:RightLeg";
+constexpr const char* LEFT_LEG_NAME_MAWJ = "mixamorig:LeftLeg";
+constexpr const char* RIGHT_UPLEG_NAME_MAWJ = "mixamorig:RightUpLeg";
+constexpr const char* LEFT_UPLEG_NAME_MAWJ = "mixamorig:LeftUpLeg";
+
 
 // ----------------------- private -----------------------
 void MawJLaygo::CustomCollisionInfo()
@@ -63,14 +87,42 @@ void MawJLaygo::CustomCollisionInfo()
 			if (boxName == HIP_NAME_MAWJ)
 			{
 				collisionScl = HIP_COLL_SCALE_MAWJ;
+			}			
+			else if (boxName == SPINE_NAME_MAWJ || boxName == SPINE1_NAME_MAWJ || boxName == SPINE2_NAME_MAWJ)
+			{
+				collisionScl = SPINE_COLL_SCALE_MAWJ;
 			}
-			else if (boxName == RIGHTHAND_NAME_MAWJ)
+			else if (boxName == NECK_NAME_MAWJ)
+			{
+				collisionScl = NECK_COLL_SCALE_MAWJ;
+			}			
+			else if (boxName == RIGHTHAND_NAME_MAWJ || boxName == LEFTHAND_NAME_MAWJ)
 			{
 				collisionScl = HAND_COLL_SCALE_MAWJ;
 			}
-			else if (boxName == LEFTHAND_NAME_MAWJ)
+			else if (boxName == RIGHT_ARM_NAME_MAWJ || boxName == LEFT_ARM_NAME_MAWJ)
 			{
-				collisionScl = HAND_COLL_SCALE_MAWJ;
+				collisionScl = ARM_COLL_SCALE_MAWJ;
+			}			
+			else if (boxName == RIGHT_FOREARM_NAME_MAWJ || boxName == LEFT_FOREARM_NAME_MAWJ)
+			{
+				collisionScl = ARMFORE_COLL_SCALE_MAWJ;
+			}
+			else if (boxName == RIGHT_SHOULDER_NAME_MAWJ || boxName == LEFT_SHOULDER_NAME_MAWJ)
+			{
+				collisionScl = SHOULDER_COLL_SCALE_MAWJ;
+			}			
+			else if (boxName == RIGHT_FOOT_NAME_MAWJ || boxName == LEFT_FOOT_NAME_MAWJ)
+			{
+				collisionScl = FOOT_COLL_SCALE_MAWJ;
+			}			
+			else if (boxName == RIGHT_LEG_NAME_MAWJ || boxName == LEFT_LEG_NAME_MAWJ)
+			{
+				collisionScl = LEG_COLL_SCALE_MAWJ;
+			}			
+			else if (boxName == RIGHT_UPLEG_NAME_MAWJ || boxName == LEFT_UPLEG_NAME_MAWJ)
+			{
+				collisionScl = UPLEG_COLL_SCALE_MAWJ;
 			}
 			else
 			{
@@ -129,11 +181,29 @@ void MawJLaygo::Init()
 	m_EnableGravity = true;
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
 
-	//m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, HIP_NAME_MAWJ));
-	//m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHTHAND_NAME_MAWJ));
-	//m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFTHAND_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_ARM));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_ARM));
+	// 体
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, HIP_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE1_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE2_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, NECK_NAME_MAWJ));
+	// 腕
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHTHAND_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFTHAND_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_ARM_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_ARM_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOREARM_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOREARM_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_SHOULDER_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_SHOULDER_NAME_MAWJ));
+	// 足
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOOT_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOOT_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_LEG_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_LEG_NAME_MAWJ));	
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_UPLEG_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_UPLEG_NAME_MAWJ));
+	
 	
 	// 当たり判定の後に追加
 	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");

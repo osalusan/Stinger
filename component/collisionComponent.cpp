@@ -28,7 +28,7 @@ void CollisionComponent::UseBoneMatrix()
 
 		scl = XMMatrixScaling((1.0f / parentScale.x) * m_Scale.x, (1.0f / parentScale.y) * m_Scale.y, (1.0f / parentScale.z) * m_Scale.z);
 		rot = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
-		trans = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+		trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
 
 		world = rot * trans * scl * m_BoneMatrix * parentWorld;
 
