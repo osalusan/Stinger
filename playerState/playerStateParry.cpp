@@ -2,10 +2,23 @@
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
 #include "scene/scene.h"
+#include "character/bossEnemy.h"
 
 void PlayerStateParry::Init()
 {
 	m_CurrentTime = 0.0f;
+
+	if (m_BossCache == nullptr)
+	{
+		if (m_ObjManagerCache != nullptr)
+		{
+			m_BossCache = m_ObjManagerCache->GetBossEnemy();
+		}
+	}
+	if (m_BossCache != nullptr)
+	{
+		m_BossCache->SetParryRecoil(true);
+	}
 	if (m_ObjManagerCache != nullptr)
 	{
 		m_ObjManagerCache->SetSlowTime(0.9f);

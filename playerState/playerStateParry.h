@@ -2,11 +2,13 @@
 #include "playerState.h"
 
 class ObjectManager;
+class BossEnemy;
 class PlayerStateParry final :public PlayerState
 {
 private:
 	float m_CurrentTime = 0.0f;
 	ObjectManager* m_ObjManagerCache = nullptr;
+	BossEnemy* m_BossCache = nullptr;
 public:
 	using PlayerState::PlayerState;
 	virtual void Init()override;

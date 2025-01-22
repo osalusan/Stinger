@@ -22,6 +22,7 @@ protected:
 	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_EnemySkillData = {};
 
 	float m_StaminaValue = 0.0f;
+	bool m_ParryRecoil = false;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	float m_MaxStamina = 0.0f;
@@ -75,6 +76,10 @@ public:
 	{
 		return m_RunningNodeCache;
 	}
+	const bool& GetParryRecoil()const
+	{
+		return m_ParryRecoil;
+	}
 
 	// パラメータ系のGet
 	const float& GetShortRange()const
@@ -118,6 +123,10 @@ public:
 	void SetRunningNode(BehaviorNode* node)
 	{
 		m_RunningNodeCache = node;
+	}
+	void SetParryRecoil(const bool& parry)
+	{
+		m_ParryRecoil = parry;
 	}
 
 	const std::unordered_map<std::string, float>& GetSkillData(const std::string& skillName)const

@@ -8,7 +8,7 @@ class ``Task final : public TaskNode
 public:
 	using TaskNode::TaskNode;
 	virtual void Init()override;
-	virtual NODE_STATUS Update(const float& deltaTime) override;
+	virtual NODE_STATE Update(const float& deltaTime) override;
 };
 
 // ----------------- CPP-----------------
@@ -18,21 +18,21 @@ public:
 
 void NoNameTask::Init()
 {
-	ReserveAnimation("asset\\model\\‚È‚Ü‚¦.fbx", " ");
+	ReserveAnimation("asset\\model\\mawJ\\‚È‚Ü‚¦.fbx", " ");
 }
 
-NODE_STATUS NoNameTask::Update(const float& deltaTime)
+NODE_STATE NoNameTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
 	if (node != nullptr && node != this)
 	{
-		return NODE_STATUS::FAILURE;
+		return NODE_STATE::FAILURE;
 	}
 
 
@@ -43,7 +43,7 @@ NODE_STATUS NoNameTask::Update(const float& deltaTime)
 		// ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
 
-		return NODE_STATUS::RUNNING;
+		return NODE_STATE::RUNNING;
 	}
 	else
 	{
@@ -51,9 +51,9 @@ NODE_STATUS NoNameTask::Update(const float& deltaTime)
 		{
 			// ó‘Ô‚ðíœ
 			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATUS::SUCCESS;
+			return NODE_STATE::SUCCESS;
 		}
 	}
 
-	return NODE_STATUS::FAILURE;
+	return NODE_STATE::FAILURE;
 }

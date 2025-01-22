@@ -32,6 +32,7 @@ public:
 	virtual void Uninit()override;
 
 	virtual void TakeDamage(const float& atk)override;
+	void ParryPossibleTakeDamage(const float& atk);
 
 	const PlayerStateMachine* GetPlayerStateMachine()
 	{

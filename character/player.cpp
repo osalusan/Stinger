@@ -63,15 +63,19 @@ void Player::TakeDamage(const float& atk)
 
 	m_Health -= atk;
 
-	if (m_PlayerStateMachine != nullptr)
-	{
-		m_PlayerStateMachine->SetIsHitDamage(true);
-	}
-
 	if (m_Health <= 0)
 	{
 		m_Health = 0;
 	}
+}
+
+void Player::ParryPossibleTakeDamage(const float& atk)
+{
+	if (m_PlayerStateMachine != nullptr)
+	{
+		m_PlayerStateMachine->SetIsHitDamage(true);
+	}
+	TakeDamage(atk);
 }
 
 // ------------------------------- private -------------------------------

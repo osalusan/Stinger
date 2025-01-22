@@ -15,6 +15,8 @@
 #include "behaviorTaskNode/deadTask.h"
 #include "behaviorTaskNode/jumpAttackTask.h"
 #include "behaviorTaskNode/waitTask.h"
+#include "behaviorTaskNode/checkAttackParry.h"
+#include "behaviorTaskNode/parryRecoilTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -39,6 +41,15 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// 死亡
 	healthSeqNode->AddTaskChild<DeadTask>(boss, player);
 
+	BehaviorNode* parryRecoilNode = rootNode->AddNodeChild<SequenceNode>("パリィ管理シーケンス");
+	if (parryRecoilNode == nullptr) return;
+
+	// パリィの確認
+	BehaviorNode* ceckParry = parryRecoilNode->AddTaskChild<CheckAttackParryTask>(boss, player);
+	if (ceckParry == nullptr) return;
+	// パリィされた
+	ceckParry->AddTaskChild<ParryRecoilTask>(boss, player);
+
 	BehaviorNode* attackSelNode = rootNode->AddNodeChild<SelectorNode>("攻撃管理セレクター");
 	if (attackSelNode == nullptr) return;
 
@@ -48,6 +59,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	attackSelNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// 攻撃
 	BehaviorNode* leftSwiping = attackSelNode->AddTaskChild<LeftSwipingTask>(boss, player);
+	if (leftSwiping == nullptr) return;
 	leftSwiping->AddTaskChild<RightSwipingTask>(boss, player);
 	attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
 	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
