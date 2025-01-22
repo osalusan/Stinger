@@ -160,6 +160,8 @@ void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)
 	{
 		m_CurrentPlayerState->Init();
 	}
+
+	m_CurrentState = state;
 }
 
 void PlayerStateMachine::InitVelocity()

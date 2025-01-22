@@ -33,6 +33,10 @@ public:
 
 	virtual void TakeDamage(const float& atk)override;
 
+	const PlayerStateMachine* GetPlayerStateMachine()
+	{
+		return m_PlayerStateMachine;
+	}
 	const XMFLOAT3& GetVelocity()const
 	{
 		return m_Velocity;

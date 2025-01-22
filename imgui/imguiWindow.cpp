@@ -4,6 +4,8 @@
 #include "renderer/renderer.h"
 #include "manager/objectManager.h"
 #include "character/bossEnemy.h"
+#include "character/player.h"
+#include "playerState/playerStateMachine.h"
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorNode/selectorNode.h"
 #include "imgui.h"
@@ -48,12 +50,18 @@ void ImguiWindow::GetRootNode(Scene* scene)
     if (scene == nullptr) return;
     ObjectManager* objManager = scene->GetObjectManager();
     if (objManager == nullptr) return;
+    Player* player = objManager->GetPlayer();
+    if (player == nullptr) return;
+    const PlayerStateMachine* playerStateMachine = player->GetPlayerStateMachine();
+    if (playerStateMachine == nullptr) return;
     BossEnemy* boss = objManager->GetBossEnemy();
     if (boss == nullptr) return;
     const BehaviorTree* tree = boss->GetBehaviourTree();
     if (tree == nullptr) return;
 
-    m_BossEnemy = boss;
+    m_PlayerCache = player;
+    m_PlayerStateMachineCache = playerStateMachine;
+    m_BossEnemyCache = boss;
     m_RootNodeCache = tree->GetRootNode();
 }
 
@@ -73,10 +81,27 @@ void ImguiWindow::Update(const float& deltaTime)
 
     ImGui::Begin("DebugWindow");
     ImGui::Text("FPS :%f", fps);
-    if (m_BossEnemy != nullptr)
+
+    ImGui::Text(u8"------------- プレイヤー -------------");
+    if (m_PlayerCache != nullptr)
     {
-        ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemy->GetStamina(), m_BossEnemy->GetaMaxStamina());
-        ImGui::Text(u8"体力 :%f / %f", m_BossEnemy->GetHealth(), m_BossEnemy->GetMaxHealth());
+        ImGui::Text(u8"体力 :%f / %f", m_PlayerCache->GetHealth(), m_PlayerCache->GetMaxHealth());
+    }
+    if (m_PlayerStateMachineCache != nullptr)
+    {
+        m_PlayerStateMachineCache->GetCurrentState();
+        std::wstring wstr = ToWString(GetCurrentPlayerStateName(), 932);
+        std::string utf8Name = ToUtf8(wstr);
+
+        ImGui::Text(u8"現在のステート :%s", utf8Name.c_str());
+    }
+
+
+    ImGui::Text(u8"------------- エネミー -------------");
+    if (m_BossEnemyCache != nullptr)
+    {
+        ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
+        ImGui::Text(u8"体力 :%f / %f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
     }
     ImGui::Text(u8"ビヘイビアツリー");
 
@@ -165,4 +190,44 @@ std::string ImguiWindow::ToUtf8(const std::wstring& wstr)
     // こちらも末尾のヌル文字のケアが必要になる場合があるので必要なら resize
     str.resize(sizeNeeded - 1);
     return str;
+}
+
+std::string ImguiWindow::GetCurrentPlayerStateName()
+{
+    std::string playerStateName = "";
+    switch (m_PlayerStateMachineCache->GetCurrentState())
+    {
+    case PLAYER_STATE::NONE:
+        playerStateName = "None";
+        break;
+    case PLAYER_STATE::IDLE:
+        playerStateName = "待機";
+        break;
+    case PLAYER_STATE::JUMP:
+        playerStateName = "ジャンプ";
+        break;
+    case PLAYER_STATE::DAMAGE:
+        playerStateName = "被ダメ";
+        break;
+    case PLAYER_STATE::HOLD_WEAPON:
+        playerStateName = "構え";
+        break;
+    case PLAYER_STATE::PARRY:
+        playerStateName = "パリィ";
+        break;
+    case PLAYER_STATE::RUN:
+        playerStateName = "走り";
+        break;
+    case PLAYER_STATE::DEAD:
+        playerStateName = "死亡";
+        break;
+    case PLAYER_STATE::MAX:
+        playerStateName = "最大値";
+        break;
+    default:
+        playerStateName = "割り当てなし";
+        break;
+    }
+
+    return playerStateName;
 }

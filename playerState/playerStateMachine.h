@@ -37,6 +37,7 @@ private:
 	Camera* m_CameraCache = nullptr;
 
 	PlayerState* m_CurrentPlayerState = nullptr;
+	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
 
 	// ˆÚ“®•ûŒü‹L˜^—p
@@ -72,6 +73,10 @@ public:
 	const Player* GetPlayerCache()const
 	{
 		return m_PlayerCache;
+	}
+	const PLAYER_STATE& GetCurrentState()const
+	{
+		return m_CurrentState;
 	}
 
 	const XMFLOAT3& GetVelocity()const
