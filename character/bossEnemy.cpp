@@ -8,6 +8,11 @@
 // ----------------------- protected -----------------------
 void BossEnemy::MoveControl(const float& deltaTime)
 {
+	// ダメージ計算用にリセット
+	m_CurrentAttackParts = ATTACK_PARTS::NONE;
+	m_AttackDamage = 0.0f;
+	m_ParryPossibleAtk = false;
+
 	if (m_Tree != nullptr)
 	{
 		m_Tree->Update(deltaTime);
@@ -231,5 +236,14 @@ bool BossEnemy::UseStamina(const float& use)
 	m_StaminaValue -= use;
 
 	return true;
+}
+
+void BossEnemy::SetRunningNode(BehaviorNode* node)
+{
+	m_RunningNodeCache = node;
+	if (node == nullptr)
+	{
+		m_AttackAccept = false;
+	}
 }
 

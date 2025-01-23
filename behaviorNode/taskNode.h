@@ -40,4 +40,9 @@ public:
 	virtual ~TaskNode()override;
 	virtual void Init()override = 0;
 	virtual NODE_STATE Update(const float& deltaTime) override;
+
+	const float& GetMaxAnimTime()const
+	{
+		return m_MaxAnimTime;
+	}
 };

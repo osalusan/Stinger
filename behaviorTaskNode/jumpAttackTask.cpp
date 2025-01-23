@@ -28,14 +28,14 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 		return NODE_STATE::FAILURE;
 	}
 
-	const RANGE& currentRange = m_BossCache->GetCurrentRange();
-	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_CurrentTime >= m_MaxAnimTime && currentRange == RANGE::MIDDLE)
+	if (node == nullptr)
 	{
-		const float& maxStamina = m_BossCache->GetaMaxStamina();
-		if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
+		const RANGE& currentRange = m_BossCache->GetCurrentRange();
+		// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
+		if (m_CurrentTime >= m_MaxAnimTime && currentRange == RANGE::MIDDLE)
 		{
-			if (node == nullptr)
+			const float& maxStamina = m_BossCache->GetaMaxStamina();
+			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 			{
 				m_CurrentTime = 0.0f;
 				const XMFLOAT3& playerPos = m_PlayerCache->GetPos();

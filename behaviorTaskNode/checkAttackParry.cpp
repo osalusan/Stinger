@@ -19,6 +19,13 @@ NODE_STATE CheckAttackParryTask::Update(const float& deltaTime)
 	{
 		if (!m_RunningChild)
 		{
+			// アニメーションを中断
+			if (const TaskNode* taskNode = dynamic_cast<TaskNode*>(m_BossCache->GetRunningNode()))
+			{
+				if (taskNode == nullptr) return;
+				m_BossCache->SetAnimeTime(taskNode->GetMaxAnimTime());
+			}
+			
 			// 状態を保存
 			m_BossCache->SetRunningNode(nullptr);
 		}

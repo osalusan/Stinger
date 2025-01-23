@@ -41,6 +41,7 @@ protected:
 	bool m_ParryRecoil = false;
 	float m_AttackDamage = 0.0f;
 	bool m_ParryPossibleAtk = false;
+	bool m_AttackAccept = false;	// 意図しない連続ヒットが無くなるように
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	float m_MaxStamina = 0.0f;
@@ -55,9 +56,9 @@ protected:
 	// 今実行中のノード
 	BehaviorNode* m_RunningNodeCache = nullptr;
 
-	virtual void CollisionControl()override = 0;
-	virtual void CustomCollisionInfo()override = 0;
-	virtual void AnimationControl()override = 0;
+	virtual void CollisionControl()override = 0;		// 自身の他のオブジェクトの判定処理を行う
+	virtual void CustomCollisionInfo()override = 0;		// 自身のコリジョンの設定を行う
+	virtual void AnimationControl()override = 0;		// 自身のアニメーションの設定を行う
 
 	// 移動の所でビヘイビアツリーの制御
 	virtual void MoveControl(const float& deltaTime)override final;
@@ -142,10 +143,8 @@ public:
 	{
 		return m_CurrentRange;
 	}
-	void SetRunningNode(BehaviorNode* node)
-	{
-		m_RunningNodeCache = node;
-	}
+	void SetRunningNode(BehaviorNode* node);
+
 	void SetParryRecoil(const bool& parry)
 	{
 		m_ParryRecoil = parry;
@@ -161,6 +160,10 @@ public:
 	void SetParryPossibleAtk(const bool& possible)
 	{
 		m_ParryPossibleAtk = possible;
+	}
+	void SetAttackAccept(const bool& accept)
+	{
+		m_AttackAccept = accept;
 	}
 
 	const std::unordered_map<std::string, float>& GetSkillData(const std::string& skillName)const

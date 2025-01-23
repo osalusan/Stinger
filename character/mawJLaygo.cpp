@@ -146,6 +146,12 @@ void MawJLaygo::CollisionControl()
 		groundHeight = m_MeshFiled->GetHeight(m_Position);
 	}
 
+	// パリィされた時は強制的に地面に移動させる
+	if (m_ParryRecoil)
+	{
+		m_Position.y = groundHeight;
+	}
+
 	if (m_Position.y <= groundHeight)
 	{
 		m_Position.y = groundHeight;
@@ -182,7 +188,9 @@ void MawJLaygo::CollisionControl()
 			}
 
 			if (m_PlayerCache == nullptr) break;
+			if (m_AttackAccept) break;
 
+			// パリィ可能か不可能かで、呼ぶ関数を変更
 			if (m_ParryPossibleAtk)
 			{
 				m_PlayerCache->TakeDamageParryPossible(m_AttackDamage);
@@ -192,15 +200,15 @@ void MawJLaygo::CollisionControl()
 				m_PlayerCache->TakeDamage(m_AttackDamage);
 			}
 			
+			// 攻撃成功
+			m_AttackAccept = true;
 			break;
 		}
 	}
 
 
-	// ダメージ計算後に呼ぶ
-	m_CurrentAttackParts = ATTACK_PARTS::NONE;
-	m_AttackDamage = 0.0f;
-	m_ParryPossibleAtk = false;
+	// デバッグ時に文字を表示させたいので、ダメージ計算後に呼ぶ処理を、BossEnemyのMoveControlの一番最初に配置
+
 }
 
 void MawJLaygo::AnimationControl()
