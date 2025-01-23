@@ -102,6 +102,9 @@ void ImguiWindow::Update(const float& deltaTime)
     {
         ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
         ImGui::Text(u8"体力 :%f / %f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
+        std::wstring atkPartsName = ToWString(GetCurrentEnemyAttackParts(), 932);
+        std::string atkPartsUtf8Name = ToUtf8(atkPartsName);
+        ImGui::Text(u8"攻撃判定部位 :%s", atkPartsUtf8Name.c_str());
     }
     ImGui::Text(u8"ビヘイビアツリー");
 
@@ -195,6 +198,7 @@ std::string ImguiWindow::ToUtf8(const std::wstring& wstr)
 std::string ImguiWindow::GetCurrentPlayerStateName()
 {
     std::string playerStateName = "";
+    if (m_PlayerStateMachineCache == nullptr) return "";
     switch (m_PlayerStateMachineCache->GetCurrentState())
     {
     case PLAYER_STATE::NONE:
@@ -230,4 +234,45 @@ std::string ImguiWindow::GetCurrentPlayerStateName()
     }
 
     return playerStateName;
+}
+
+std::string ImguiWindow::GetCurrentEnemyAttackParts()
+{
+    std::string currentAttackParts = "";
+    if (m_BossEnemyCache == nullptr) return "";
+    switch (m_BossEnemyCache->GetCurrentAttackParts())
+    {
+    case ATTACK_PARTS::NONE:
+        currentAttackParts = "なし";
+        break;
+    case ATTACK_PARTS::BODY:
+        currentAttackParts = "体";
+        break;
+    case ATTACK_PARTS::ARM:
+        currentAttackParts = "両腕";
+        break;
+    case ATTACK_PARTS::RIGHT_ARM:
+        currentAttackParts = "右腕";
+        break;
+    case ATTACK_PARTS::LEFT_ARM:
+        currentAttackParts = "左腕";
+        break;
+    case ATTACK_PARTS::RIGHT_LEG:
+        currentAttackParts = "右足";
+        break;
+    case ATTACK_PARTS::LEFT_LEG:
+        currentAttackParts = "左足";
+        break;
+    case ATTACK_PARTS::ALL:
+        currentAttackParts = "すべて";
+        break;
+    case ATTACK_PARTS::MAX:
+        currentAttackParts = "最大値";
+        break;
+    default:
+        currentAttackParts = "割り当てなし";
+        break;
+    }
+
+    return currentAttackParts;
 }

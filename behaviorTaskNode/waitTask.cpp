@@ -38,7 +38,7 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 	}
 	if (InputManager::GetKeyPress('B'))
 	{
-		m_PlayerCache->ParryPossibleTakeDamage(1.0f);
+		m_PlayerCache->TakeDamageParryPossible(1.0f);
 	}
 
 	if (m_CurrentTime < m_BossCache->GetMaxWaitTime())

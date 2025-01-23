@@ -12,7 +12,7 @@ enum class NODE_STATE
 class BehaviorNode 
 {
 protected:
-    std::string m_TaskName = {};
+    std::string m_TaskName = {};    // CSV‚Ì•û‚Æ–¼‘O‚ð“¯‚¶‚É
     std::vector<BehaviorNode*> m_Children = {};
     NODE_STATE m_CurrentState = NODE_STATE::FAILURE;
 public:

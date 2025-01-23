@@ -69,7 +69,7 @@ void Player::TakeDamage(const float& atk)
 	}
 }
 
-void Player::ParryPossibleTakeDamage(const float& atk)
+void Player::TakeDamageParryPossible(const float& atk)
 {
 	if (m_PlayerStateMachine != nullptr)
 	{

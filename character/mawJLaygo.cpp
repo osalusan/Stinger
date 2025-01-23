@@ -2,9 +2,12 @@
 #include "component/boxCollisionComponent.h"
 #include "component/shaderComponent.h"
 #include "manager/fbxModelManager.h"
+#include "manager/sceneManager.h"
+#include "scene/scene.h"
 #include "behaviorTree/behaviorTree.h"
 #include "meshFiled/meshFiled.h"
 #include "renderer/fbxModelRenderer.h"
+#include "character/player.h"
 
 constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 
@@ -137,7 +140,6 @@ void MawJLaygo::CustomCollisionInfo()
 
 void MawJLaygo::CollisionControl()
 {
-
 	float groundHeight = 0.0f;
 	if (m_MeshFiled != nullptr)
 	{
@@ -149,6 +151,56 @@ void MawJLaygo::CollisionControl()
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
 	}
+
+	// TODO :両腕に対応してないため、m_PartsCategoryを削除し、ATTACK_PARTSの取得方法を変更する
+	// ダメージ計算
+	if (m_AttackDamage != 0.0f)
+	{
+		for (BoxCollisionComponent* boxColl : m_BoxCollisionCaches)
+		{
+			if (boxColl == nullptr) continue;
+			if (m_CurrentAttackParts == ATTACK_PARTS::NONE || m_CurrentAttackParts == ATTACK_PARTS::MAX) break;
+
+			if (m_CurrentAttackParts != ATTACK_PARTS::ALL)
+			{
+				if (m_CurrentAttackParts != m_PartsCategory[boxColl->GetName().c_str()])
+				{
+					continue;
+				}
+			}
+
+			// ダメージを与える
+			if (!boxColl->CheckHitObject(COLLISION_TAG::PLAYER)) continue;
+
+			if (m_PlayerCache == nullptr)
+			{
+				Scene* scene = SceneManager::GetScene();
+				if (scene == nullptr) break;
+				ObjectManager* objectManager = scene->GetObjectManager();
+				if (objectManager == nullptr) break;
+				m_PlayerCache = objectManager->GetPlayer();
+			}
+
+			if (m_PlayerCache == nullptr) break;
+
+			if (m_ParryPossibleAtk)
+			{
+				m_PlayerCache->TakeDamageParryPossible(m_AttackDamage);
+			}
+			else
+			{
+				m_PlayerCache->TakeDamage(m_AttackDamage);
+			}
+			
+			break;
+		}
+	}
+
+
+	// ダメージ計算後に呼ぶ
+	m_CurrentAttackParts = ATTACK_PARTS::NONE;
+	m_AttackDamage = 0.0f;
+	m_ParryPossibleAtk = false;
 }
 
 void MawJLaygo::AnimationControl()
@@ -187,6 +239,12 @@ void MawJLaygo::Init()
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE1_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE2_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, NECK_NAME_MAWJ));
+
+	m_PartsCategory.emplace(HIP_NAME_MAWJ,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(SPINE_NAME_MAWJ,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(SPINE1_NAME_MAWJ,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(SPINE2_NAME_MAWJ,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(NECK_NAME_MAWJ,ATTACK_PARTS::BODY);
 	// 腕
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHTHAND_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFTHAND_NAME_MAWJ));
@@ -196,6 +254,16 @@ void MawJLaygo::Init()
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOREARM_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_SHOULDER_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_SHOULDER_NAME_MAWJ));
+
+	m_PartsCategory.emplace(RIGHTHAND_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFTHAND_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHT_ARM_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFT_ARM_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHT_FOREARM_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFT_FOREARM_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHT_SHOULDER_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFT_SHOULDER_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
+
 	// 足
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOOT_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOOT_NAME_MAWJ));
@@ -204,6 +272,12 @@ void MawJLaygo::Init()
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_UPLEG_NAME_MAWJ));
 	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_UPLEG_NAME_MAWJ));
 	
+	m_PartsCategory.emplace(RIGHT_FOOT_NAME_MAWJ, ATTACK_PARTS::RIGHT_LEG);
+	m_PartsCategory.emplace(LEFT_FOOT_NAME_MAWJ, ATTACK_PARTS::LEFT_LEG);
+	m_PartsCategory.emplace(RIGHT_LEG_NAME_MAWJ, ATTACK_PARTS::RIGHT_LEG);
+	m_PartsCategory.emplace(LEFT_LEG_NAME_MAWJ, ATTACK_PARTS::LEFT_LEG);
+	m_PartsCategory.emplace(RIGHT_UPLEG_NAME_MAWJ, ATTACK_PARTS::RIGHT_LEG);
+	m_PartsCategory.emplace(LEFT_UPLEG_NAME_MAWJ, ATTACK_PARTS::LEFT_LEG);
 	
 	// 当たり判定の後に追加
 	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");

@@ -10,19 +10,37 @@ enum class RANGE
 	LONG
 };
 
+enum class ATTACK_PARTS
+{
+	NONE = 0,
+	BODY,
+	ARM,
+	RIGHT_ARM,
+	LEFT_ARM,
+	RIGHT_LEG,
+	LEFT_LEG,
+	ALL,
+	MAX
+};
 
 class BehaviorTree;
 class BehaviorNode;
+class Player;
 
 class BossEnemy :public Character {
 protected:
 	BehaviorTree* m_Tree = nullptr;
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
+	std::unordered_map<const char*, ATTACK_PARTS> m_PartsCategory = {};
+	Player* m_PlayerCache = nullptr;		// ダメージ用
 
 	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_EnemySkillData = {};
 
 	float m_StaminaValue = 0.0f;
+	ATTACK_PARTS m_CurrentAttackParts = ATTACK_PARTS::NONE;	// 現在有効な当たり判定の攻撃場所
 	bool m_ParryRecoil = false;
+	float m_AttackDamage = 0.0f;
+	bool m_ParryPossibleAtk = false;
 
 	// ボスのパラメータ / 子クラスのInitで初期設定
 	float m_MaxStamina = 0.0f;
@@ -110,6 +128,10 @@ public:
 	{
 		return m_MaxWaitTime;
 	}
+	const ATTACK_PARTS& GetCurrentAttackParts()const
+	{
+		return m_CurrentAttackParts;
+	}
 
 	// 現在の状態のGetとSet
 	void SetCurrentRange(const RANGE& range)
@@ -127,6 +149,18 @@ public:
 	void SetParryRecoil(const bool& parry)
 	{
 		m_ParryRecoil = parry;
+	}
+	void SetAttackParts(const ATTACK_PARTS& parts)
+	{
+		m_CurrentAttackParts = parts;
+	}
+	void SetAttackDamage(const float& attack)
+	{
+		m_AttackDamage = m_Attack * attack;
+	}
+	void SetParryPossibleAtk(const bool& possible)
+	{
+		m_ParryPossibleAtk = possible;
 	}
 
 	const std::unordered_map<std::string, float>& GetSkillData(const std::string& skillName)const

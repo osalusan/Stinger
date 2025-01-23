@@ -25,6 +25,7 @@ private:
     std::wstring ToWString(const std::string& str, UINT codePage);
     std::string ToUtf8(const std::wstring& wstr);
     std::string GetCurrentPlayerStateName();
+    std::string GetCurrentEnemyAttackParts();
 public:
     ImguiWindow();
     ~ImguiWindow();

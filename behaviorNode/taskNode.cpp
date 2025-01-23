@@ -40,6 +40,10 @@ void TaskNode::InitSkillData(const std::string& skillName)
 	m_SpeedValue = FindSkillData("速度倍率");
 	m_UseStaminaValue = FindSkillData("消費スタミナ割合");
 	m_DerivationHealth = FindSkillData("派生技の発生体力割合");
+	if (FindSkillData("パリィ可能攻撃") != 0.0f)
+	{
+		m_ParryPossibleAtk = true;
+	}
 }
 
 NODE_STATE TaskNode::UpdateChildren(const float& deltaTime)
@@ -96,8 +100,12 @@ TaskNode::~TaskNode()
 
 NODE_STATE TaskNode::Update(const float& deltaTime)
 {
+	if (m_BossCache == nullptr)
+	{
+		return NODE_STATE();
+	}
 	// アニメーションしないタスクを一番最初にはじくように
-	if (m_AnimeName != "" && m_MaxAnimTime == 0.0f && m_BossCache != nullptr)
+	if (m_AnimeName != "" && m_MaxAnimTime == 0.0f)
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossCache->GetAnimeModel()))
 		{
@@ -105,5 +113,8 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 			m_CurrentTime = m_MaxAnimTime;
 		}
 	}
+
+	m_BossCache->SetAttackDamage(m_DamageValue);
+	m_BossCache->SetParryPossibleAtk(m_ParryPossibleAtk);
 	return NODE_STATE();
 }
