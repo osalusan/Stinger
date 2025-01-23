@@ -169,7 +169,16 @@ void MawJLaygo::CollisionControl()
 
 			if (m_CurrentAttackParts != ATTACK_PARTS::ALL)
 			{
-				if (m_CurrentAttackParts != m_PartsCategory[boxColl->GetName().c_str()])
+				const ATTACK_PARTS& partsName = m_PartsCategory[boxColl->GetName().c_str()];
+				if (m_CurrentAttackParts == partsName)
+				{
+
+				} // è‚Ì”»’è / ‰Eè‚â¶è‚Íè‚Æ‚µ‚Ä‚à”»’è‚³‚ê‚é
+				else if (m_CurrentAttackParts != ATTACK_PARTS::ARM && partsName == ATTACK_PARTS::RIGHT_ARM || partsName == ATTACK_PARTS::LEFT_ARM)
+				{
+					
+				}
+				else
 				{
 					continue;
 				}
