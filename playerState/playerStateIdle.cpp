@@ -31,9 +31,9 @@ void PlayerStateIdle::ChangeStateControl()
 	// 優先順位順
 
 	// 構えていると
-	if (m_PlayerMachine->GetIsHold())
+	if (m_PlayerMachine->GetIsParryAttack())
 	{
-		ChangePlayerState(PLAYER_STATE::HOLD_WEAPON);
+		ChangePlayerState(PLAYER_STATE::PARRY);
 	}// 浮いている、ジャンプしていると
 	else if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
 	{

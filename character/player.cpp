@@ -29,7 +29,7 @@ void Player::Init()
 {
 	Character::Init();
 	// ˆê”ÔÅ‰‚ÉŒÄ‚Ô
-	PlayerDataLoadCSV("asset\\csv\\player.csv");
+	PlayerDataLoadCSV("asset\\csv\\playerData.csv");
 
 	m_Scale = DEFAULT_SCALE_PLAYER;
 	m_EnableGravity = true;

@@ -7,6 +7,11 @@
 void PlayerStateParry::Init()
 {
 	m_CurrentTime = 0.0f;
+	// Get‚Ì‚Ý / •ÒW•s‰Â
+	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+	if (playerCache == nullptr) return;
+	m_MinParryTime = playerCache->GetMinParryTime();
+	m_MaxParryTime = playerCache->GetMaxParryTime();
 
 	if (m_BossCache == nullptr)
 	{
@@ -14,15 +19,6 @@ void PlayerStateParry::Init()
 		{
 			m_BossCache = m_ObjManagerCache->GetBossEnemy();
 		}
-	}
-	if (m_BossCache != nullptr)
-	{
-		m_BossCache->SetParryRecoil(true);
-	}
-	if (m_ObjManagerCache != nullptr)
-	{
-		m_ObjManagerCache->SetSlowTime(0.9f);
-		m_ObjManagerCache->SetSlowValue(0.0f);
 	}
 	if (m_ObjManagerCache == nullptr)
 	{
@@ -41,6 +37,22 @@ void PlayerStateParry::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
+	RotToCameraDirection(deltaTime);
+
+	if (m_PlayerMachine->GetIsHitAttacked() && !m_ParryAccept)
+	{
+		if (m_CurrentTime >= m_MinParryTime && m_CurrentTime <= m_MaxParryTime)
+		{
+			if (m_ObjManagerCache == nullptr || m_BossCache == nullptr)return;
+
+			m_BossCache->SetParryRecoil(true);
+
+			m_ObjManagerCache->SetSlowTime(0.9f);
+			m_ObjManagerCache->SetSlowValue(0.0f);
+
+			m_ParryAccept = true;
+		}
+	}
 }
 
 void PlayerStateParry::ChangeStateControl()

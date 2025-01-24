@@ -7,6 +7,9 @@ class PlayerStateParry final :public PlayerState
 {
 private:
 	float m_CurrentTime = 0.0f;
+	float m_MinParryTime = 0.0f;
+	float m_MaxParryTime = 0.0f;
+	bool m_ParryAccept = false;
 	ObjectManager* m_ObjManagerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;
 public:

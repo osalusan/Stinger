@@ -9,7 +9,6 @@ enum class PLAYER_STATE
 	IDLE,
 	JUMP,
 	DAMAGE,
-	HOLD_WEAPON,
 	PARRY,
 	RUN,
 	DEAD,
@@ -49,7 +48,7 @@ private:
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
-	bool m_IsHold = false;							// 構えているか
+	bool m_IsParryAttack = false;							// 構えているか
 	bool m_IsHitAttacked = false;					// 攻撃を受けたか
 	bool m_IsInvincible = false;					// 無敵状態かどうか
 
@@ -104,9 +103,9 @@ public:
 	{
 		return m_IsGround;
 	}
-	const bool& GetIsHold()const
+	const bool& GetIsParryAttack()const
 	{
-		return m_IsHold;
+		return m_IsParryAttack;
 	}
 	const bool& GetIsHitAttacked()const
 	{

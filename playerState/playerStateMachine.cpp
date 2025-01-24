@@ -9,7 +9,6 @@
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
 #include "playerStateJump.h"
-#include "playerStateHoldWeapon.h"
 #include "playerStateParry.h"
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
@@ -39,7 +38,6 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::IDLE, new PlayerStateIdle(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::JUMP, new PlayerStateJump(this));
-		m_PlayerStatePool.emplace(PLAYER_STATE::HOLD_WEAPON, new PlayerStateHoldWeapon(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::PARRY, new PlayerStateParry(this));
 	}
 	// èâä˙âª
@@ -83,11 +81,11 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_RandL = MOVE_DIRECTION::NONE;
 	m_FandB = MOVE_DIRECTION::NONE;
 	m_IsJamp = false;
-	m_IsHold = false;
+	m_IsParryAttack = false;
 
 	if (InputManager::GetMouseRightPress())
 	{
-		m_IsHold = true;
+		m_IsParryAttack = true;
 	}
 
 	if (InputManager::GetKeyPress('A'))
