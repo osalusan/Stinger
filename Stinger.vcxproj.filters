@@ -282,7 +282,7 @@
     <ClCompile Include="behaviorTaskNode\rightSwipingTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="playerState\playerStateParry.cpp">
+    <ClCompile Include="playerState\playerStateParryAttack.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
     <ClCompile Include="behaviorNode\behaviorNode.cpp">
@@ -293,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\checkAttackParry.cpp">
       <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateNormalAttack.cpp">
+      <Filter>playerState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -521,7 +524,7 @@
     <ClInclude Include="behaviorTaskNode\rightSwipingTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="playerState\playerStateParry.h">
+    <ClInclude Include="playerState\playerStateParryAttack.h">
       <Filter>playerState</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\parryRecoilTask.h">
@@ -529,6 +532,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\checkAttackParry.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateNormalAttack.h">
+      <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -30,14 +30,14 @@ void PlayerStateIdle::ChangeStateControl()
 	
 	// —Dæ‡ˆÊ‡
 
-	// \‚¦‚Ä‚¢‚é‚Æ
-	if (m_PlayerMachine->GetIsParryAttack())
+	// ƒpƒŠƒBUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
+	if (m_PlayerMachine->GetIsParryAttackButton())
 	{
-		ChangePlayerState(PLAYER_STATE::PARRY);
-	}// •‚‚¢‚Ä‚¢‚éAƒWƒƒƒ“ƒv‚µ‚Ä‚¢‚é‚Æ
-	else if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
+		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
+	}// ’ÊíUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
+	else if (m_PlayerMachine->GetIsNormalAttackButton())
 	{
-		ChangePlayerState(PLAYER_STATE::JUMP);
+		ChangePlayerState(PLAYER_STATE::ATTACK_NORMAL);
 	}// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
 	else if (m_PlayerMachine->GetMoveRandL() != MOVE_DIRECTION::NONE || m_PlayerMachine->GetMoveFandB() != MOVE_DIRECTION::NONE)
 	{

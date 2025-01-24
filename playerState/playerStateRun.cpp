@@ -83,12 +83,17 @@ void PlayerStateRun::ChangeStateControl()
 {
 	if (m_PlayerMachine == nullptr) return;
 
-	if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
-	{// 浮いている、ジャンプしていると
-		ChangePlayerState(PLAYER_STATE::JUMP);
-	}
+	// パリィ攻撃が押されたら
+	if (m_PlayerMachine->GetIsParryAttackButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
+	}// 通常攻撃が押されたら
+	else if (m_PlayerMachine->GetIsNormalAttackButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_NORMAL);
+	}// 移動していないと
 	else if (m_PlayerMachine->GetMoveRandL() == MOVE_DIRECTION::NONE && m_PlayerMachine->GetMoveFandB() == MOVE_DIRECTION::NONE)
-	{// 移動していないと
+	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
 }

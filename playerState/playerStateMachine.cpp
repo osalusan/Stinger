@@ -9,7 +9,8 @@
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
 #include "playerStateJump.h"
-#include "playerStateParry.h"
+#include "playerStateParryAttack.h"
+#include "playerStateNormalAttack.h"
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
@@ -37,8 +38,8 @@ void PlayerStateMachine::Init()
 
 		m_PlayerStatePool.emplace(PLAYER_STATE::IDLE, new PlayerStateIdle(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
-		m_PlayerStatePool.emplace(PLAYER_STATE::JUMP, new PlayerStateJump(this));
-		m_PlayerStatePool.emplace(PLAYER_STATE::PARRY, new PlayerStateParry(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, new PlayerStateParryAttack(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, new PlayerStateNormalAttack(this));
 	}
 	// èâä˙âª
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
@@ -81,11 +82,16 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_RandL = MOVE_DIRECTION::NONE;
 	m_FandB = MOVE_DIRECTION::NONE;
 	m_IsJamp = false;
-	m_IsParryAttack = false;
+	m_IsParryAttackButton = false;
+	m_IsNormalAttackButton = false;
 
 	if (InputManager::GetMouseRightPress())
 	{
-		m_IsParryAttack = true;
+		m_IsParryAttackButton = true;
+	}
+	if (InputManager::GetMouseLeftPress())
+	{
+		m_IsNormalAttackButton = true;
 	}
 
 	if (InputManager::GetKeyPress('A'))
