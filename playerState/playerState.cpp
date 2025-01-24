@@ -1,6 +1,8 @@
 #include "playerState.h"
 #include "manager/fbxModelManager.h"
+#include "character/player.h"
 
+// --------------------- protected ---------------------
 void PlayerState::LoadAnimation(const std::string& fileName, const std::string& animationName)
 {
 	m_AnimeName = animationName;
@@ -11,6 +13,35 @@ void PlayerState::LoadAnimation(const std::string& fileName, const std::string& 
 	}
 }
 
+void PlayerState::RotToCameraDirection(const float& deltaTime)
+{
+	if (m_PlayerMachine == nullptr) return;
+	const XMFLOAT3& forwardVector = m_PlayerMachine->GetCameraForward();
+
+	float currentAngle = m_PlayerMachine->GetRotation().y;
+	const float& targetAngle = atan2f(forwardVector.x, forwardVector.z);
+
+	float angleDiff = targetAngle - currentAngle;
+	while (angleDiff > XM_PI)
+	{
+		angleDiff -= XM_2PI;
+	}
+	while (angleDiff < -XM_PI)
+	{
+		angleDiff += XM_2PI;
+	}
+
+	// Get‚Ì‚Ý / •ÒW•s‰Â
+	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+	if (playerCache == nullptr) return;
+	const float& rotSpeed = playerCache->GetRotSpeed();
+	// ­‚µ‚¸‚Â·‚ð–„‚ß‚é
+	currentAngle += angleDiff * rotSpeed * deltaTime;
+
+	m_PlayerMachine->SetRotationY(currentAngle);
+}
+
+// --------------------- public ---------------------
 PlayerState::~PlayerState()
 {
 	m_PlayerMachine = nullptr;

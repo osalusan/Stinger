@@ -20,6 +20,7 @@ void PlayerStateHoldWeapon::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
+	RotToCameraDirection(deltaTime);
 }
 
 void PlayerStateHoldWeapon::ChangeStateControl()

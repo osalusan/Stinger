@@ -12,6 +12,8 @@ protected:
 	bool m_LoadAnimation = false;
 
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
+	// ƒJƒƒ‰‚ÌŒü‚«‚É‰ñ“]
+	void RotToCameraDirection(const float& deltaTime);
 public:
 	virtual ~PlayerState();
 	PlayerState(PlayerStateMachine* machine);
