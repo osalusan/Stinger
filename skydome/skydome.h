@@ -10,9 +10,9 @@ class SkyDome final : public StaticMeshObject
 private:
 	Camera* m_CameraCache = nullptr;
 
+	virtual void MoveControl(const float& deltaTime)override;
 public:
 	SkyDome();
 	virtual ~SkyDome();
 	virtual void Init()override;
-	virtual void Update(const float& deltaTime)override;
 };

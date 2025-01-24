@@ -67,6 +67,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{edbad82d-8fe1-4e59-9503-8fef892bac62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="equipment">
+      <UniqueIdentifier>{f5f59298-14d3-446b-8bff-1ecaac357189}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -296,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="playerState\playerStateNormalAttack.cpp">
       <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="equipment\equipmentObject.cpp">
+      <Filter>equipment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="playerState\playerStateNormalAttack.h">
       <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="equipment\equipmentObject.h">
+      <Filter>equipment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

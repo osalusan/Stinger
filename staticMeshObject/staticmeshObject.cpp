@@ -13,6 +13,8 @@ void StaticMeshObject::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
 
+	MoveControl(deltaTime);
+
 	// “–‚½‚è”»’èˆ—‚Ì‘O‚É
 	if (m_BoxCollCache == nullptr) return;
 

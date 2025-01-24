@@ -3,7 +3,12 @@
 #include "component/boxCollisionComponent.h"
 #include "component/shaderComponent.h"
 
-Box::Box() 
+void Box::MoveControl(const float& deltaTime)
+{
+	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‰¼À‘•
+}
+
+Box::Box()
 	: StaticMeshObject(STATICMESH_MODEL::BOX)
 {
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\box.obj");

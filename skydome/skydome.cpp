@@ -6,6 +6,14 @@
 #include "camera/playerCamera.h"
 #include "component/shaderComponent.h"
 
+void SkyDome::MoveControl(const float& deltaTime)
+{
+	if (m_CameraCache != nullptr)
+	{
+		m_Position = m_CameraCache->GetPos();
+	}
+}
+
 SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
 {
 	ObjModelManager::ReservModel(m_Model, "asset\\model\\sky.obj");
@@ -31,13 +39,5 @@ void SkyDome::Init()
 		if (objManager == nullptr) return;
 
 		m_CameraCache = objManager->GetCamera();
-	}
-}
-
-void SkyDome::Update(const float& deltaTime)
-{
-	if (m_CameraCache != nullptr)
-	{
-		m_Position = m_CameraCache->GetPos();
 	}
 }

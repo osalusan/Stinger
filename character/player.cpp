@@ -2,16 +2,21 @@
 #include "manager/fbxModelManager.h"
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
+#include "manager/objModelManager.h"
 #include "renderer/fbxModelRenderer.h"
 #include "component/boxCollisionComponent.h"
 #include "component/shaderComponent.h"
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
+#include "scene/scene.h"
+#include "equipment/equipmentObject.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
 constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
+
+constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
 
 Player::Player(const XMFLOAT3& pos)
 {
@@ -46,6 +51,14 @@ void Player::Init()
 	{
 		m_PlayerStateMachine->Init();
 	}
+
+	Scene* scene = SceneManager::GetScene();
+	if (scene == nullptr) return;
+	ObjectManager* objManager = scene->GetObjectManager();
+	if (objManager == nullptr) return;
+
+	// プレイヤーの装備
+	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\box.obj",m_Model, RIGHTHAND_NAME_PLAYER, XMFLOAT3(1.0f, 1.0f, 1.0f));
 }
 
 void Player::Uninit()
@@ -107,7 +120,7 @@ void Player::CollisionControl()
 	const int& maxCount = 5;
 	int count = 0;
 	XMFLOAT3 recPos = {};
-	while(m_BoxCollCache->CheckHitAllObject())
+	while(m_BoxCollCache->CheckHitObject(COLLISION_TAG::OBJECT))
 	{
 		count++;
 		if (m_BoxCollCache->GetHitGameObject<GameObject>() == nullptr) break;
@@ -144,6 +157,22 @@ void Player::CollisionControl()
 			m_Velocity.y = 0.0f;
 			m_PlayerStateMachine->HitGround();
 		}
+		if (count >= maxCount) break;	// 無限ループしないように
+	}
+
+	count = 0;
+	while (m_BoxCollCache->CheckHitObject(COLLISION_TAG::ENEMY_BOSS))
+	{
+		count++;
+		if (m_BoxCollCache->GetHitGameObject<GameObject>() == nullptr) break;
+
+		XMVECTOR mtv = m_BoxCollCache->GetMtv();
+
+		// 位置をMTV分だけ移動
+		XMVECTOR playerVectorPos = XMLoadFloat3(&m_Position);
+		playerVectorPos = XMVectorAdd(playerVectorPos, mtv);
+		XMStoreFloat3(&m_Position, playerVectorPos);
+
 		if (count >= maxCount) break;	// 無限ループしないように
 	}
 

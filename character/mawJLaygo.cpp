@@ -75,13 +75,6 @@ void MawJLaygo::CustomCollisionInfo()
 			if (bonePair.first != boxName) continue;
 
 			const XMMATRIX& boneMatrix = model->AiMatrixToXMMATRIX(bonePair.second.WorldMatrix);
-			const XMMATRIX& modelScale = XMMatrixScaling(1.0f / boxCustomScl.x, 1.0f / boxCustomScl.y, 1.0f / boxCustomScl.z); // モデルにスケールを合わせる
-			const XMMATRIX& matrixScale = XMMatrixScaling(boxCustomScl.x, boxCustomScl.y, boxCustomScl.z);
-			XMMATRIX boneWorldMatrix = modelScale * boneMatrix * matrixScale * world;
-
-			boneWorldMatrix.r[3].m128_f32[0] = 0.0f;
-			boneWorldMatrix.r[3].m128_f32[1] = 0.0f;
-			boneWorldMatrix.r[3].m128_f32[2] = 0.0f;
 
 			XMFLOAT3 offsetPos = {};
 			XMFLOAT3 collisionScl = {};

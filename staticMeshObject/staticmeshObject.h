@@ -14,6 +14,7 @@ protected:
 
 	bool m_Visible = true;		// Œ©‚¦‚È‚­‚È‚Á‚Ä‚à“–‚½‚è”»’è‚ÍŽc‚é
 
+	virtual void MoveControl(const float& deltaTime) = 0;
 public:
 	StaticMeshObject() = delete;
 	StaticMeshObject(const STATICMESH_MODEL& model);

@@ -13,8 +13,9 @@ private:
 	XMFLOAT3 m_RotValue = {};
 
 	bool m_Up = false;
+
+	virtual void MoveControl(const float& deltaTime)override;
 public:
 	MoveRandSizeBox();
 	MoveRandSizeBox(const float& resetPosZ, const float& posZ);
-	virtual void Update(const float& deltaTime)override;
 };

@@ -7,33 +7,10 @@ constexpr int RNAD_RANGE = 50;
 constexpr float SPEED_VALUE = 0.02f;
 constexpr float UP_DOWN_SPEED_VALUE = 0.027f;
 constexpr float ROTATE_VALUE = 0.001f;
-MoveRandSizeBox::MoveRandSizeBox() : StaticMeshObject(STATICMESH_MODEL::BOX_CENTER)
+
+// -------------------------- private --------------------------
+void MoveRandSizeBox::MoveControl(const float& deltaTime)
 {
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCenter.obj");
-	AddComponent<ShaderComponent>(this, "cso\\unlitColorModelVS.cso", "cso\\unlitColorModelPS.cso");
-
-	m_Speed = static_cast<float>(rand() % RNAD_RANGE) * SPEED_VALUE;
-	m_Position.x = static_cast<float>(GetRandom() % (RNAD_RANGE / 2));
-	m_UpDownRange = static_cast<float>(rand() % (RNAD_RANGE/5));
-	m_RandCenterPosY = static_cast<float>(rand() % (RNAD_RANGE / 4)) + 5.0f;
-	m_RotValue.x = static_cast<float>(GetRandom() % RNAD_RANGE) * ROTATE_VALUE;
-	m_RotValue.y = static_cast<float>(GetRandom() % RNAD_RANGE) * ROTATE_VALUE;
-	m_RotValue.z = static_cast<float>(GetRandom() % RNAD_RANGE) * ROTATE_VALUE;
-
-	m_Position.y = m_RandCenterPosY;
-}
-
-MoveRandSizeBox::MoveRandSizeBox(const float& resetPosZ,const float& posZ)
-	:MoveRandSizeBox()
-{
-	m_ResetPosZ = resetPosZ;
-	m_DefaultPosZ = posZ;
-}
-
-void MoveRandSizeBox::Update(const float& deltaTime)
-{
-	StaticMeshObject::Update(deltaTime);
-
 	if (m_Position.z < m_ResetPosZ)
 	{
 		m_Position.x = static_cast<float>(GetRandom() % (RNAD_RANGE / 2));
@@ -71,4 +48,28 @@ void MoveRandSizeBox::Update(const float& deltaTime)
 	m_Rotation.z += m_RotValue.z;
 
 	m_Color.w = 0.01f;
+}
+
+// -------------------------- public --------------------------
+MoveRandSizeBox::MoveRandSizeBox() : StaticMeshObject(STATICMESH_MODEL::BOX_CENTER)
+{
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCenter.obj");
+	AddComponent<ShaderComponent>(this, "cso\\unlitColorModelVS.cso", "cso\\unlitColorModelPS.cso");
+
+	m_Speed = static_cast<float>(rand() % RNAD_RANGE) * SPEED_VALUE;
+	m_Position.x = static_cast<float>(GetRandom() % (RNAD_RANGE / 2));
+	m_UpDownRange = static_cast<float>(rand() % (RNAD_RANGE/5));
+	m_RandCenterPosY = static_cast<float>(rand() % (RNAD_RANGE / 4)) + 5.0f;
+	m_RotValue.x = static_cast<float>(GetRandom() % RNAD_RANGE) * ROTATE_VALUE;
+	m_RotValue.y = static_cast<float>(GetRandom() % RNAD_RANGE) * ROTATE_VALUE;
+	m_RotValue.z = static_cast<float>(GetRandom() % RNAD_RANGE) * ROTATE_VALUE;
+
+	m_Position.y = m_RandCenterPosY;
+}
+
+MoveRandSizeBox::MoveRandSizeBox(const float& resetPosZ,const float& posZ)
+	:MoveRandSizeBox()
+{
+	m_ResetPosZ = resetPosZ;
+	m_DefaultPosZ = posZ;
 }
