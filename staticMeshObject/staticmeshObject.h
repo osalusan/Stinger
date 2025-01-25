@@ -11,6 +11,7 @@ protected:
 	STATICMESH_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
 	BoxCollisionComponent* m_BoxCollCache = nullptr;
 	XMFLOAT4 m_Color = {0.0f,1.0f,0.0f,1.0f};
+	XMMATRIX m_RotationMatrix = {};
 
 	bool m_Visible = true;		// 見えなくなっても当たり判定は残る
 

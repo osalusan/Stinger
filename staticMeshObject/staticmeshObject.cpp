@@ -13,6 +13,8 @@ void StaticMeshObject::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
 
+	m_RotationMatrix = GetRotationMatrix();
+
 	MoveControl(deltaTime);
 
 	// “–‚½‚è”»’èˆ—‚Ì‘O‚É
@@ -21,7 +23,7 @@ void StaticMeshObject::Update(const float& deltaTime)
 	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
 		MODEL* modelData = model->GetModel();
-		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, GetRotationMatrix());
+		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, m_RotationMatrix);
 	}
 }
 

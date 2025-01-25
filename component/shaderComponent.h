@@ -11,6 +11,8 @@ private:
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 
+	bool m_IsUseRotMatrix = false;
+	XMMATRIX m_RotationMatrix = {};
 public:
 	using Component::Component;
 	ShaderComponent(GameObject* gameObject,const std::string& vsFileName, const std::string& psFileName);
@@ -19,4 +21,6 @@ public:
 	virtual void Uninit()override;
 	virtual void Update()override;
 	virtual void Draw()override;
+
+	void SetRotMatrix(const XMMATRIX& rotMatrix);
 };

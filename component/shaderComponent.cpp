@@ -43,12 +43,12 @@ void ShaderComponent::Init()
 
 void ShaderComponent::Uninit()
 {
-
+	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‰¼À‘•
 }
 
 void ShaderComponent::Update()
 {
-	
+	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‰¼À‘•
 }
 
 void ShaderComponent::Draw()
@@ -69,8 +69,23 @@ void ShaderComponent::Draw()
 	XMMATRIX world, scl, rot, trans;
 
 	scl = XMMatrixScaling(objScale.x, objScale.y, objScale.z);
-	rot = XMMatrixRotationRollPitchYaw(objRot.x, objRot.y, objRot.z);
+	if (m_IsUseRotMatrix)
+	{
+		rot = m_RotationMatrix;
+		m_IsUseRotMatrix = false;
+	}
+	else
+	{
+		rot = XMMatrixRotationRollPitchYaw(objRot.x, objRot.y, objRot.z);
+	}
+
 	trans = XMMatrixTranslation(objPos.x, objPos.y, objPos.z);
 	world = scl * rot * trans;
 	Renderer::SetWorldMatrix(world);
+}
+
+void ShaderComponent::SetRotMatrix(const XMMATRIX& rotMatrix)
+{
+	m_RotationMatrix = rotMatrix;
+	m_IsUseRotMatrix = true;
 }

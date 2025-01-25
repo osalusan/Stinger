@@ -58,7 +58,7 @@ void Player::Init()
 	if (objManager == nullptr) return;
 
 	// ƒvƒŒƒCƒ„[‚Ì‘•”õ
-	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\box.obj",m_Model, RIGHTHAND_NAME_PLAYER, XMFLOAT3(1.0f, 1.0f, 1.0f));
+	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, XMFLOAT3(1.0f, 1.0f, 1.0f));
 }
 
 void Player::Uninit()
