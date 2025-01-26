@@ -15,12 +15,13 @@
 #include <sstream>
 
 constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
+constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 63.0f ,DEFAULT_SCALE_PLAYER.y * 63.0f ,DEFAULT_SCALE_PLAYER.z * 63.0f };
 
 constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
 
 Player::Player(const XMFLOAT3& pos)
 {
-	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\akai.fbx");
+	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\PaladinJNordstrom.fbx");
 	m_Position = pos;
 }
 
@@ -58,7 +59,7 @@ void Player::Init()
 	if (objManager == nullptr) return;
 
 	// ƒvƒŒƒCƒ„[‚Ì‘•”õ
-	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, XMFLOAT3(1.0f, 1.0f, 1.0f));
+	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD);
 }
 
 void Player::Uninit()

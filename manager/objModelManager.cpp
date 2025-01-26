@@ -323,8 +323,14 @@ void ObjModelManager::LoadObj(const char* fileName, MODEL_OBJ* modelObj)
 			if (fscanf(file, "%f", &texcoord->x) == 0) break;
 			if (fscanf(file, "%f", &texcoord->y) == 0) break;
 
-			if (reverseX) { texcoord->x = 1.0f - texcoord->x; }
-			if (reverseY) { texcoord->y = 1.0f - texcoord->y; }
+			if (reverseX) 
+			{ 
+				texcoord->x = 1.0f - texcoord->x; 
+			}
+			if (reverseY) 
+			{ 
+				texcoord->y = 1.0f - texcoord->y; 
+			}
 			texcoord++;
 		}
 		else if (strcmp(str, "usemtl") == 0)
