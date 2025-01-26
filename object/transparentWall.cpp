@@ -6,7 +6,7 @@ TransparentWall::TransparentWall(const XMFLOAT3& pos, const XMFLOAT3& scale)
 {
 	m_Position = pos;
 	m_Scale = scale;
-	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this);
+	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::OBJECT);
 }
 
 TransparentWall::TransparentWall(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& rot)

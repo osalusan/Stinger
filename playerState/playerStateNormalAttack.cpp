@@ -20,6 +20,9 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
+
+	RotToCameraDirection(deltaTime);
+
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
