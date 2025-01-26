@@ -34,7 +34,7 @@ void EquipmentObject::MoveControl(const float& deltaTime)
 	parentWorld = parentScl * parentRot * parentTrans;
 
 	scl = XMMatrixScaling((1.0f / parentScale.x) * m_OffsetScale.x, (1.0f / parentScale.y) * m_OffsetScale.y, (1.0f / parentScale.z) * m_OffsetScale.z);
-	rot = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
+	rot = XMMatrixRotationRollPitchYaw(m_OffsetRot.x, m_OffsetRot.y, m_OffsetRot.z);
 	trans = XMMatrixTranslation(m_OffsetPos.x, m_OffsetPos.y, m_OffsetPos.z);
 
 	world = rot * trans * scl * boneMatrix * parentWorld;
@@ -57,36 +57,6 @@ void EquipmentObject::MoveControl(const float& deltaTime)
 	m_RotationMatrix = world;
 
 	m_ShaderCache->SetRotMatrix(m_RotationMatrix);
-	//XMFLOAT4 fquat;
-	//XMStoreFloat4(&fquat, decRot);
-
-	//float x = fquat.x;
-	//float y = fquat.y;
-	//float z = fquat.z;
-	//float w = fquat.w;
-
-	//// Ç±Ç±Ç≈ÇÕÅuYaw-Pitch-RollÅvÇÃèá(ç∂éËån)ÇëzíËÇµÇΩéÆÇÃó·
-	//float pitch = asinf(2.0f * (w * y - x * z));
-	//float yaw = atan2f(2.0f * (w * z + x * y), 1.0f - 2.0f * (y * y + z * z));
-	//float roll = atan2f(2.0f * (w * x + y * z), 1.0f - 2.0f * (x * x + y * y));
-
-	//const float& x = decRot.m128_f32[0];
-	//const float& y = decRot.m128_f32[1];
-	//const float& z = decRot.m128_f32[2];
-	//const float& w = decRot.m128_f32[3];
-
-	//float pitch = asinf(2.0f * (w * y - x * z));
-	//float yaw  = atan2f(2.0f * (w * z + x * y), 1.0f - 2.0f * (y * y + z * z));
-	//float roll = atan2f(2.0f * (w * x + y * z), 1.0f - 2.0f * (x * x + y * y));
-
-	//float pitch = asinf(-world.r[2].m128_f32[1]);
-	//float yaw = atan2f(-world.r[2].m128_f32[0], -world.r[2].m128_f32[2]);
-	//float roll = atan2f(-world.r[0].m128_f32[1], -world.r[1].m128_f32[1]);
-
-
-	//m_Rotation.x = roll;
-	//m_Rotation.y = pitch;
-	//m_Rotation.x = yaw;
 }
 
 EquipmentObject::~EquipmentObject()
@@ -111,8 +81,14 @@ EquipmentObject::EquipmentObject(const GameObject* gameObj, const STATICMESH_MOD
 	m_OffsetScale = scale;
 }
 
-EquipmentObject::EquipmentObject(const GameObject* gameObj, const STATICMESH_MODEL& staticModel, const std::string& fileName, const ANIMETION_MODEL& parentModel, const char* boneName, const XMFLOAT3& scale, const XMFLOAT3& pos)
+EquipmentObject::EquipmentObject(const GameObject* gameObj, const STATICMESH_MODEL& staticModel, const std::string& fileName, const ANIMETION_MODEL& parentModel, const char* boneName, const XMFLOAT3& scale, const XMFLOAT3& rot)
 	:EquipmentObject(gameObj,staticModel,fileName,parentModel,boneName,scale)
+{
+	m_OffsetRot = rot;
+}
+
+EquipmentObject::EquipmentObject(const GameObject* gameObj, const STATICMESH_MODEL& staticModel, const std::string& fileName, const ANIMETION_MODEL& parentModel, const char* boneName, const XMFLOAT3& scale, const XMFLOAT3& rot, const XMFLOAT3& pos)
+	:EquipmentObject(gameObj, staticModel, fileName, parentModel, boneName, scale, rot)
 {
 	m_OffsetPos = pos;
 }

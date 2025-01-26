@@ -3,7 +3,7 @@
 
 void PlayerStateIdle::Init()
 {
-	LoadAnimation("asset\\model\\player\\idle_Akai.fbx", "idle_Player");
+	LoadAnimation("asset\\model\\player\\Idle_PaladinJNordstrom.fbx", "idle_Player");
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();

@@ -3,7 +3,7 @@
 
 void PlayerStateRun::Init()
 {
-	LoadAnimation("asset\\model\\player\\run_Akai.fbx", "run_Player");
+	LoadAnimation("asset\\model\\player\\run_PaladinJNordstrom.fbx", "run_Player");
 }
 
 void PlayerStateRun::Unit()

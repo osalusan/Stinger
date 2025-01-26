@@ -16,12 +16,15 @@
 
 constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
 constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 63.0f ,DEFAULT_SCALE_PLAYER.y * 63.0f ,DEFAULT_SCALE_PLAYER.z * 63.0f };
+constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 48.0f ,DEFAULT_SCALE_PLAYER.y * 48.0f ,DEFAULT_SCALE_PLAYER.z * 48.0f };
+constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
 
 constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
+constexpr const char* LEFTHAND_NAME_PLAYER = "mixamorig:LeftHand";
 
 Player::Player(const XMFLOAT3& pos)
 {
-	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\PaladinJNordstrom.fbx");
+	ReservModel(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\paladinJNordstrom.fbx");
 	m_Position = pos;
 }
 
@@ -59,7 +62,8 @@ void Player::Init()
 	if (objManager == nullptr) return;
 
 	// ƒvƒŒƒCƒ„[‚Ì‘•”õ
-	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD);
+	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD,XMFLOAT3(0.0f,0.0f,5.3f));
+	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj",m_Model,LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED,XMFLOAT3(-0.5f,0.0f,0.0f), OFFSET_POS_SHILED);
 }
 
 void Player::Uninit()
