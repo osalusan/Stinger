@@ -3,15 +3,18 @@
 
 class ObjectManager;
 class BossEnemy;
+class Player;
 class PlayerStateParryAttack final :public PlayerState
 {
 private:
 	float m_CurrentTime = 0.0f;
+	float m_MaxAnimTime = 0.0f;
 	float m_MinParryTime = 0.0f;
 	float m_MaxParryTime = 0.0f;
 	bool m_ParryAccept = false;
 	ObjectManager* m_ObjManagerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;
+	const Player* m_PlayerCache = nullptr;
 public:
 	using PlayerState::PlayerState;
 	virtual void Init()override;

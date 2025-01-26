@@ -1,18 +1,30 @@
 #include "playerStateParryAttack.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
+#include "manager/fbxModelManager.h"
+#include "renderer/fbxModelRenderer.h"
 #include "scene/scene.h"
 #include "character/bossEnemy.h"
 
 constexpr float SPEED_ATTENUATE_VALUE = 67.0f;	// 速度の減衰値
 void PlayerStateParryAttack::Init()
 {
+	LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack_Player");
+
 	m_CurrentTime = 0.0f;
-	// Getのみ / 編集不可
-	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
-	if (playerCache == nullptr) return;
-	m_MinParryTime = playerCache->GetMinParryTime();
-	m_MaxParryTime = playerCache->GetMaxParryTime();
+
+	if (m_PlayerCache == nullptr)
+	{
+		// Getのみ / 編集不可
+		const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+		m_PlayerCache = playerCache;
+	}
+
+	if (m_PlayerCache != nullptr)
+	{
+		m_MinParryTime = m_PlayerCache->GetMinParryTime();
+		m_MaxParryTime = m_PlayerCache->GetMaxParryTime();
+	}
 
 	if (m_BossCache == nullptr)
 	{
@@ -38,6 +50,14 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
+
+	if (m_PlayerCache != nullptr)
+	{
+		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_PlayerCache->GetAnimeModel()))
+		{
+			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
+		}
+	}
 
 	if (m_PlayerMachine == nullptr) return;
 
