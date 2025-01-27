@@ -9,10 +9,15 @@ private:
 	float m_MaxAnimTime = 0.0f;
 	float m_RollingSpeed = 0.0f;
 	float m_RotSpeed = 0.0f;
+	bool m_RollingAccept = false;
+	float m_MinRollingAcceptTime = 0.0f;
+	float m_MaxRollingAcceptTime = 0.0f;
 public:
 	using PlayerState::PlayerState;
 	virtual void Init()override;
 	virtual void Unit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void ChangeStateControl()override;
+
+	bool CheckRollingAccept();
 };

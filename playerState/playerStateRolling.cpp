@@ -9,15 +9,18 @@ void PlayerStateRolling::Init()
 {
 	LoadAnimation("asset\\model\\player\\rolling_PaladinJNordstrom.fbx", "rolling_Player");
 	m_CurrentTime = 0.0f;
+	m_RollingAccept = false;
 	if (m_PlayerMachine != nullptr)
 	{
+		// ブレンド時間設定
 		m_PlayerMachine->SetAnimeBlendTimeValue(BLEND_VALUE_ROLLING);
-		// Getのみ / 編集不可
+		// Getのみ / 編集不可 / 保存された数値を取得
 		const Player* playerCache = m_PlayerMachine->GetPlayerCache();
 		if (playerCache == nullptr) return;
 		m_RollingSpeed = playerCache->GetMoveSpeed() * playerCache->GetRollingSpeedValue();
 		m_RotSpeed = playerCache->GetRotSpeed();
-
+		m_MinRollingAcceptTime = playerCache->GetMinRollingTime();
+		m_MaxRollingAcceptTime = playerCache->GetMaxRollingTime();
 
 		// 速度設定
 
@@ -68,6 +71,7 @@ void PlayerStateRolling::Init()
 void PlayerStateRolling::Unit()
 {
 	m_CurrentTime = 0.0f;
+	m_RollingAccept = false;
 }
 
 void PlayerStateRolling::Update(const float& deltaTime)
@@ -127,4 +131,16 @@ void PlayerStateRolling::ChangeStateControl()
 	}
 
 
+}
+
+bool PlayerStateRolling::CheckRollingAccept()
+{
+	if (!m_RollingAccept)
+	{
+		if (m_CurrentTime >= m_MinRollingAcceptTime && m_CurrentTime <= m_MaxRollingAcceptTime)
+		{
+			m_RollingAccept = true;
+		}
+	}
+	return m_RollingAccept;
 }

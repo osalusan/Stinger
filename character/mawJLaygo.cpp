@@ -151,7 +151,6 @@ void MawJLaygo::CollisionControl()
 		m_Velocity.y = 0.0f;
 	}
 
-	// TODO :両腕に対応してないため、m_PartsCategoryを削除し、ATTACK_PARTSの取得方法を変更する
 	// ダメージ計算
 	if (m_AttackDamage != 0.0f)
 	{
