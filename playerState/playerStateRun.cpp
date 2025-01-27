@@ -1,9 +1,15 @@
 #include "playerStateRun.h"
 #include "character/player.h"
 
+constexpr float BLEND_VALUE_RUN = 8.0f;
+
 void PlayerStateRun::Init()
 {
 	LoadAnimation("asset\\model\\player\\run_PaladinJNordstrom.fbx", "run_Player");
+	if (m_PlayerMachine != nullptr)
+	{
+		m_PlayerMachine->SetAnimeBlendTimeValue(BLEND_VALUE_RUN);
+	}
 }
 
 void PlayerStateRun::Unit()

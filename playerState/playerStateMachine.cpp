@@ -144,6 +144,11 @@ void PlayerStateMachine::Update(const float& deltaTime)
 		m_PlayerCache->SetVelocityY(m_PlayerCache->GetVelocity().y + m_Velocity.y);
 
 		m_PlayerCache->SetRotationY(m_Rotation.y);
+
+		if (m_AnimeBlendTimeValue != 0.0f)
+		{
+			m_PlayerCache->SetBlendTimeValue(m_AnimeBlendTimeValue);
+		}
 	}
 
 	// ÅŒã‚ÉƒŠƒZƒbƒg

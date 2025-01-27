@@ -49,6 +49,8 @@ private:
 	XMFLOAT3 m_Velocity = {};
 	XMFLOAT3 m_Rotation = {};
 
+	float m_AnimeBlendTimeValue = 0.0f;				// アニメーションのブレンド速度
+
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
 	bool m_IsParryAttackButton = false;				// パリィ攻撃をしたか
@@ -158,5 +160,9 @@ public:
 	void SetRotationY(const float& y)
 	{
 		m_Rotation.y = y;
+	}
+	void SetAnimeBlendTimeValue(const float& value)
+	{
+		m_AnimeBlendTimeValue = value;
 	}
 };

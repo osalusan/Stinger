@@ -72,6 +72,10 @@ public:
 	{
 		m_Health = health;
 	}
+	void SetBlendTimeValue(const float& value)
+	{
+		m_BlendTimeValue = value;
+	}
 	const ANIMETION_MODEL& GetAnimeModel()const
 	{
 		return m_Model;
