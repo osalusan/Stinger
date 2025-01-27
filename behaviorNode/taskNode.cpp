@@ -118,3 +118,8 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 	m_BossCache->SetParryPossibleAtk(m_ParryPossibleAtk);
 	return NODE_STATE();
 }
+
+void TaskNode::CancelRunningTask()
+{
+	m_CurrentTime = m_MaxAnimTime;
+}

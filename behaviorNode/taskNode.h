@@ -45,4 +45,7 @@ public:
 	{
 		return m_MaxAnimTime;
 	}
+
+	// パリィやダウンで強制的にTaskを変更する時に使用
+	void CancelRunningTask();
 };
