@@ -87,8 +87,7 @@ bool PlayerStateParryAttack::CheckParryAccept()
 {
 	if (!m_ParryAccept)
 	{
-		// if (m_CurrentTime >= m_MinParryTime && m_CurrentTime <= m_MaxParryTime)
-		if (m_CurrentTime <= m_MaxParryTime)
+		if (m_CurrentTime >= m_MinParryTime && m_CurrentTime <= m_MaxParryTime)
 		{
 			if (m_ObjManagerCache == nullptr || m_BossCache == nullptr)return false;
 			m_PlayerMachine->InitVelocity();

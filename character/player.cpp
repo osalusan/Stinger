@@ -63,7 +63,10 @@ void Player::Init()
 
 	// プレイヤーの装備
 	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD,XMFLOAT3(0.0f,0.0f,5.3f));
-	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj",m_Model,LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED,XMFLOAT3(-0.5f,0.0f,0.0f), OFFSET_POS_SHILED);
+	if (m_ShiledChache == nullptr)
+	{
+		m_ShiledChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj", m_Model, LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED, XMFLOAT3(-0.5f, 0.0f, 0.0f), OFFSET_POS_SHILED);
+	}
 }
 
 void Player::Uninit()
@@ -95,6 +98,24 @@ void Player::TakeDamageParryPossible(const float& atk)
 	{
 		m_PlayerStateMachine->SetIsHitAttack(true);
 		TakeDamage(atk);
+	}
+}
+
+// 盾にヒット時のみ
+void Player::HitShiled(BoxCollisionComponent* boxColl)
+{
+	if (m_PlayerStateMachine == nullptr || boxColl == nullptr) return;
+
+	std::vector<EquipmentObject*> hitObjcts = {};
+	boxColl->GetHitGameObjects(hitObjcts);
+
+	for (EquipmentObject* hitObj : hitObjcts)
+	{
+		if (hitObj == m_ShiledChache)
+		{
+			m_PlayerStateMachine->CheckParry();
+			break;
+		}
 	}
 }
 

@@ -88,10 +88,10 @@ public:
 
 	// ˆø”–³‚µ‚Å’Ç‰Á
 	template <typename T>
-	void AddGameObject(const OBJECT& layer)
+	T* AddGameObject(const OBJECT& layer)
 	{
 		T* gameObject = new T;
-		if (gameObject == nullptr) return;
+		if (gameObject == nullptr) return nullptr;
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
@@ -111,14 +111,15 @@ public:
 			}
 		}
 
+		return gameObject;
 	}
 
 	// ˆø”•t‚«‚Ìê‡‚Í‚±‚Á‚¿
 	template <typename T, typename... Arg>
-	void AddGameObjectArg(const OBJECT& layer, Arg&&...args)
+	T* AddGameObjectArg(const OBJECT& layer, Arg&&...args)
 	{
 		T* gameObject = new T(std::forward<Arg>(args)...);
-		if (gameObject == nullptr) return;
+		if (gameObject == nullptr) return nullptr;
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
@@ -137,5 +138,6 @@ public:
 				m_BossCache = boss;
 			}
 		}
+		return gameObject;
 	}
 };

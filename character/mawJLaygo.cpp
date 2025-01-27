@@ -177,9 +177,6 @@ void MawJLaygo::CollisionControl()
 				}
 			}
 
-			// ダメージを与える
-			if (!boxColl->CheckHitObject(COLLISION_TAG::PLAYER)) continue;
-
 			if (m_PlayerCache == nullptr)
 			{
 				Scene* scene = SceneManager::GetScene();
@@ -190,7 +187,17 @@ void MawJLaygo::CollisionControl()
 			}
 
 			if (m_PlayerCache == nullptr) break;
+
 			if (m_AttackAccept) break;
+
+			// 盾に当たっているか確認
+			if (boxColl->CheckHitObject(COLLISION_TAG::EQUIPMENT_OBJECT))
+			{
+				m_PlayerCache->HitShiled(boxColl);
+			}
+
+			// ダメージを与える
+			if (!boxColl->CheckHitObject(COLLISION_TAG::PLAYER)) continue;			
 
 			// パリィ可能か不可能かで、呼ぶ関数を変更
 			if (m_ParryPossibleAtk)

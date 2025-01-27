@@ -4,6 +4,7 @@
 class Camera;
 class PlayerStateMachine;
 class BoxCollisionComponent;
+class EquipmentObject;
 
 class Player final:public Character {
 private:
@@ -11,6 +12,8 @@ private:
 	BoxCollisionComponent* m_BoxCollCache = nullptr;
 
 	PlayerStateMachine* m_PlayerStateMachine = nullptr;
+
+	EquipmentObject* m_ShiledChache = nullptr;
 
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか
 	bool m_UseAttack = false;
@@ -33,6 +36,7 @@ public:
 
 	virtual void TakeDamage(const float& atk)override;
 	void TakeDamageParryPossible(const float& atk);
+	void HitShiled(BoxCollisionComponent* boxColl);
 
 	const PlayerStateMachine* GetPlayerStateMachine()
 	{
@@ -41,6 +45,10 @@ public:
 	const XMFLOAT3& GetVelocity()const
 	{
 		return m_Velocity;
+	}
+	EquipmentObject* GetShiledCache()
+	{
+		return m_ShiledChache;
 	}
 	void SetVelocityX(const float& x)
 	{
