@@ -28,6 +28,7 @@ enum class MOVE_DIRECTION
 class PlayerState;
 class Player;
 class Camera;
+class PlayerStateParryAttack;
 
 class PlayerStateMachine final
 {
@@ -36,6 +37,7 @@ private:
 	Camera* m_CameraCache = nullptr;
 
 	PlayerState* m_CurrentPlayerState = nullptr;
+	PlayerStateParryAttack* m_ParryCache = nullptr;
 	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
 
@@ -48,8 +50,8 @@ private:
 
 	bool m_IsGround = false;						// ’n–Ê‚ÉG‚ê‚Ä‚¢‚é‚©
 	bool m_IsJamp = false;							// ƒWƒƒƒ“ƒv‚µ‚½‚©
-	bool m_IsParryAttackButton = false;					// ƒpƒŠƒBUŒ‚‚ğ‚µ‚½‚©
-	bool m_IsNormalAttackButton = false;					// ’ÊíUŒ‚‚ğ‚µ‚½‚©
+	bool m_IsParryAttackButton = false;				// ƒpƒŠƒBUŒ‚‚ğ‚µ‚½‚©
+	bool m_IsNormalAttackButton = false;			// ’ÊíUŒ‚‚ğ‚µ‚½‚©
 	bool m_IsHitAttacked = false;					// UŒ‚‚ğó‚¯‚½‚©
 	bool m_IsInvincible = false;					// –³“Gó‘Ô‚©‚Ç‚¤‚©
 
@@ -66,6 +68,7 @@ public:
 	void SetPlayerState(const PLAYER_STATE& state);
 	void InitVelocity();
 
+	bool CheckParry();
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// ’n–Ê‚É“–‚½‚Á‚½
@@ -112,10 +115,6 @@ public:
 	{
 		return m_IsNormalAttackButton;
 	}
-	const bool& GetIsHitAttacked()const
-	{
-		return m_IsHitAttacked;
-	}
 	const bool& GetIsInvincible()const
 	{
 		return m_IsInvincible;
@@ -124,8 +123,12 @@ public:
 	{
 		return m_NextAnimationName;
 	}
+	const bool& GetIsHitAttack()const
+	{
+		return m_IsHitAttacked;
+	}
 
-	void SetIsHitDamage(const bool& hit)
+	void SetIsHitAttack(const bool& hit)
 	{
 		m_IsHitAttacked = hit;
 	}

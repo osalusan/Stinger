@@ -33,12 +33,13 @@ void PlayerStateMachine::Init()
 {
 	if (m_PlayerStatePool.empty())
 	{
+		m_ParryCache = new PlayerStateParryAttack(this);
 		// 要素上限分リハッシュ
 		m_PlayerStatePool.reserve(static_cast<int>(PLAYER_STATE::MAX) - 1);
 
 		m_PlayerStatePool.emplace(PLAYER_STATE::IDLE, new PlayerStateIdle(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
-		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, new PlayerStateParryAttack(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, m_ParryCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, new PlayerStateNormalAttack(this));
 	}
 	// 初期化
@@ -171,6 +172,15 @@ void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)
 void PlayerStateMachine::InitVelocity()
 {
 	m_Velocity = {};
+}
+
+bool PlayerStateMachine::CheckParry()
+{
+	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_PARRY]) return false;
+
+	if (m_ParryCache == nullptr) return false;
+	
+	return m_ParryCache->CheckParryAccept();
 }
 
 XMFLOAT3 PlayerStateMachine::GetCameraForward() const

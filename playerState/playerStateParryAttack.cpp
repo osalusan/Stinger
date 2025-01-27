@@ -44,6 +44,7 @@ void PlayerStateParryAttack::Init()
 void PlayerStateParryAttack::Unit()
 {
 	m_CurrentTime = 0.0f;
+	m_ParryAccept = false;
 }
 
 void PlayerStateParryAttack::Update(const float& deltaTime)
@@ -51,7 +52,7 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
 
-	if (m_PlayerCache != nullptr)
+	if (m_MaxAnimTime == 0.0f && m_PlayerCache != nullptr)
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_PlayerCache->GetAnimeModel()))
 		{
@@ -63,23 +64,7 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 
 	RotToCameraDirection(deltaTime);
 
-	if (m_PlayerMachine->GetIsHitAttacked() && !m_ParryAccept)
-	{
-		if (m_CurrentTime >= m_MinParryTime && m_CurrentTime <= m_MaxParryTime)
-		{
-			if (m_ObjManagerCache == nullptr || m_BossCache == nullptr)return;
-			m_PlayerMachine->InitVelocity();
 
-			m_BossCache->SetParryRecoil(true);
-
-			m_ObjManagerCache->SetSlowTime(0.9f);
-			m_ObjManagerCache->SetSlowValue(0.0f);
-
-			m_ParryAccept = true;
-		}
-	}
-
-	// 当たった後の処理の後に
 	if (m_PlayerMachine->GetVelocity().x != 0.0f && m_PlayerMachine->GetVelocity().z != 0.0f)
 	{
 		m_PlayerMachine->SetVelocityX(m_PlayerMachine->GetVelocity().x / (SPEED_ATTENUATE_VALUE * deltaTime));
@@ -90,10 +75,31 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 void PlayerStateParryAttack::ChangeStateControl()
 {
 	// TODO :アニメーションの時間を設定
-	if (m_CurrentTime >= 1.0f)
+	if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 		if (m_ObjManagerCache == nullptr) return;
 		m_ObjManagerCache->SetSlowTime(0.0f);
 	}
+}
+
+bool PlayerStateParryAttack::CheckParryAccept()
+{
+	if (!m_ParryAccept)
+	{
+		// if (m_CurrentTime >= m_MinParryTime && m_CurrentTime <= m_MaxParryTime)
+		if (m_CurrentTime <= m_MaxParryTime)
+		{
+			if (m_ObjManagerCache == nullptr || m_BossCache == nullptr)return false;
+			m_PlayerMachine->InitVelocity();
+
+			m_BossCache->SetParryRecoil(true);
+
+			m_ObjManagerCache->SetSlowTime(0.9f);
+			m_ObjManagerCache->SetSlowValue(0.0f);
+
+			m_ParryAccept = true;
+		}
+	}
+	return m_ParryAccept;
 }

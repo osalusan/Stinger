@@ -89,11 +89,13 @@ void Player::TakeDamage(const float& atk)
 
 void Player::TakeDamageParryPossible(const float& atk)
 {
-	if (m_PlayerStateMachine != nullptr)
+	if (m_PlayerStateMachine == nullptr) return;
+
+	if (!m_PlayerStateMachine->CheckParry())
 	{
-		m_PlayerStateMachine->SetIsHitDamage(true);
+		m_PlayerStateMachine->SetIsHitAttack(true);
+		TakeDamage(atk);
 	}
-	TakeDamage(atk);
 }
 
 // ------------------------------- private -------------------------------

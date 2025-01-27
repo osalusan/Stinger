@@ -70,5 +70,5 @@ void PlayerState::Update(const float& deltaTime)
 	if (m_AnimeName != "")
 	{
 		m_PlayerMachine->SetAnimation(m_AnimeName);
-	}	
+	}
 }
