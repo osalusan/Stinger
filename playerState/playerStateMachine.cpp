@@ -36,13 +36,14 @@ void PlayerStateMachine::Init()
 	{
 		m_ParryCache = new PlayerStateParryAttack(this);
 		m_RollingCache = new PlayerStateRolling(this);
+		m_NormalAttackCache = new PlayerStateNormalAttack(this);
 		// 要素上限分リハッシュ
 		m_PlayerStatePool.reserve(static_cast<int>(PLAYER_STATE::MAX) - 1);
 
 		m_PlayerStatePool.emplace(PLAYER_STATE::IDLE, new PlayerStateIdle(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, m_ParryCache);
-		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, new PlayerStateNormalAttack(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, m_NormalAttackCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ROLLING, m_RollingCache);
 	}
 	// 初期化
@@ -204,6 +205,16 @@ bool PlayerStateMachine::CheckRolling()
 	if (m_RollingCache == nullptr) return false;
 
 	return m_RollingCache->CheckRollingAccept();
+}
+
+bool PlayerStateMachine::CheckAttack()
+{
+	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_NORMAL]) return false;
+
+	if (m_NormalAttackCache == nullptr) return false;
+
+	return m_NormalAttackCache->CheckAttackAccept();
+
 }
 
 XMFLOAT3 PlayerStateMachine::GetCameraForward() const

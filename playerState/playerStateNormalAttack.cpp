@@ -1,7 +1,12 @@
 #include "playerStateNormalAttack.h"
 #include "playerStateMachine.h"
 #include "manager/fbxModelManager.h"
+#include "manager/sceneManager.h"
+#include "manager/objectManager.h"
 #include "renderer/fbxModelRenderer.h"
+#include "character/player.h"
+#include "scene/scene.h"
+#include "equipment/equipmentObject.h"
 
 constexpr float BLEND_VALUE_NORMAL_ATTACK = 10.0f;
 void PlayerStateNormalAttack::Init()
@@ -20,18 +25,43 @@ void PlayerStateNormalAttack::Init()
 
 	m_CurrentTime = 0.0f;
 	m_AttackCancel = false;
+	m_UseAttack = true;
+	m_AttackAccept = true;
 	m_MaxAnimTime = m_MaxAnimTime1;
+	
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
 		m_PlayerMachine->SetAnimeBlendTimeValue(BLEND_VALUE_NORMAL_ATTACK);
+
+		if (m_PlayerCache == nullptr)
+		{
+			// Getのみ / 編集不可
+			const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+			m_PlayerCache = playerCache;
+		}
+	}
+	if (m_PlayerCache != nullptr)
+	{
+		m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue1;
+	}
+
+	if (m_BossCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		m_BossCache = objManager->GetBossEnemy();
 	}
 }
 
 void PlayerStateNormalAttack::Unit()
 {
 	m_CurrentTime = 0.0f;
+	m_AttackDamage = 0.0f;
 	m_AttackCancel = false;
+	m_UseAttack = true;
+	m_AttackAccept = true;
 }
 
 void PlayerStateNormalAttack::Update(const float& deltaTime)
@@ -84,32 +114,72 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 	// 待機モーションの攻撃キャンセル
 	const float& maxAnimTime1and2 = m_MaxAnimTime1 + m_MaxAnimTime2;
 	const bool& isAttackButton = m_PlayerMachine->GetIsNormalAttackButton();
-	if (m_CurrentTime >= m_MaxAnimTime1 * m_Attack1CancleValue && m_CurrentTime < m_MaxAnimTime1)
+	if (m_CurrentTime < m_MaxAnimTime1)
 	{
-		m_AttackCancel = true;
-		if (isAttackButton)
+		// ダメージ発生開始
+		if (m_CurrentTime >= m_MaxAnimTime1 * 0.3f)
 		{
-			m_CurrentTime = m_MaxAnimTime1;
-			m_MaxAnimTime = maxAnimTime1and2;
-			m_AttackCancel = false;
+			if (m_UseAttack)
+			{
+				m_AttackAccept = false;
+			}
+		}
+		// アニメーションの途中終了可能設定
+		if (m_CurrentTime >= m_MaxAnimTime1 * m_AttackCancleValue1)
+		{
+			m_AttackCancel = true;
+			if (isAttackButton)
+			{
+				m_CurrentTime = m_MaxAnimTime1;
+				m_MaxAnimTime = maxAnimTime1and2;
+				m_UseAttack = true;
+				m_AttackCancel = false;
+				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue2;
+			}
+		}
+
+	}
+	else if (m_CurrentTime < maxAnimTime1and2)
+	{
+		// ダメージ発生開始
+		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * 0.3f))
+		{
+			if (m_UseAttack)
+			{
+				m_AttackAccept = false;
+			}
+		}
+		// アニメーションの途中終了可能設定
+		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * m_AttackCancleValue2))
+		{
+			m_AttackCancel = true;
+			if (isAttackButton)
+			{
+				m_CurrentTime = maxAnimTime1and2;
+				m_MaxAnimTime = maxAnimTime1and2 + m_MaxAnimTime3;
+				m_UseAttack = true;
+				m_AttackCancel = false;
+				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue3;
+			}
+		}
+
+	}
+	else if (m_CurrentTime < maxAnimTime1and2 + m_MaxAnimTime3)
+	{
+		// ダメージ発生開始
+		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * 0.5f))
+		{
+			if (m_UseAttack)
+			{
+				m_AttackAccept = false;
+			}
+		}
+		// アニメーションの途中終了可能設定
+		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_AttackCancleValue3))
+		{
+			m_AttackCancel = true;
 		}
 	}
-	else if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * m_Attack2CancleValue) && m_CurrentTime < maxAnimTime1and2)
-	{
-		m_AttackCancel = true;
-		if (isAttackButton)
-		{
-			m_CurrentTime = maxAnimTime1and2;
-			m_MaxAnimTime = maxAnimTime1and2 + m_MaxAnimTime3;
-			m_AttackCancel = false;
-		}
-	}
-	else if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_Attack3CancleValue) && m_CurrentTime < maxAnimTime1and2 + m_MaxAnimTime3)
-	{
-		m_AttackCancel = true;
-	}
-
-
 
 	RotToCameraDirection(deltaTime);
 
@@ -148,5 +218,18 @@ void PlayerStateNormalAttack::ChangeStateControl()
 			ChangePlayerState(PLAYER_STATE::ROLLING);
 		}
 	}
+}
+
+bool PlayerStateNormalAttack::CheckAttackAccept()
+{
+	if (!m_AttackCancel && !m_AttackAccept)
+	{
+		if (m_BossCache == nullptr) return false;
+
+		m_BossCache->TakeDamage(m_AttackDamage);
+		m_UseAttack = false;
+		m_AttackAccept = true;
+	}
+	return m_AttackAccept;
 }
 

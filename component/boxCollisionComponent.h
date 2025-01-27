@@ -12,7 +12,7 @@ public:
 	using CollisionComponent::CollisionComponent;
 	virtual void Init()override;
 	virtual void Update()override;
-	virtual bool CheckHitObject(const OBJECT& object)override;
+	virtual bool CheckHitObject(const OBJECT& object)override;		// ˆê”ÔŒy‚¢
 	virtual bool CheckHitObject(const COLLISION_TAG& tag)override;
 	virtual bool CheckHitAllObject()override;
 

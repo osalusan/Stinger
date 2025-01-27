@@ -62,7 +62,10 @@ void Player::Init()
 	if (objManager == nullptr) return;
 
 	// プレイヤーの装備
-	objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj",m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD,XMFLOAT3(0.0f,0.0f,5.3f));
+	if (m_SwordChache == nullptr)
+	{
+		m_SwordChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj", m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD, XMFLOAT3(0.0f, 0.0f, 5.3f));
+	}
 	if (m_ShiledChache == nullptr)
 	{
 		m_ShiledChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj", m_Model, LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED, XMFLOAT3(-0.5f, 0.0f, 0.0f), OFFSET_POS_SHILED);
@@ -145,6 +148,8 @@ void Player::CollisionControl()
 
 	if (m_BoxCollCache == nullptr) return;
 
+	SwordCollisionControl();
+
 	const int& maxCount = 5;
 	int count = 0;
 	XMFLOAT3 recPos = {};
@@ -223,6 +228,28 @@ void Player::AnimationControl()
 	if (m_PlayerStateMachine != nullptr)
 	{
 		ChangeAnimation(m_PlayerStateMachine->GetAnimation());
+	}
+}
+
+void Player::SwordCollisionControl()
+{
+	if (m_SwordBoxCollCache == nullptr && m_SwordChache != nullptr)
+	{
+		std::vector<BoxCollisionComponent*> boxColls = {};
+		m_SwordChache->GetComponents<BoxCollisionComponent>(boxColls);
+
+		for (BoxCollisionComponent* boxColl : boxColls)
+		{
+			m_SwordBoxCollCache = boxColl;
+		}
+	}
+
+	if (m_SwordBoxCollCache == nullptr || m_PlayerStateMachine == nullptr) return;
+
+	if (m_SwordBoxCollCache->CheckHitObject(OBJECT::BOSS))
+	{
+		// 攻撃中だったらダメージを与える
+		m_PlayerStateMachine->CheckAttack();
 	}
 }
 

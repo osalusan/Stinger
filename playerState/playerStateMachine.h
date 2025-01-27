@@ -31,6 +31,7 @@ class Player;
 class Camera;
 class PlayerStateParryAttack;
 class PlayerStateRolling;
+class PlayerStateNormalAttack;
 
 class PlayerStateMachine final
 {
@@ -40,6 +41,8 @@ private:
 
 	PlayerState* m_CurrentPlayerState = nullptr;
 	PlayerStateParryAttack* m_ParryCache = nullptr;
+	PlayerStateNormalAttack* m_NormalAttackCache = nullptr;
+
 	PlayerStateRolling* m_RollingCache = nullptr;
 	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
@@ -76,6 +79,7 @@ public:
 
 	bool CheckParry();
 	bool CheckRolling();
+	bool CheckAttack();
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// ’n–Ê‚É“–‚½‚Á‚½

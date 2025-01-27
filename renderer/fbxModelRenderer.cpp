@@ -391,7 +391,7 @@ void FbxModelRenderer::Load(const char* FileName)
 	m_BoneIndex.resize(boneCount, nullptr);
 
 	// ボーンリストを構築
-	for (const auto& bonePair : boneNameIndex)
+	for (const std::pair<std::string,int>& bonePair : boneNameIndex)
 	{
 		const std::string& boneName = bonePair.first;
 		const int& boneIndex = bonePair.second;

@@ -10,10 +10,12 @@ class Player final:public Character {
 private:
 
 	BoxCollisionComponent* m_BoxCollCache = nullptr;
+	BoxCollisionComponent* m_SwordBoxCollCache = nullptr;
 
 	PlayerStateMachine* m_PlayerStateMachine = nullptr;
 
 	EquipmentObject* m_ShiledChache = nullptr;
+	EquipmentObject* m_SwordChache = nullptr;
 
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか
 	bool m_UseAttack = false;
@@ -29,6 +31,7 @@ private:
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
 	virtual void AnimationControl()override;
+	void SwordCollisionControl();
 	void PlayerDataLoadCSV(const std::string& filePath);
 public:
 	Player() = delete;
@@ -52,7 +55,12 @@ public:
 	EquipmentObject* GetShiledCache()
 	{
 		return m_ShiledChache;
+	}	
+	EquipmentObject* GetSwordChache()const
+	{
+		return m_SwordChache;
 	}
+
 	void SetVelocityX(const float& x)
 	{
 		m_Velocity.x = x;
