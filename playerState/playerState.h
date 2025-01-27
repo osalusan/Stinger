@@ -8,9 +8,10 @@ class PlayerState
 protected:
 	PlayerStateMachine* m_PlayerMachine = nullptr;
 
-	std::string m_AnimeName = {};
+	std::string m_AnimName = {};
 	bool m_LoadAnimation = false;
 	float m_CurrentTime = 0.0f;
+	float m_MaxAnimTime = 0.0f;
 
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 	// ƒJƒƒ‰‚ÌŒü‚«‚É‰ñ“]

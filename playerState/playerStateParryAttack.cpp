@@ -56,7 +56,7 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(ANIMETION_MODEL::PLAYER))
 		{
-			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
+			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimName);
 		}
 	}
 
@@ -93,8 +93,8 @@ bool PlayerStateParryAttack::CheckParryAccept()
 
 			m_BossCache->SetParryRecoil(true);
 
-			m_ObjManagerCache->SetSlowTime(0.9f);
-			m_ObjManagerCache->SetSlowValue(0.0f);
+			m_ObjManagerCache->SetSlowTime(0.8f);
+			m_ObjManagerCache->SetSlowValue(0.3f);
 
 			m_ParryAccept = true;
 		}

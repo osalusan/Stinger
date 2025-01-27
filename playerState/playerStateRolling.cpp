@@ -84,7 +84,7 @@ void PlayerStateRolling::Update(const float& deltaTime)
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(ANIMETION_MODEL::PLAYER))
 		{
-			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
+			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimName);
 		}
 	}
 
