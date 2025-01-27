@@ -6,7 +6,6 @@ class BossEnemy;
 class PlayerStateNormalAttack final :public PlayerState
 {
 private:
-	float m_CurrentTime = 0.0f;
 	bool m_AttackAccept = false;
 	ObjectManager* m_ObjManagerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;

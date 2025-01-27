@@ -10,6 +10,7 @@ protected:
 
 	std::string m_AnimeName = {};
 	bool m_LoadAnimation = false;
+	float m_CurrentTime = 0.0f;
 
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 	// ƒJƒƒ‰‚ÌŒü‚«‚É‰ñ“]

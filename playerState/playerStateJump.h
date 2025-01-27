@@ -5,7 +5,6 @@ class PlayerStateJump :public PlayerState
 {
 private:
 	float m_Accel = 0.0f;
-	float m_CurrentTime = 0.0f;
 
 public:
 	using PlayerState::PlayerState;

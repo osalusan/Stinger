@@ -303,6 +303,9 @@
     <ClCompile Include="equipment\equipmentObject.cpp">
       <Filter>equipment</Filter>
     </ClCompile>
+    <ClCompile Include="playerState\playerStateRolling.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -544,6 +547,9 @@
     </ClInclude>
     <ClInclude Include="equipment\equipmentObject.h">
       <Filter>equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateRolling.h">
+      <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

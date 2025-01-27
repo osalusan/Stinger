@@ -269,7 +269,7 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 	}
 
 	// ステータスの要素を追加した分だけ、if文の数値も変更
-	if (baseStatas.size() == 7)
+	if (baseStatas.size() == 10)
 	{
 		m_MaxHealth = std::stof(baseStatas[0]);
 		m_Attack = std::stof(baseStatas[1]);
@@ -278,6 +278,9 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 		m_RotSpeed = std::stof(baseStatas[4]);
 		m_MinParryTime = std::stof(baseStatas[5]);
 		m_MaxParryTime = std::stof(baseStatas[6]);
+		m_RollingSpeedValue = std::stof(baseStatas[7]);
+		m_MinRollingTime = std::stof(baseStatas[8]);
+		m_MaxRollingTime = std::stof(baseStatas[9]);
 
 		m_Health = m_MaxHealth;
 	}

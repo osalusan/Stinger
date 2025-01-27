@@ -80,6 +80,7 @@
     <ClCompile Include="playerState\playerStateMachine.cpp" />
     <ClCompile Include="playerState\playerStateNormalAttack.cpp" />
     <ClCompile Include="playerState\playerStateParryAttack.cpp" />
+    <ClCompile Include="playerState\playerStateRolling.cpp" />
     <ClCompile Include="playerState\playerStateRun.cpp" />
     <ClCompile Include="polygon2D\polygon2D.cpp" />
     <ClCompile Include="renderer\fbxModelRenderer.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="playerState\playerStateMachine.h" />
     <ClInclude Include="playerState\playerStateNormalAttack.h" />
     <ClInclude Include="playerState\playerStateParryAttack.h" />
+    <ClInclude Include="playerState\playerStateRolling.h" />
     <ClInclude Include="playerState\playerStateRun.h" />
     <ClInclude Include="polygon2D\polygon2D.h" />
     <ClInclude Include="renderer\fbxModelRenderer.h" />

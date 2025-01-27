@@ -207,8 +207,11 @@ std::string ImguiWindow::GetCurrentPlayerStateName()
     case PLAYER_STATE::IDLE:
         playerStateName = "待機";
         break;
-    case PLAYER_STATE::DAMAGE:
+    case PLAYER_STATE::HITDAMAGE:
         playerStateName = "被ダメ";
+        break;
+    case PLAYER_STATE::ROLLING:
+        playerStateName = "回避";
         break;
     case PLAYER_STATE::ATTACK_PARRY:
         playerStateName = "パリィ";

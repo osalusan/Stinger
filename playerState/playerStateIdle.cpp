@@ -34,11 +34,18 @@ void PlayerStateIdle::ChangeStateControl()
 	if (m_PlayerMachine->GetIsParryAttackButton())
 	{
 		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
-	}// ’ÊíUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
+	}
+	// ’ÊíUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
 	else if (m_PlayerMachine->GetIsNormalAttackButton())
 	{
 		ChangePlayerState(PLAYER_STATE::ATTACK_NORMAL);
-	}// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
+	}
+	// ‰ñ”ð‚ª‰Ÿ‚³‚ê‚½‚ç
+	else if (m_PlayerMachine->GetIsRollingButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ROLLING);
+	}
+	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
 	else if (m_PlayerMachine->GetMoveRandL() != MOVE_DIRECTION::NONE || m_PlayerMachine->GetMoveFandB() != MOVE_DIRECTION::NONE)
 	{
 		ChangePlayerState(PLAYER_STATE::RUN);

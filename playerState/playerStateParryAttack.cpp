@@ -52,9 +52,9 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
 
-	if (m_MaxAnimTime == 0.0f && m_PlayerCache != nullptr)
+	if (m_MaxAnimTime == 0.0f)
 	{
-		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_PlayerCache->GetAnimeModel()))
+		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(ANIMETION_MODEL::PLAYER))
 		{
 			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
 		}
@@ -74,7 +74,6 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 
 void PlayerStateParryAttack::ChangeStateControl()
 {
-	// TODO :アニメーションの時間を設定
 	if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);

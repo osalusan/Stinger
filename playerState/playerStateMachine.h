@@ -7,7 +7,8 @@ enum class PLAYER_STATE
 {
 	NONE = 0,
 	IDLE,
-	DAMAGE,
+	HITDAMAGE,
+	ROLLING,
 	ATTACK_PARRY,
 	ATTACK_NORMAL,
 	RUN,
@@ -51,6 +52,7 @@ private:
 	bool m_IsGround = false;						// ’n–Ê‚ÉG‚ê‚Ä‚¢‚é‚©
 	bool m_IsJamp = false;							// ƒWƒƒƒ“ƒv‚µ‚½‚©
 	bool m_IsParryAttackButton = false;				// ƒpƒŠƒBUŒ‚‚ğ‚µ‚½‚©
+	bool m_IsRollingButton = false;					// ‰ñ“]‚µ‚½‚©
 	bool m_IsNormalAttackButton = false;			// ’ÊíUŒ‚‚ğ‚µ‚½‚©
 	bool m_IsHitAttacked = false;					// UŒ‚‚ğó‚¯‚½‚©
 	bool m_IsInvincible = false;					// –³“Gó‘Ô‚©‚Ç‚¤‚©
@@ -115,6 +117,10 @@ public:
 	{
 		return m_IsNormalAttackButton;
 	}
+	const bool& GetIsRollingButton()const
+	{
+		return m_IsRollingButton;
+	}
 	const bool& GetIsInvincible()const
 	{
 		return m_IsInvincible;
@@ -126,7 +132,8 @@ public:
 	const bool& GetIsHitAttack()const
 	{
 		return m_IsHitAttacked;
-	}
+	}	
+
 
 	void SetIsHitAttack(const bool& hit)
 	{

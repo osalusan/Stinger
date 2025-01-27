@@ -11,6 +11,7 @@
 #include "playerStateJump.h"
 #include "playerStateParryAttack.h"
 #include "playerStateNormalAttack.h"
+#include "playerState/playerStateRolling.h"
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
@@ -41,6 +42,7 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, m_ParryCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, new PlayerStateNormalAttack(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::ROLLING, new PlayerStateRolling(this));
 	}
 	// èâä˙âª
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
@@ -85,7 +87,9 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_IsJamp = false;
 	m_IsParryAttackButton = false;
 	m_IsNormalAttackButton = false;
+	m_IsRollingButton = false;
 
+	// çUåÇ
 	if (InputManager::GetMouseRightPress())
 	{
 		m_IsParryAttackButton = true;
@@ -94,11 +98,15 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	{
 		m_IsNormalAttackButton = true;
 	}
-
+	// âÒî
+	if (InputManager::GetKeyPress(VK_SPACE))
+	{
+		m_IsRollingButton = true;
+	}
+	// à⁄ìÆ
 	if (InputManager::GetKeyPress('A'))
 	{
 		m_RandL = MOVE_DIRECTION::LEFT;
-
 	}
 	if (InputManager::GetKeyPress('D'))
 	{
