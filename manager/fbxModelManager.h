@@ -18,7 +18,7 @@ private:
 	static std::unordered_map<ANIMETION_MODEL, FbxModelRenderer*> m_LoadModelPool;
 	static std::unordered_map<ANIMETION_MODEL, std::string> m_ReservModelPool;
 	static std::unordered_map<std::string, ANIMETION_MODEL> m_ReservAnimationPool;
-	static std::unordered_map<std::string, std::string> m_ReservAnimationNamePool;
+	static std::unordered_map<std::string, std::string> m_ReservAnimationNamePool;		// これはシーン更新時に初期化しない
 
 	static void LoadModel(const ANIMETION_MODEL& model, const std::string& fileName);
 	static void LoadAnimation(const ANIMETION_MODEL& model, const std::string& fileName, const std::string& animationName);

@@ -576,10 +576,7 @@ void ObjModelManager::LoadMaterial(const char* fileName, MODEL_MATERIAL** modelM
 
 void ObjModelManager::Load(const STATICMESH_MODEL& staticModel, const std::string& fileName)
 {
-	if (m_LoadModelPool.count(staticModel) > 0)
-	{
-		return;
-	}
+	if (m_LoadModelPool.count(staticModel) > 0) return;
 
 	MODEL* model = new MODEL;
 	if (model == nullptr) return;

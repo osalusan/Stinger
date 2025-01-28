@@ -590,6 +590,8 @@ void FbxModelRenderer::Uninit()
 		m_IndexBuffer[m]->Release();
 	}
 
+	m_BoneIndex.clear();
+
 	delete[] m_VertexBuffer;
 	delete[] m_IndexBuffer;
 }

@@ -54,6 +54,9 @@ void AudioManager::UninitMaster()
 
 void AudioManager::LoadAudio(const AUDIO& audio,const char *FileName)
 {
+	// 保存済みがある場合
+	if (m_LoadAudioPool.count(audio) > 0) return;
+
 	AUDIO_DATA* audioData = new AUDIO_DATA;
 
 	// サウンドデータ読込
@@ -148,7 +151,6 @@ void AudioManager::Uninit()
 
 void AudioManager::ReservAudio(const AUDIO& audio, const char* fileName, const bool& startSound, const bool& loopSound)
 {
-	if (m_ReservAudioPool.count(audio) >= 1 && m_LoadAudioPool.count(audio) >= 1) return;
 	const AUDIO_RESERVE_DATA& audioReserveData = { fileName ,startSound ,loopSound };
 	m_ReservAudioPool.emplace(audio, audioReserveData);
 }
