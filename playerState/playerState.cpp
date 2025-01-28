@@ -41,6 +41,18 @@ void PlayerState::RotToCameraDirection(const float& deltaTime)
 	m_PlayerMachine->SetRotationY(currentAngle);
 }
 
+float PlayerState::FindStateData(const std::unordered_map<std::string, float>& stateData, const std::string& dataName)
+{
+	if (stateData.count(dataName) >= 1)
+	{
+		return stateData.at(dataName);
+	}
+	else
+	{
+		return 0.0f;
+	}
+}
+
 // --------------------- public ---------------------
 PlayerState::~PlayerState()
 {

@@ -8,7 +8,6 @@
 #include "scene/scene.h"
 #include "equipment/equipmentObject.h"
 
-constexpr float BLEND_VALUE_NORMAL_ATTACK = 10.0f;
 void PlayerStateNormalAttack::Init()
 {
 	if (!m_LoadAnimation)
@@ -28,11 +27,11 @@ void PlayerStateNormalAttack::Init()
 	m_UseAttack = true;
 	m_AttackAccept = true;
 	m_MaxAnimTime = m_MaxAnimTime1;
-	
+
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
-		m_PlayerMachine->SetAnimeBlendTimeValue(BLEND_VALUE_NORMAL_ATTACK);
+		m_PlayerMachine->SetAnimeBlendTimeValue(m_BlendTime);
 
 		if (m_PlayerCache == nullptr)
 		{
@@ -44,6 +43,23 @@ void PlayerStateNormalAttack::Init()
 	if (m_PlayerCache != nullptr)
 	{
 		m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue1;
+		if (m_AttackEnableTimeValue1 == 0.0f)
+		{
+			const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("通常攻撃");
+			m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ発生開始時間割合");
+			m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ発生開始時間割合");
+			m_AttackEnableTimeValue3 = FindStateData(normalAttak, "三段階目ダメージ発生開始時間割合");
+
+			m_DamageValue1 = FindStateData(normalAttak, "一段階目ダメージ倍率");
+			m_DamageValue2 = FindStateData(normalAttak, "二段階目ダメージ倍率");
+			m_DamageValue3 = FindStateData(normalAttak, "三段階目ダメージ倍率");
+
+			m_AttackCancleValue1 = FindStateData(normalAttak, "一段階目キャンセル可能時間割合");
+			m_AttackCancleValue2 = FindStateData(normalAttak, "二段階目キャンセル可能時間割合");
+			m_AttackCancleValue3 = FindStateData(normalAttak, "三段階目キャンセル可能時間割合");
+
+			m_BlendTime = FindStateData(normalAttak, "ブレンド速度");
+		}
 	}
 
 	if (m_BossCache == nullptr)
@@ -117,7 +133,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 	if (m_CurrentTime < m_MaxAnimTime1)
 	{
 		// ダメージ発生開始
-		if (m_CurrentTime >= m_MaxAnimTime1 * 0.3f)
+		if (m_CurrentTime >= m_MaxAnimTime1 * m_AttackEnableTimeValue1)
 		{
 			if (m_UseAttack)
 			{
@@ -142,7 +158,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 	else if (m_CurrentTime < maxAnimTime1and2)
 	{
 		// ダメージ発生開始
-		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * 0.3f))
+		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * m_AttackEnableTimeValue2))
 		{
 			if (m_UseAttack)
 			{
@@ -167,7 +183,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 	else if (m_CurrentTime < maxAnimTime1and2 + m_MaxAnimTime3)
 	{
 		// ダメージ発生開始
-		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * 0.5f))
+		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_AttackEnableTimeValue3))
 		{
 			if (m_UseAttack)
 			{

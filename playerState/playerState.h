@@ -12,10 +12,13 @@ protected:
 	bool m_LoadAnimation = false;
 	float m_CurrentTime = 0.0f;
 	float m_MaxAnimTime = 0.0f;
+	float m_BlendTime = 0.0f;
 
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 	// ƒJƒƒ‰‚ÌŒü‚«‚É‰ñ“]
 	void RotToCameraDirection(const float& deltaTime);
+
+	float FindStateData(const std::unordered_map<std::string, float>& stateData,const std::string& dataName);
 public:
 	virtual ~PlayerState();
 	PlayerState(PlayerStateMachine* machine);

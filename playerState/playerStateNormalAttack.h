@@ -20,13 +20,19 @@ private:
 	float m_MaxAnimTime3 = 0.0f;
 
 	// 連続攻撃時に待機モーションをキャンセルして別の行動へ移行できる
-	const float& m_AttackCancleValue1 = 0.55f;
-	const float& m_AttackCancleValue2 = 0.55f;
-	const float& m_AttackCancleValue3 = 0.72f;
+	float m_AttackCancleValue1 = 0.0f;
+	float m_AttackCancleValue2 = 0.0f;
+	float m_AttackCancleValue3 = 0.0f;
 
-	const float& m_DamageValue1 = 0.8f;
-	const float& m_DamageValue2 = 1.1f;
-	const float& m_DamageValue3 = 1.5f;
+	// ダメージ倍率
+	float m_DamageValue1 = 0.0f;
+	float m_DamageValue2 = 0.0f;
+	float m_DamageValue3 = 0.0f;
+
+	// ダメージ発生開始時間割合
+	float m_AttackEnableTimeValue1 = 0.0f;
+	float m_AttackEnableTimeValue2 = 0.0f;
+	float m_AttackEnableTimeValue3 = 0.0f;
 
 	bool m_AttackCancel = false;
 	bool m_UseAttack = false;

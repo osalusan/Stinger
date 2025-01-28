@@ -1,5 +1,6 @@
 #pragma once
 #include "character/character.h"
+#include <unordered_map>
 
 class Camera;
 class PlayerStateMachine;
@@ -16,6 +17,8 @@ private:
 
 	EquipmentObject* m_ShiledChache = nullptr;
 	EquipmentObject* m_SwordChache = nullptr;
+
+	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_PlayerStateData = {};
 
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか
 	bool m_UseAttack = false;
@@ -99,4 +102,14 @@ public:
 		return m_MaxRollingTime;
 	}
 
+	const std::unordered_map<std::string, float>& GetStateData(const std::string& skillName)const
+	{
+		if (m_PlayerStateData.count(skillName) >= 1)
+		{
+			return m_PlayerStateData.at(skillName);
+		}
+		// テンポラリ警告用
+		static const std::unordered_map<std::string, float> emptyMap = {};
+		return emptyMap;
+	}
 };

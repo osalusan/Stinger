@@ -262,8 +262,11 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 	std::string line;
 	int loadLine = 0;
 	int loadCount = 0;
+	int loadCellCnt = 0;
+	std::string stateName = {};
 
 	std::vector<std::string> baseStatas = {};
+	std::vector<std::string> stateOptionNameData = {};
 
 	// 1行ずつ読み込み
 	while (std::getline(ifs, line))
@@ -272,6 +275,9 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 
 		// 1行目は読み飛ばす
 		if (loadLine == 1) continue;
+
+		loadCount++;
+		loadCellCnt = 0;
 
 		// 空行はスキップ
 		if (line.empty()) continue;
@@ -285,13 +291,51 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 		{
 			if (column.empty()) continue;
 
-			// 基礎ステータス格納
+			loadCellCnt++;
+
+			if (loadCount == 2)
+			{
+				if (loadCellCnt == 1)
+				{
+					stateName = column;
+				}
+				else if (loadCellCnt >= 2)
+				{
+					stateOptionNameData.emplace_back(column);
+				}
+				continue;
+			}
+
+			// 基礎ステータス
 			if (loadLine == 2)
 			{
 				baseStatas.emplace_back(column);
 			}
+			else // ステート情報を格納
+			{
+				skillData.emplace_back(std::stof(column));
+			}
+		}
 
-			if (loadLine >= 4) break;
+		if (loadLine >= 3)
+		{
+			if (skillData.size() != 0)
+			{
+				int loop = 0;
+				for (const std::string& stateOptionName : stateOptionNameData)
+				{
+					m_PlayerStateData[stateName].emplace(stateOptionName, skillData[loop]);
+					loop++;
+				}
+			}
+		}
+		if (loadCount == 1)
+		{
+			stateOptionNameData.clear();
+		}
+		else if (loadCount >= 2)
+		{
+			loadCount = 0;
 		}
 	}
 
