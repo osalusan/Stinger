@@ -5,8 +5,9 @@
 IXAudio2*				AudioManager::m_Xaudio = nullptr;
 IXAudio2MasteringVoice*	AudioManager::m_MasteringVoice = nullptr;
 std::unordered_map<AUDIO, AUDIO_DATA*> AudioManager::m_LoadAudioPool = {};
-std::unordered_map<AUDIO, const char*> AudioManager::m_ReservAudioPool = {};
+std::unordered_map<AUDIO, AUDIO_RESERVE_DATA> AudioManager::m_ReservAudioPool = {};
 
+constexpr float MASTER_VOLUME = 0.6f;
 
 void AudioManager::InitMaster()
 {
@@ -119,20 +120,40 @@ void AudioManager::LoadAudio(const AUDIO& audio,const char *FileName)
 
 void AudioManager::Init()
 {
-	for (const std::pair<const AUDIO, const char*>& reservAudio : m_ReservAudioPool)
+	for (const std::pair<const AUDIO, AUDIO_RESERVE_DATA>& reservAudio : m_ReservAudioPool)
 	{
-		LoadAudio(reservAudio.first,reservAudio.second);
+		LoadAudio(reservAudio.first,reservAudio.second.s_FileName);
+		if (reservAudio.second.s_StartSound)
+		{
+			Play(reservAudio.first, reservAudio.second.s_Loop);
+		}
 	}
 
 	m_ReservAudioPool.clear();
 }
 
-void AudioManager::ReservAudio(const AUDIO& audio, const char* fileName)
+void AudioManager::Uninit()
 {
-	m_ReservAudioPool.emplace(audio, fileName);
+	for (std::pair<const AUDIO, AUDIO_DATA*>& loadAudio : m_LoadAudioPool)
+	{
+		AUDIO_DATA* audioData = loadAudio.second;
+		if (audioData == nullptr) continue;
+		IXAudio2SourceVoice* sourceVoice = audioData->s_SourceVoice;
+		if (sourceVoice == nullptr) continue;
+
+		sourceVoice->Stop();
+		sourceVoice->FlushSourceBuffers();
+	}
 }
 
-void AudioManager::Play(const AUDIO& audio,bool Loop)
+void AudioManager::ReservAudio(const AUDIO& audio, const char* fileName, const bool& startSound, const bool& loopSound)
+{
+	if (m_ReservAudioPool.count(audio) >= 1 && m_LoadAudioPool.count(audio) >= 1) return;
+	const AUDIO_RESERVE_DATA& audioReserveData = { fileName ,startSound ,loopSound };
+	m_ReservAudioPool.emplace(audio, audioReserveData);
+}
+
+void AudioManager::Play(const AUDIO& audio, const bool& Loop, const float& volume)
 {
 	if (m_LoadAudioPool.count(audio) <= 0) return;
 	AUDIO_DATA* audioData = m_LoadAudioPool.at(audio);
@@ -165,12 +186,10 @@ void AudioManager::Play(const AUDIO& audio,bool Loop)
 
 	sourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
 
-/*
-	float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
-	m_SourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
-	//m_SourceVoice->SetVolume(0.1f);
-*/
 
+	float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
+	sourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
+	sourceVoice->SetVolume(MASTER_VOLUME * volume);
 
 	// Ä¶
 	sourceVoice->Start();

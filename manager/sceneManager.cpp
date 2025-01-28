@@ -241,6 +241,8 @@ void SceneManager::ChangeScene()
 		{
 			m_Scene->Uninit();
 		}
+		AudioManager::Uninit();
+
 		delete m_Scene;
 		m_Scene = nullptr;
 

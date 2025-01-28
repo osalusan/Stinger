@@ -4,6 +4,7 @@
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
 #include "manager/particleManager.h"
+#include "manager/audioManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
@@ -17,6 +18,7 @@ constexpr XMFLOAT3 WALL_MAX = { 150.0f, 100.0f, 150.0f }; // ï«ÇÃç≈ëÂîÕàÕ
 void GameScene::Init()
 {
 	Scene::Init();
+	AudioManager::ReservAudio(AUDIO::MAWJ_BATTLE_BGM, "asset\\audio\\bgm\\rage_of_the_Forest.wav",true,true);
 	m_WorldWall = WALL_MAX;
 
 	if (m_ObjectManager == nullptr) return;
