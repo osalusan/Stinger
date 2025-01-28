@@ -62,6 +62,7 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="manager\audioManager.cpp" />
     <ClCompile Include="manager\fbxModelManager.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
     <ClCompile Include="manager\objectManager.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="main\main.h" />
+    <ClInclude Include="manager\audioManager.h" />
     <ClInclude Include="manager\fbxModelManager.h" />
     <ClInclude Include="manager\inputManager.h" />
     <ClInclude Include="manager\objectManager.h" />

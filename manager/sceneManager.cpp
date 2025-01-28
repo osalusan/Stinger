@@ -3,6 +3,7 @@
 #include "manager/objModelManager.h"
 #include "manager/textureManager.h"
 #include "manager/inputManager.h"
+#include "manager/audioManager.h"
 #include "renderer/renderer.h"
 #include "scene/gameScene.h"
 #include "scene/titleScene.h"
@@ -26,6 +27,7 @@ void SceneManager::Init()
 {
 	Renderer::Init();
 	InputManager::Init();
+	AudioManager::InitMaster();
 
 #if _DEBUG
 	// RendererÇÃInitÇÃå„Ç…ê∂ê¨
@@ -84,6 +86,7 @@ void SceneManager::Init()
 	FbxModelManager::Init();
 	ObjModelManager::Init();
 	TextureManager::Init();
+	AudioManager::Init();
 }
 
 
@@ -116,6 +119,7 @@ void SceneManager::Uninit()
 	m_ImguiWindow = nullptr;
 #endif // _DEBUG
 
+	AudioManager::UninitMaster();
 	FbxModelManager::Uninit();
 	ObjModelManager::Uninit();
 	TextureManager::Uninit();
@@ -253,6 +257,7 @@ void SceneManager::ChangeScene()
 		FbxModelManager::Init();
 		ObjModelManager::Init();
 		TextureManager::Init();	
+		AudioManager::Init();
 	}
 
 	// ÉçÅ[ÉhèIóπ

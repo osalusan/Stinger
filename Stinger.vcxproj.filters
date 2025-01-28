@@ -306,6 +306,9 @@
     <ClCompile Include="playerState\playerStateRolling.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
+    <ClCompile Include="manager\audioManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -550,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="playerState\playerStateRolling.h">
       <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\audioManager.h">
+      <Filter>manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
