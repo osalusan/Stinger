@@ -7,6 +7,7 @@ class PlayerState
 {
 protected:
 	PlayerStateMachine* m_PlayerMachine = nullptr;
+	const Player* m_PlayerCache = nullptr;
 
 	std::string m_AnimName = {};
 	bool m_LoadAnimation = false;

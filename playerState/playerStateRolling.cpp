@@ -16,12 +16,22 @@ void PlayerStateRolling::Init()
 		m_PlayerMachine->SetAnimeBlendTimeValue(BLEND_VALUE_ROLLING);
 		// Getのみ / 編集不可 / 保存された数値を取得
 		const Player* playerCache = m_PlayerMachine->GetPlayerCache();
-		if (playerCache == nullptr) return;
-		m_RollingSpeed = playerCache->GetMoveSpeed() * playerCache->GetRollingSpeedValue();
-		m_RotSpeed = playerCache->GetRotSpeed();
-		m_MinRollingAcceptTime = playerCache->GetMinRollingTime();
-		m_MaxRollingAcceptTime = playerCache->GetMaxRollingTime();
+		m_PlayerCache = playerCache;
+	}
 
+	if (m_RollingSpeed == 0.0f && m_PlayerCache != nullptr)
+	{
+		const std::unordered_map<std::string, float>& rolling = m_PlayerCache->GetStateData("回避");
+
+		m_RollingSpeed = FindStateData(rolling, "回避時の移動速度倍率") * m_PlayerCache->GetMoveSpeed();
+		m_MinRollingAcceptTime = FindStateData(rolling, "回避成功時間_最小");
+		m_MaxRollingAcceptTime = FindStateData(rolling, "回避成功時間_最大");
+
+		m_RotSpeed = m_PlayerCache->GetRotSpeed();
+	}
+
+	if (m_PlayerMachine != nullptr && m_PlayerCache != nullptr)
+	{
 		// 速度設定
 
 		const XMFLOAT3& forwardVector = m_PlayerMachine->GetCameraForward();
@@ -53,8 +63,8 @@ void PlayerStateRolling::Init()
 
 		if (moveVector.x == 0.0f && moveVector.z == 0.0f)
 		{
-			m_MoveVector.x = playerCache->GetForward().x;
-			m_MoveVector.z = playerCache->GetForward().z;
+			m_MoveVector.x = m_PlayerCache->GetForward().x;
+			m_MoveVector.z = m_PlayerCache->GetForward().z;
 		}
 		else
 		{

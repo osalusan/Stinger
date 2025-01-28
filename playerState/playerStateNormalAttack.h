@@ -7,7 +7,6 @@ class PlayerStateNormalAttack final :public PlayerState
 {
 private:
 	BossEnemy* m_BossCache = nullptr;
-	const Player* m_PlayerCache = nullptr;
 
 	float m_AttackDamage = 0.0f;
 

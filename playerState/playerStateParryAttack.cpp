@@ -21,7 +21,7 @@ void PlayerStateParryAttack::Init()
 
 	if (m_PlayerCache != nullptr)
 	{
-		if (m_MinParryTime == 0.0f)
+		if (m_SpeedAttenuateValue == 0.0f)
 		{
 			const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("ƒpƒŠƒBUŒ‚");
 

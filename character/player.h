@@ -23,11 +23,6 @@ private:
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか
 	bool m_UseAttack = false;
 
-	// データ保存用
-	float m_RollingSpeedValue = 0.0f;
-	float m_MinRollingTime = 0.0f;
-	float m_MaxRollingTime = 0.0f;
-
 	virtual void MoveControl(const float& deltaTime)override;
 	virtual void CustomCollisionInfo()override;
 	virtual void CollisionControl()override;
@@ -77,19 +72,6 @@ public:
 	void SetRotationY(const float& y)
 	{
 		m_Rotation.y = y;
-	}
-
-	const float& GetRollingSpeedValue()const
-	{
-		return m_RollingSpeedValue;
-	}	
-	const float& GetMinRollingTime()const
-	{
-		return m_MinRollingTime;
-	}	
-	const float& GetMaxRollingTime()const
-	{
-		return m_MaxRollingTime;
 	}
 
 	const std::unordered_map<std::string, float>& GetStateData(const std::string& skillName)const

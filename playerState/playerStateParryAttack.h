@@ -13,7 +13,6 @@ private:
 	bool m_ParryAccept = false;
 	ObjectManager* m_ObjManagerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;
-	const Player* m_PlayerCache = nullptr;
 public:
 	using PlayerState::PlayerState;
 	virtual void Init()override;
