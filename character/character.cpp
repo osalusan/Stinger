@@ -7,8 +7,6 @@
 #include "component/shaderComponent.h"
 #include "scene/scene.h"
 
-constexpr float DEFAULT_BLEND_VALUE = 8.0f;
-
 // ------------------------- protected -------------------------
 
 void Character::ParameterControl(const float& deltaTime)

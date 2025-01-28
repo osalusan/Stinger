@@ -1,14 +1,13 @@
 #include "playerStateIdle.h"
 #include "playerStateMachine.h"
 
-constexpr float BLEND_VALUE_IDLE = 8.0f;
 void PlayerStateIdle::Init()
 {
 	LoadAnimation("asset\\model\\player\\Idle_PaladinJNordstrom.fbx", "idle_Player");
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
-		m_PlayerMachine->SetAnimeBlendTimeValue(BLEND_VALUE_IDLE);
+		m_PlayerMachine->SetAnimeBlendTimeValue(m_BlendTime);
 	}
 }
 

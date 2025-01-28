@@ -6,7 +6,6 @@
 #include "scene/scene.h"
 #include "character/bossEnemy.h"
 
-constexpr float SPEED_ATTENUATE_VALUE = 67.0f;	// 速度の減衰値
 void PlayerStateParryAttack::Init()
 {
 	LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack_Player");
@@ -22,8 +21,14 @@ void PlayerStateParryAttack::Init()
 
 	if (m_PlayerCache != nullptr)
 	{
-		m_MinParryTime = m_PlayerCache->GetMinParryTime();
-		m_MaxParryTime = m_PlayerCache->GetMaxParryTime();
+		if (m_MinParryTime == 0.0f)
+		{
+			const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("パリィ攻撃");
+
+			m_MinParryTime = FindStateData(parryAttak, "パリィ成功時間_最小");
+			m_MaxParryTime = FindStateData(parryAttak, "パリィ成功時間_最大");
+			m_SpeedAttenuateValue = FindStateData(parryAttak, "速度の減衰値");
+		}
 	}
 
 	if (m_BossCache == nullptr)
@@ -67,8 +72,8 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 
 	if (m_PlayerMachine->GetVelocity().x != 0.0f && m_PlayerMachine->GetVelocity().z != 0.0f)
 	{
-		m_PlayerMachine->SetVelocityX(m_PlayerMachine->GetVelocity().x / (SPEED_ATTENUATE_VALUE * deltaTime));
-		m_PlayerMachine->SetVelocityZ(m_PlayerMachine->GetVelocity().z / (SPEED_ATTENUATE_VALUE * deltaTime));
+		m_PlayerMachine->SetVelocityX(m_PlayerMachine->GetVelocity().x / (m_SpeedAttenuateValue * deltaTime));
+		m_PlayerMachine->SetVelocityZ(m_PlayerMachine->GetVelocity().z / (m_SpeedAttenuateValue * deltaTime));
 	}
 }
 

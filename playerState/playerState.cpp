@@ -65,6 +65,7 @@ PlayerState::PlayerState(PlayerStateMachine* machine)
 	{
 		m_PlayerMachine = machine;
 	}
+	m_BlendTime = DEFAULT_BLEND_VALUE;
 }
 
 void PlayerState::ChangePlayerState(const PLAYER_STATE& playerState)

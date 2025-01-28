@@ -1,6 +1,8 @@
 #pragma once
 #include "object/gameObject.h"
 
+#define DEFAULT_BLEND_VALUE (8.0f)
+
 // ‘O•ûéŒ¾
 enum class ANIMETION_MODEL;
 

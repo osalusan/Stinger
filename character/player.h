@@ -24,8 +24,6 @@ private:
 	bool m_UseAttack = false;
 
 	// データ保存用
-	float m_MinParryTime = 0.0f;
-	float m_MaxParryTime = 0.0f;
 	float m_RollingSpeedValue = 0.0f;
 	float m_MinRollingTime = 0.0f;
 	float m_MaxRollingTime = 0.0f;
@@ -81,14 +79,6 @@ public:
 		m_Rotation.y = y;
 	}
 
-	const float& GetMinParryTime()const
-	{
-		return m_MinParryTime;
-	}
-	const float& GetMaxParryTime()const
-	{
-		return m_MaxParryTime;
-	}	
 	const float& GetRollingSpeedValue()const
 	{
 		return m_RollingSpeedValue;

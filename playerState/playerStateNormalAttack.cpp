@@ -42,7 +42,6 @@ void PlayerStateNormalAttack::Init()
 	}
 	if (m_PlayerCache != nullptr)
 	{
-		m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue1;
 		if (m_AttackEnableTimeValue1 == 0.0f)
 		{
 			const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("’ÊíUŒ‚");
@@ -60,6 +59,7 @@ void PlayerStateNormalAttack::Init()
 
 			m_BlendTime = FindStateData(normalAttak, "ƒuƒŒƒ“ƒh‘¬“x");
 		}
+		m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue1;
 	}
 
 	if (m_BossCache == nullptr)
