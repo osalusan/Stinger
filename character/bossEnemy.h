@@ -26,6 +26,7 @@ enum class ATTACK_PARTS
 class BehaviorTree;
 class BehaviorNode;
 class Player;
+class Polygon2D;
 
 class BossEnemy :public Character {
 protected:
@@ -33,6 +34,7 @@ protected:
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 	std::unordered_map<const char*, ATTACK_PARTS> m_PartsCategory = {};
 	Player* m_PlayerCache = nullptr;		// ダメージ用
+	Polygon2D* m_EnemyHpCache = nullptr;
 
 	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_EnemySkillData = {};
 

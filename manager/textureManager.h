@@ -12,6 +12,7 @@ enum class TEXTURE
 	FADE,
 	SHADOW,
 	HP_PLAYER,
+	BLACK,
 	MAX
 };
 

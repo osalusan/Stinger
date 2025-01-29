@@ -22,8 +22,8 @@ constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 63.0f ,DEFAU
 constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 48.0f ,DEFAULT_SCALE_PLAYER.y * 48.0f ,DEFAULT_SCALE_PLAYER.z * 48.0f };
 constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
 // プレイヤーのUI情報
-constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.05f};
-constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.98f};
+constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR_PLAYER = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.042f};
+constexpr XMFLOAT2 DEFAULT_POS_HPBAR_PLAYER = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR_PLAYER.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR_PLAYER.y) * 0.98f};
 
 constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
 constexpr const char* LEFTHAND_NAME_PLAYER = "mixamorig:LeftHand";
@@ -83,7 +83,7 @@ void Player::Init()
 	// プレイヤーのUI
 	if (m_PlayerHpCache == nullptr)
 	{
-		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HP_PLAYER, L"asset\\texture\\hpBar.png",true);
+		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_PLAYER, DEFAULT_SCALE_HPBAR_PLAYER, PIVOT::LEFT_TOP, TEXTURE::HP_PLAYER, L"asset\\texture\\hpBar.png",true);
 	}
 }
 
@@ -104,7 +104,7 @@ void Player::TakeDamage(const float& atk)
 
 	if (m_PlayerHpCache != nullptr)
 	{
-		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR.y};
+		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR_PLAYER.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR_PLAYER.y};
 		m_PlayerHpCache->ChangeSize(size);
 	}
 

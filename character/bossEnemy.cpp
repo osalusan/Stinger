@@ -1,10 +1,21 @@
 #include "bossEnemy.h"
 #include "behaviorTree/behaviorTree.h"
+#include "manager/sceneManager.h"
+#include "manager/textureManager.h"
+#include "manager/objectManager.h"
+#include "polygon2D/polygon2D.h"
+#include "scene/scene.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 // TODO :完成直前時に削除予定 / デバッグ用
 #include "manager/inputManager.h"
+
+constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR_BOSS = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.05f };
+constexpr XMFLOAT2 DEFAULT_POS_HPBAR_BOSS = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR_BOSS.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR_BOSS.y) * 0.01f };
+constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME_BOSS = { DEFAULT_SCALE_HPBAR_BOSS.x + (DEFAULT_SCALE_HPBAR_BOSS.x * 0.01f) ,DEFAULT_SCALE_HPBAR_BOSS.y + (DEFAULT_SCALE_HPBAR_BOSS.y * 0.2f) };
+constexpr XMFLOAT2 DEFAULT_POS_HPFRAME_BOSS = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME_BOSS.x) * 0.5f, DEFAULT_POS_HPBAR_BOSS.y - ((DEFAULT_SCALE_HPFRAME_BOSS.y - DEFAULT_SCALE_HPBAR_BOSS.y) * 0.5f)};
+
 // ----------------------- protected -----------------------
 void BossEnemy::MoveControl(const float& deltaTime)
 {
@@ -165,6 +176,22 @@ BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
 	}
 
 	m_Position = pos;
+
+	Scene* scene = SceneManager::GetScene();
+	if (scene == nullptr) return;
+	ObjectManager* objManager = scene->GetObjectManager();
+	if (objManager == nullptr) return;
+
+	// フレーム
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME_BOSS, DEFAULT_SCALE_HPFRAME_BOSS,PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
+
+	// ボスのUI
+	if (m_EnemyHpCache == nullptr)
+	{
+		// 体力
+		m_EnemyHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_BOSS, DEFAULT_SCALE_HPBAR_BOSS, PIVOT::LEFT_TOP, TEXTURE::HP_PLAYER, L"asset\\texture\\hpBar.png", true);
+	}
+
 }
 
 BossEnemy::BossEnemy(BehaviorTree* tree, const XMFLOAT3& pos, const XMFLOAT3& scale)
@@ -194,6 +221,12 @@ void BossEnemy::TakeDamage(const float& atk)
 	if (atk <= 0 || m_Health <= 0) return;
 
 	m_Health -= atk;
+
+	if (m_EnemyHpCache != nullptr)
+	{
+		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR_BOSS.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR_BOSS.y };
+		m_EnemyHpCache->ChangeSize(size);
+	}
 
 	if (m_Health <= 0)
 	{
