@@ -2,14 +2,13 @@
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
 #include "manager/fbxModelManager.h"
+#include "manager/audioManager.h"
 #include "renderer/fbxModelRenderer.h"
 #include "scene/scene.h"
 #include "character/bossEnemy.h"
 
 void PlayerStateParryAttack::Init()
 {
-	LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack_Player");
-
 	m_CurrentTime = 0.0f;
 
 	if (m_PlayerCache == nullptr)
@@ -19,16 +18,19 @@ void PlayerStateParryAttack::Init()
 		m_PlayerCache = playerCache;
 	}
 
-	if (m_PlayerCache != nullptr)
+	if (!m_Load && m_PlayerCache != nullptr)
 	{
-		if (m_SpeedAttenuateValue == 0.0f)
-		{
-			const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("パリィ攻撃");
+		LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack_Player");
 
-			m_MinParryTime = FindStateData(parryAttak, "パリィ成功時間_最小");
-			m_MaxParryTime = FindStateData(parryAttak, "パリィ成功時間_最大");
-			m_SpeedAttenuateValue = FindStateData(parryAttak, "速度の減衰値");
-		}
+		AudioManager::ReservAudio(AUDIO::PARRY_SE, "asset\\audio\\se\\parry.wav");
+
+		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("パリィ攻撃");
+
+		m_MinParryTime = FindStateData(parryAttak, "パリィ成功時間_最小");
+		m_MaxParryTime = FindStateData(parryAttak, "パリィ成功時間_最大");
+		m_SpeedAttenuateValue = FindStateData(parryAttak, "速度の減衰値");
+
+		m_Load = true;
 	}
 
 	if (m_BossCache == nullptr)
@@ -95,6 +97,7 @@ bool PlayerStateParryAttack::CheckParryAccept()
 		{
 			if (m_ObjManagerCache == nullptr || m_BossCache == nullptr)return false;
 			m_PlayerMachine->InitVelocity();
+			AudioManager::Play(AUDIO::PARRY_SE);
 
 			m_BossCache->SetParryRecoil(true);
 

@@ -8,6 +8,7 @@ class PlayerStateNormalAttack final :public PlayerState
 private:
 	BossEnemy* m_BossCache = nullptr;
 
+	int m_AttackComboNumber = 0;
 	float m_AttackDamage = 0.0f;
 
 	std::string m_AnimName1 = {};

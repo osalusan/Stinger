@@ -3,6 +3,7 @@
 #include "manager/fbxModelManager.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
+#include "manager/audioManager.h"
 #include "renderer/fbxModelRenderer.h"
 #include "character/player.h"
 #include "scene/scene.h"
@@ -10,24 +11,6 @@
 
 void PlayerStateNormalAttack::Init()
 {
-	if (!m_LoadAnimation)
-	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_PaladinJNordstrom.fbx", "normalAttack1_Player");
-		m_AnimName1 = "normalAttack1_Player";
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash2_PaladinJNordstrom.fbx", "normalAttack2_Player");
-		m_AnimName2 = "normalAttack2_Player";
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash3_PaladinJNordstrom.fbx", "normalAttack3_Player");
-		m_AnimName3 = "normalAttack3_Player";
-
-		m_LoadAnimation = true;
-	}
-
-	m_CurrentTime = 0.0f;
-	m_AttackCancel = false;
-	m_UseAttack = true;
-	m_AttackAccept = true;
-	m_MaxAnimTime = m_MaxAnimTime1;
-
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
@@ -40,25 +23,48 @@ void PlayerStateNormalAttack::Init()
 			m_PlayerCache = playerCache;
 		}
 	}
+
+	if (!m_Load && m_PlayerCache != nullptr)
+	{
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_PaladinJNordstrom.fbx", "normalAttack1_Player");
+		m_AnimName1 = "normalAttack1_Player";
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash2_PaladinJNordstrom.fbx", "normalAttack2_Player");
+		m_AnimName2 = "normalAttack2_Player";
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash3_PaladinJNordstrom.fbx", "normalAttack3_Player");
+		m_AnimName3 = "normalAttack3_Player";
+
+		AudioManager::ReservAudio(AUDIO::SLASH1_SE, "asset\\audio\\se\\slash1.wav");
+		AudioManager::ReservAudio(AUDIO::SLASH2_SE, "asset\\audio\\se\\slash2.wav");
+
+		const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("通常攻撃");
+
+		m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ発生開始時間割合");
+		m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ発生開始時間割合");
+		m_AttackEnableTimeValue3 = FindStateData(normalAttak, "三段階目ダメージ発生開始時間割合");
+
+		m_DamageValue1 = FindStateData(normalAttak, "一段階目ダメージ倍率");
+		m_DamageValue2 = FindStateData(normalAttak, "二段階目ダメージ倍率");
+		m_DamageValue3 = FindStateData(normalAttak, "三段階目ダメージ倍率");
+
+		m_AttackCancleValue1 = FindStateData(normalAttak, "一段階目キャンセル可能時間割合");
+		m_AttackCancleValue2 = FindStateData(normalAttak, "二段階目キャンセル可能時間割合");
+		m_AttackCancleValue3 = FindStateData(normalAttak, "三段階目キャンセル可能時間割合");
+
+		m_BlendTime = FindStateData(normalAttak, "ブレンド速度");
+
+		m_LoadAnimation = true;
+		m_Load = true;
+	}
+
+	m_CurrentTime = 0.0f;
+	m_AttackCancel = false;
+	m_UseAttack = true;
+	m_AttackAccept = true;
+	m_MaxAnimTime = m_MaxAnimTime1;
+	m_AttackComboNumber = 1;
+
 	if (m_PlayerCache != nullptr)
 	{
-		if (m_AttackEnableTimeValue1 == 0.0f)
-		{
-			const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("通常攻撃");
-			m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ発生開始時間割合");
-			m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ発生開始時間割合");
-			m_AttackEnableTimeValue3 = FindStateData(normalAttak, "三段階目ダメージ発生開始時間割合");
-
-			m_DamageValue1 = FindStateData(normalAttak, "一段階目ダメージ倍率");
-			m_DamageValue2 = FindStateData(normalAttak, "二段階目ダメージ倍率");
-			m_DamageValue3 = FindStateData(normalAttak, "三段階目ダメージ倍率");
-
-			m_AttackCancleValue1 = FindStateData(normalAttak, "一段階目キャンセル可能時間割合");
-			m_AttackCancleValue2 = FindStateData(normalAttak, "二段階目キャンセル可能時間割合");
-			m_AttackCancleValue3 = FindStateData(normalAttak, "三段階目キャンセル可能時間割合");
-
-			m_BlendTime = FindStateData(normalAttak, "ブレンド速度");
-		}
 		m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue1;
 	}
 
@@ -150,6 +156,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_MaxAnimTime = maxAnimTime1and2;
 				m_UseAttack = true;
 				m_AttackCancel = false;
+				m_AttackComboNumber = 2;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue2;
 			}
 		}
@@ -175,6 +182,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_MaxAnimTime = maxAnimTime1and2 + m_MaxAnimTime3;
 				m_UseAttack = true;
 				m_AttackCancel = false;
+				m_AttackComboNumber = 3;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue3;
 			}
 		}
@@ -245,6 +253,15 @@ bool PlayerStateNormalAttack::CheckAttackAccept()
 		m_BossCache->TakeDamage(m_AttackDamage);
 		m_UseAttack = false;
 		m_AttackAccept = true;
+
+		if (m_AttackComboNumber == 1 || m_AttackComboNumber == 2)
+		{
+			AudioManager::Play(AUDIO::SLASH1_SE,false,0.8f);
+		}
+		else if (m_AttackComboNumber == 3)
+		{
+			AudioManager::Play(AUDIO::SLASH2_SE,false,0.85f);
+		}
 	}
 	return m_AttackAccept;
 }

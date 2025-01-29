@@ -9,6 +9,7 @@ protected:
 	PlayerStateMachine* m_PlayerMachine = nullptr;
 	const Player* m_PlayerCache = nullptr;
 
+	bool m_Load = false;
 	std::string m_AnimName = {};
 	bool m_LoadAnimation = false;
 	float m_CurrentTime = 0.0f;
