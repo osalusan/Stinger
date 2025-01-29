@@ -30,9 +30,9 @@ void TitleScene::Init()
 	m_ObjectManager->AddGameObject<TitleCamera>(OBJECT::CAMERA_MAIN);
 	m_ObjectManager->AddGameObject<MeshFiled>(OBJECT::FILED);
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::SHADOW, true, L"asset\\texture\\T_black.png");
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::SHADOW, true, L"asset\\texture\\black.png");
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\T_Stinger.png");
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\stinger.png");
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	
 	//m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, -10.0f), XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));

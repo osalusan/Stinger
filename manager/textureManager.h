@@ -11,6 +11,7 @@ enum class TEXTURE
 	LOADING,
 	FADE,
 	SHADOW,
+	HP_PLAYER,
 	MAX
 };
 

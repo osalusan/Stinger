@@ -6,12 +6,14 @@ class Camera;
 class PlayerStateMachine;
 class BoxCollisionComponent;
 class EquipmentObject;
+class Polygon2D;
 
 class Player final:public Character {
 private:
 
 	BoxCollisionComponent* m_BoxCollCache = nullptr;
 	BoxCollisionComponent* m_SwordBoxCollCache = nullptr;
+	Polygon2D* m_PlayerHpCache = nullptr;
 
 	PlayerStateMachine* m_PlayerStateMachine = nullptr;
 

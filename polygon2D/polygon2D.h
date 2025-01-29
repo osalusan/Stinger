@@ -27,10 +27,12 @@ protected:
 	VERTEX_3D m_Vertex[4] = {};
 	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
 	bool m_UseStencil = false;
+	bool m_UseUI = false;					// UI‚Æ‚µ‚ÄŽg‚¤
 	Camera* m_CameraCache = nullptr;
 public:
 	Polygon2D() = delete;
 	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName);
+	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName,const bool& ui);
 	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName);
 
 	virtual void Init()override;
@@ -38,6 +40,7 @@ public:
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
 	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
+	void ChangeSize(const XMFLOAT2& size);
 
 	void SetAlfa(const float& alfa)
 	{

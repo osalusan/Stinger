@@ -34,6 +34,12 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	AddComponent<ShaderComponent>(this);
 }
 
+Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName, const bool& ui)
+	:Polygon2D(position, size, pivot, texture, fileName)
+{
+	m_UseUI = ui;
+}
+
 Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName)
 	:Polygon2D(position,size,pivot,texture,fileName)
 {
@@ -55,6 +61,12 @@ void Polygon2D::Init()
 
 	D3D11_SUBRESOURCE_DATA sd{};
 	sd.pSysMem = m_Vertex;
+
+	if (m_UseUI)
+	{
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
@@ -138,7 +150,7 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)
 	{
 	case PIVOT::CENTER:		// 中央
 	{
-		const XMFLOAT2& halfSize = { m_Scale.x * 0.5f ,m_Scale.y * 0.5f };
+		const XMFLOAT2& halfSize = { size.x * 0.5f ,size.y * 0.5f };
 
 		m_Vertex[0].Position = XMFLOAT3(position.x - halfSize.x, position.y - halfSize.y, 0.0f);
 		m_Vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -273,5 +285,19 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)
 	default:
 		break;
 	}
+}
+
+void Polygon2D::ChangeSize(const XMFLOAT2& size)
+{
+	if (!m_UseUI) return;
+
+	//頂点データ書き換え
+	D3D11_MAPPED_SUBRESOURCE msr;
+	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+	SetPolygon(XMFLOAT2(m_Position.x,m_Position.y),size);
+
+	memcpy(msr.pData,m_Vertex , sizeof(VERTEX_3D) * 4);
+	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 }
 

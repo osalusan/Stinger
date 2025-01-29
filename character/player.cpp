@@ -3,6 +3,7 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "manager/objModelManager.h"
+#include "manager/textureManager.h"
 #include "renderer/fbxModelRenderer.h"
 #include "component/boxCollisionComponent.h"
 #include "component/shaderComponent.h"
@@ -10,14 +11,19 @@
 #include "playerState/playerStateMachine.h"
 #include "scene/scene.h"
 #include "equipment/equipmentObject.h"
+#include "polygon2D/polygon2D.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
+// プレイヤーの情報
 constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
 constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 63.0f ,DEFAULT_SCALE_PLAYER.y * 63.0f ,DEFAULT_SCALE_PLAYER.z * 63.0f };
 constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 48.0f ,DEFAULT_SCALE_PLAYER.y * 48.0f ,DEFAULT_SCALE_PLAYER.z * 48.0f };
 constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
+// プレイヤーのUI情報
+constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.05f};
+constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.98f};
 
 constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
 constexpr const char* LEFTHAND_NAME_PLAYER = "mixamorig:LeftHand";
@@ -30,6 +36,9 @@ Player::Player(const XMFLOAT3& pos)
 
 Player::~Player()
 {
+	m_PlayerHpCache = nullptr;
+	m_ShiledChache = nullptr;
+	m_SwordChache = nullptr;
 	delete m_PlayerStateMachine;
 	m_PlayerStateMachine = nullptr;
 }
@@ -70,6 +79,12 @@ void Player::Init()
 	{
 		m_ShiledChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj", m_Model, LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED, XMFLOAT3(-0.5f, 0.0f, 0.0f), OFFSET_POS_SHILED);
 	}
+
+	// プレイヤーのUI
+	if (m_PlayerHpCache == nullptr)
+	{
+		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HP_PLAYER, L"asset\\texture\\hpBar.png",true);
+	}
 }
 
 void Player::Uninit()
@@ -86,6 +101,12 @@ void Player::TakeDamage(const float& atk)
 	if (atk <= 0 || m_Health <= 0) return;
 
 	m_Health -= atk;
+
+	if (m_PlayerHpCache != nullptr)
+	{
+		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR.y};
+		m_PlayerHpCache->ChangeSize(size);
+	}
 
 	if (m_Health <= 0)
 	{
