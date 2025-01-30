@@ -7,6 +7,7 @@ private:
 	XMFLOAT3 m_MoveVector = {};
 	XMFLOAT3 m_NormalizeVelocity = {};
 	float m_RollingSpeed = 0.0f;
+	float m_SpeedAttenuateValue = 0.0f;
 	float m_RotSpeed = 0.0f;
 	bool m_RollingAccept = false;
 	float m_MinRollingAcceptTime = 0.0f;

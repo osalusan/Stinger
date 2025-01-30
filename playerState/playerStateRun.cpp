@@ -58,8 +58,8 @@ void PlayerStateRun::Update(const float& deltaTime)
 	const float& moveSpeed = playerCache->GetMoveSpeed();
 	const float& rotSpeed = playerCache->GetRotSpeed();
 
-	m_PlayerMachine->SetVelocityX(normalizeVelocity.x * moveSpeed * deltaTime);
-	m_PlayerMachine->SetVelocityZ(normalizeVelocity.z * moveSpeed * deltaTime);
+	m_PlayerMachine->SetVelocityX(normalizeVelocity.x * moveSpeed);
+	m_PlayerMachine->SetVelocityZ(normalizeVelocity.z * moveSpeed);
 
 	float currentAngle = m_PlayerMachine->GetRotation().y;
 	const float& targetAngle = atan2f(normalizeVelocity.x, normalizeVelocity.z);
