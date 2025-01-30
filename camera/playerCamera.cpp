@@ -5,7 +5,8 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH = 30.0f;
+constexpr float LENGTH = SCREEN_SCALE * 20.0f;
+constexpr float OFFSET_TARGET_POS_Y = SCREEN_HEIGHT * 0.015f;
 // マウスの設定
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
 constexpr XMFLOAT2 MOUSE_SPEED = { 0.005f,0.005f };
@@ -46,10 +47,12 @@ void PlayerCamera::Update(const float& deltaTime)
 	//マウスの縦移動処理
 	m_Rotation.x -= (m_MousePos.y - m_OldMousePos.y) * MOUSE_SPEED.y;
 	//マウスの上下制限
-	if (m_Rotation.x > 1.14f)
+	// 下
+	if (m_Rotation.x > 0.54f)
 	{
-		m_Rotation.x = 1.14f;
+		m_Rotation.x = 0.54f;
 	}
+	// 上
 	if (m_Rotation.x < -1.14f)
 	{
 		m_Rotation.x = -1.14f;
@@ -58,13 +61,21 @@ void PlayerCamera::Update(const float& deltaTime)
 	if (m_PlayerCache != nullptr)
 	{
 		m_Target = m_PlayerCache->GetPos();
+		m_Target.y += OFFSET_TARGET_POS_Y;
 	}
 
 	//カメラの移動処理
-	m_Position.x = m_Target.x - sinf(m_Rotation.y) * m_Length;
-	m_Position.z = m_Target.z - cosf(m_Rotation.y) * m_Length;
 
-	m_Position.y = m_Target.y - sinf(m_Rotation.x) * m_Length;
+	const float& cosPitch = cosf(m_Rotation.x);
+	const float& sinPitch = sinf(m_Rotation.x);
+	const float& sinYaw = sinf(m_Rotation.y);
+	const float& cosYaw = cosf(m_Rotation.y);
+
+	const float& horizontalDist = m_Length * cosPitch;
+
+	m_Position.x = m_Target.x - horizontalDist * sinYaw;
+	m_Position.z = m_Target.z - horizontalDist * cosYaw;
+	m_Position.y = m_Target.y - m_Length * sinPitch;
 
 	m_OldMousePos = m_MousePos;
 

@@ -1,17 +1,17 @@
-﻿  selectorNode.cpp
-  sequenceNode.cpp
-  taskNode.cpp
+﻿  taskNode.cpp
+  checkAttackParry.cpp
   checkHealthTask.cpp
   checkRangeTask.cpp
   dashAtThePlayerTask.cpp
   deadTask.cpp
   jumpAttackTask.cpp
+  leftSwipingTask.cpp
   loadIdleTask.cpp
+  parryRecoilTask.cpp
+  rightSwipingTask.cpp
   roaringInfinityTask.cpp
   roaringTask.cpp
-  swipingTask.cpp
   waitTask.cpp
-  behaviorTree.cpp
   mawJLaygoBattleTree.cpp
   mawJLaygoLoadTree.cpp
   mawJLaygoTitleTree.cpp
@@ -27,32 +27,31 @@
   boxCollisionComponent.cpp
   collisionComponent.cpp
   shaderComponent.cpp
+  equipmentObject.cpp
   fade.cpp
-  imgui.cpp
   imguiWindow.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_dx11.cpp
-  imgui_impl_win32.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
   main.cpp
+  audioManager.cpp
   fbxModelManager.cpp
   inputManager.cpp
-  コンパイル中...
-  objectManager.cpp
   objModelManager.cpp
+  objectManager.cpp
   particleManager.cpp
   sceneManager.cpp
   textureManager.cpp
+  コンパイル中...
   meshFiled.cpp
   gameObject.cpp
+  transparentWall.cpp
   particleEmitter.cpp
   spiralBlueorb.cpp
   playerState.cpp
   playerStateIdle.cpp
   playerStateJump.cpp
   playerStateMachine.cpp
+  playerStateNormalAttack.cpp
+  playerStateParryAttack.cpp
+  playerStateRolling.cpp
   playerStateRun.cpp
   polygon2D.cpp
   fbxModelRenderer.cpp
@@ -60,18 +59,20 @@
   renderer.cpp
   debugScene.cpp
   gameScene.cpp
-  コンパイル中...
   loadScene.cpp
+  コンパイル中...
   scene.cpp
   titleScene.cpp
   shadowVolume.cpp
   skydome.cpp
   box.cpp
   moveRandSizeBox.cpp
+  ruins.cpp
   staticmeshObject.cpp
   コード生成しています。
-  Previous IPDB not found, fall back to full compilation.
-  All 4401 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 5114 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
