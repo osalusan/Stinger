@@ -7,7 +7,7 @@ constexpr float BLEND_VALUE_ROLLING = 30.0f;
 
 void PlayerStateRolling::Init()
 {
-	LoadAnimation("asset\\model\\player\\rolling_PaladinJNordstrom.fbx", "rolling_Player");
+	LoadAnimation("asset\\model\\player\\rolling_PaladinJNordstrom.fbx", "rolling");
 	m_CurrentTime = 0.0f;
 	m_RollingAccept = false;
 	if (m_PlayerMachine != nullptr)

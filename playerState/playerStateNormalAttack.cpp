@@ -26,12 +26,12 @@ void PlayerStateNormalAttack::Init()
 
 	if (!m_Load && m_PlayerCache != nullptr)
 	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_PaladinJNordstrom.fbx", "normalAttack1_Player");
-		m_AnimName1 = "normalAttack1_Player";
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash2_PaladinJNordstrom.fbx", "normalAttack2_Player");
-		m_AnimName2 = "normalAttack2_Player";
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash3_PaladinJNordstrom.fbx", "normalAttack3_Player");
-		m_AnimName3 = "normalAttack3_Player";
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_PaladinJNordstrom.fbx", "normalAttack1");
+		m_AnimName1 = "normalAttack1";
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash2_PaladinJNordstrom.fbx", "normalAttack2");
+		m_AnimName2 = "normalAttack2";
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash3_PaladinJNordstrom.fbx", "normalAttack3");
+		m_AnimName3 = "normalAttack3";
 
 		AudioManager::ReservAudio(AUDIO::SLASH1_SE, "asset\\audio\\se\\slash1.wav");
 		AudioManager::ReservAudio(AUDIO::SLASH2_SE, "asset\\audio\\se\\slash2.wav");

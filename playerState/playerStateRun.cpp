@@ -3,7 +3,7 @@
 
 void PlayerStateRun::Init()
 {
-	LoadAnimation("asset\\model\\player\\run_PaladinJNordstrom.fbx", "run_Player");
+	LoadAnimation("asset\\model\\player\\run_PaladinJNordstrom.fbx", "run");
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->SetAnimeBlendTimeValue(m_BlendTime);

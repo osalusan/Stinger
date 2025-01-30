@@ -20,7 +20,7 @@ void PlayerStateParryAttack::Init()
 
 	if (!m_Load && m_PlayerCache != nullptr)
 	{
-		LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack_Player");
+		LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack");
 
 		AudioManager::ReservAudio(AUDIO::PARRY_SE, "asset\\audio\\se\\parry.wav");
 
