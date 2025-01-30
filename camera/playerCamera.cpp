@@ -5,8 +5,8 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH = SCREEN_SCALE * 20.0f;
-constexpr float OFFSET_TARGET_POS_Y = SCREEN_HEIGHT * 0.015f;
+constexpr float LENGTH = (1.0f / SCREEN_SCALE) * 70.0f;
+constexpr float OFFSET_TARGET_POS_Y = LENGTH * 0.35f;
 // マウスの設定
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
 constexpr XMFLOAT2 MOUSE_SPEED = { 0.005f,0.005f };
@@ -87,32 +87,15 @@ void PlayerCamera::Update(const float& deltaTime)
 			m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
 			m_OldMousePos = m_MousePos;
 	}
-
-	//if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
-	//	m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
-	//{
-	//	SetCursorPos(CENTER.x, CENTER.y);
-	//	GetCursorPos(&MousePos);
-	//	m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
-	//	m_OldMousePos = m_MousePos;
-	//}
 #else
-	// TODO:デバッグ用 / 変更予定
-	if (InputManager::GetKeyPress('R'))
+	if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
+		m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
 	{
 		SetCursorPos(CENTER.x, CENTER.y);
 		GetCursorPos(&MousePos);
 		m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
 		m_OldMousePos = m_MousePos;
 	}
-	//if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
-	//	m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
-	//{
-	//	SetCursorPos(CENTER.x, CENTER.y);
-	//	GetCursorPos(&MousePos);
-	//	m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
-	//	m_OldMousePos = m_MousePos;
-	//}
 #endif // _DEBUG
 
 

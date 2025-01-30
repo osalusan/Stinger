@@ -17,9 +17,10 @@
 #include <sstream>
 
 // プレイヤーの情報
-constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.03f,0.03f,0.03f };
-constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 63.0f ,DEFAULT_SCALE_PLAYER.y * 63.0f ,DEFAULT_SCALE_PLAYER.z * 63.0f };
-constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 48.0f ,DEFAULT_SCALE_PLAYER.y * 48.0f ,DEFAULT_SCALE_PLAYER.z * 48.0f };
+constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.04f,0.04f,0.04f };
+constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 54.0f ,DEFAULT_SCALE_PLAYER.y * 54.0f ,DEFAULT_SCALE_PLAYER.z * 54.0f };
+constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 46.0f ,DEFAULT_SCALE_PLAYER.y * 46.0f ,DEFAULT_SCALE_PLAYER.z * 46.0f };
+constexpr XMFLOAT3 OFFSET_POS_SWORD = { DEFAULT_SCALE_PLAYER.x * -10.0f, DEFAULT_SCALE_PLAYER.y * -2.0f, 0.0f };
 constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
 // プレイヤーのUI情報
 constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR_PLAYER = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.032f};
@@ -75,7 +76,7 @@ void Player::Init()
 	// プレイヤーの装備
 	if (m_SwordChache == nullptr)
 	{
-		m_SwordChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj", m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD, XMFLOAT3(0.0f, 0.0f, 5.3f));
+		m_SwordChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SOWRD, "asset\\model\\sword\\andlangr_sword.obj", m_Model, RIGHTHAND_NAME_PLAYER, DEFAULT_SCALE_SWORD, XMFLOAT3(0.0f, 0.0f, 5.3f), OFFSET_POS_SWORD);
 	}
 	if (m_ShiledChache == nullptr)
 	{
