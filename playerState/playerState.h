@@ -19,6 +19,8 @@ protected:
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 	// カメラの向きに回転
 	void RotToCameraDirection(const float& deltaTime);
+	// カメラから見て、キーの入力方向に向く
+	void RotToInputKeyDirection(const float& deltaTime,const bool& rotAway = false);
 
 	float FindStateData(const std::unordered_map<std::string, float>& stateData,const std::string& dataName);
 public:

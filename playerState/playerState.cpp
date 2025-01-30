@@ -16,6 +16,13 @@ void PlayerState::LoadAnimation(const std::string& fileName, const std::string& 
 void PlayerState::RotToCameraDirection(const float& deltaTime)
 {
 	if (m_PlayerMachine == nullptr) return;
+	// Getのみ / 編集不可
+	if (m_PlayerCache == nullptr)
+	{
+		const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+		m_PlayerCache = playerCache;
+		if (m_PlayerCache == nullptr) return;
+	}
 	const XMFLOAT3& forwardVector = m_PlayerMachine->GetCameraForward();
 
 	float currentAngle = m_PlayerMachine->GetRotation().y;
@@ -29,14 +36,77 @@ void PlayerState::RotToCameraDirection(const float& deltaTime)
 	while (angleDiff < -XM_PI)
 	{
 		angleDiff += XM_2PI;
-	}
+	}	
 
-	// Getのみ / 編集不可
-	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
-	if (playerCache == nullptr) return;
-	const float& rotSpeed = playerCache->GetRotSpeed();
+	const float& rotSpeed = m_PlayerCache->GetRotSpeed();
 	// 少しずつ差を埋める
 	currentAngle += angleDiff * rotSpeed * deltaTime;
+
+	m_PlayerMachine->SetRotationY(currentAngle);
+}
+
+void PlayerState::RotToInputKeyDirection(const float& deltaTime, const bool& rotAway)
+{
+	if (m_PlayerMachine == nullptr) return;
+	// Getのみ / 編集不可
+	if (m_PlayerCache == nullptr)
+	{
+		const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+		m_PlayerCache = playerCache;
+		if (m_PlayerCache == nullptr) return;
+	}
+	const XMFLOAT3& forwardVector = m_PlayerMachine->GetCameraForward();
+	const XMFLOAT3& rightVector = m_PlayerMachine->GetCameraRight();
+
+	XMFLOAT3 keyDirection = {};
+
+	if (m_PlayerMachine->GetMoveRandL() == MOVE_DIRECTION::RIGHT)
+	{
+		keyDirection.x += rightVector.x;
+		keyDirection.z += rightVector.z;
+	}
+	else if (m_PlayerMachine->GetMoveRandL() == MOVE_DIRECTION::LEFT)
+	{
+		keyDirection.x += (-rightVector.x);
+		keyDirection.z += (-rightVector.z);
+	}
+
+	if (m_PlayerMachine->GetMoveFandB() == MOVE_DIRECTION::FORWARD)
+	{
+		keyDirection.x += forwardVector.x;
+		keyDirection.z += forwardVector.z;
+	}
+	else if (m_PlayerMachine->GetMoveFandB() == MOVE_DIRECTION::BACKWARD)
+	{
+		keyDirection.x += (-forwardVector.x);
+		keyDirection.z += (-forwardVector.z);
+	}
+
+	if (keyDirection.x == 0.0f && keyDirection.z == 0.0f) return;
+
+	float currentAngle = m_PlayerMachine->GetRotation().y;
+	const float& targetAngle = atan2f(keyDirection.x, keyDirection.z);
+	if (!rotAway)
+	{
+		float angleDiff = targetAngle - currentAngle;
+		while (angleDiff > XM_PI)
+		{
+			angleDiff -= XM_2PI;
+		}
+		while (angleDiff < -XM_PI)
+		{
+			angleDiff += XM_2PI;
+		}
+
+		const float& rotSpeed = m_PlayerCache->GetRotSpeed();
+		// 少しずつ差を埋める
+		currentAngle += angleDiff * rotSpeed * deltaTime;
+	}
+	else if (rotAway)
+	{
+		currentAngle = targetAngle;
+	}
+
 
 	m_PlayerMachine->SetRotationY(currentAngle);
 }

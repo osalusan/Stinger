@@ -5,7 +5,7 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH = (1.0f / SCREEN_SCALE) * 70.0f;
+constexpr float LENGTH = (1.0f / SCREEN_SCALE) * 60.0f;
 constexpr float OFFSET_TARGET_POS_Y = LENGTH * 0.35f;
 // É}ÉEÉXÇÃê›íË
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };

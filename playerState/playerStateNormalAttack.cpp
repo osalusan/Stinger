@@ -146,6 +146,10 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackAccept = false;
 			}
 		}
+		else
+		{
+			RotToInputKeyDirection(deltaTime);
+		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 * m_AttackCancleValue1)
 		{
@@ -171,6 +175,10 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 			{
 				m_AttackAccept = false;
 			}
+		}
+		else
+		{
+			RotToInputKeyDirection(deltaTime);
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * m_AttackCancleValue2))
@@ -198,14 +206,16 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackAccept = false;
 			}
 		}
+		else
+		{
+			RotToInputKeyDirection(deltaTime);
+		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_AttackCancleValue3))
 		{
 			m_AttackCancel = true;
 		}
 	}
-
-	RotToCameraDirection(deltaTime);
 
 	if (m_PlayerMachine != nullptr)
 	{
