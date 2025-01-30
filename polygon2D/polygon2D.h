@@ -39,8 +39,8 @@ public:
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
-	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
-	void ChangeSize(const XMFLOAT2& size);
+	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& sizeValue = { 1.0f,1.0f });
+	void ChangeUVScaling(const XMFLOAT2& sizeValue);
 
 	void SetAlfa(const float& alfa)
 	{

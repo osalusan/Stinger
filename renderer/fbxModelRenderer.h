@@ -30,7 +30,7 @@ struct BONE
 								 0.0f, 0.0f, 1.0f, 0.0f,
 								 0.0f, 0.0f, 0.0f, 1.0f };
 
-	aiMatrix4x4 WorldMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+	aiMatrix4x4 LocalMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
 							 0.0f, 1.0f, 0.0f, 0.0f,
 							 0.0f, 0.0f, 1.0f, 0.0f,
 							 0.0f, 0.0f, 0.0f, 1.0f };

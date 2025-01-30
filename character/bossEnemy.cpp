@@ -13,7 +13,7 @@
 
 constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR_BOSS = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.05f };
 constexpr XMFLOAT2 DEFAULT_POS_HPBAR_BOSS = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR_BOSS.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR_BOSS.y) * 0.01f };
-constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME_BOSS = { DEFAULT_SCALE_HPBAR_BOSS.x + (DEFAULT_SCALE_HPBAR_BOSS.x * 0.01f) ,DEFAULT_SCALE_HPBAR_BOSS.y + (DEFAULT_SCALE_HPBAR_BOSS.y * 0.2f) };
+constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME_BOSS = { DEFAULT_SCALE_HPBAR_BOSS.x + (DEFAULT_SCALE_HPBAR_BOSS.x * 0.008f) ,DEFAULT_SCALE_HPBAR_BOSS.y + (DEFAULT_SCALE_HPBAR_BOSS.y * 0.2f) };
 constexpr XMFLOAT2 DEFAULT_POS_HPFRAME_BOSS = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME_BOSS.x) * 0.5f, DEFAULT_POS_HPBAR_BOSS.y - ((DEFAULT_SCALE_HPFRAME_BOSS.y - DEFAULT_SCALE_HPBAR_BOSS.y) * 0.5f)};
 
 // ----------------------- protected -----------------------
@@ -183,13 +183,15 @@ BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
 	if (objManager == nullptr) return;
 
 	// フレーム
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME_BOSS, DEFAULT_SCALE_HPFRAME_BOSS,PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME_BOSS, DEFAULT_SCALE_HPFRAME_BOSS,PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_BOSS, L"asset\\texture\\white.png");
+	// HPバーのバックグラウンド
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_BOSS, DEFAULT_SCALE_HPBAR_BOSS, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_BOSS, L"asset\\texture\\black.png");
 
 	// ボスのUI
 	if (m_EnemyHpCache == nullptr)
 	{
 		// 体力
-		m_EnemyHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_BOSS, DEFAULT_SCALE_HPBAR_BOSS, PIVOT::LEFT_TOP, TEXTURE::HP_PLAYER, L"asset\\texture\\hpBar.png", true);
+		m_EnemyHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_BOSS, DEFAULT_SCALE_HPBAR_BOSS, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BOSS, L"asset\\texture\\boss_HpBar.png", true);
 	}
 
 }
@@ -225,7 +227,7 @@ void BossEnemy::TakeDamage(const float& atk)
 	if (m_EnemyHpCache != nullptr)
 	{
 		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR_BOSS.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR_BOSS.y };
-		m_EnemyHpCache->ChangeSize(size);
+		m_EnemyHpCache->ChangeUVScaling({ m_Health / m_MaxHealth ,1.0f });
 	}
 
 	if (m_Health <= 0)

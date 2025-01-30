@@ -16,7 +16,7 @@ void EquipmentObject::MoveControl(const float& deltaTime)
 	{
 		if (bonePair.first != m_BoneName) continue;
 
-		boneMatrix = model->AiMatrixToXMMATRIX(bonePair.second.WorldMatrix);
+		boneMatrix = model->AiMatrixToXMMATRIX(bonePair.second.LocalMatrix);
 
 		break;
 	}

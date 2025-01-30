@@ -74,7 +74,7 @@ void MawJLaygo::CustomCollisionInfo()
 			const std::string& boxName = boxColli->GetName();
 			if (bonePair.first != boxName) continue;
 
-			const XMMATRIX& boneMatrix = model->AiMatrixToXMMATRIX(bonePair.second.WorldMatrix);
+			const XMMATRIX& boneMatrix = model->AiMatrixToXMMATRIX(bonePair.second.LocalMatrix);
 
 			XMFLOAT3 offsetPos = {};
 			XMFLOAT3 collisionScl = {};
