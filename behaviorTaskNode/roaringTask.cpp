@@ -4,7 +4,7 @@
 
 void RoaringTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring");
 	m_TaskName = "ˆÐŠd";
 }
 

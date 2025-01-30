@@ -5,7 +5,7 @@
 
 void DeadTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\dying_MawJ.fbx", "dead_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\dying_MawJ.fbx", "dead");
 	m_TaskName = "Ž€–S";
 }
 

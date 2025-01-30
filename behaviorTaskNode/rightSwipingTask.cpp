@@ -4,7 +4,7 @@
 
 void RightSwipingTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\rightSwiping_MawJ.fbx", "rightSwiping_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\rightSwiping_MawJ.fbx", "rightSwiping");
 	m_TaskName = "‰E‰£‚è";
 	InitSkillData(m_TaskName);
 }

@@ -7,7 +7,7 @@
 
 void WaitTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\idle_MawJ.fbx", "idle_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\idle_MawJ.fbx", "idle");
 	m_TaskName = "‘Ò‹@";
 }
 

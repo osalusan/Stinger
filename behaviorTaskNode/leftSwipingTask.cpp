@@ -4,7 +4,7 @@
 
 void LeftSwipingTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\leftSwiping_MawJ.fbx", "leftSwiping_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\leftSwiping_MawJ.fbx", "leftSwiping");
 	m_TaskName = "ç∂â£ÇË";
 	InitSkillData(m_TaskName);
 }

@@ -8,7 +8,7 @@ constexpr float LANDING_MAX_VALUE = 0.48f;
 constexpr float DAMAGE_MAX_VALUE = 0.9f;
 void JumpAttackTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_MawJ.fbx", "jumpAttack_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_MawJ.fbx", "jumpAttack");
 	m_TaskName = "ÉWÉÉÉìÉvçUåÇ";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;

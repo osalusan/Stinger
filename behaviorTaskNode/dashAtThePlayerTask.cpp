@@ -9,7 +9,7 @@ void DashAtThePlayerTask::Init()
 	{
 		m_Range = 10.0f;
 	}
-	ReserveAnimation("asset\\model\\mawJ\\unarmedWalkForward_MawJ.fbx", "walking_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\unarmedWalkForward_MawJ.fbx", "walking");
 	m_TaskName = "ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä‘–‚é";
 }
 

@@ -8,7 +8,7 @@
 
 void LoadIdleTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\loadIdle_MawJ.fbx", "loadIdle_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\loadIdle_MawJ.fbx", "loadIdle");
 }
 
 NODE_STATE LoadIdleTask::Update(const float& deltaTime)

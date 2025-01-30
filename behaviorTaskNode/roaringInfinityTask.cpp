@@ -10,7 +10,7 @@ constexpr float ANIMATION_SPEED = 0.2f;
 constexpr float DERAY_MAX_TIME = 0.02f;
 void RoaringInfinityTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring");
 }
 
 NODE_STATE RoaringInfinityTask::Update(const float& deltaTime)

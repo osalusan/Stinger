@@ -4,7 +4,7 @@
 
 void ParryRecoilTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\standingReact_MawJ.fbx", "parryRecoil_MawJ");
+	ReserveAnimation("asset\\model\\mawJ\\standingReact_MawJ.fbx", "parryRecoil");
 	m_TaskName = "ƒpƒŠƒB‚Å‚Ì‚æ‚ë‚¯";
 }
 
