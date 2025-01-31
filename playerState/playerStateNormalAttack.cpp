@@ -148,7 +148,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToInputKeyDirection(deltaTime);
+			RotToCameraDirection(deltaTime);
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 * m_AttackCancleValue1)
