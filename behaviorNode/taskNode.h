@@ -25,6 +25,8 @@ protected:
 	float m_SpeedValue = 0.0f;
 	float m_UseStaminaValue = 0.0f;
 	float m_DerivationHealth = 0.0f;
+	float m_AttackEnableTimeValue = 0.0f;
+	float m_AttackDisableTimeValue = 1.0f;
 	bool m_ParryPossibleAtk = false;	// パリィされる攻撃の場合は、CSVの方に0以外の数値を入力する
 
 	// アニメーションを使用する際は、必ず呼ぶ

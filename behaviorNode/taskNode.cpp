@@ -36,11 +36,13 @@ void TaskNode::InitSkillData(const std::string& skillName)
 	m_skillData = m_BossCache->GetSkillData(skillName);
 	if (m_skillData.empty())return;
 
-	m_DamageValue = FindSkillData("攻撃倍率");
-	m_SpeedValue = FindSkillData("速度倍率");
-	m_UseStaminaValue = FindSkillData("消費スタミナ割合");
-	m_DerivationHealth = FindSkillData("派生技の発生体力割合");
-	if (FindSkillData("パリィ可能攻撃") != 0.0f)
+	m_DamageValue = FindSkillData("攻撃_倍率");
+	m_SpeedValue = FindSkillData("速度_倍率");
+	m_UseStaminaValue = FindSkillData("消費スタミナ_割合");
+	m_DerivationHealth = FindSkillData("派生技の発生体力_割合");
+	m_AttackEnableTimeValue = FindSkillData("ダメージ開始時間_割合");
+	m_AttackDisableTimeValue = FindSkillData("ダメージ終了時間_割合");
+	if (FindSkillData("パリィ可能_攻撃") != 0.0f)
 	{
 		m_ParryPossibleAtk = true;
 	}

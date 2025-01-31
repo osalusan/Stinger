@@ -23,10 +23,10 @@ void PlayerStateRolling::Init()
 	{
 		const std::unordered_map<std::string, float>& rolling = m_PlayerCache->GetStateData("‰ñ”ð");
 
-		m_RollingSpeed = FindStateData(rolling, "‰ñ”ðŽž‚ÌÅ‚‘¬“x‚Ì”{—¦") * m_PlayerCache->GetMoveSpeed();
+		m_RollingSpeed = FindStateData(rolling, "‰ñ”ðŽž‚ÌÅ‚‘¬“x_”{—¦") * m_PlayerCache->GetMoveSpeed();
 		m_MinRollingAcceptTime = FindStateData(rolling, "‰ñ”ð¬Œ÷ŽžŠÔ_Å¬");
 		m_MaxRollingAcceptTime = FindStateData(rolling, "‰ñ”ð¬Œ÷ŽžŠÔ_Å‘å");
-		m_SpeedAttenuateValue = FindStateData(rolling, "‰ñ”ðŽž‚Ì‘¬“xŒ¸Š”{—¦");
+		m_SpeedAttenuateValue = FindStateData(rolling, "‰ñ”ðŽž‚Ì‘¬“xŒ¸Š_”{—¦");
 
 		m_RotSpeed = m_PlayerCache->GetRotSpeed();
 	}

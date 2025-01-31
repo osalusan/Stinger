@@ -38,17 +38,17 @@ void PlayerStateNormalAttack::Init()
 
 		const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("通常攻撃");
 
-		m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ発生開始時間割合");
-		m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ発生開始時間割合");
-		m_AttackEnableTimeValue3 = FindStateData(normalAttak, "三段階目ダメージ発生開始時間割合");
+		m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ開始時間_割合");
+		m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ開始時間_割合");
+		m_AttackEnableTimeValue3 = FindStateData(normalAttak, "三段階目ダメージ開始時間_割合");
 
-		m_DamageValue1 = FindStateData(normalAttak, "一段階目ダメージ倍率");
-		m_DamageValue2 = FindStateData(normalAttak, "二段階目ダメージ倍率");
-		m_DamageValue3 = FindStateData(normalAttak, "三段階目ダメージ倍率");
+		m_DamageValue1 = FindStateData(normalAttak, "一段階目ダメージ_倍率");
+		m_DamageValue2 = FindStateData(normalAttak, "二段階目ダメージ_倍率");
+		m_DamageValue3 = FindStateData(normalAttak, "三段階目ダメージ_倍率");
 
-		m_AttackCancleValue1 = FindStateData(normalAttak, "一段階目キャンセル可能時間割合");
-		m_AttackCancleValue2 = FindStateData(normalAttak, "二段階目キャンセル可能時間割合");
-		m_AttackCancleValue3 = FindStateData(normalAttak, "三段階目キャンセル可能時間割合");
+		m_AttackCancleValue1 = FindStateData(normalAttak, "一段階目キャンセル可能時間_割合");
+		m_AttackCancleValue2 = FindStateData(normalAttak, "二段階目キャンセル可能時間_割合");
+		m_AttackCancleValue3 = FindStateData(normalAttak, "三段階目キャンセル可能時間_割合");
 
 		m_BlendTime = FindStateData(normalAttak, "ブレンド速度");
 

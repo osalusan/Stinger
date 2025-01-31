@@ -5,7 +5,6 @@
 // 着地に合わせる用
 constexpr float LANDING_MIN_VALUE = 0.1f;
 constexpr float LANDING_MAX_VALUE = 0.48f;
-constexpr float DAMAGE_MAX_VALUE = 0.9f;
 void JumpAttackTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_MawJ.fbx", "jumpAttack");
@@ -59,8 +58,8 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 		{
 			m_BossCache->AddVelocity(m_MoveVector);
 		}
-		// ダメージ発生 / TODO :変更予定 / デバッグ用
-		if (m_CurrentTime >= m_MaxAnimTime * LANDING_MIN_VALUE && m_CurrentTime < m_MaxAnimTime * DAMAGE_MAX_VALUE)
+		// ダメージ発生
+		if (m_CurrentTime >= m_MaxAnimTime * m_AttackEnableTimeValue && m_CurrentTime < m_MaxAnimTime * m_AttackDisableTimeValue)
 		{
 			m_BossCache->SetAttackParts(ATTACK_PARTS::ALL);
 		}
