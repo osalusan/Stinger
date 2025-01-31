@@ -2,6 +2,8 @@
 #include "behaviorNode.h"
 #include <unordered_map>
 
+// 前方宣言
+enum class ATTACK_PARTS;
 class BossEnemy;
 class Player;
 
@@ -36,6 +38,8 @@ protected:
 	NODE_STATE UpdateChildren(const float& deltaTime);
 	// 問題なかったらtrueが返る
 	bool CheckRunningNode(BehaviorNode* currentNode);
+	// 攻撃を使用する場合にUpdateで使用
+	void UseAttack(const ATTACK_PARTS& parts);
 public:
 	TaskNode() = delete;
 	TaskNode(BossEnemy* boss, Player* player);

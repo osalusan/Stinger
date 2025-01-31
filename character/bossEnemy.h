@@ -32,7 +32,7 @@ class BossEnemy :public Character {
 protected:
 	BehaviorTree* m_Tree = nullptr;
 	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
-	std::unordered_map<const char*, ATTACK_PARTS> m_PartsCategory = {};
+	std::unordered_map<std::string, ATTACK_PARTS> m_PartsCategory = {};
 	Player* m_PlayerCache = nullptr;		// ダメージ用
 	Polygon2D* m_EnemyHpCache = nullptr;
 

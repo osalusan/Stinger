@@ -7,6 +7,7 @@ void LeftSwipingTask::Init()
 	ReserveAnimation("asset\\model\\mawJ\\leftSwiping_MawJ.fbx", "leftSwiping");
 	m_TaskName = "ç∂â£ÇË";
 	InitSkillData(m_TaskName);
+	m_ParryPossibleAtk = true;
 }
 
 NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
@@ -57,6 +58,8 @@ NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
 		m_BossCache->ChangeAnimation(m_AnimeName);
 		// çUåÇèÛë‘Çï€ë∂
 		m_BossCache->SetRunningNode(this);
+		// É_ÉÅÅ[ÉWî≠ê∂
+		UseAttack(ATTACK_PARTS::LEFT_ARM);
 
 		return NODE_STATE::RUNNING;
 	}

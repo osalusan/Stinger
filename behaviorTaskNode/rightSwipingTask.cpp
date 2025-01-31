@@ -7,6 +7,7 @@ void RightSwipingTask::Init()
 	ReserveAnimation("asset\\model\\mawJ\\rightSwiping_MawJ.fbx", "rightSwiping");
 	m_TaskName = "右殴り";
 	InitSkillData(m_TaskName);
+	m_ParryPossibleAtk = true;
 }
 
 NODE_STATE RightSwipingTask::Update(const float& deltaTime)
@@ -41,6 +42,8 @@ NODE_STATE RightSwipingTask::Update(const float& deltaTime)
 		m_BossCache->ChangeAnimation(m_AnimeName);
 		// 攻撃状態を保存
 		m_BossCache->SetRunningNode(this);
+		// ダメージ発生
+		UseAttack(ATTACK_PARTS::RIGHT_ARM);
 
 		return NODE_STATE::RUNNING;
 	}

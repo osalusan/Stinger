@@ -161,12 +161,16 @@ void MawJLaygo::CollisionControl()
 
 			if (m_CurrentAttackParts != ATTACK_PARTS::ALL)
 			{
-				const ATTACK_PARTS& partsName = m_PartsCategory[boxColl->GetName().c_str()];
-				if (m_CurrentAttackParts == partsName)
-				{
+				const std::string& collName = boxColl->GetName();
+				if (m_PartsCategory.count(collName) <= 0) continue;
+				const ATTACK_PARTS& partsName = m_PartsCategory.at(collName);
 
-				} // Žè‚Ì”»’è / ‰EŽè‚â¶Žè‚ÍŽè‚Æ‚µ‚Ä‚à”»’è‚³‚ê‚é
-				else if (m_CurrentAttackParts != ATTACK_PARTS::ARM && partsName == ATTACK_PARTS::RIGHT_ARM || partsName == ATTACK_PARTS::LEFT_ARM)
+				if (m_CurrentAttackParts != partsName)
+				{
+					
+				} 
+				// Žè‚Ì”»’è / ‰EŽè‚â¶Žè‚ÍŽè‚Æ‚µ‚Ä‚à”»’è‚³‚ê‚é
+				else if (m_CurrentAttackParts == ATTACK_PARTS::ARM && partsName == ATTACK_PARTS::RIGHT_ARM || partsName == ATTACK_PARTS::LEFT_ARM)
 				{
 					
 				}

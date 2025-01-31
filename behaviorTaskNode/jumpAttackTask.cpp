@@ -59,10 +59,7 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 			m_BossCache->AddVelocity(m_MoveVector);
 		}
 		// ƒ_ƒ[ƒW”­¶
-		if (m_CurrentTime >= m_MaxAnimTime * m_AttackEnableTimeValue && m_CurrentTime < m_MaxAnimTime * m_AttackDisableTimeValue)
-		{
-			m_BossCache->SetAttackParts(ATTACK_PARTS::ALL);
-		}
+		UseAttack(ATTACK_PARTS::ALL);
 
 		return NODE_STATE::RUNNING;
 	}

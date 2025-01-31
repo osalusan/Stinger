@@ -81,6 +81,16 @@ bool TaskNode::CheckRunningNode(BehaviorNode* currentNode)
 	return hit;
 }
 
+void TaskNode::UseAttack(const ATTACK_PARTS& parts)
+{
+	if (m_MaxAnimTime == 0.0f || m_BossCache == nullptr) return;
+	// ƒ_ƒ[ƒW”­¶
+	if (m_CurrentTime >= m_MaxAnimTime * m_AttackEnableTimeValue && m_CurrentTime < m_MaxAnimTime * m_AttackDisableTimeValue)
+	{
+		m_BossCache->SetAttackParts(parts);
+	}
+}
+
 // ---------------------------- public ----------------------------
 TaskNode::TaskNode(BossEnemy* boss, Player* player)
 {
