@@ -23,10 +23,10 @@ constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 46.0f ,DEFA
 constexpr XMFLOAT3 OFFSET_POS_SWORD = { DEFAULT_SCALE_PLAYER.x * -10.0f, DEFAULT_SCALE_PLAYER.y * -2.0f, 0.0f };
 constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
 // プレイヤーのUI情報
-constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR_PLAYER = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.032f};
-constexpr XMFLOAT2 DEFAULT_POS_HPBAR_PLAYER = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR_PLAYER.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR_PLAYER.y) * 0.98f};
-constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME_PLAYER = { DEFAULT_SCALE_HPBAR_PLAYER.x + (DEFAULT_SCALE_HPBAR_PLAYER.x * 0.005f) ,DEFAULT_SCALE_HPBAR_PLAYER.y + (DEFAULT_SCALE_HPBAR_PLAYER.y * 0.15f) };
-constexpr XMFLOAT2 DEFAULT_POS_HPFRAME_PLAYER = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME_PLAYER.x) * 0.5f, DEFAULT_POS_HPBAR_PLAYER.y - ((DEFAULT_SCALE_HPFRAME_PLAYER.y - DEFAULT_SCALE_HPBAR_PLAYER.y) * 0.5f) };
+constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.032f};
+constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.98f};
+constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME = { DEFAULT_SCALE_HPBAR.x + (DEFAULT_SCALE_HPBAR.x * 0.005f) ,DEFAULT_SCALE_HPBAR.y + (DEFAULT_SCALE_HPBAR.y * 0.15f) };
+constexpr XMFLOAT2 DEFAULT_POS_HPFRAME = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME.x) * 0.5f, DEFAULT_POS_HPBAR.y - ((DEFAULT_SCALE_HPFRAME.y - DEFAULT_SCALE_HPBAR.y) * 0.5f) };
 
 constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
 constexpr const char* LEFTHAND_NAME_PLAYER = "mixamorig:LeftHand";
@@ -84,13 +84,13 @@ void Player::Init()
 	}
 
 	// フレーム
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME_PLAYER, DEFAULT_SCALE_HPFRAME_PLAYER, PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_PLAYER, L"asset\\texture\\white.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME, PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_PLAYER, L"asset\\texture\\white.png");
 	// HPバーのバックグラウンド
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_PLAYER, DEFAULT_SCALE_HPBAR_PLAYER, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_PLAYER, L"asset\\texture\\black.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_PLAYER, L"asset\\texture\\black.png");
 	// プレイヤーのUI
 	if (m_PlayerHpCache == nullptr)
 	{
-		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_PLAYER, DEFAULT_SCALE_HPBAR_PLAYER, PIVOT::LEFT_TOP, TEXTURE::HPBAR_PLAYER, L"asset\\texture\\player_HpBar.png",true);
+		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_PLAYER, L"asset\\texture\\player_HpBar.png",true);
 	}
 }
 
@@ -111,7 +111,7 @@ void Player::TakeDamage(const float& atk)
 
 	if (m_PlayerHpCache != nullptr)
 	{
-		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR_PLAYER.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR_PLAYER.y};
+		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR.y};
 		m_PlayerHpCache->ChangeUVScaling({ m_Health / m_MaxHealth ,1.0f});
 	}
 
@@ -245,7 +245,7 @@ void Player::CollisionControl()
 	{
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
-
+		InitGravity();
 		// 地面に触れているかどうかを伝える
 		m_PlayerStateMachine->HitGround();
 	}
