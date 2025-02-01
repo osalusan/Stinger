@@ -12,6 +12,7 @@ void AirLightningBallTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\standing2HMagicAttack_MawJ.fbx", "airLightningBall");
 	m_TaskName = "—‹‹…”­ŽË";
+	InitSkillData(m_TaskName);
 
 	Scene* scene = SceneManager::GetScene();
 	if (scene == nullptr) return;
@@ -21,7 +22,7 @@ void AirLightningBallTask::Init()
 	// ƒvƒŒƒCƒ„[‚Ì‘•”õ
 	if (m_LightningBallCache == nullptr)
 	{
-		m_LightningBallCache = objManager->AddGameObjectArg<LightningBall>(OBJECT::STATICMESH, objManager->GetPlayer(),30.0f);
+		m_LightningBallCache = objManager->AddGameObjectArg<LightningBall>(OBJECT::STATICMESH, objManager->GetPlayer(), m_BulletSpeed);
 	}
 }
 
@@ -56,7 +57,7 @@ NODE_STATE AirLightningBallTask::Update(const float& deltaTime)
 		if (!m_SpawnBall && m_CurrentTime >= m_MaxAnimTime * SPAWN_LIGHTNINGBALL_VALUE)
 		{
 			m_SpawnBall = true;
-			m_LightningBallCache->Attack(m_BossCache->GetPos());
+			m_LightningBallCache->Attack(m_BossCache->GetPos(), m_BossCache->GetAttack() * m_DamageValue);
 		}
 
 		return NODE_STATE::RUNNING;

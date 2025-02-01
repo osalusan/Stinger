@@ -106,6 +106,9 @@ void Player::Uninit()
 void Player::TakeDamage(const float& atk)
 {
 	if (atk <= 0 || m_Health <= 0) return;
+	if (m_PlayerStateMachine->CheckRolling()) return;
+
+	m_PlayerStateMachine->SetIsHitAttack(true);
 
 	m_Health -= atk;
 
@@ -126,9 +129,7 @@ void Player::TakeDamageParryPossible(const float& atk)
 	if (m_PlayerStateMachine == nullptr) return;
 
 	if (m_PlayerStateMachine->CheckParry()) return;
-	if (m_PlayerStateMachine->CheckRolling()) return;
 
-	m_PlayerStateMachine->SetIsHitAttack(true);
 	TakeDamage(atk);
 }
 
