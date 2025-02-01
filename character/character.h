@@ -20,6 +20,7 @@ protected:
 	// 重力
 	bool m_EnableGravity = false;
 	float m_GravityValue = 0.0f;
+	float m_CurrentGravityValue = 0.0f;
 
 	// 共通のパラメータ
 	float m_Health = 0;								// 体力
@@ -56,6 +57,7 @@ public:
 	virtual void Draw()override;
 
 	virtual void TakeDamage(const float& atk) = 0;
+	void InitGravity();
 
 	void ChangeAnimation(const std::string& anime)
 	{

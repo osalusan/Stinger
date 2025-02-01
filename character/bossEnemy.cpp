@@ -11,10 +11,10 @@
 // TODO :完成直前時に削除予定 / デバッグ用
 #include "manager/inputManager.h"
 
-constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR_BOSS = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.035f };
-constexpr XMFLOAT2 DEFAULT_POS_HPBAR_BOSS = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR_BOSS.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR_BOSS.y) * 0.01f };
-constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME_BOSS = { DEFAULT_SCALE_HPBAR_BOSS.x + (DEFAULT_SCALE_HPBAR_BOSS.x * 0.008f) ,DEFAULT_SCALE_HPBAR_BOSS.y + (DEFAULT_SCALE_HPBAR_BOSS.y * 0.2f) };
-constexpr XMFLOAT2 DEFAULT_POS_HPFRAME_BOSS = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME_BOSS.x) * 0.5f, DEFAULT_POS_HPBAR_BOSS.y - ((DEFAULT_SCALE_HPFRAME_BOSS.y - DEFAULT_SCALE_HPBAR_BOSS.y) * 0.5f)};
+constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.035f };
+constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.01f };
+constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME = { DEFAULT_SCALE_HPBAR.x + (DEFAULT_SCALE_HPBAR.x * 0.008f) ,DEFAULT_SCALE_HPBAR.y + (DEFAULT_SCALE_HPBAR.y * 0.2f) };
+constexpr XMFLOAT2 DEFAULT_POS_HPFRAME = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME.x) * 0.5f, DEFAULT_POS_HPBAR.y - ((DEFAULT_SCALE_HPFRAME.y - DEFAULT_SCALE_HPBAR.y) * 0.5f)};
 
 // ----------------------- protected -----------------------
 void BossEnemy::MoveControl(const float& deltaTime)
@@ -183,15 +183,15 @@ BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
 	if (objManager == nullptr) return;
 
 	// フレーム
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME_BOSS, DEFAULT_SCALE_HPFRAME_BOSS,PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_BOSS, L"asset\\texture\\white.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME,PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_BOSS, L"asset\\texture\\white.png");
 	// HPバーのバックグラウンド
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_BOSS, DEFAULT_SCALE_HPBAR_BOSS, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_BOSS, L"asset\\texture\\black.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_BOSS, L"asset\\texture\\black.png");
 
 	// ボスのUI
 	if (m_EnemyHpCache == nullptr)
 	{
 		// 体力
-		m_EnemyHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR_BOSS, DEFAULT_SCALE_HPBAR_BOSS, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BOSS, L"asset\\texture\\boss_HpBar.png", true);
+		m_EnemyHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BOSS, L"asset\\texture\\boss_HpBar.png", true);
 	}
 
 }
@@ -226,7 +226,7 @@ void BossEnemy::TakeDamage(const float& atk)
 
 	if (m_EnemyHpCache != nullptr)
 	{
-		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR_BOSS.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR_BOSS.y };
+		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR.y };
 		m_EnemyHpCache->ChangeUVScaling({ m_Health / m_MaxHealth ,1.0f });
 	}
 

@@ -88,12 +88,14 @@ void Character::Update(const float& deltaTime)
 
 	if (m_EnableGravity)
 	{
-		m_Velocity.y -= m_GravityValue * deltaTime;
+		m_CurrentGravityValue += deltaTime;
+		m_Velocity.y -= m_GravityValue * m_CurrentGravityValue;
 	}
 	else
 	{
 		m_Velocity.y = 0.0f;
 	}
+
 	// 移動処理
 	MoveControl(deltaTime);
 	// アニメーション制御
@@ -157,4 +159,9 @@ void Character::Draw()
 		
 		model->Draw();
 	}
+}
+
+void Character::InitGravity()
+{
+	m_CurrentGravityValue = 0.0f;
 }

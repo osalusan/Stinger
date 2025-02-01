@@ -14,37 +14,37 @@ constexpr XMFLOAT3 DEFAULT_SCALE_MAWJ = { 0.1f,0.1f,0.1f };
 // ブレンド速度
 constexpr float DEFAULT_BLEND_VALUE_MAWJ = 4.0f;
 // 当たり判定のスケール調整
-constexpr XMFLOAT3 TEST_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.0f,DEFAULT_SCALE_MAWJ.z * 1.0f };
-constexpr XMFLOAT3 HIP_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.35f,DEFAULT_SCALE_MAWJ.y * 0.7f,DEFAULT_SCALE_MAWJ.z * 2.4f };
-constexpr XMFLOAT3 SPINE_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.3f,DEFAULT_SCALE_MAWJ.y * 0.8f,DEFAULT_SCALE_MAWJ.z * 2.3f };
-constexpr XMFLOAT3 NECK_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.2f,DEFAULT_SCALE_MAWJ.z * 1.5f };
-constexpr XMFLOAT3 HAND_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.125f,DEFAULT_SCALE_MAWJ.y * 1.25f,DEFAULT_SCALE_MAWJ.z * 1.425f };
-constexpr XMFLOAT3 ARM_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.15f,DEFAULT_SCALE_MAWJ.y * 1.1f,DEFAULT_SCALE_MAWJ.z * 1.5f };
-constexpr XMFLOAT3 ARMFORE_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.15f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.5f };
-constexpr XMFLOAT3 SHOULDER_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.12f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.5f };
-constexpr XMFLOAT3 FOOT_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 0.9f,DEFAULT_SCALE_MAWJ.y * 1.1f,DEFAULT_SCALE_MAWJ.z * 1.2f };
-constexpr XMFLOAT3 LEG_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 0.9f,DEFAULT_SCALE_MAWJ.y * 1.4f,DEFAULT_SCALE_MAWJ.z * 1.3f };
-constexpr XMFLOAT3 UPLEG_COLL_SCALE_MAWJ = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.4f };
+constexpr XMFLOAT3 TEST_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.0f,DEFAULT_SCALE_MAWJ.z * 1.0f };
+constexpr XMFLOAT3 HIP_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.35f,DEFAULT_SCALE_MAWJ.y * 0.7f,DEFAULT_SCALE_MAWJ.z * 2.4f };
+constexpr XMFLOAT3 SPINE_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.3f,DEFAULT_SCALE_MAWJ.y * 0.8f,DEFAULT_SCALE_MAWJ.z * 2.3f };
+constexpr XMFLOAT3 NECK_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.2f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 HAND_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.125f,DEFAULT_SCALE_MAWJ.y * 1.25f,DEFAULT_SCALE_MAWJ.z * 1.425f };
+constexpr XMFLOAT3 ARM_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.15f,DEFAULT_SCALE_MAWJ.y * 1.1f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 ARMFORE_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.15f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 SHOULDER_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.12f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.5f };
+constexpr XMFLOAT3 FOOT_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 0.9f,DEFAULT_SCALE_MAWJ.y * 1.1f,DEFAULT_SCALE_MAWJ.z * 1.2f };
+constexpr XMFLOAT3 LEG_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 0.9f,DEFAULT_SCALE_MAWJ.y * 1.4f,DEFAULT_SCALE_MAWJ.z * 1.3f };
+constexpr XMFLOAT3 UPLEG_COLL_SCALE = { DEFAULT_SCALE_MAWJ.x * 1.0f,DEFAULT_SCALE_MAWJ.y * 1.3f,DEFAULT_SCALE_MAWJ.z * 1.4f };
 
-constexpr const char* HIP_NAME_MAWJ = "mixamorig:Hips";
-constexpr const char* SPINE_NAME_MAWJ = "mixamorig:Spine";
-constexpr const char* SPINE1_NAME_MAWJ = "mixamorig:Spine1";
-constexpr const char* SPINE2_NAME_MAWJ = "mixamorig:Spine2";
-constexpr const char* NECK_NAME_MAWJ = "mixamorig:Neck";
-constexpr const char* RIGHTHAND_NAME_MAWJ = "mixamorig:RightHand";
-constexpr const char* LEFTHAND_NAME_MAWJ = "mixamorig:LeftHand";
-constexpr const char* RIGHT_ARM_NAME_MAWJ = "mixamorig:RightArm";
-constexpr const char* LEFT_ARM_NAME_MAWJ = "mixamorig:LeftArm";
-constexpr const char* RIGHT_FOREARM_NAME_MAWJ = "mixamorig:RightForeArm";
-constexpr const char* LEFT_FOREARM_NAME_MAWJ = "mixamorig:LeftForeArm";
-constexpr const char* RIGHT_SHOULDER_NAME_MAWJ = "mixamorig:RightShoulder";
-constexpr const char* LEFT_SHOULDER_NAME_MAWJ = "mixamorig:LeftShoulder";
-constexpr const char* RIGHT_FOOT_NAME_MAWJ = "mixamorig:RightFoot";
-constexpr const char* LEFT_FOOT_NAME_MAWJ = "mixamorig:LeftFoot";
-constexpr const char* RIGHT_LEG_NAME_MAWJ = "mixamorig:RightLeg";
-constexpr const char* LEFT_LEG_NAME_MAWJ = "mixamorig:LeftLeg";
-constexpr const char* RIGHT_UPLEG_NAME_MAWJ = "mixamorig:RightUpLeg";
-constexpr const char* LEFT_UPLEG_NAME_MAWJ = "mixamorig:LeftUpLeg";
+constexpr const char* HIP_NAME = "mixamorig:Hips";
+constexpr const char* SPINE_NAME = "mixamorig:Spine";
+constexpr const char* SPINE1_NAME = "mixamorig:Spine1";
+constexpr const char* SPINE2_NAME = "mixamorig:Spine2";
+constexpr const char* NECK_NAME = "mixamorig:Neck";
+constexpr const char* RIGHTHAND_NAME = "mixamorig:RightHand";
+constexpr const char* LEFTHAND_NAME = "mixamorig:LeftHand";
+constexpr const char* RIGHT_ARM_NAME = "mixamorig:RightArm";
+constexpr const char* LEFT_ARM_NAME = "mixamorig:LeftArm";
+constexpr const char* RIGHT_FOREARM_NAME = "mixamorig:RightForeArm";
+constexpr const char* LEFT_FOREARM_NAME = "mixamorig:LeftForeArm";
+constexpr const char* RIGHT_SHOULDER_NAME = "mixamorig:RightShoulder";
+constexpr const char* LEFT_SHOULDER_NAME = "mixamorig:LeftShoulder";
+constexpr const char* RIGHT_FOOT_NAME = "mixamorig:RightFoot";
+constexpr const char* LEFT_FOOT_NAME = "mixamorig:LeftFoot";
+constexpr const char* RIGHT_LEG_NAME = "mixamorig:RightLeg";
+constexpr const char* LEFT_LEG_NAME = "mixamorig:LeftLeg";
+constexpr const char* RIGHT_UPLEG_NAME = "mixamorig:RightUpLeg";
+constexpr const char* LEFT_UPLEG_NAME = "mixamorig:LeftUpLeg";
 
 
 // ----------------------- private -----------------------
@@ -80,49 +80,49 @@ void MawJLaygo::CustomCollisionInfo()
 			XMFLOAT3 collisionScl = {};
 
 			// 部位ごとに変更
-			if (boxName == HIP_NAME_MAWJ)
+			if (boxName == HIP_NAME)
 			{
-				collisionScl = HIP_COLL_SCALE_MAWJ;
+				collisionScl = HIP_COLL_SCALE;
 			}			
-			else if (boxName == SPINE_NAME_MAWJ || boxName == SPINE1_NAME_MAWJ || boxName == SPINE2_NAME_MAWJ)
+			else if (boxName == SPINE_NAME || boxName == SPINE1_NAME || boxName == SPINE2_NAME)
 			{
-				collisionScl = SPINE_COLL_SCALE_MAWJ;
+				collisionScl = SPINE_COLL_SCALE;
 			}
-			else if (boxName == NECK_NAME_MAWJ)
+			else if (boxName == NECK_NAME)
 			{
-				collisionScl = NECK_COLL_SCALE_MAWJ;
+				collisionScl = NECK_COLL_SCALE;
 			}			
-			else if (boxName == RIGHTHAND_NAME_MAWJ || boxName == LEFTHAND_NAME_MAWJ)
+			else if (boxName == RIGHTHAND_NAME || boxName == LEFTHAND_NAME)
 			{
-				collisionScl = HAND_COLL_SCALE_MAWJ;
+				collisionScl = HAND_COLL_SCALE;
 			}
-			else if (boxName == RIGHT_ARM_NAME_MAWJ || boxName == LEFT_ARM_NAME_MAWJ)
+			else if (boxName == RIGHT_ARM_NAME || boxName == LEFT_ARM_NAME)
 			{
-				collisionScl = ARM_COLL_SCALE_MAWJ;
+				collisionScl = ARM_COLL_SCALE;
 			}			
-			else if (boxName == RIGHT_FOREARM_NAME_MAWJ || boxName == LEFT_FOREARM_NAME_MAWJ)
+			else if (boxName == RIGHT_FOREARM_NAME || boxName == LEFT_FOREARM_NAME)
 			{
-				collisionScl = ARMFORE_COLL_SCALE_MAWJ;
+				collisionScl = ARMFORE_COLL_SCALE;
 			}
-			else if (boxName == RIGHT_SHOULDER_NAME_MAWJ || boxName == LEFT_SHOULDER_NAME_MAWJ)
+			else if (boxName == RIGHT_SHOULDER_NAME || boxName == LEFT_SHOULDER_NAME)
 			{
-				collisionScl = SHOULDER_COLL_SCALE_MAWJ;
+				collisionScl = SHOULDER_COLL_SCALE;
 			}			
-			else if (boxName == RIGHT_FOOT_NAME_MAWJ || boxName == LEFT_FOOT_NAME_MAWJ)
+			else if (boxName == RIGHT_FOOT_NAME || boxName == LEFT_FOOT_NAME)
 			{
-				collisionScl = FOOT_COLL_SCALE_MAWJ;
+				collisionScl = FOOT_COLL_SCALE;
 			}			
-			else if (boxName == RIGHT_LEG_NAME_MAWJ || boxName == LEFT_LEG_NAME_MAWJ)
+			else if (boxName == RIGHT_LEG_NAME || boxName == LEFT_LEG_NAME)
 			{
-				collisionScl = LEG_COLL_SCALE_MAWJ;
+				collisionScl = LEG_COLL_SCALE;
 			}			
-			else if (boxName == RIGHT_UPLEG_NAME_MAWJ || boxName == LEFT_UPLEG_NAME_MAWJ)
+			else if (boxName == RIGHT_UPLEG_NAME || boxName == LEFT_UPLEG_NAME)
 			{
-				collisionScl = UPLEG_COLL_SCALE_MAWJ;
+				collisionScl = UPLEG_COLL_SCALE;
 			}
 			else
 			{
-				collisionScl = TEST_COLL_SCALE_MAWJ;
+				collisionScl = TEST_COLL_SCALE;
 			}
 
 			boxColli->SetCollisionInfo(offsetPos, collisionScl,model->GetCenter(), model->GetScale(), GetRotationMatrix(), boneMatrix);
@@ -149,6 +149,7 @@ void MawJLaygo::CollisionControl()
 	{
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
+		InitGravity();
 	}
 
 	// ダメージ計算
@@ -254,50 +255,50 @@ void MawJLaygo::Init()
 	m_BlendTimeValue = DEFAULT_BLEND_VALUE_MAWJ;
 
 	// 体
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, HIP_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE1_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE2_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, NECK_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, HIP_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE1_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, SPINE2_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, NECK_NAME));
 
-	m_PartsCategory.emplace(HIP_NAME_MAWJ,ATTACK_PARTS::BODY);
-	m_PartsCategory.emplace(SPINE_NAME_MAWJ,ATTACK_PARTS::BODY);
-	m_PartsCategory.emplace(SPINE1_NAME_MAWJ,ATTACK_PARTS::BODY);
-	m_PartsCategory.emplace(SPINE2_NAME_MAWJ,ATTACK_PARTS::BODY);
-	m_PartsCategory.emplace(NECK_NAME_MAWJ,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(HIP_NAME,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(SPINE_NAME,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(SPINE1_NAME,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(SPINE2_NAME,ATTACK_PARTS::BODY);
+	m_PartsCategory.emplace(NECK_NAME,ATTACK_PARTS::BODY);
 	// 腕
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHTHAND_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFTHAND_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_ARM_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_ARM_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOREARM_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOREARM_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_SHOULDER_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_SHOULDER_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHTHAND_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFTHAND_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_ARM_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_ARM_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOREARM_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOREARM_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_SHOULDER_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_SHOULDER_NAME));
 
-	m_PartsCategory.emplace(RIGHTHAND_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
-	m_PartsCategory.emplace(LEFTHAND_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
-	m_PartsCategory.emplace(RIGHT_ARM_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
-	m_PartsCategory.emplace(LEFT_ARM_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
-	m_PartsCategory.emplace(RIGHT_FOREARM_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
-	m_PartsCategory.emplace(LEFT_FOREARM_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
-	m_PartsCategory.emplace(RIGHT_SHOULDER_NAME_MAWJ, ATTACK_PARTS::RIGHT_ARM);
-	m_PartsCategory.emplace(LEFT_SHOULDER_NAME_MAWJ, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHTHAND_NAME, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFTHAND_NAME, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHT_ARM_NAME, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFT_ARM_NAME, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHT_FOREARM_NAME, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFT_FOREARM_NAME, ATTACK_PARTS::LEFT_ARM);
+	m_PartsCategory.emplace(RIGHT_SHOULDER_NAME, ATTACK_PARTS::RIGHT_ARM);
+	m_PartsCategory.emplace(LEFT_SHOULDER_NAME, ATTACK_PARTS::LEFT_ARM);
 
 	// 足
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOOT_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOOT_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_LEG_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_LEG_NAME_MAWJ));	
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_UPLEG_NAME_MAWJ));
-	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_UPLEG_NAME_MAWJ));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_FOOT_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_FOOT_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_LEG_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_LEG_NAME));	
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, RIGHT_UPLEG_NAME));
+	m_BoxCollisionCaches.emplace_back(AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_BOSS, LEFT_UPLEG_NAME));
 	
-	m_PartsCategory.emplace(RIGHT_FOOT_NAME_MAWJ, ATTACK_PARTS::RIGHT_LEG);
-	m_PartsCategory.emplace(LEFT_FOOT_NAME_MAWJ, ATTACK_PARTS::LEFT_LEG);
-	m_PartsCategory.emplace(RIGHT_LEG_NAME_MAWJ, ATTACK_PARTS::RIGHT_LEG);
-	m_PartsCategory.emplace(LEFT_LEG_NAME_MAWJ, ATTACK_PARTS::LEFT_LEG);
-	m_PartsCategory.emplace(RIGHT_UPLEG_NAME_MAWJ, ATTACK_PARTS::RIGHT_LEG);
-	m_PartsCategory.emplace(LEFT_UPLEG_NAME_MAWJ, ATTACK_PARTS::LEFT_LEG);
+	m_PartsCategory.emplace(RIGHT_FOOT_NAME, ATTACK_PARTS::RIGHT_LEG);
+	m_PartsCategory.emplace(LEFT_FOOT_NAME, ATTACK_PARTS::LEFT_LEG);
+	m_PartsCategory.emplace(RIGHT_LEG_NAME, ATTACK_PARTS::RIGHT_LEG);
+	m_PartsCategory.emplace(LEFT_LEG_NAME, ATTACK_PARTS::LEFT_LEG);
+	m_PartsCategory.emplace(RIGHT_UPLEG_NAME, ATTACK_PARTS::RIGHT_LEG);
+	m_PartsCategory.emplace(LEFT_UPLEG_NAME, ATTACK_PARTS::LEFT_LEG);
 	
 	// 当たり判定の後に追加
 	AddComponent<ShaderComponent>(this, "cso\\skinningVS.cso", "cso\\skinningPS.cso");

@@ -3,11 +3,14 @@
 #include "character/bossEnemy.h"
 
 // 着地に合わせる用
-constexpr float LANDING_MIN_VALUE = 0.1f;
+constexpr float LANDING_MIN_VALUE = 0.2f;
 constexpr float LANDING_MAX_VALUE = 0.48f;
+constexpr float JUMP_MAX_VALUE = 0.36f;
+constexpr float INIT_ACCEL = 60.0f;														// 初速度
+constexpr float JUMP_RESIST = INIT_ACCEL / (JUMP_MAX_VALUE - LANDING_MIN_VALUE);		// 抵抗力
 void JumpAttackTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_MawJ.fbx", "jumpAttack");
+	ReserveAnimation("asset\\model\\mawJ\\jumpAttack_IsPlace_MawJ.fbx", "jumpAttack");
 	m_TaskName = "ジャンプ攻撃";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;
@@ -37,15 +40,11 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 			{
 				m_CurrentTime = 0.0f;
-				const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
-				const XMFLOAT3& bossPos = m_BossCache->GetPos();
-				m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
-				// 移動距離設定
-				m_MoveVector.x = (playerPos.x - bossPos.x) / (m_MaxAnimTime * (LANDING_MAX_VALUE - LANDING_MIN_VALUE));
-				m_MoveVector.z = (playerPos.z - bossPos.z) / (m_MaxAnimTime * (LANDING_MAX_VALUE - LANDING_MIN_VALUE));
+				m_Accel = INIT_ACCEL;
 			}
 		}
 	}
+
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
@@ -54,9 +53,24 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
 
+
+		// 移動 / ジャンプ
 		if (m_CurrentTime >= m_MaxAnimTime * LANDING_MIN_VALUE && m_CurrentTime < m_MaxAnimTime * LANDING_MAX_VALUE)
 		{
+			m_Accel -= (JUMP_RESIST / m_MaxAnimTime)* deltaTime;
+			m_BossCache->AddVelocity({ 0.0f ,m_Accel ,0.0f });
 			m_BossCache->AddVelocity(m_MoveVector);
+			m_BossCache->InitGravity();
+		}
+		// 攻撃場所指定
+		else if (m_CurrentTime < m_MaxAnimTime * LANDING_MIN_VALUE)
+		{
+			const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
+			const XMFLOAT3& bossPos = m_BossCache->GetPos();
+			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
+			// 移動距離設定
+			m_MoveVector.x = (playerPos.x - bossPos.x) / (m_MaxAnimTime * (LANDING_MAX_VALUE - LANDING_MIN_VALUE));
+			m_MoveVector.z = (playerPos.z - bossPos.z) / (m_MaxAnimTime * (LANDING_MAX_VALUE - LANDING_MIN_VALUE));
 		}
 		// ダメージ発生
 		UseAttack(ATTACK_PARTS::ALL);
