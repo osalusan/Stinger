@@ -18,6 +18,7 @@ enum class STATICMESH_MODEL
 	RUINS,
 	SOWRD,
 	SHIELD,
+	SPHERE,
 	MAX
 };
 

@@ -309,6 +309,12 @@
     <ClCompile Include="manager\audioManager.cpp">
       <Filter>manager</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\airLightningBallTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\lightningBall.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -556,6 +562,12 @@
     </ClInclude>
     <ClInclude Include="manager\audioManager.h">
       <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\airLightningBallTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\lightningBall.h">
+      <Filter>staticMeshObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

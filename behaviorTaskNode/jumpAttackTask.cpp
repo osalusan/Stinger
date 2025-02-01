@@ -30,6 +30,7 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 		return NODE_STATE::FAILURE;
 	}
 
+	// ‰Šú‰»
 	if (node == nullptr)
 	{
 		const RANGE& currentRange = m_BossCache->GetCurrentRange();

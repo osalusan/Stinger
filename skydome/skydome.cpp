@@ -16,7 +16,7 @@ void SkyDome::MoveControl(const float& deltaTime)
 
 SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
 {
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\sky.obj");
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\sky\\sky.obj");
 }
 
 SkyDome::~SkyDome()

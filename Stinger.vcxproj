@@ -23,6 +23,7 @@
     <ClCompile Include="behaviorNode\selectorNode.cpp" />
     <ClCompile Include="behaviorNode\sequenceNode.cpp" />
     <ClCompile Include="behaviorNode\taskNode.cpp" />
+    <ClCompile Include="behaviorTaskNode\airLightningBallTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkAttackParry.cpp" />
     <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
@@ -95,6 +96,7 @@
     <ClCompile Include="shadow\shadowVolume.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
+    <ClCompile Include="staticMeshObject\lightningBall.cpp" />
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp" />
     <ClCompile Include="staticMeshObject\ruins.cpp" />
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
@@ -104,6 +106,7 @@
     <ClInclude Include="behaviorNode\selectorNode.h" />
     <ClInclude Include="behaviorNode\sequenceNode.h" />
     <ClInclude Include="behaviorNode\taskNode.h" />
+    <ClInclude Include="behaviorTaskNode\airLightningBallTask.h" />
     <ClInclude Include="behaviorTaskNode\checkAttackParry.h" />
     <ClInclude Include="behaviorTaskNode\checkHealthTask.h" />
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="shadow\shadowVolume.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
+    <ClInclude Include="staticMeshObject\lightningBall.h" />
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h" />
     <ClInclude Include="staticMeshObject\ruins.h" />
     <ClInclude Include="staticMeshObject\staticmeshObject.h" />

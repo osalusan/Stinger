@@ -35,6 +35,11 @@ NODE_STATE NoNameTask::Update(const float& deltaTime)
 		return NODE_STATE::FAILURE;
 	}
 
+	// ‰Šú‰»
+	if (node == nullptr)
+	{
+
+	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{

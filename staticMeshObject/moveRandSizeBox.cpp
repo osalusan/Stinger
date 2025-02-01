@@ -53,7 +53,7 @@ void MoveRandSizeBox::MoveControl(const float& deltaTime)
 // -------------------------- public --------------------------
 MoveRandSizeBox::MoveRandSizeBox() : StaticMeshObject(STATICMESH_MODEL::BOX_CENTER)
 {
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\boxCenter.obj");
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\object\\boxCenter.obj");
 	AddComponent<ShaderComponent>(this, "cso\\unlitColorModelVS.cso", "cso\\unlitColorModelPS.cso");
 
 	m_Speed = static_cast<float>(rand() % RNAD_RANGE) * SPEED_VALUE;

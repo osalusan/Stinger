@@ -11,7 +11,7 @@ void Box::MoveControl(const float& deltaTime)
 Box::Box()
 	: StaticMeshObject(STATICMESH_MODEL::BOX)
 {
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\box.obj");
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\object\\box.obj");
 	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::OBJECT);
 	AddComponent<ShaderComponent>(this);
 }

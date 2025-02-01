@@ -27,6 +27,7 @@ NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
 	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
 	if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHROT)
 	{
+		// ‰Šú‰»
 		if (node == nullptr)
 		{
 			m_UseDerivation = false;

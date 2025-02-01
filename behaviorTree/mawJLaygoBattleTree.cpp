@@ -17,6 +17,7 @@
 #include "behaviorTaskNode/waitTask.h"
 #include "behaviorTaskNode/checkAttackParry.h"
 #include "behaviorTaskNode/parryRecoilTask.h"
+#include "behaviorTaskNode/airLightningBallTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -32,6 +33,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
+
+	rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
