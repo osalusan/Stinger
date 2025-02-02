@@ -30,7 +30,7 @@ NODE_STATE NoNameTask::Update(const float& deltaTime)
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (node != nullptr && node != this)
+	if (!CheckRunningNode(node))
 	{
 		return NODE_STATE::FAILURE;
 	}

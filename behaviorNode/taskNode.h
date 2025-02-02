@@ -27,6 +27,7 @@ protected:
 	float m_SpeedValue = 0.0f;
 	float m_UseStaminaValue = 0.0f;
 	float m_DerivationHealth = 0.0f;
+	float m_DerivationTimeValue = 0.0f;
 	float m_AttackEnableTimeValue = 0.0f;
 	float m_AttackDisableTimeValue = 1.0f;
 	float m_BulletSpeed = 0.0f;

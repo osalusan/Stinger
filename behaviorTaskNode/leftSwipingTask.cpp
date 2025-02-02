@@ -37,7 +37,7 @@ NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
 	}
 
 	// ”h¶‹Z‚Ì”­¶Šm”F
-	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * 0.7f)
+	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
 	{
 		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * m_DerivationHealth)
 		{

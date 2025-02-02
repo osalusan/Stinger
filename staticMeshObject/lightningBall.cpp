@@ -53,13 +53,13 @@ void LightningBall::MoveControl(const float& deltaTime)
 		m_Rotation.y = currentAngleY;
 
 		// c
-		float dx = targetPos.x - m_Position.x;
-		float dy = targetPos.y - m_Position.y;
-		float dz = targetPos.z - m_Position.z;
-		float horizontalDist = sqrtf(dx * dx + dz * dz);
+		float directionX = targetPos.x - m_Position.x;
+		float directionY = targetPos.y - m_Position.y;
+		float directionZ = targetPos.z - m_Position.z;
+		float horizontalDist = sqrtf(directionX * directionX + directionZ * directionZ);
 
 		float currentAngleX = m_Rotation.x;
-		float targetAngleX = atan2f(dy, horizontalDist);
+		float targetAngleX = atan2f(directionY, horizontalDist);
 
 		float angleDiffX = targetAngleX - currentAngleX;
 		while (angleDiffX > XM_PI) 

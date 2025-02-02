@@ -59,6 +59,11 @@ NODE_STATE AirLightningBallTask::Update(const float& deltaTime)
 			m_SpawnBall = true;
 			m_LightningBallCache->Attack(m_BossCache->GetPos(), m_BossCache->GetAttack() * m_DamageValue);
 		}
+		else if (!m_SpawnBall)
+		{
+			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
+			m_BossCache->InitGravity();
+		}
 
 		return NODE_STATE::RUNNING;
 	}

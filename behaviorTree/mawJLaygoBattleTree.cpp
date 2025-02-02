@@ -34,8 +34,6 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
-
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
 
@@ -64,7 +62,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	BehaviorNode* leftSwiping = attackSelNode->AddTaskChild<LeftSwipingTask>(boss, player);
 	if (leftSwiping == nullptr) return;
 	leftSwiping->AddTaskChild<RightSwipingTask>(boss, player);
-	attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
+	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
+	jumpAttack->AddTaskChild<AirLightningBallTask>(boss, player);
 	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
 	// 攻撃不可
 	attackSelNode->AddTaskChild<DashAtThePlayerTask>(boss, player);

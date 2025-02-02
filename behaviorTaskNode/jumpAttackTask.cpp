@@ -14,6 +14,7 @@ void JumpAttackTask::Init()
 	m_TaskName = "ジャンプ攻撃";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;
+	m_UseDerivation = true;
 }
 
 NODE_STATE JumpAttackTask::Update(const float& deltaTime)
@@ -25,7 +26,7 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (node != nullptr && node != this)
+	if (!CheckRunningNode(node))
 	{
 		return NODE_STATE::FAILURE;
 	}
@@ -40,12 +41,35 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 			const float& maxStamina = m_BossCache->GetaMaxStamina();
 			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 			{
+				m_UseDerivation = false;
 				m_CurrentTime = 0.0f;
 				m_Accel = INIT_ACCEL;
 			}
 		}
+		
+		// 条件に当てはまらなかったら
+		if(m_CurrentTime != 0.0f)
+		{
+			return NODE_STATE::FAILURE;
+		}
 	}
 
+	// 派生技の発生確認
+	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
+	{
+		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * m_DerivationHealth)
+		{
+			m_UseDerivation = true;
+			m_CurrentTime = m_MaxAnimTime;
+			m_BossCache->SetRunningNode(nullptr);
+		}
+	}
+
+	// 派生技の発生確認後に配置
+	if (m_UseDerivation)
+	{
+		return UpdateChildren(deltaTime);
+	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
