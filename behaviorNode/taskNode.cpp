@@ -67,23 +67,6 @@ NODE_STATE TaskNode::UpdateChildren(const float& deltaTime)
 	return NODE_STATE::FAILURE;
 }
 
-bool TaskNode::CheckRunningNode(BehaviorNode* currentNode)
-{
-	bool hit = true;
-	if (currentNode != nullptr && currentNode != this)
-	{
-		hit = false;
-		for (BehaviorNode* child : m_Children)
-		{
-			if (child == currentNode)
-			{
-				hit = true;
-			}
-		}
-	}
-	return hit;
-}
-
 void TaskNode::UseAttack(const ATTACK_PARTS& parts)
 {
 	if (m_MaxAnimTime == 0.0f || m_BossCache == nullptr) return;

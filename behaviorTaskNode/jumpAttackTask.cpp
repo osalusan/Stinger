@@ -38,15 +38,17 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 		// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
 		if (m_CurrentTime >= m_MaxAnimTime && currentRange == RANGE::MIDDLE)
 		{
-			// Šm—¦
-			if (rand() % 100 < static_cast<int>(m_DerivationChance))
+			const float& maxStamina = m_BossCache->GetaMaxStamina();
+			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 			{
-				const float& maxStamina = m_BossCache->GetaMaxStamina();
-				if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
+				m_CurrentTime = 0.0f;
+				m_Accel = INIT_ACCEL;
+				m_UseDerivation = false;
+				m_EnableDerivation = false;
+				// Šm—¦
+				if (rand() % 100 < static_cast<int>(m_DerivationChance))
 				{
-					m_UseDerivation = false;
-					m_CurrentTime = 0.0f;
-					m_Accel = INIT_ACCEL;
+					m_EnableDerivation = true;
 				}
 			}
 		}
@@ -59,11 +61,12 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	}
 
 	// ”h¶‹Z‚Ì”­¶Šm”F
-	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
+	if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
 	{
 		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * m_DerivationHealth)
 		{
 			m_UseDerivation = true;
+			m_EnableDerivation = false;
 			m_CurrentTime = m_MaxAnimTime;
 			m_BossCache->SetRunningNode(nullptr);
 		}

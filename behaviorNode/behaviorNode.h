@@ -20,6 +20,9 @@ public:
     virtual void Init() = 0;
     virtual NODE_STATE Update(const float& deltaTime) = 0;
 
+    // –â‘è‚È‚©‚Á‚½‚çtrue‚ª•Ô‚é
+    bool CheckRunningNode(BehaviorNode* currentNode);
+
     template <typename T, typename... Arg>
     BehaviorNode* AddTaskChild(Arg&&...args)
     {

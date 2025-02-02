@@ -20,7 +20,8 @@ protected:
 	float m_MaxAnimTime = 0.0f;
 	std::string m_AnimeName = "";
 
-	bool m_UseDerivation = false;
+	bool m_UseDerivation = false;			// 派生技の初期設定をしたか
+	bool m_EnableDerivation = false;		// 派生技が使えるか
 
 	// パラメータ
 	float m_DamageValue = 0.0f;
@@ -39,8 +40,6 @@ protected:
 	// 技の場合は必ず呼ぶ
 	void InitSkillData(const std::string& skillName);
 	NODE_STATE UpdateChildren(const float& deltaTime);
-	// 問題なかったらtrueが返る
-	bool CheckRunningNode(BehaviorNode* currentNode);
 	// 攻撃を使用する場合にUpdateで使用
 	void UseAttack(const ATTACK_PARTS& parts);
 public:
