@@ -28,3 +28,15 @@ bool BehaviorNode::CheckRunningNode(BehaviorNode* currentNode)
 	}
 	return false;
 }
+
+int BehaviorNode::GetTotalDerivChance() const
+{
+	int totalValue = 0;
+
+	for (int childValue : m_ChildDerivChance)
+	{
+		totalValue += childValue;
+	}
+
+	return totalValue;
+}

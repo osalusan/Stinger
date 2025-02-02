@@ -70,7 +70,7 @@ public:
     {
         return m_CurrentState;
     }
-
+    int GetTotalDerivChance()const;
     // ルートノード用
     void SetTaskName(const std::string& name)
     {

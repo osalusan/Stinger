@@ -107,6 +107,12 @@ void ImguiWindow::Update(const float& deltaTime)
         ImGui::Text(u8"攻撃判定部位 :%s", atkPartsUtf8Name.c_str());
     }
     ImGui::Text(u8"ビヘイビアツリー");
+    // 青色：現在使用中
+    ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f),u8"青色：現在使用中");
+    // 改行しない
+    ImGui::SameLine();
+    // 黄色：確率上限エラー
+    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),u8"黄色：確率上限エラー");
 
     DrawBehaviorTree(m_RootNodeCache);
 
@@ -136,7 +142,13 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
     std::wstring wstr = ToWString(name, 932);
     std::string utf8Name = ToUtf8(wstr);
 
-    if (root->GetNodeState() != NODE_STATE::FAILURE)
+    // 確率エラー
+    if (root->GetTotalDerivChance() > 100)
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // 文字色
+    }
+    // 使用中
+    else if (root->GetNodeState() != NODE_STATE::FAILURE)
     {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // 文字色
     }
