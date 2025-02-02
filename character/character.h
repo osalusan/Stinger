@@ -40,6 +40,7 @@ protected:
 	float m_BlendRatio = 0.0f;						// アニメーションブレンドの数値
 	float m_BlendTimeValue = 0.0f;					// どのくらいブレンドを早く行うか
 	float m_MaxAnimeTime = 0.0f;					// 現在のアニメーションの最大時間
+	float m_AnimSpeedValue = 1.0f;					// アニメーションの速度変更用
 
 	virtual void MoveControl(const float& deltaTime) = 0;
 	virtual void CollisionControl() = 0;
@@ -79,6 +80,10 @@ public:
 	void SetBlendTimeValue(const float& value)
 	{
 		m_BlendTimeValue = value;
+	}
+	void SetAnimationSpeedValue(const float& value)
+	{
+		m_AnimSpeedValue = value;
 	}
 	const ANIMETION_MODEL& GetAnimeModel()const
 	{

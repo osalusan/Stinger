@@ -102,7 +102,7 @@ void Character::Update(const float& deltaTime)
 	AnimationControl();
 
 	// アニメーションのブレンド制御
-	m_AnimationTime += deltaTime;
+	m_AnimationTime += deltaTime * m_AnimSpeedValue;
 	if (m_AnimationName != m_NextAnimationName && m_BlendRatio < 1.0f) 
 	{ 
 		m_BlendRatio += deltaTime * m_BlendTimeValue;

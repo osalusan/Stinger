@@ -6,6 +6,7 @@ void ParryRecoilTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\standingReact_MawJ.fbx", "parryRecoil");
 	m_TaskName = "ƒpƒŠƒB‚Å‚Ì‚æ‚ë‚¯";
+	InitSkillData(m_TaskName);
 }
 
 NODE_STATE ParryRecoilTask::Update(const float& deltaTime)
@@ -24,11 +25,12 @@ NODE_STATE ParryRecoilTask::Update(const float& deltaTime)
 	if (node == nullptr)
 	{
 		m_CurrentTime = 0.0f;
+		m_BossCache->SetAnimationSpeedValue(m_AnimationSpeedValue);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
-		m_CurrentTime += deltaTime;
+		m_CurrentTime += deltaTime * m_AnimationSpeedValue;
 		m_BossCache->ChangeAnimation(m_AnimeName);
 		// ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
@@ -41,6 +43,7 @@ NODE_STATE ParryRecoilTask::Update(const float& deltaTime)
 		{
 			// ó‘Ô‚ðíœ
 			m_BossCache->SetRunningNode(nullptr);
+			m_BossCache->SetAnimationSpeedValue(1.0f);
 			return NODE_STATE::SUCCESS;
 		}
 	}

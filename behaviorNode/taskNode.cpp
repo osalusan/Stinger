@@ -49,6 +49,7 @@ void TaskNode::InitSkillData(const std::string& skillName)
 		m_ParryPossibleAtk = true;
 	}
 	m_BulletSpeed = FindSkillData("弾速");
+	m_AnimationSpeedValue = FindSkillData("アニメーション速度_倍率");
 }
 
 NODE_STATE TaskNode::UpdateChildren(const float& deltaTime)
