@@ -1,6 +1,7 @@
 #pragma once
 #include "behaviorNode/taskNode.h"
 
+// ‘O•ûéŒ¾
 class LightningBall;
 
 class AirLightningBallTask final : public TaskNode

@@ -1,10 +1,14 @@
 #pragma once
 #include "staticmeshObject.h"
 
+// ‘O•ûéŒ¾
+class LightningBallEffect;
+
 class LightningBall : public StaticMeshObject
 {
 private:
 	const GameObject* m_TargetObject = nullptr;
+	LightningBallEffect* m_LightningBallEffCache = nullptr;
 	bool m_IsAttack = false;
 	bool m_IsHoming = false;
 	float m_Speed = 0.0f;

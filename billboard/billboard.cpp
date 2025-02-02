@@ -6,6 +6,14 @@
 #include "scene/scene.h"
 #include "component/shaderComponent.h"
 
+BillBoard::~BillBoard()
+{
+	if (m_VertexBuffer != nullptr)
+	{
+		m_VertexBuffer->Release();
+	}
+}
+
 BillBoard::BillBoard(const XMFLOAT3& position, const XMFLOAT3& size, const TEXTURE& texture, const wchar_t* fileName, const float& nextAnimTime, const XMINT2& sprite, const int& maxTexture)
 {
 	// 初期化
@@ -36,6 +44,7 @@ BillBoard::BillBoard(const XMFLOAT3& position, const XMFLOAT3& size, const TEXTU
 }
 void BillBoard::Init()
 {
+	GameObject::Init();
 	m_Vertex[0].Position = XMFLOAT3(-1.0f, 1.0f, 0.0f);
 	m_Vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	m_Vertex[0].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -77,28 +86,25 @@ void BillBoard::Init()
 
 		m_CameraCache = objManager->GetCamera();
 	}
-
-
-	// 最後のコンポーネントとして追加
-	AddComponent<ShaderComponent>(this);
-
-}
-
-void BillBoard::Uninit()
-{
-	if (m_VertexBuffer != nullptr)
-	{
-		m_VertexBuffer->Release();
-	}
 }
 
 void BillBoard::Update(const float& deltaTime)
 {
+	GameObject::Update(deltaTime);
 	if (m_CurrentTime >= m_NextAnimTime)
 	{ 
 		m_AnimCount++; 
 		m_CurrentTime = 0.0f;
 	}
+
+	if (m_Loop)
+	{
+		if (m_AnimCount >= m_LoopEnd)
+		{
+			m_AnimCount = m_LoopStart;
+		}
+	}
+	
 	if (m_AnimCount >= m_MaxCount)
 	{ 
 		m_AnimCount = 0; 
@@ -111,7 +117,6 @@ void BillBoard::Draw()
 
 	if (m_Sprite.x != 0)
 	{
-		//テクスチャ座標算出(剰余斬)
 		float x = m_AnimCount % m_Sprite.x * (1.0f / m_Sprite.x);
 		float y = m_AnimCount / m_Sprite.x * (1.0f / m_Sprite.y);
 
@@ -182,5 +187,15 @@ void BillBoard::Draw()
 
 	//ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
+}
+
+void BillBoard::UseBillboard()
+{
+	if (!m_Enable)
+	{
+		m_CurrentTime = 0.0f;
+		m_AnimCount = 0;
+	}
+	m_Enable = true;
 }
 

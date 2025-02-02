@@ -1,6 +1,10 @@
 #include "lightningBall.h"
 #include "manager/objModelManager.h"
+#include "manager/sceneManager.h"
+#include "manager/objectManager.h"
 #include "component/boxCollisionComponent.h"
+#include "scene/scene.h"
+#include "billboard/lightningBallEffect.h"
 
 constexpr float HOMING_VALUE = 26.0f;	// ホーミングの強度
 constexpr float HOMING_RANGE = 10.0f;	// ホーミング終了の距離
@@ -94,6 +98,9 @@ void LightningBall::CollisionControl()
 		player->TakeDamage(m_Damage);
 
 		m_Enable = false;
+
+		if (m_LightningBallEffCache == nullptr) return;
+		m_LightningBallEffCache->SetEnable(false);
 	}
 
 }
@@ -107,6 +114,16 @@ LightningBall::LightningBall(const GameObject* target, const float& speed)
 	m_Enable = false;
 	m_TargetObject = target;
 	m_Speed = speed;
+
+	Scene* scene = SceneManager::GetScene();
+	if (scene == nullptr) return;
+	ObjectManager* objManager = scene->GetObjectManager();
+	if (objManager == nullptr) return;
+
+	if (m_LightningBallEffCache == nullptr)
+	{
+		m_LightningBallEffCache = objManager->AddGameObjectArg<LightningBallEffect>(OBJECT::BILLBOARD,this);
+	}
 }
 
 void LightningBall::Attack(const XMFLOAT3& shotPos,const float& damage)
@@ -116,4 +133,7 @@ void LightningBall::Attack(const XMFLOAT3& shotPos,const float& damage)
 	m_Enable = true;
 	m_IsHoming = true;
 	m_Damage = damage;
+
+	if (m_LightningBallEffCache == nullptr) return;
+	m_LightningBallEffCache->UseBillboard();
 }

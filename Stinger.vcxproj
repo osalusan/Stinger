@@ -42,6 +42,7 @@
     <ClCompile Include="behaviorTree\mawJLaygoLoadTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp" />
     <ClCompile Include="billboard\billboard.cpp" />
+    <ClCompile Include="billboard\lightningBallEffect.cpp" />
     <ClCompile Include="camera\camera.cpp" />
     <ClCompile Include="camera\loadCamera.cpp" />
     <ClCompile Include="camera\playerCamera.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="behaviorTree\mawJLaygoLoadTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h" />
     <ClInclude Include="billboard\billboard.h" />
+    <ClInclude Include="billboard\lightningBallEffect.h" />
     <ClInclude Include="camera\camera.h" />
     <ClInclude Include="camera\loadCamera.h" />
     <ClInclude Include="camera\playerCamera.h" />

@@ -13,7 +13,6 @@
 #include "character/mawJLaygo.h"
 #include "behaviorTree/mawJLaygoBattleTree.h"
 #include "object/transparentWall.h"
-#include "billboard/billboard.h"
 
 constexpr XMFLOAT3 WALL_MAX = { 150.0f, 100.0f, 150.0f }; // 壁の最大範囲
 void GameScene::Init()
@@ -25,15 +24,14 @@ void GameScene::Init()
 	if (m_ObjectManager == nullptr) return;
 
 	m_ObjectManager->AddGameObjectArg<Player>(OBJECT::PLAYER,XMFLOAT3(0.0f,0.0f,0.0f));
-	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
-	
 	// プレイヤーの次に作成
 	m_ObjectManager->AddGameObject<PlayerCamera>(OBJECT::CAMERA_MAIN);
+	// カメラの後に作成
+	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH,XMFLOAT3(0.0f,0.0f,5.0f),XMFLOAT3(4.0f,4.0f,4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
-
 	// ワールド限界を可視化
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(WALL_MAX.z, 0.0f, 0.0f), XMFLOAT3(5.0f, WALL_MAX.y, WALL_MAX.z));
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(-WALL_MAX.z, 0.0f, 0.0f), XMFLOAT3(5.0f,WALL_MAX.y, WALL_MAX.z));
