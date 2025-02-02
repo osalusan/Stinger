@@ -16,6 +16,7 @@ enum class PIVOT
 // ‘O•ûéŒ¾
 enum class TEXTURE;
 class Camera;
+
 class Polygon2D final :public GameObject
 {
 protected:

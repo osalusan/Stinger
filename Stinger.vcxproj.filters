@@ -70,6 +70,9 @@
     <Filter Include="equipment">
       <UniqueIdentifier>{f5f59298-14d3-446b-8bff-1ecaac357189}</UniqueIdentifier>
     </Filter>
+    <Filter Include="billboard">
+      <UniqueIdentifier>{b96b79ae-fd68-4f5b-af23-5024385e37c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -314,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="staticMeshObject\lightningBall.cpp">
       <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard\billboard.cpp">
+      <Filter>billboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="staticMeshObject\lightningBall.h">
       <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard\billboard.h">
+      <Filter>billboard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

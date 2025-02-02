@@ -1,5 +1,4 @@
 #include "main/main.h"
-#include "renderer/renderer.h"
 #include "polygon2D/polygon2D.h"
 #include "manager/textureManager.h"
 #include "manager/sceneManager.h"

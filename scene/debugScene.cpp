@@ -12,6 +12,7 @@
 #include "staticMeshObject/box.h"
 #include "character/mawJLaygo.h"
 #include "behaviorTree/mawJLaygoBattleTree.h"
+#include "billboard/billboard.h"
 
 void DebugScene::Init()
 {
@@ -27,7 +28,8 @@ void DebugScene::Init()
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-	m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(4.0f, 4.0f, 4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
+	// m_ObjectManager->AddGameObjectArg<Box>(OBJECT::STATICMESH, XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(4.0f, 4.0f, 4.0f), XMFLOAT3(1.0f, 1.0f, 0.0f));
+	// m_ObjectManager->AddGameObjectArg<BillBoard>(OBJECT::BILLBOARD, XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(4.0f, 4.0f, 4.0f), TEXTURE::LIGHTNING_BALL, L"asset\\texture\\billboard\\sampleEffect.png", 0.05f, XMINT2(5, 3));
 
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
