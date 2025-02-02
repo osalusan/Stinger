@@ -31,20 +31,20 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 		return NODE_STATE::FAILURE;
 	}
 
-	// TODO : 完成前に削除予定 / デバッグ用
-	if (InputManager::GetKeyPress('V'))
+	// 初期設定
+	if (node == nullptr)
 	{
-		m_PlayerCache->TakeDamage(1.0f);
-	}
-	if (InputManager::GetKeyPress('B'))
-	{
-		m_PlayerCache->TakeDamageParryPossible(1.0f);
+		// スタミナが多ければ多いほど、復帰時間が早くなる確率が上がる
+		const int& randValue = rand() % static_cast<int>(m_BossCache->GetStamina());
+		m_WaitValue = randValue * 0.01f;
 	}
 
-	if (m_CurrentTime < m_BossCache->GetMaxWaitTime())
+	if (m_CurrentTime < m_BossCache->GetMaxWaitTime() * m_WaitValue)
 	{
 		m_CurrentTime += deltaTime;
 		m_BossCache->ChangeAnimation(m_AnimeName);
+		// スタミナ回復
+		m_BossCache->UseStamina(-deltaTime * 0.5f);
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
 		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
@@ -58,6 +58,7 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 			// 状態を削除
 			m_CurrentTime = 0.0f;
 			m_Wait = false;
+			m_WaitValue = 1.0f;
 			m_BossCache->SetRunningNode(nullptr);
 			return NODE_STATE::SUCCESS;
 		}
