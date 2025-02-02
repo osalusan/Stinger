@@ -5,7 +5,7 @@
 enum class RANGE
 {
 	NONE = 0, // NONE‚Í‚»‚¢‚Â‚É‚Æ‚Á‚ÄˆÚ“®ˆÈŠO‚Å‚«‚é‚±‚Æ‚ª‚È‚¢
-	SHROT,
+	SHORT,
 	MIDDLE,
 	LONG
 };

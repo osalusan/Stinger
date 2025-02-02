@@ -77,6 +77,48 @@ void TaskNode::UseAttack(const ATTACK_PARTS& parts)
 	}
 }
 
+int TaskNode::DerivationChance()
+{
+	if (m_Children.size() == 0)
+	{
+		return -1;
+	}
+
+	int totalChance = 0;
+	for (const int& chance : m_ChildDerivChance)
+	{
+		totalChance += chance;
+	}
+
+	const int& randValue = rand() % totalChance;
+	totalChance = 0;
+	int loop = 0;
+	for (const int& chance : m_ChildDerivChance)
+	{
+		totalChance += chance;
+		if (totalChance >= randValue)
+		{
+			m_UseDerivNumber = loop;
+			return loop;
+		}
+		loop++;
+	}
+
+	return -1;
+}
+
+NODE_STATE TaskNode::UpdateUseDerivationTask(const float& deltaTime)
+{
+	BehaviorNode* child = m_Children[m_UseDerivNumber];
+	if (child != nullptr)
+	{
+		m_CurrentState = child->Update(deltaTime);
+		child->SetCurrentState(m_CurrentState);
+		return m_CurrentState;
+	}
+	return NODE_STATE::FAILURE;
+}
+
 // ---------------------------- public ----------------------------
 TaskNode::TaskNode(BossEnemy* boss, Player* player)
 {

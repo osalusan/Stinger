@@ -37,6 +37,7 @@
     <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp" />
     <ClCompile Include="behaviorTaskNode\roaringTask.cpp" />
     <ClCompile Include="behaviorTaskNode\leftSwipingTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\shortRangeAttackTask.cpp" />
     <ClCompile Include="behaviorTaskNode\waitTask.cpp" />
     <ClCompile Include="behaviorTree\behaviorTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h" />
     <ClInclude Include="behaviorTaskNode\roaringTask.h" />
     <ClInclude Include="behaviorTaskNode\leftSwipingTask.h" />
+    <ClInclude Include="behaviorTaskNode\shortRangeAttackTask.h" />
     <ClInclude Include="behaviorTaskNode\waitTask.h" />
     <ClInclude Include="behaviorTree\behaviorTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h" />

@@ -19,6 +19,7 @@
 #include "behaviorTaskNode/parryRecoilTask.h"
 #include "behaviorTaskNode/airLightningBallTask.h"
 #include "behaviorTaskNode/rightPunchTask.h"
+#include "behaviorTaskNode/shortRangeAttackTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -60,8 +61,9 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ”ÍˆÍ‚ÌŠm”F
 	attackSelNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// UŒ‚
-	attackSelNode->AddTaskChild<RightPunchTask>(boss, player);
-	BehaviorNode* leftSwiping = attackSelNode->AddTaskChild<LeftSwipingTask>(boss, player);
+	BehaviorNode* shortAttackTask = attackSelNode->AddTaskChild<ShortRangeAttackTask>(boss, player);
+	shortAttackTask->AddTaskChild<RightPunchTask>(30,boss, player);
+	BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(70,boss, player);
 	if (leftSwiping == nullptr) return;
 	leftSwiping->AddTaskChild<RightSwipingTask>(boss, player);
 	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);

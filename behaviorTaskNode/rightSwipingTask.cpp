@@ -25,19 +25,22 @@ NODE_STATE RightSwipingTask::Update(const float& deltaTime)
 	}
 
 	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHROT)
+	if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHORT)
 	{
 		if (node == nullptr)
 		{
 			const float& startAnimeTime = m_MaxAnimTime * 0.3f;
 			m_CurrentTime = startAnimeTime;
-			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 			m_BossCache->SetNextAnimationTime(startAnimeTime);
 		}
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
+		if (m_CurrentTime < m_MaxAnimTime * m_AttackDisableTimeValue)
+		{
+			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
+		}
 		m_CurrentTime += deltaTime;
 		m_BossCache->ChangeAnimation(m_AnimeName);
 		// UŒ‚ó‘Ô‚ğ•Û‘¶

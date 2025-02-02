@@ -327,6 +327,9 @@
     <ClCompile Include="behaviorTaskNode\rightPunchTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\shortRangeAttackTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -588,6 +591,9 @@
       <Filter>billboard</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\rightPunchTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\shortRangeAttackTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>

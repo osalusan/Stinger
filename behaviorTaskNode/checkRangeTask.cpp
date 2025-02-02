@@ -30,7 +30,7 @@ NODE_STATE CheckRangeTask::Update(const float& deltaTime)
 	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
 	if (range <= m_BossCache->GetShortRange())
 	{
-		m_BossCache->SetCurrentRange(RANGE::SHROT);
+		m_BossCache->SetCurrentRange(RANGE::SHORT);
 	}
 	else if (range <= m_BossCache->GetMiddelRange())
 	{

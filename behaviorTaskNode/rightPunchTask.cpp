@@ -27,7 +27,10 @@ NODE_STATE RightPunchTask::Update(const float& deltaTime)
 	// èâä˙âª
 	if (node == nullptr)
 	{
-		m_CurrentTime = 0.0f;
+		if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHORT)
+		{
+			m_CurrentTime = 0.0f;
+		}
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
@@ -36,6 +39,9 @@ NODE_STATE RightPunchTask::Update(const float& deltaTime)
 		m_BossCache->ChangeAnimation(m_AnimeName);
 		// èÛë‘Çï€ë∂
 		m_BossCache->SetRunningNode(this);
+
+		// çUåÇîªíË
+		UseAttack(ATTACK_PARTS::RIGHT_ARM);
 
 		return NODE_STATE::RUNNING;
 	}

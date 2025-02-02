@@ -15,6 +15,7 @@ protected:
     std::string m_TaskName = {};    // CSV‚Ì•û‚Æ–¼‘O‚ð“¯‚¶‚É
     std::vector<BehaviorNode*> m_Children = {};
     NODE_STATE m_CurrentState = NODE_STATE::FAILURE;
+    std::vector<int> m_ChildDerivChance = {};		// ”h¶‹Z‚ÌŠm—¦ / ‡Œv‚Å100‚É‚È‚é‚æ‚¤‚É
 public:
     virtual ~BehaviorNode();
     virtual void Init() = 0;
@@ -31,6 +32,17 @@ public:
         node->Init();
         m_Children.emplace_back(node);
         return node;
+    }
+
+    template <typename T, typename... Args>
+    BehaviorNode* AddTaskChild(int derivChance, Args&&... args)
+    {
+        if (derivChance != 0)
+        {
+            m_ChildDerivChance.emplace_back(derivChance);
+        }
+
+        return AddTaskChild<T>(std::forward<Args>(args)...);
     }
 
     template <typename T>
