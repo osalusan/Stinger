@@ -38,12 +38,16 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 		// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
 		if (m_CurrentTime >= m_MaxAnimTime && currentRange == RANGE::MIDDLE)
 		{
-			const float& maxStamina = m_BossCache->GetaMaxStamina();
-			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
+			// Šm—¦
+			if (rand() % 100 < static_cast<int>(m_DerivationChance))
 			{
-				m_UseDerivation = false;
-				m_CurrentTime = 0.0f;
-				m_Accel = INIT_ACCEL;
+				const float& maxStamina = m_BossCache->GetaMaxStamina();
+				if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
+				{
+					m_UseDerivation = false;
+					m_CurrentTime = 0.0f;
+					m_Accel = INIT_ACCEL;
+				}
 			}
 		}
 		
