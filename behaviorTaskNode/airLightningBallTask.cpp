@@ -10,7 +10,7 @@ constexpr float SPAWN_LIGHTNINGBALL_VALUE = 0.37f;
 
 void AirLightningBallTask::Init()
 {
-	ReserveAnimation("asset\\model\\mawJ\\standing2HMagicAttack_MawJ.fbx", "airLightningBall");
+	ReserveAnimation("asset\\model\\mawJ\\standing2HMagicAttack_MawJ.fbx", "standing2HMagicAttack");
 	m_TaskName = "—‹‹…”­ŽË";
 	InitSkillData(m_TaskName);
 
