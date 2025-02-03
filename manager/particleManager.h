@@ -6,6 +6,7 @@
 enum class PARTICLE
 {
 	SPIRAL_BLUEORB = 0,
+	LIGHTNING,
 	MAX
 };
 

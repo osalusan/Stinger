@@ -4,12 +4,23 @@
 
 // ëOï˚êÈåæ
 class Scene;
+class LoadScene;
+class Fade;
+class ImguiWindow;
 
 class SceneManager final
 {
 private:
 	static Scene* m_Scene;
 	static Scene* m_NextScene;
+	static LoadScene* m_LoadScene;
+	static Fade* m_Fade;
+#if _DEBUG
+	static ImguiWindow* m_ImguiWindow;
+#endif // _DEBUG
+	static bool m_LoadFinish;
+	static bool m_UseLoadScene;
+
 public:
 
 	static void Init();
@@ -17,11 +28,19 @@ public:
 	static void Update(const float& deltaTime);
 	static void Draw();
 
-	template<typename T>
-	static T* GetScene()
+	static void ChangeScene();
+
+	static Scene* GetScene()
 	{ 
-		T* scene = dynamic_cast<T*>(m_Scene);
-		return scene;
+		return m_Scene;
+	}
+	static LoadScene* GetLoadScene()
+	{
+		return m_LoadScene;
+	}
+	static bool GetLoadFinish()
+	{
+		return m_LoadFinish;
 	}
 
 	template<typename T>

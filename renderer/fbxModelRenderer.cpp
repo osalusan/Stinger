@@ -116,16 +116,16 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time)
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
 
 	// アニメーションのティック単位の時間を計算
-	float TicksPerSecond;
+	float ticksPerSecond;
 	if (animation1->mTicksPerSecond != 0.0f)
 	{
-		TicksPerSecond = static_cast<float>(animation1->mTicksPerSecond);
+		ticksPerSecond = static_cast<float>(animation1->mTicksPerSecond);
 	}
 	else
 	{
-		TicksPerSecond = 60.0f; // デフォルトのティックレート
+		ticksPerSecond = 60.0f; // デフォルトのティックレート
 	}
-	float TimeInTicks = time * TicksPerSecond;
+	float TimeInTicks = time * ticksPerSecond;
 
 	// アニメーション時間をループさせる
 	float AnimationTime = static_cast<float>(fmod(TimeInTicks, animation1->mDuration));
@@ -204,35 +204,34 @@ void FbxModelRenderer::Update(const char* AnimationName1, const float& time1, co
 	aiAnimation* animation1 = m_Animation[AnimationName1]->mAnimations[0];
 
 	// アニメーションのティック単位の時間を計算
-	float TicksPerSecond1;
+	float ticksPerSecond1;
 	if (animation1->mTicksPerSecond != 0.0f)
 	{
-		TicksPerSecond1 = static_cast<float>(animation1->mTicksPerSecond);
+		ticksPerSecond1 = static_cast<float>(animation1->mTicksPerSecond);
 	}
 	else
 	{
-		TicksPerSecond1 = 60.0f; // デフォルトのレート
+		ticksPerSecond1 = 60.0f; // デフォルトのレート
 	}
-	float TimeInTicks1 = time1 * TicksPerSecond1;
+	float TimeInTicks1 = time1 * ticksPerSecond1;
 
 	// アニメーション時間をループさせる
 	float AnimationTime1 = static_cast<float>(fmod(TimeInTicks1, animation1->mDuration));
-
 
 	//アニメーションデータからボーンマトリクス算出
 	aiAnimation* animation2 = m_Animation[AnimationName2]->mAnimations[0];
 
 	// アニメーションのティック単位の時間を計算
-	float TicksPerSecond2;
+	float ticksPerSecond2;
 	if (animation2->mTicksPerSecond != 0.0f)
 	{
-		TicksPerSecond2 = static_cast<float>(animation2->mTicksPerSecond);
+		ticksPerSecond2 = static_cast<float>(animation2->mTicksPerSecond);
 	}
 	else
 	{
-		TicksPerSecond2 = 60.0f; // デフォルトのレート
+		ticksPerSecond2 = 60.0f; // デフォルトのレート
 	}
-	float TimeInTicks2 = time2 * TicksPerSecond2;
+	float TimeInTicks2 = time2 * ticksPerSecond2;
 
 	// アニメーション時間をループさせる
 	float AnimationTime2 = static_cast<float>(fmod(TimeInTicks2, animation2->mDuration));
@@ -348,10 +347,10 @@ void FbxModelRenderer::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	BONE* bone = &m_Bone[node->mName.C_Str()];
 
 	//マトリクスの乗算順番に注意
-	aiMatrix4x4 worldMatrix;
-
-	worldMatrix *= matrix;
+	aiMatrix4x4 worldMatrix = matrix;
 	worldMatrix *= bone->AnimationMatrix;
+
+	bone->LocalMatrix = worldMatrix;
 
 	bone->Matrix = worldMatrix;
 	bone->Matrix *= bone->OffsetMatrix;//これを掛けないといけない
@@ -360,6 +359,13 @@ void FbxModelRenderer::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	{
 		UpdateBoneMatrix(node->mChildren[n], worldMatrix);
 	}
+}
+
+float FbxModelRenderer::GetMaxAnimeTime(const std::string& name)
+{
+	aiAnimation* animation = m_Animation[name.c_str()]->mAnimations[0];
+	const float& ticksPerSecond = static_cast<float>(animation->mTicksPerSecond);
+	return static_cast<float>(animation->mDuration / ticksPerSecond);
 }
 
 void FbxModelRenderer::Load(const char* FileName)
@@ -385,7 +391,7 @@ void FbxModelRenderer::Load(const char* FileName)
 	m_BoneIndex.resize(boneCount, nullptr);
 
 	// ボーンリストを構築
-	for (const auto& bonePair : boneNameIndex)
+	for (const std::pair<std::string,int>& bonePair : boneNameIndex)
 	{
 		const std::string& boneName = bonePair.first;
 		const int& boneIndex = bonePair.second;
@@ -476,10 +482,10 @@ void FbxModelRenderer::Load(const char* FileName)
 
 			// 頂点バッファの作成
 			D3D11_BUFFER_DESC bd = {};
-			bd.Usage = D3D11_USAGE_DYNAMIC;
+			bd.Usage = D3D11_USAGE_DEFAULT;
 			bd.ByteWidth = sizeof(VERTEX_3D) * mesh->mNumVertices;
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			bd.CPUAccessFlags = 0;
 
 			D3D11_SUBRESOURCE_DATA sd = {};
 			sd.pSysMem = vertex;
@@ -583,6 +589,8 @@ void FbxModelRenderer::Uninit()
 		m_VertexBuffer[m]->Release();
 		m_IndexBuffer[m]->Release();
 	}
+
+	m_BoneIndex.clear();
 
 	delete[] m_VertexBuffer;
 	delete[] m_IndexBuffer;

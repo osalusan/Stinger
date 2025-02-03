@@ -28,6 +28,7 @@ void PlayerStateJump::Unit()
 
 void PlayerStateJump::Update(const float& deltaTime)
 {
+	PlayerState::Update(deltaTime);
 	if (m_PlayerMachine == nullptr) return;
 
 	if (m_CurrentTime <= JUMP_MAX_TIME)

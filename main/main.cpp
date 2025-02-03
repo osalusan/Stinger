@@ -5,6 +5,7 @@
 #include <wrl.h>
 #include <iostream>
 #include <time.h>
+#include "imgui/imgui_impl_win32.h"
 
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
@@ -37,76 +38,6 @@ int GetRandom()
 	return XorShiftInt(g_Seed);
 }
 
-
-
-LRESULT CALLBACK FPSWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	GetRandom();
-	switch (msg)
-	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		return 0;
-	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
-}
-
-// FPSウインドウ用
-Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> g_FPSRenderTarget;
-Microsoft::WRL::ComPtr<ID2D1Factory> g_D2DFactory;
-Microsoft::WRL::ComPtr<IDWriteTextFormat> g_TextFormat;
-Microsoft::WRL::ComPtr<IDWriteFactory> g_DWriteFactory;
-
-void InitializeFPSDirectWrite(HWND hwnd)
-{
-	HRESULT hr = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, g_D2DFactory.GetAddressOf());
-	RECT rc;
-	GetClientRect(hwnd, &rc);
-
-	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, g_D2DFactory.GetAddressOf());
-	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), reinterpret_cast<IUnknown**>(g_DWriteFactory.GetAddressOf()));
-
-	g_DWriteFactory->CreateTextFormat(
-		L"Arial",                // フォント
-		nullptr,
-		DWRITE_FONT_WEIGHT_REGULAR,
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
-		24.0f,                   // サイズ
-		L"en-us",
-		g_TextFormat.GetAddressOf()
-	);
-
-	hr = g_D2DFactory->CreateHwndRenderTarget(
-		D2D1::RenderTargetProperties(),
-		D2D1::HwndRenderTargetProperties(hwnd, D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top)),
-		g_FPSRenderTarget.GetAddressOf()
-	);
-}
-
-void RenderFPSWindow(const float& fps)
-{
-	g_FPSRenderTarget->BeginDraw();
-	g_FPSRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
-
-	wchar_t fpsText[256];
-	swprintf_s(fpsText, 256, L"FPS: %.2f", fps);
-
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> pBrush;
-	g_FPSRenderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), pBrush.GetAddressOf());
-
-	g_FPSRenderTarget->DrawText(
-		fpsText,
-		static_cast<UINT32>(wcslen(fpsText)),
-		g_TextFormat.Get(),
-		D2D1::RectF(0, 0, 200, 50),  // 表示領域
-		pBrush.Get()
-	);
-
-	g_FPSRenderTarget->EndDraw();
-}
-
 // ボーダレスウインドウ
 void SetBorderlessWindow(HWND hwnd)
 {
@@ -131,7 +62,7 @@ int APIENTRY WinMain(
 	_In_ int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(177);
+	// _CrtSetBreakAlloc(1847201);
 
 	// 乱数のシードを設定
 	srand(static_cast<unsigned int>(time(0)));
@@ -144,12 +75,6 @@ int APIENTRY WinMain(
 	// TODO :falseに変更予定 / デバッグ用
 	ShowCursor(true);
 #endif
-
-
-	//// 乱数エンジンを初期化する (mt19937はよく使われる乱数生成器)
-	//std::random_device rd;  // ノイズを使用したシード
-	//std::mt19937 gen(rd()); // メルセンヌ・ツイスタ法を使用
-	//std::uniform_int_distribution<> distrib(1, 100); // 1から100の間の整数を生成
 
 	WNDCLASSEX wcex = { 0 };
 	{
@@ -185,65 +110,6 @@ int APIENTRY WinMain(
 
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);
-
-
-#if _DEBUG
-
-
-	{
-		const char* fpsClassName = "FPSClass";
-		const char* fpsWindowName = "FPSWindow";
-
-		// FPSウィンドウ用
-		WNDCLASSEX fpsWcex = { 0 };
-		fpsWcex.cbSize = sizeof(WNDCLASSEX);
-		fpsWcex.style = 0;
-		fpsWcex.lpfnWndProc = FPSWndProc; 
-		fpsWcex.cbClsExtra = 0;
-		fpsWcex.cbWndExtra = 0;
-		fpsWcex.hInstance = hInstance;
-		fpsWcex.hIcon = nullptr;
-		fpsWcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-		fpsWcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-		fpsWcex.lpszMenuName = nullptr;
-		fpsWcex.lpszClassName = fpsClassName;
-		fpsWcex.hIconSm = nullptr;
-
-		RegisterClassEx(&fpsWcex);
-
-
-		// FPS表示用のウィンドウを作成
-		HWND hFPSWindow = CreateWindowEx(
-			0,
-			fpsClassName,
-			fpsWindowName,
-			WS_OVERLAPPEDWINDOW,
-			0, 0,				// 位置
-			300, 100,			// サイズ
-			nullptr,
-			nullptr,
-			hInstance,
-			nullptr
-		);
-
-		// FPSウィンドウを表示
-		ShowWindow(hFPSWindow, nCmdShow);
-		UpdateWindow(hFPSWindow);
-		InitializeFPSDirectWrite(hFPSWindow);
-
-		// フォント
-		HRESULT hr = g_DWriteFactory->CreateTextFormat(
-			L"Arial",						// フォント
-			nullptr,                 
-			DWRITE_FONT_WEIGHT_REGULAR,		// 太さ
-			DWRITE_FONT_STYLE_NORMAL,		// スタイル
-			DWRITE_FONT_STRETCH_NORMAL,		// 幅
-			24.0f,							// サイズ
-			L"en-us",                   
-			g_TextFormat.GetAddressOf()
-		);
-	}
-#endif
 	
 	SceneManager::Init();
 
@@ -284,7 +150,6 @@ int APIENTRY WinMain(
 			{
 				// FPSを計算
 				float deltaTimeFloat = static_cast<float>(deltaTime);
-				const float& fps = 1.0f / deltaTimeFloat;
 				
 				// 上限設定 / ブレイクポイント用
 				if (deltaTimeFloat >= 0.2f)
@@ -295,11 +160,6 @@ int APIENTRY WinMain(
 				SceneManager::Update(deltaTimeFloat);
 
 				SceneManager::Draw();
-
-				#if _DEBUG
-				// FPSウィンドウの描画
-				RenderFPSWindow(fps);
-				#endif
 
 				prevTime = currTime;
 			}
@@ -314,11 +174,17 @@ int APIENTRY WinMain(
 }
 
 
-
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-
+	
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+	{
+		// ここでreturnすると、OS には伝わらずImGui側で処理が完結
+		return true;
+	}
 
 	switch(uMsg)
 	{

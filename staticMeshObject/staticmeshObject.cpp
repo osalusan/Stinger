@@ -1,6 +1,7 @@
 #include "staticmeshObject.h"
 #include "manager/objModelManager.h"
 #include "renderer/objModelRenderer.h"
+#include "component/shaderComponent.h"
 #include "component/boxCollisionComponent.h"
 
 StaticMeshObject::StaticMeshObject(const STATICMESH_MODEL& model)
@@ -8,44 +9,29 @@ StaticMeshObject::StaticMeshObject(const STATICMESH_MODEL& model)
 	m_Model = model;
 }
 
-StaticMeshObject::~StaticMeshObject()
-{
-	delete m_ModelRenderer;
-	m_ModelRenderer = nullptr;
-}
-
-void StaticMeshObject::Init()
-{
-	GameObject::Init();
-	if (m_ModelRenderer == nullptr)
-	{
-		m_ModelRenderer = new ObjModelRenderer;
-	}
-}
-
 void StaticMeshObject::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
-	// 当たり判定処理の前に / 初回のみ
-	if (m_ModelCenter.x == 0 && m_ModelCenter.y == 0 && m_ModelCenter.z == 0)
-	{
-		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
-		{
-			m_ModelCenter = model->Center;
-			m_ModelScale = model->Scale;
-		}
 
-		m_ColliPosition = m_Position;
-		m_ColliRotation = m_Rotation;
-		m_ColliScale = m_Scale;
+	m_RotationMatrix = GetRotationMatrix();
+
+	MoveControl(deltaTime);
+
+	// 当たり判定処理の前に
+	if (m_BoxCollCache == nullptr) return;
+
+	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
+	{
+		MODEL* modelData = model->GetModel();
+		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, m_RotationMatrix);
 	}
-	// ModelのCenterやScaleを格納したら
-	UpdateBoxCollisionInfo();
 }
 
 void StaticMeshObject::Draw()
 {
 	GameObject::Draw();
+
+	if (!m_Visible) return;
 
 	//マテリアル設定
 	MATERIAL material;
@@ -55,17 +41,14 @@ void StaticMeshObject::Draw()
 
 	Renderer::SetMaterial(material);
 
-	// TODO :変更予定 / FBXRendererと同じ形式に
-	if (m_ModelRenderer != nullptr)
+	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
-		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
-		{
-			m_ModelRenderer->Draw(model);
-		}
-	}
+		if (model == nullptr) return;
+		model->Draw();
+	}	
 }
 
-const MODEL* StaticMeshObject::GetModel()
+const ObjModelRenderer* StaticMeshObject::GetModel()const
 {
 	return ObjModelManager::GetModel(m_Model);
 }

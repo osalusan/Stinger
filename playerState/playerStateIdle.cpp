@@ -1,14 +1,13 @@
 #include "playerStateIdle.h"
 #include "playerStateMachine.h"
 
-constexpr const char* IDLE_PLAYER = "IdlePlayer";
-
 void PlayerStateIdle::Init()
 {
-	LoadAnimation("asset\\model\\Akai_Idle.fbx", IDLE_PLAYER);
+	LoadAnimation("asset\\model\\player\\Idle_PaladinJNordstrom.fbx", "idle");
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
+		m_PlayerMachine->SetAnimeBlendTimeValue(m_BlendTime);
 	}
 }
 
@@ -19,12 +18,11 @@ void PlayerStateIdle::Unit()
 
 void PlayerStateIdle::Update(const float& deltaTime)
 {
+	PlayerState::Update(deltaTime);
 	if (m_PlayerMachine != nullptr)
 	{
 		m_PlayerMachine->InitVelocity();
 	}
-
-	m_PlayerMachine->SetAnimation(IDLE_PLAYER);
 }
 
 void PlayerStateIdle::ChangeStateControl()
@@ -33,12 +31,24 @@ void PlayerStateIdle::ChangeStateControl()
 	
 	// —Dæ‡ˆÊ‡
 
-	if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
-	{// •‚‚¢‚Ä‚¢‚éAƒWƒƒƒ“ƒv‚µ‚Ä‚¢‚é‚Æ
-		ChangePlayerState(PLAYER_STATE::JUMP);
+	// ƒpƒŠƒBUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
+	if (m_PlayerMachine->GetIsParryAttackButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
 	}
+	// ’ÊíUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
+	else if (m_PlayerMachine->GetIsNormalAttackButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_NORMAL);
+	}
+	// ‰ñ”ð‚ª‰Ÿ‚³‚ê‚½‚ç
+	else if (m_PlayerMachine->GetIsRollingButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ROLLING);
+	}
+	// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
 	else if (m_PlayerMachine->GetMoveRandL() != MOVE_DIRECTION::NONE || m_PlayerMachine->GetMoveFandB() != MOVE_DIRECTION::NONE)
-	{// ˆÚ“®‚µ‚Ä‚¢‚é‚Æ
+	{
 		ChangePlayerState(PLAYER_STATE::RUN);
 	}
 }

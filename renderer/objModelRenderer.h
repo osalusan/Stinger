@@ -52,7 +52,18 @@ struct MODEL
 
 class ObjModelRenderer final
 {	
+private:
+	MODEL* m_Model = {};
 public:
-	void Draw(const MODEL* model);
-	void DrawCollision(const MODEL* model);
+	ObjModelRenderer(MODEL* model);
+	void Draw();
+	void DrawCollision();
+	void Uninit();
+
+	void SetModel(MODEL* model);
+
+	MODEL* GetModel()
+	{
+		return m_Model;
+	}
 };

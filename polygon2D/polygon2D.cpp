@@ -1,11 +1,11 @@
 #include "main/main.h"
-#include "renderer/renderer.h"
 #include "polygon2D/polygon2D.h"
 #include "manager/textureManager.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
 #include "scene/gameScene.h"
 #include "camera/camera.h"
+#include "component/shaderComponent.h"
 
 Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName)
 {
@@ -29,6 +29,14 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	TextureManager::ReservTexture(m_Texture, fileName);
 
 	SetPolygon(position,size);
+
+	AddComponent<ShaderComponent>(this);
+}
+
+Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName, const bool& ui)
+	:Polygon2D(position, size, pivot, texture, fileName)
+{
+	m_UseUI = ui;
 }
 
 Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName)
@@ -53,11 +61,17 @@ void Polygon2D::Init()
 	D3D11_SUBRESOURCE_DATA sd{};
 	sd.pSysMem = m_Vertex;
 
+	if (m_UseUI)
+	{
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	}
+
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
 	if (m_CameraCache == nullptr)
 	{
-		Scene* scene = SceneManager::GetScene<Scene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objManager = scene->GetObjectManager();
 		if (objManager == nullptr) return;
@@ -129,13 +143,13 @@ void Polygon2D::Draw()
 
 }
 
-void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)
+void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& sizeValue)
 {
 	switch (m_PivotPoint)
 	{
 	case PIVOT::CENTER:		// 中央
 	{
-		const XMFLOAT2& halfSize = { m_Scale.x * 0.5f ,m_Scale.y * 0.5f };
+		const XMFLOAT2& halfSize = { size.x * 0.5f ,size.y * 0.5f };
 
 		m_Vertex[0].Position = XMFLOAT3(position.x - halfSize.x, position.y - halfSize.y, 0.0f);
 		m_Vertex[0].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -172,17 +186,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)
 		m_Vertex[1].Position = XMFLOAT3(right, position.y, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(position.x, bottom, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(right, bottom, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
 
 		break;
 	}
@@ -270,5 +284,21 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size)
 	default:
 		break;
 	}
+}
+
+void Polygon2D::ChangeUVScaling(const XMFLOAT2& sizeValue)
+{
+	if (!m_UseUI) return;
+
+	//頂点データ書き換え
+	D3D11_MAPPED_SUBRESOURCE msr;
+	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+	const XMFLOAT2& uvScaleSize = { m_Scale.x * sizeValue.x, m_Scale.y * sizeValue.y };
+
+	SetPolygon(XMFLOAT2(m_Position.x,m_Position.y), uvScaleSize, sizeValue);
+
+	memcpy(msr.pData,m_Vertex , sizeof(VERTEX_3D) * 4);
+	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 }
 

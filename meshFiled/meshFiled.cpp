@@ -1,6 +1,6 @@
 #include "meshfiled.h"
 #include "manager/textureManager.h"
-#include "renderer/renderer.h"
+#include "component/shaderComponent.h"
 
 //float g_FiledHeight[FILED_MAX][FILED_MAX] =
 //{
@@ -84,28 +84,9 @@ MeshFiled::MeshFiled()
 	m_Position.z = 40.0f;
 }
 
-MeshFiled::~MeshFiled()
-{
-	// シェーダーの削除
-	if (m_VertexLayout != nullptr)
-	{
-		m_VertexLayout->Release();
-		m_VertexLayout = nullptr;
-	}
-	if (m_VertexShader != nullptr)
-	{
-		m_VertexShader->Release();
-		m_VertexLayout = nullptr;
-	}
-	if (m_PixelShader != nullptr)
-	{
-		m_PixelShader->Release();
-		m_VertexLayout = nullptr;
-	}
-}
-
 void MeshFiled::Init()
 {
+	GameObject::Init();
 	// Vertexバッファ生成
 	{
 		for (int x = 0; x < FILED_MAX; x++)
@@ -214,18 +195,12 @@ void MeshFiled::Init()
 
 	//Renderer::SetLight(m_Light);
 
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
-	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
-	}
+	AddComponent<ShaderComponent>(this);
 }
 
 void MeshFiled::Uninit()
 {
+	GameObject::Uninit();
 	if (m_VertexBuffer != nullptr)
 	{
 		m_VertexBuffer->Release();
@@ -236,30 +211,11 @@ void MeshFiled::Uninit()
 	}
 }
 
-void MeshFiled::Update()
-{
-
-}
-
 void MeshFiled::Draw()
 {
-
-	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
-	{
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
-	}
+	GameObject::Draw();
 
 	Renderer::SetLight(m_Light);
-
-	//ワールドマトリクス設定
-	XMMATRIX world, scl, rot, trans;
-	scl = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
-	rot = XMMatrixRotationRollPitchYaw(m_Rotation.x, m_Rotation.y, m_Rotation.z);
-	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
-	world = scl * rot * trans;
-	Renderer::SetWorldMatrix(world);
 
 	//頂点バッファの設定
 	UINT stride = sizeof(VERTEX_3D);

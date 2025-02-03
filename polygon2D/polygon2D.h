@@ -16,6 +16,7 @@ enum class PIVOT
 // ëOï˚êÈåæ
 enum class TEXTURE;
 class Camera;
+
 class Polygon2D final :public GameObject
 {
 protected:
@@ -27,18 +28,25 @@ protected:
 	VERTEX_3D m_Vertex[4] = {};
 	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
 	bool m_UseStencil = false;
+	bool m_UseUI = false;					// UIÇ∆ÇµÇƒégÇ§
 	Camera* m_CameraCache = nullptr;
 public:
 	Polygon2D() = delete;
 	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName);
+	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const wchar_t* fileName,const bool& ui);
 	Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName);
 
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
-	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size);
+	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& sizeValue = { 1.0f,1.0f });
+	void ChangeUVScaling(const XMFLOAT2& sizeValue);
 
+	void SetAlfa(const float& alfa)
+	{
+		m_Color.w = alfa;
+	}
 	const TEXTURE& GetTexture()const
 	{
 		return m_Texture;

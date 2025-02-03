@@ -29,8 +29,12 @@ struct BONE
 								 0.0f, 1.0f, 0.0f, 0.0f,
 								 0.0f, 0.0f, 1.0f, 0.0f,
 								 0.0f, 0.0f, 0.0f, 1.0f };
-};
 
+	aiMatrix4x4 LocalMatrix = { 1.0f, 0.0f, 0.0f, 0.0f,
+							 0.0f, 1.0f, 0.0f, 0.0f,
+							 0.0f, 0.0f, 1.0f, 0.0f,
+							 0.0f, 0.0f, 0.0f, 1.0f };
+};
 class FbxModelRenderer final
 {
 private:
@@ -43,7 +47,9 @@ private:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture = {};
 
-	// スキニング用
+	float m_MaxAnimeTime = 0.0f;
+
+	// 格納用
 	std::unordered_map<std::string, BONE> m_Bone = {};						//ボーンデータ（名前で参照）
 	// GPUスキニング用	
 	std::vector<BONE*> m_BoneIndex;											// ボーンインデックス順のボーンリスト
@@ -62,7 +68,11 @@ public:
 	void CreateBone(aiNode* node, std::map<std::string, int>& boneIndexMap, int& boneCount);
 	void Update(const char* AnimationName1,const float& time);
 	void UpdateBoneMatrix(aiNode* node,aiMatrix4x4 matrix);
-
+	
+	const std::unordered_map<std::string, BONE>& GetBone()const
+	{
+		return m_Bone;
+	}
 	const XMFLOAT3& GetCenter()const
 	{
 		return m_Center;
@@ -70,5 +80,16 @@ public:
 	const XMFLOAT3& GetScale()const
 	{
 		return m_Scale;
+	}
+	float GetMaxAnimeTime(const std::string& name);
+
+	XMMATRIX AiMatrixToXMMATRIX(const aiMatrix4x4& mat) const
+	{
+		return XMMATRIX(
+			mat.a1, mat.b1, mat.c1, mat.d1,
+			mat.a2, mat.b2, mat.c2, mat.d2,
+			mat.a3, mat.b3, mat.c3, mat.d3,
+			mat.a4, mat.b4, mat.c4, mat.d4
+		);
 	}
 };

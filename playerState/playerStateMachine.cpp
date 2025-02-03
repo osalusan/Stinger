@@ -4,10 +4,20 @@
 #include "manager/objectManager.h"
 #include "camera/playerCamera.h"
 #include "scene/gameScene.h"
+#include "character/player.h"
 #include "playerState.h"
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
 #include "playerStateJump.h"
+#include "playerStateParryAttack.h"
+#include "playerStateNormalAttack.h"
+#include "playerState/playerStateRolling.h"
+
+PlayerStateMachine::PlayerStateMachine(Player* player)
+{
+	if (player == nullptr || m_PlayerCache != nullptr) return;
+	m_PlayerCache = player;
+}
 
 PlayerStateMachine::~PlayerStateMachine()
 {
@@ -17,18 +27,24 @@ PlayerStateMachine::~PlayerStateMachine()
 		PlayerStatePool.second = nullptr;
 	}
 	m_PlayerStatePool.clear();
+	m_PlayerCache = nullptr;
 }
 
 void PlayerStateMachine::Init()
 {
 	if (m_PlayerStatePool.empty())
 	{
+		m_ParryCache = new PlayerStateParryAttack(this);
+		m_RollingCache = new PlayerStateRolling(this);
+		m_NormalAttackCache = new PlayerStateNormalAttack(this);
 		// 要素上限分リハッシュ
 		m_PlayerStatePool.reserve(static_cast<int>(PLAYER_STATE::MAX) - 1);
 
 		m_PlayerStatePool.emplace(PLAYER_STATE::IDLE, new PlayerStateIdle(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
-		m_PlayerStatePool.emplace(PLAYER_STATE::JUMP, new PlayerStateJump(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, m_ParryCache);
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, m_NormalAttackCache);
+		m_PlayerStatePool.emplace(PLAYER_STATE::ROLLING, m_RollingCache);
 	}
 	// 初期化
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
@@ -58,7 +74,7 @@ void PlayerStateMachine::Update(const float& deltaTime)
 {
 	if (m_CameraCache == nullptr)
 	{
-		GameScene* scene = SceneManager::GetScene<GameScene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objManager = scene->GetObjectManager();
 		if (objManager == nullptr) return;
@@ -71,11 +87,28 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_RandL = MOVE_DIRECTION::NONE;
 	m_FandB = MOVE_DIRECTION::NONE;
 	m_IsJamp = false;
+	m_IsParryAttackButton = false;
+	m_IsNormalAttackButton = false;
+	m_IsRollingButton = false;
 
+	// 攻撃
+	if (InputManager::GetMouseRightPress())
+	{
+		m_IsParryAttackButton = true;
+	}
+	if (InputManager::GetMouseLeftPress())
+	{
+		m_IsNormalAttackButton = true;
+	}
+	// 回避
+	if (InputManager::GetKeyPress(VK_SPACE))
+	{
+		m_IsRollingButton = true;
+	}
+	// 移動
 	if (InputManager::GetKeyPress('A'))
 	{
 		m_RandL = MOVE_DIRECTION::LEFT;
-
 	}
 	if (InputManager::GetKeyPress('D'))
 	{
@@ -103,8 +136,26 @@ void PlayerStateMachine::Update(const float& deltaTime)
 		m_CurrentPlayerState->ChangeStateControl();
 	}
 
+	// ステートの更新の後に呼ぶ
+	if (m_PlayerCache != nullptr)
+	{
+		m_PlayerCache->SetVelocityX(m_Velocity.x);
+		m_PlayerCache->SetVelocityZ(m_Velocity.z);
+
+		// Yだけ+
+		m_PlayerCache->SetVelocityY(m_PlayerCache->GetVelocity().y + m_Velocity.y);
+
+		m_PlayerCache->SetRotationY(m_Rotation.y);
+
+		if (m_AnimeBlendTimeValue != 0.0f)
+		{
+			m_PlayerCache->SetBlendTimeValue(m_AnimeBlendTimeValue);
+		}
+	}
+
 	// 最後にリセット
 	m_IsGround = false;
+	m_IsHitAttacked = false;
 }
 
 void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)
@@ -129,11 +180,41 @@ void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)
 	{
 		m_CurrentPlayerState->Init();
 	}
+
+	m_CurrentState = state;
 }
 
 void PlayerStateMachine::InitVelocity()
 {
 	m_Velocity = {};
+}
+
+bool PlayerStateMachine::CheckParry()
+{
+	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_PARRY]) return false;
+
+	if (m_ParryCache == nullptr) return false;
+	
+	return m_ParryCache->CheckParryAccept();
+}
+
+bool PlayerStateMachine::CheckRolling()
+{
+	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ROLLING]) return false;
+
+	if (m_RollingCache == nullptr) return false;
+
+	return m_RollingCache->CheckRollingAccept();
+}
+
+bool PlayerStateMachine::CheckAttack()
+{
+	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_NORMAL]) return false;
+
+	if (m_NormalAttackCache == nullptr) return false;
+
+	return m_NormalAttackCache->CheckAttackAccept();
+
 }
 
 XMFLOAT3 PlayerStateMachine::GetCameraForward() const

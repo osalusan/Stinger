@@ -1,21 +1,26 @@
 #pragma once
 #include <list>
 #include <vector>
+#include "character/player.h"
+#include "character/bossEnemy.h"
+#include "camera/camera.h"
+#include "meshFiled/meshFiled.h"
 
 // 空白の配列が生まれてしまうからNONEは追加しない
 enum class OBJECT
 {
-	SKYDOME = 0,
+	CAMERA_MAIN = 0,
+	SKYDOME,
+	FILED,
+	PLAYER,
+	BOSS,
 	STATICMESH,
 	SHADOW,
+	BILLBOARD,
 	POLYGON2D,
 	MAX
 };
 
-// 前方宣言
-class GameObject;
-class Camera;
-class Player;
 class BossEnemy;
 class MeshFiled;
 
@@ -23,10 +28,13 @@ class ObjectManager final
 {
 private:
 	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
-	Camera* m_Camera = nullptr;
-	Player* m_Player = nullptr;
-	BossEnemy* m_Boss = nullptr;
-	MeshFiled* m_Filed = nullptr;
+	Camera* m_CameraCache = nullptr;
+	Player* m_PlayerCache = nullptr;
+	BossEnemy* m_BossCache = nullptr;
+	MeshFiled* m_FiledCache = nullptr;
+
+	float m_SlowTime = 0.0f;
+	float m_SlowValue = 0.0f;
 public:
 	~ObjectManager();
 	void Init();
@@ -34,24 +42,37 @@ public:
 	void Update(const float& deltaTime);
 	void Draw();
 
-	void CreatePlayer();
-
 	Camera* GetCamera()const
 	{
-		return m_Camera;
+		return m_CameraCache;
 	}
 	Player* GetPlayer()const
 	{
-		return m_Player;
+		return m_PlayerCache;
 	}
 	BossEnemy* GetBossEnemy()const
 	{
-		return m_Boss;
+		return m_BossCache;
 	}
 	MeshFiled* GetMeshFiled()const
 	{
-		return m_Filed;
+		return m_FiledCache;
 	}
+	bool GetSlow()
+	{
+		if (m_SlowTime <= 0.0f) return false;
+		return true;
+	}
+	void SetSlowTime(const float& time)
+	{
+		m_SlowTime = time;
+	}
+	void SetSlowValue(const float& value)
+	{
+		m_SlowValue = value;
+	}
+
+
 	void GetAllGameObjects(std::vector<GameObject*> (&objectList)[static_cast<int>(OBJECT::MAX)])
 	{
 		for (int i = 0; i < static_cast<int>(OBJECT::MAX); i++)
@@ -65,60 +86,59 @@ public:
 		const int& layerNum = static_cast<int>(layer);
 		objectList.insert(objectList.end(), m_GameObjects[layerNum].begin(), m_GameObjects[layerNum].end());
 	}
-	// カメラオブジェクトを一番最初に作成
-	template <typename T>
-	void CreateCameraObject()
-	{
-		if (m_Camera != nullptr) return;
-		T* camera = new T;
-		if (camera == nullptr) return;
-
-		camera->Init();
-
-		m_Camera = camera;
-	}
-
-	// 座標指定で追加
-	template <typename T, typename... Arg>
-	void CreateBossEnemy(Arg&&...args)
-	{
-		T* boss = new T(std::forward<Arg>(args)...);
-		if (boss == nullptr) return;
-
-		boss->Init();
-		m_Boss = boss;
-	}
 
 	// 引数無しで追加
 	template <typename T>
-	void AddGameObject(const OBJECT& layer)
+	T* AddGameObject(const OBJECT& layer)
 	{
 		T* gameObject = new T;
-		if (gameObject == nullptr) return;
+		if (gameObject == nullptr) return nullptr;
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
-	}
 
-	template <typename T>
-	void CreateMeshFiled()
-	{
-		if (m_Filed != nullptr) return;
-		T* filed = new T;
-		if (filed == nullptr) return;
+		if (layer == OBJECT::CAMERA_MAIN && m_CameraCache == nullptr)
+		{
+			if (Camera* camera = dynamic_cast<Camera*>(gameObject))
+			{
+				m_CameraCache = camera;
+			}
+		}
+		if (layer == OBJECT::FILED && m_FiledCache == nullptr)
+		{
+			if (MeshFiled* filed = dynamic_cast<MeshFiled*>(gameObject))
+			{
+				m_FiledCache = filed;
+			}
+		}
 
-		filed->Init();
-		m_Filed = filed;
+		return gameObject;
 	}
 
 	// 引数付きの場合はこっち
 	template <typename T, typename... Arg>
-	void AddGameObjectArg(const OBJECT& layer, Arg&&...args)
+	T* AddGameObjectArg(const OBJECT& layer, Arg&&...args)
 	{
 		T* gameObject = new T(std::forward<Arg>(args)...);
-		if (gameObject == nullptr) return;
+		if (gameObject == nullptr) return nullptr;
 
 		gameObject->Init();
 		m_GameObjects[static_cast<int>(layer)].emplace_back(gameObject);
+
+		if (layer == OBJECT::PLAYER && m_PlayerCache == nullptr)
+		{
+			if (Player* player = dynamic_cast<Player*>(gameObject))
+			{
+				m_PlayerCache = player;
+			}
+		}
+		if (layer == OBJECT::BOSS && m_BossCache == nullptr)
+		{
+			if (BossEnemy* boss = dynamic_cast<BossEnemy*>(gameObject))
+			{
+				m_BossCache = boss;
+			}
+		}
+		return gameObject;
 	}
 };

@@ -1,4 +1,5 @@
 #include "behaviorTree.h"
+#include "behaviorNode/behaviorNode.h"
 
 BehaviorTree::~BehaviorTree()
 {
@@ -15,27 +16,24 @@ void BehaviorTree::CreateRoot(BehaviorNode* root)
     if (m_Root != nullptr)
     {
         m_Root->Init();
+        m_Root->SetTaskName("ルートノード");
     }
+}
+
+void BehaviorTree::ClearNodeState(BehaviorNode* root)
+{
+    if (root == nullptr) return;
+
+    for (BehaviorNode* child : root->GetChildren())
+    {
+        ClearNodeState(child);
+    }
+    root->SetCurrentState(NODE_STATE::FAILURE);
 }
 
 void BehaviorTree::Update(const float& deltaTime)
 {
     if (m_Root == nullptr) return;
-    NODE_STATUS status = m_Root->Update(deltaTime);
-
-    // デバッグ用
-#if _DEBUG
-    if (status == NODE_STATUS::SUCCESS)
-    {
-
-    }
-    else if (status == NODE_STATUS::FAILURE)
-    {
-
-    }
-    else
-    {
-
-    }
-#endif
+    ClearNodeState(m_Root);
+    NODE_STATE state = m_Root->Update(deltaTime);
 }

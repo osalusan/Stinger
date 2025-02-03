@@ -5,7 +5,6 @@
 enum class STATICMESH_MODEL;
 enum class ANIMETION_MODEL;
 
-class ObjModelRenderer;
 class StaticMeshObject;
 class Character;
 class MeshFiled;
@@ -16,8 +15,6 @@ protected:
 	STATICMESH_MODEL m_StaticModel;						
 	ANIMETION_MODEL m_AnimeModel;						
 
-	ObjModelRenderer* m_ModelRenderer = nullptr;
-
 	StaticMeshObject* m_StaticMeshCache = nullptr;
 	Character* m_CharacterCache = nullptr;
 
@@ -26,7 +23,6 @@ public:
 	ShadowVolume() = delete;
 	ShadowVolume(StaticMeshObject* staticMesh);
 	ShadowVolume(Character* character);
-	virtual ~ShadowVolume()override;
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;

@@ -7,8 +7,10 @@ enum class PLAYER_STATE
 {
 	NONE = 0,
 	IDLE,
-	JUMP,
-	DAMAGE,
+	HITDAMAGE,
+	ROLLING,
+	ATTACK_PARRY,
+	ATTACK_NORMAL,
 	RUN,
 	DEAD,
 	MAX
@@ -25,13 +27,24 @@ enum class MOVE_DIRECTION
 };
 // 前方宣言
 class PlayerState;
+class Player;
 class Camera;
+class PlayerStateParryAttack;
+class PlayerStateRolling;
+class PlayerStateNormalAttack;
 
 class PlayerStateMachine final
 {
 private:
+	Player* m_PlayerCache = nullptr;
 	Camera* m_CameraCache = nullptr;
+
 	PlayerState* m_CurrentPlayerState = nullptr;
+	PlayerStateParryAttack* m_ParryCache = nullptr;
+	PlayerStateNormalAttack* m_NormalAttackCache = nullptr;
+
+	PlayerStateRolling* m_RollingCache = nullptr;
+	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
 
 	// 移動方向記録用
@@ -39,13 +52,23 @@ private:
 	MOVE_DIRECTION m_FandB = MOVE_DIRECTION::NONE;	// 前と後ろのどちらかに移動している
 
 	XMFLOAT3 m_Velocity = {};
+	XMFLOAT3 m_Rotation = {};
+
+	float m_AnimeBlendTimeValue = 0.0f;				// アニメーションのブレンド速度
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
+	bool m_IsParryAttackButton = false;				// パリィ攻撃をしたか
+	bool m_IsRollingButton = false;					// 回転したか
+	bool m_IsNormalAttackButton = false;			// 通常攻撃をしたか
+	bool m_IsHitAttacked = false;					// 攻撃を受けたか
+	bool m_IsInvincible = false;					// 無敵状態かどうか
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
 public:
+	PlayerStateMachine() = delete;
+	PlayerStateMachine(Player* player);
 	~PlayerStateMachine();
 	void Init();
 	void Uninit();
@@ -54,13 +77,29 @@ public:
 	void SetPlayerState(const PLAYER_STATE& state);
 	void InitVelocity();
 
+	bool CheckParry();
+	bool CheckRolling();
+	bool CheckAttack();
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// 地面に当たった
 
+	const Player* GetPlayerCache()const
+	{
+		return m_PlayerCache;
+	}
+	const PLAYER_STATE& GetCurrentState()const
+	{
+		return m_CurrentState;
+	}
+
 	const XMFLOAT3& GetVelocity()const
 	{
 		return m_Velocity;
+	}
+	const XMFLOAT3& GetRotation()const
+	{
+		return m_Rotation;
 	}
 
 	const MOVE_DIRECTION& GetMoveRandL()const
@@ -79,12 +118,36 @@ public:
 	{
 		return m_IsGround;
 	}
+	const bool& GetIsParryAttackButton()const
+	{
+		return m_IsParryAttackButton;
+	}
+	const bool& GetIsNormalAttackButton()const
+	{
+		return m_IsNormalAttackButton;
+	}
+	const bool& GetIsRollingButton()const
+	{
+		return m_IsRollingButton;
+	}
+	const bool& GetIsInvincible()const
+	{
+		return m_IsInvincible;
+	}
 	const std::string& GetAnimation()const
 	{
 		return m_NextAnimationName;
 	}
+	const bool& GetIsHitAttack()const
+	{
+		return m_IsHitAttacked;
+	}	
 
 
+	void SetIsHitAttack(const bool& hit)
+	{
+		m_IsHitAttacked = hit;
+	}
 	void SetAnimation(const std::string& anime)
 	{
 		m_NextAnimationName = anime;
@@ -100,5 +163,13 @@ public:
 	void SetVelocityY(const float& y)
 	{
 		m_Velocity.y = y;
+	}
+	void SetRotationY(const float& y)
+	{
+		m_Rotation.y = y;
+	}
+	void SetAnimeBlendTimeValue(const float& value)
+	{
+		m_AnimeBlendTimeValue = value;
 	}
 };

@@ -8,6 +8,9 @@ enum class MAWJ_ANIMATION
 	ROARING
 };
 
+// ‘O•ûéŒ¾
+struct BONE;
+
 class MawJLaygo final:public BossEnemy
 {
 private:

@@ -4,10 +4,19 @@
 #include "manager/objModelManager.h"
 #include "manager/objectManager.h"
 #include "camera/playerCamera.h"
+#include "component/shaderComponent.h"
+
+void SkyDome::MoveControl(const float& deltaTime)
+{
+	if (m_CameraCache != nullptr)
+	{
+		m_Position = m_CameraCache->GetPos();
+	}
+}
 
 SkyDome::SkyDome() :StaticMeshObject(STATICMESH_MODEL::SKYDOME)
 {
-	ObjModelManager::ReservModel(m_Model, "asset\\model\\sky.obj");
+	ObjModelManager::ReservModel(m_Model, "asset\\model\\sky\\sky.obj");
 }
 
 SkyDome::~SkyDome()
@@ -17,25 +26,18 @@ SkyDome::~SkyDome()
 
 void SkyDome::Init()
 {
+	AddComponent<ShaderComponent>(this);
 	if (m_CameraCache == nullptr)
 	{
 		StaticMeshObject::Init();
-		m_Scale = { 400.0f,400.0f,400.0f };
+		m_Scale = { 1000.0f,1000.0f,1000.0f };
 
-		GameScene* scene = SceneManager::GetScene<GameScene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 
 		ObjectManager* objManager = scene->GetObjectManager();
 		if (objManager == nullptr) return;
 
 		m_CameraCache = objManager->GetCamera();
-	}
-}
-
-void SkyDome::Update(const float& deltaTime)
-{
-	if (m_CameraCache != nullptr)
-	{
-		m_Position = m_CameraCache->GetPos();
 	}
 }

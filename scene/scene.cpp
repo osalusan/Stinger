@@ -70,7 +70,6 @@ void Scene::Draw()
 		m_ObjectManager->Draw();
 	}
 
-	// オブジェクトより後に描画
 	if (m_ParticleManager != nullptr)
 	{
 		m_ParticleManager->Draw();

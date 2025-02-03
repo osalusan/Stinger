@@ -30,10 +30,14 @@ using namespace DirectX;
 #if _DEBUG
 #define SCREEN_WIDTH	(1280)
 #define SCREEN_HEIGHT	(720)
+//#define SCREEN_WIDTH	(1920)
+//#define SCREEN_HEIGHT	(1080)
 #else
 #define SCREEN_WIDTH	(1920)
 #define SCREEN_HEIGHT	(1080)
 #endif
+
+#define SCREEN_SCALE ((SCREEN_WIDTH + SCREEN_HEIGHT) / 1000)
 
 HWND GetWindow();
 int GetRandom(); // +Ç∆-Ç™Ç«ÇøÇÁÇ‡î≠ê∂Ç∑ÇÈ

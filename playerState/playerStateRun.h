@@ -1,7 +1,7 @@
 #pragma once
 #include "playerState.h"
 
-class PlayerStateRun :public PlayerState
+class PlayerStateRun final:public PlayerState
 {
 public:
 	using PlayerState::PlayerState;

@@ -22,7 +22,6 @@ void FbxModelManager::Init()
 
     m_ReservModelPool.clear();
     m_ReservAnimationPool.clear();
-    m_ReservAnimationNamePool.clear();
 }
 
 void FbxModelManager::Uninit()
@@ -49,6 +48,7 @@ void FbxModelManager::ReservModel(const ANIMETION_MODEL& model, const std::strin
 
 void FbxModelManager::ReservAnimation(const ANIMETION_MODEL& model, const std::string& fileName, const std::string& animationName)
 {
+    if (m_ReservAnimationNamePool.count(fileName) > 0) return;
     // アニメーションの予約
     m_ReservAnimationPool.emplace(fileName, model);
     m_ReservAnimationNamePool.emplace(fileName, animationName);
@@ -63,10 +63,7 @@ FbxModelRenderer* FbxModelManager::GetAnimationModel(const ANIMETION_MODEL& mode
 void FbxModelManager::LoadModel(const ANIMETION_MODEL& model, const std::string& fileName)
 {
     // 保存済みのモデルがある場合
-    if (m_LoadModelPool.count(model) > 0)
-    {
-        return; // 読み込まない
-    }
+    if (m_LoadModelPool.count(model) > 0) return;
 
     m_LoadModelPool.emplace(model, new FbxModelRenderer);
     

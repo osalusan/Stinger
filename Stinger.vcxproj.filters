@@ -46,9 +46,6 @@
     <Filter Include="behaviorTree">
       <UniqueIdentifier>{dfc5bd79-bbcb-4e93-a3ac-1f6059d9ebfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="taskNode">
-      <UniqueIdentifier>{6e96fa29-b300-456f-a73b-7bedd27c56d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="particle">
       <UniqueIdentifier>{c84b9e9c-dd23-477a-92e3-020b82d10242}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,24 @@
     </Filter>
     <Filter Include="shadow">
       <UniqueIdentifier>{52d8ea7c-fe23-4034-b5f8-053d6065130d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behaviorTaskNode">
+      <UniqueIdentifier>{4daea993-5b4c-4f16-a1c9-fb7243f7b633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="behaviorNode">
+      <UniqueIdentifier>{a4422139-e6a2-47ce-9dbe-3a117c25e7c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fade">
+      <UniqueIdentifier>{b279a4b6-5a71-4895-9220-3ec95af75685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="imgui">
+      <UniqueIdentifier>{edbad82d-8fe1-4e59-9503-8fef892bac62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="equipment">
+      <UniqueIdentifier>{f5f59298-14d3-446b-8bff-1ecaac357189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="billboard">
+      <UniqueIdentifier>{b96b79ae-fd68-4f5b-af23-5024385e37c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -150,12 +165,6 @@
     <ClCompile Include="playerState\playerStateJump.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTree\selectorNode .cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTree\sequenceNode .cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\behaviorTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
@@ -164,21 +173,6 @@
     </ClCompile>
     <ClCompile Include="character\mawJLaygo.cpp">
       <Filter>character</Filter>
-    </ClCompile>
-    <ClCompile Include="behaviorTree\taskNode.cpp">
-      <Filter>behaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\checkRangeTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\dashAtThePlayerTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\rollAttackTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
-    <ClCompile Include="taskNodes\roaringTask.cpp">
-      <Filter>taskNode</Filter>
     </ClCompile>
     <ClCompile Include="particle\particleEmitter.cpp">
       <Filter>particle</Filter>
@@ -198,14 +192,143 @@
     <ClCompile Include="behaviorTree\mawJLaygoBattleTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
-    <ClCompile Include="taskNodes\roaringInfinityTask.cpp">
-      <Filter>taskNode</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp">
       <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\selectorNode.cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\sequenceNode.cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\taskNode.cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\roaringTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\leftSwipingTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\deadTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="component\shaderComponent.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\waitTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\loadScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera\loadCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTree\mawJLaygoLoadTree.cpp">
+      <Filter>behaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="fade\fade.cpp">
+      <Filter>fade</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_win32.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imguiWindow.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\debugScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\ruins.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="object\transparentWall.cpp">
+      <Filter>object</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\rightSwipingTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateParryAttack.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorNode\behaviorNode.cpp">
+      <Filter>behaviorNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\parryRecoilTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkAttackParry.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateNormalAttack.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="equipment\equipmentObject.cpp">
+      <Filter>equipment</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateRolling.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\audioManager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\airLightningBallTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="staticMeshObject\lightningBall.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard\billboard.cpp">
+      <Filter>billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard\lightningBallEffect.cpp">
+      <Filter>billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\rightPunchTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\shortRangeAttackTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,16 +428,7 @@
     <ClInclude Include="playerState\playerStateJump.h">
       <Filter>playerState</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTree\behaviorNode.h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorTree\behaviorTree.h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\selectorNode .h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\sequenceNode .h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="character\bossEnemy.h">
@@ -322,21 +436,6 @@
     </ClInclude>
     <ClInclude Include="character\mawJLaygo.h">
       <Filter>character</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviorTree\taskNode.h">
-      <Filter>behaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\checkRangeTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\dashAtThePlayerTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\rollAttackTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
-    <ClInclude Include="taskNodes\roaringTask.h">
-      <Filter>taskNode</Filter>
     </ClInclude>
     <ClInclude Include="particle\particleEmitter.h">
       <Filter>particle</Filter>
@@ -356,14 +455,146 @@
     <ClInclude Include="behaviorTree\mawJLaygoBattleTree.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
-    <ClInclude Include="taskNodes\roaringInfinityTask.h">
-      <Filter>taskNode</Filter>
-    </ClInclude>
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h">
       <Filter>behaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h">
       <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\behaviorNode.h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\selectorNode.h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\sequenceNode.h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorNode\taskNode.h">
+      <Filter>behaviorNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkRangeTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\roaringTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\leftSwipingTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkHealthTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\jumpAttackTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\deadTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="component\shaderComponent.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\waitTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\loadScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\loadCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTree\mawJLaygoLoadTree.h">
+      <Filter>behaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\loadIdleTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="fade\fade.h">
+      <Filter>fade</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_dx11.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_win32.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imguiWindow.h">
+      <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\debugScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\ruins.h">
+      <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="object\transparentWall.h">
+      <Filter>object</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\rightSwipingTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateParryAttack.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\parryRecoilTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkAttackParry.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateNormalAttack.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="equipment\equipmentObject.h">
+      <Filter>equipment</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateRolling.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\audioManager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\airLightningBallTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\lightningBall.h">
+      <Filter>staticMeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard\billboard.h">
+      <Filter>billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard\lightningBallEffect.h">
+      <Filter>billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\rightPunchTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\shortRangeAttackTask.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -390,8 +621,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="particle\template.txt">
+    <Text Include="particle\template_Particle.txt">
       <Filter>particle</Filter>
+    </Text>
+    <Text Include="behaviorTaskNode\taskTemplate.txt">
+      <Filter>behaviorTaskNode</Filter>
     </Text>
   </ItemGroup>
 </Project>

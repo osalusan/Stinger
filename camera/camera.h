@@ -1,21 +1,16 @@
 #pragma once
-#include "main/main.h"
+#include "object/gameObject.h"
 
-class Camera
+class Camera :public GameObject
 {
 protected:
-	XMFLOAT3 m_Position = {};
-	XMFLOAT3 m_Rotation = {};
 	XMFLOAT3 m_Target = {};
 	float m_Length = 20.0f;
 	XMFLOAT4X4 m_ViewMatrix = {};
 
 public:
 	virtual ~Camera() {};
-	virtual void Init() = 0;
-	virtual void Uninit() = 0;
-	virtual void Update() = 0;
-	virtual void Draw();
+	virtual void Draw()override;
 	
 	void SetTarget(const XMFLOAT3& position)
 	{
@@ -25,11 +20,6 @@ public:
 	XMMATRIX GetViewMatrix() 
 	{
 		return XMLoadFloat4x4(&m_ViewMatrix);
-	}
-
-	const XMFLOAT3& GetPos()const
-	{
-		return m_Position;
 	}
 
 	//前方ベクトルの取得

@@ -1,11 +1,13 @@
 #include "playerStateRun.h"
-
-constexpr float MOVE_SPEED_MAWJ = 2000.0f;
-constexpr const char* RUNNING_PLAYER = "RunningPlayer";
+#include "character/player.h"
 
 void PlayerStateRun::Init()
 {
-	LoadAnimation("asset\\model\\Akai_Run.fbx", RUNNING_PLAYER);
+	LoadAnimation("asset\\model\\player\\run_PaladinJNordstrom.fbx", "run");
+	if (m_PlayerMachine != nullptr)
+	{
+		m_PlayerMachine->SetAnimeBlendTimeValue(m_BlendTime);
+	}
 }
 
 void PlayerStateRun::Unit()
@@ -15,6 +17,7 @@ void PlayerStateRun::Unit()
 
 void PlayerStateRun::Update(const float& deltaTime)
 {
+	PlayerState::Update(deltaTime);
 	if (m_PlayerMachine == nullptr) return;
 	const XMFLOAT3& forwardVector = m_PlayerMachine->GetCameraForward();
 	const XMFLOAT3& rightVector = m_PlayerMachine->GetCameraRight();
@@ -45,26 +48,63 @@ void PlayerStateRun::Update(const float& deltaTime)
 
 	//斜めでも速度が変わらないように
 	XMVECTOR velocityVec = XMLoadFloat3(&moveVector);
-	XMVECTOR normalizedVelocityVec = XMVector3Normalize(velocityVec);
-	XMFLOAT3 normalizedVelocity = {};
-	XMStoreFloat3(&normalizedVelocity, normalizedVelocityVec);
+	XMVECTOR normalizdVelocityVec = XMVector3Normalize(velocityVec);
+	XMFLOAT3 normalizeVelocity = {};
+	XMStoreFloat3(&normalizeVelocity, normalizdVelocityVec);
 
-	m_PlayerMachine->SetVelocityX(normalizedVelocity.x * MOVE_SPEED_MAWJ * deltaTime);
-	m_PlayerMachine->SetVelocityZ(normalizedVelocity.z * MOVE_SPEED_MAWJ * deltaTime);
+	// Getのみ / 編集不可
+	const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+	if (playerCache == nullptr) return;
+	const float& moveSpeed = playerCache->GetMoveSpeed();
+	const float& rotSpeed = playerCache->GetRotSpeed();
 
-	m_PlayerMachine->SetAnimation(RUNNING_PLAYER);
+	m_PlayerMachine->SetVelocityX(normalizeVelocity.x * moveSpeed);
+	m_PlayerMachine->SetVelocityZ(normalizeVelocity.z * moveSpeed);
+
+	float currentAngle = m_PlayerMachine->GetRotation().y;
+	const float& targetAngle = atan2f(normalizeVelocity.x, normalizeVelocity.z);
+
+	float angleDiff = targetAngle - currentAngle;
+	while (angleDiff > XM_PI)
+	{
+		angleDiff -= XM_2PI;
+	}
+	while (angleDiff < -XM_PI)
+	{
+		angleDiff += XM_2PI;
+	}
+
+	// 少しずつ差を埋める
+	currentAngle += angleDiff * rotSpeed * deltaTime;
+
+	if (normalizeVelocity.x != 0.0f || normalizeVelocity.z != 0.0f)
+	{
+		m_PlayerMachine->SetRotationY(currentAngle);
+	}
 }
 
 void PlayerStateRun::ChangeStateControl()
 {
 	if (m_PlayerMachine == nullptr) return;
 
-	if (m_PlayerMachine->GetIsJump() || !m_PlayerMachine->GetIsGround())
-	{// 浮いている、ジャンプしていると
-		ChangePlayerState(PLAYER_STATE::JUMP);
+	// パリィ攻撃が押されたら
+	if (m_PlayerMachine->GetIsParryAttackButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
 	}
+	// 通常攻撃が押されたら
+	else if (m_PlayerMachine->GetIsNormalAttackButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_NORMAL);
+	}
+	// 回避が押されたら
+	else if (m_PlayerMachine->GetIsRollingButton())
+	{
+		ChangePlayerState(PLAYER_STATE::ROLLING);
+	}
+	// 移動していないと
 	else if (m_PlayerMachine->GetMoveRandL() == MOVE_DIRECTION::NONE && m_PlayerMachine->GetMoveFandB() == MOVE_DIRECTION::NONE)
-	{// 移動していないと
+	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
 }

@@ -5,7 +5,8 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH = 30.0f;
+constexpr float LENGTH = (1.0f / SCREEN_SCALE) * 60.0f;
+constexpr float OFFSET_TARGET_POS_Y = LENGTH * 0.35f;
 // マウスの設定
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
 constexpr XMFLOAT2 MOUSE_SPEED = { 0.005f,0.005f };
@@ -18,9 +19,10 @@ PlayerCamera::~PlayerCamera()
 
 void PlayerCamera::Init()
 {
+	GameObject::Init();
 	if (m_PlayerCache == nullptr)
 	{
-		GameScene* scene = SceneManager::GetScene<GameScene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objectManager = scene->GetObjectManager();
 		if (objectManager == nullptr) return;
@@ -31,13 +33,10 @@ void PlayerCamera::Init()
 	m_Length = LENGTH;
 }
 
-void PlayerCamera::Uninit()
+void PlayerCamera::Update(const float& deltaTime)
 {
-	// 純粋仮想関数の為空実装
-}
+	GameObject::Update(deltaTime);
 
-void PlayerCamera::Update()
-{
 	POINT MousePos{};
 	GetCursorPos(&MousePos);
 
@@ -48,10 +47,12 @@ void PlayerCamera::Update()
 	//マウスの縦移動処理
 	m_Rotation.x -= (m_MousePos.y - m_OldMousePos.y) * MOUSE_SPEED.y;
 	//マウスの上下制限
-	if (m_Rotation.x > 1.14f)
+	// 下
+	if (m_Rotation.x > 0.54f)
 	{
-		m_Rotation.x = 1.14f;
+		m_Rotation.x = 0.54f;
 	}
+	// 上
 	if (m_Rotation.x < -1.14f)
 	{
 		m_Rotation.x = -1.14f;
@@ -60,13 +61,21 @@ void PlayerCamera::Update()
 	if (m_PlayerCache != nullptr)
 	{
 		m_Target = m_PlayerCache->GetPos();
+		m_Target.y += OFFSET_TARGET_POS_Y;
 	}
 
 	//カメラの移動処理
-	m_Position.x = m_Target.x - sinf(m_Rotation.y) * m_Length;
-	m_Position.z = m_Target.z - cosf(m_Rotation.y) * m_Length;
 
-	m_Position.y = m_Target.y - sinf(m_Rotation.x) * m_Length;
+	const float& cosPitch = cosf(m_Rotation.x);
+	const float& sinPitch = sinf(m_Rotation.x);
+	const float& sinYaw = sinf(m_Rotation.y);
+	const float& cosYaw = cosf(m_Rotation.y);
+
+	const float& horizontalDist = m_Length * cosPitch;
+
+	m_Position.x = m_Target.x - horizontalDist * sinYaw;
+	m_Position.z = m_Target.z - horizontalDist * cosYaw;
+	m_Position.y = m_Target.y - m_Length * sinPitch;
 
 	m_OldMousePos = m_MousePos;
 
@@ -78,32 +87,15 @@ void PlayerCamera::Update()
 			m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
 			m_OldMousePos = m_MousePos;
 	}
-
-	//if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
-	//	m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
-	//{
-	//	SetCursorPos(CENTER.x, CENTER.y);
-	//	GetCursorPos(&MousePos);
-	//	m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
-	//	m_OldMousePos = m_MousePos;
-	//}
 #else
-	// TODO:デバッグ用 / 変更予定
-	if (InputManager::GetKeyPress('R'))
+	if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
+		m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
 	{
 		SetCursorPos(CENTER.x, CENTER.y);
 		GetCursorPos(&MousePos);
 		m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
 		m_OldMousePos = m_MousePos;
 	}
-	//if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
-	//	m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
-	//{
-	//	SetCursorPos(CENTER.x, CENTER.y);
-	//	GetCursorPos(&MousePos);
-	//	m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
-	//	m_OldMousePos = m_MousePos;
-	//}
 #endif // _DEBUG
 
 

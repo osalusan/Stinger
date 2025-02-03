@@ -4,38 +4,19 @@
 
 // 前方宣言
 class BoxCollisionComponent;
+class Component;
 enum class COLLISION_TAG;
 
-class GameObject {
+class GameObject 
+{
 protected:
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = { 1.0f, 1.0f, 1.0f };
 	XMFLOAT3 m_Rotation = {};
 
-	// 当たり判定用
-	XMFLOAT3 m_ColliPosition = {};
-	XMFLOAT3 m_ColliRotation = {};
-	XMFLOAT3 m_ColliScale = { 1.0f, 1.0f, 1.0f };
-
-	// Model関係
-	XMFLOAT3 m_ModelCenter = {};
-	XMFLOAT3 m_ModelScale = {};
-
 	bool m_Enable = true;		// 有効、無効
 
-	// 描画関連
-	ID3D11VertexShader* m_VertexShader = nullptr;
-	ID3D11PixelShader* m_PixelShader = nullptr;
-	ID3D11InputLayout* m_VertexLayout = nullptr;
-
-	BoxCollisionComponent* m_BoxCollision = nullptr;
-
-	// シェーダーを変更したい時にコンストラクタで呼ぶ
-	void LoadShader(const std::string& vsFileName, const std::string& psFileName);
-	// コリジョンを追加したい時に呼ぶ
-	void AddBoxCollisionComponent(const COLLISION_TAG& tag);
-	// Updateに書かないとModelCenterなどが取得できない
-	void UpdateBoxCollisionInfo();
+	std::vector<Component*> m_Components = {};
 
 public:
 	virtual ~GameObject();
@@ -44,15 +25,36 @@ public:
 	virtual void Update(const float& deltaTime);
 	virtual void Draw();
 
+	template <typename T, typename... Arg>
+	T* AddComponent(Arg&&...args)
+	{
+		T* component = new T(std::forward<Arg>(args)...);
+		if (component == nullptr) return nullptr;
+
+		component->Init();
+		m_Components.emplace_back(component);
+
+		return component;
+	}
+
+	template <typename T>
+	bool GetComponents(std::vector<T*>& components)
+	{
+		for (Component* component : m_Components)
+		{
+			if (component == nullptr) continue;
+
+			if (T* tComponent = dynamic_cast<T*>(component))
+			{
+				components.emplace_back(tComponent);
+			}
+		}
+		return !components.empty();
+	}
+
 	void SetEnable(const float& flag)
 	{
 		m_Enable = flag;
-	}
-
-
-	BoxCollisionComponent* GetBoxCollision()
-	{
-		return m_BoxCollision;
 	}
 
 	const bool& GetEnable()const
@@ -70,15 +72,6 @@ public:
 	const XMFLOAT3& GetRot()const
 	{
 		return m_Rotation;
-	}
-
-	const XMFLOAT3& GetModelCenter()const
-	{
-		return m_ModelCenter;
-	}
-	const XMFLOAT3& GetModelScale()const
-	{
-		return m_ModelScale;
 	}
 
 	//前方ベクトルの取得
@@ -126,15 +119,6 @@ public:
 		return rotationMatrix;
 	}
 
-	//当たり判定の回転マトリックスを取得
-	XMMATRIX GetColliRotationMatrix()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			m_ColliRotation.x, m_ColliRotation.y, m_ColliRotation.z);
-
-		return rotationMatrix;
-	}
 	// ターゲットへのベクトルを取得
 	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos) {
 		

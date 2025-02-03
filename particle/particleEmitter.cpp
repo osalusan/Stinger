@@ -5,13 +5,12 @@
 #include "manager/textureManager.h"
 #include "manager/objectManager.h"
 #include "scene/scene.h"
+#include "component/shaderComponent.h"
 
 // ---------------------------------- public ----------------------------------
-
 ParticleEmiter::ParticleEmiter()
 {
-	m_Texture = TEXTURE::PARTICLE_ORIGIN;
-	TextureManager::ReservTexture(m_Texture, L"asset\\texture\\particleOrigin.png");
+	m_Texture = TEXTURE::MAX;
 }
 
 ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos):ParticleEmiter()
@@ -32,35 +31,17 @@ ParticleEmiter::~ParticleEmiter()
 	{
 		m_VertexBuffer->Release();
 	}
-
-	// シェーダーの削除
-	if (m_VertexLayout != nullptr)
-	{
-		m_VertexLayout->Release();
-		m_VertexLayout = nullptr;
-	}
-	if (m_VertexShader != nullptr)
-	{
-		m_VertexShader->Release();
-		m_VertexLayout = nullptr;
-	}
-	if (m_PixelShader != nullptr)
-	{
-		m_PixelShader->Release();
-		m_VertexLayout = nullptr;
-	}
 }
 
 void ParticleEmiter::Init()
 {
+	GameObject::Init();
+	ReservTexture();
 
-	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
+	if (m_Texture == TEXTURE::MAX)
 	{
-		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
-	}
-	if (m_PixelShader == nullptr)
-	{
-		Renderer::CreatePixelShader(&m_PixelShader, "cso\\unlitTexturePS.cso");
+		m_Texture = TEXTURE::PARTICLE_ORIGIN;
+		TextureManager::ReservTexture(m_Texture, L"asset\\texture\\particleOrigin.png");
 	}
 
 	VERTEX_3D vertex[4];
@@ -106,22 +87,22 @@ void ParticleEmiter::Init()
 
 	if (m_CameraCache == nullptr)
 	{
-		Scene* scene = SceneManager::GetScene<Scene>();
+		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
 		ObjectManager* objManager = scene->GetObjectManager();
 		if (objManager == nullptr) return;
 
 		m_CameraCache = objManager->GetCamera();
 	}
-}
 
-void ParticleEmiter::Uninit()
-{
 
+	// 最後のコンポーネントとして追加
+	AddComponent<ShaderComponent>(this);
 }
 
 void ParticleEmiter::Update(const float& deltaTime)
 {
+	GameObject::Update(deltaTime);
 	if (m_Enable)
 	{
 		// パーティクルの作成が先
@@ -134,16 +115,9 @@ void ParticleEmiter::Update(const float& deltaTime)
 
 void ParticleEmiter::Draw()
 {
+	GameObject::Draw();
 	if (m_CameraCache == nullptr) return;
-	if (m_VertexBuffer == nullptr) return;
 	XMMATRIX view = m_CameraCache->GetViewMatrix();
-
-	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
-	{
-		Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-		Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
-		Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
-	}
 
 	XMMATRIX invView;
 	invView = XMMatrixInverse(nullptr, view);//逆行列

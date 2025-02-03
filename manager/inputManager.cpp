@@ -35,3 +35,12 @@ bool InputManager::GetKeyTrigger(BYTE KeyCode)
 {
 	return ((m_KeyState[KeyCode] & 0x80) && !(m_OldKeyState[KeyCode] & 0x80));
 }
+
+bool InputManager::GetMouseLeftPress()
+{
+	return (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+}
+bool InputManager::GetMouseRightPress()
+{
+	return (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0;
+}

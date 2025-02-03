@@ -7,6 +7,50 @@
 #include "character/character.h"
 #include "renderer/objModelRenderer.h"
 
+// ------------------------ private ------------------------
+void CollisionComponent::UseBoneMatrix()
+{
+	if (m_CollisionName != "")
+	{
+		if (m_GameObject == nullptr) return;
+
+		XMMATRIX world, scl, rot, trans;
+		XMMATRIX parentWorld, parentScl, parentRot, parentTrans;
+
+		const XMFLOAT3& parentScale = m_GameObject->GetScale();
+		const XMFLOAT3& parentPos = m_GameObject->GetPos();
+
+		parentScl = XMMatrixScaling(parentScale.x, parentScale.y, parentScale.z);
+		parentRot = m_GameObject->GetRotationMatrix();
+		parentTrans = XMMatrixTranslation(parentPos.x, parentPos.y, parentPos.z);
+
+		parentWorld = parentScl * parentRot * parentTrans;
+
+		scl = XMMatrixScaling((1.0f / parentScale.x) * m_Scale.x, (1.0f / parentScale.y) * m_Scale.y, (1.0f / parentScale.z) * m_Scale.z);
+		rot = XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f);
+		trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+
+		world = rot * trans * scl * m_BoneMatrix * parentWorld;
+
+		XMVECTOR decScl, decRot, decTrans = {};
+		XMMatrixDecompose(&decScl, &decRot, &decTrans, world);
+
+		m_Position.x = decTrans.m128_f32[0];
+		m_Position.y = decTrans.m128_f32[1];
+		m_Position.z = decTrans.m128_f32[2];
+
+		m_Scale.x = decScl.m128_f32[0];
+		m_Scale.y = decScl.m128_f32[1];
+		m_Scale.z = decScl.m128_f32[2];
+
+		world.r[3].m128_f32[0] = 0.0f;
+		world.r[3].m128_f32[1] = 0.0f;
+		world.r[3].m128_f32[2] = 0.0f;
+
+		m_RotationMatrix = world;
+	}
+}
+
 // ------------------------ protected ------------------------
 bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 {
@@ -17,7 +61,7 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	const XMVECTOR& Interval = XMVectorSubtract(obb2.Center, obb1.Center);
 
 	// 軸のリスト
-	XMVECTOR axes[15];
+	XMVECTOR axes[15] = {};
 	int axisCount = 0;
 
 	// OBB1の軸
@@ -41,7 +85,7 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 		float overlap = (rA + rB) - L;
 		if (overlap < 0.0f) return false;
 
-		if (overlap < minOverlap)
+		if (overlap < minOverlap && overlap != FLT_MAX)
 		{
 			minOverlap = overlap;
 			mtvAxis = axis;
@@ -100,12 +144,16 @@ void CollisionComponent::SetHitObject(GameObject* hitObj)
 	}
 }
 
-bool CollisionComponent::CheckHitObject()
+bool CollisionComponent::CheckHitObject(const OBJECT& object)
 {
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
 	// オブジェクト一覧の取得
 	if (m_GameObjectsCache->empty())
 	{
-		GameScene* gameScene = SceneManager::GetScene<GameScene>();
+		Scene* gameScene = SceneManager::GetScene();
 		if (gameScene == nullptr) return false;
 		ObjectManager* objectManager = gameScene->GetObjectManager();
 		if (objectManager == nullptr) return false;
@@ -117,11 +165,66 @@ bool CollisionComponent::CheckHitObject()
 	return true;
 }
 
+bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
+{
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
+	// オブジェクト一覧の取得
+	if (m_GameObjectsCache->empty())
+	{
+		Scene* gameScene = SceneManager::GetScene();
+		if (gameScene == nullptr) return false;
+		ObjectManager* objectManager = gameScene->GetObjectManager();
+		if (objectManager == nullptr) return false;
+
+		objectManager->GetAllGameObjects(m_GameObjectsCache);
+
+		if (m_GameObjectsCache->empty()) return false;
+	}
+	return true;
+}
+
+bool CollisionComponent::CheckHitAllObject()
+{
+	m_HitGameObjectsCache.clear();
+	m_MinOverlap = FLT_MAX;
+	m_MtvAxis = {};
+
+	// オブジェクト一覧の取得
+	if (m_GameObjectsCache->empty())
+	{
+		Scene* gameScene = SceneManager::GetScene();
+		if (gameScene == nullptr) return false;
+		ObjectManager* objectManager = gameScene->GetObjectManager();
+		if (objectManager == nullptr) return false;
+
+		objectManager->GetAllGameObjects(m_GameObjectsCache);
+
+		if (m_GameObjectsCache->empty()) return false;
+	}
+	return true;
+}
+
+CollisionComponent::CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag)
+	:Component(gameObject)
+{
+	m_CollisionTag = tag;
+#if _DEBUG
+	m_Model = STATICMESH_MODEL::BOX_CENTER;
+#endif
+}
+
+CollisionComponent::CollisionComponent(GameObject* gameObject, const COLLISION_TAG& tag, const std::string& name)
+	:CollisionComponent(gameObject,tag)
+{
+	m_CollisionName = name;
+}
+
 CollisionComponent::~CollisionComponent()
 {
 #if _DEBUG
-	delete m_ModelRenderer;
-	m_ModelRenderer = nullptr;
 
 	// シェーダーの削除
 	if (m_VertexLayout != nullptr)
@@ -150,10 +253,6 @@ void CollisionComponent::Init()
 		m_Scale = m_GameObject->GetScale();
 	}
 #if _DEBUG
-	if (m_ModelRenderer == nullptr)
-	{
-		m_ModelRenderer = new ObjModelRenderer;
-	}
 	if (m_VertexShader == nullptr && m_VertexLayout == nullptr)
 	{
 		Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "cso\\unlitTextureVS.cso");
@@ -170,10 +269,9 @@ void CollisionComponent::Uninit()
 	m_GameObjectsCache->clear();
 }
 
-// 呼び出し元に「#if _DEBUG」を
+
 void CollisionComponent::Draw()
 {
-	// エラー防止用
 #if _DEBUG
 	if (m_VertexLayout != nullptr && m_VertexShader != nullptr && m_PixelShader != nullptr)
 	{
@@ -187,45 +285,39 @@ void CollisionComponent::Draw()
 	scl = XMMatrixScaling((m_Scale.x * m_ModelScale.x) * 0.5f, (m_Scale.y * m_ModelScale.y) * 0.5f, (m_Scale.z * m_ModelScale.z) * 0.5f);
 	rot = m_RotationMatrix;
 	trans = XMMatrixTranslation(m_Position.x, m_Position.y, m_Position.z);
+
 	world = scl * rot * trans;
+
 	Renderer::SetWorldMatrix(world);
 
-	if (m_ModelRenderer != nullptr)
+	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
-		if (const MODEL* model = ObjModelManager::GetModel(m_Model))
-		{
-			m_ModelRenderer->DrawCollision(model);
-		}
+		if (model == nullptr) return;
+
+		model->DrawCollision();
 	}
+
 #endif // _DEBUG
 }
 
-void CollisionComponent::SetBoxCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix)
 {
 	m_Position = pos;
 	m_Scale = scale;
 	m_ModelCenter = modelCenterPos;
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;
+	UseBoneMatrix();
 }
 
-bool CollisionComponent::CheckHitCollision(const COLLISION_TAG& tag)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos,const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
-	m_HitGameObjectsCache.clear();
-	m_MinOverlap = FLT_MAX;
-	m_MtvAxis = {};
-
-	switch (tag)
-	{
-	case COLLISION_TAG::OBJECT:
-		if (CheckHitObject())
-		{
-			return true;
-		}
-		break;
-	default:
-		break;
-	}
-
-	return false;
+	m_Position = pos;
+	m_Scale = scl;
+	m_ModelCenter = modelCenterPos;
+	m_ModelScale = modelScale;
+	m_RotationMatrix = rotateMatrix;
+	m_BoneMatrix = worldMatrix;
+	UseBoneMatrix();
 }
+
