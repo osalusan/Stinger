@@ -69,26 +69,30 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ”ÍˆÍ‚ÌŠm”F
 	attackSelNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// UŒ‚
-	
+
 	// ‹ß‹——£
 	if (BehaviorNode* shortAttackTask = attackSelNode->AddTaskChild<ShortRangeAttackTask>(boss, player))
 	{
 		shortAttackTask->AddTaskChild<RightPunchTask>(25, boss, player);
-		shortAttackTask->AddTaskChild<BackJumpTask>(10,boss, player);
+		shortAttackTask->AddTaskChild<BackJumpTask>(10, boss, player);
 		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(65, boss, player))
 		{
 			DERIVATION_DATA derivToRightSwiping = { 0.7f,100,0.7f };
-			DERIVATION_DATA derivToBackJump = { 0.7f,100,0.2f };
+			DERIVATION_DATA derivToBackJump = { 0.7f,100,0.4f };
 
-			leftSwiping->AddTaskChild<RightSwipingTask>(derivToRightSwiping,80 ,boss, player);
-			leftSwiping->AddTaskChild<BackJumpTask>(derivToBackJump,20, boss, player);
+			leftSwiping->AddTaskChild<RightSwipingTask>(derivToRightSwiping, 80, boss, player);
+			if (BehaviorNode* backJump = leftSwiping->AddTaskChild<BackJumpTask>(derivToBackJump, 20, boss, player))
+			{
+				DERIVATION_DATA lightningBDerivData = { 0.5f, 50 ,0.9f };
+				backJump->AddTaskChild<AirLightningBallTask>(lightningBDerivData, boss, player);
+			}
 		}
 	}
 
 	// ’†‹——£
 	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
-	DERIVATION_DATA lightningBDerivData = { 0.75f,70 ,0.3f};
-	jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBDerivData,boss, player);
+	DERIVATION_DATA lightningBDerivData = { 0.75f,70 ,0.3f };
+	jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBDerivData, boss, player);
 	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
 	// UŒ‚•s‰Â
 	attackSelNode->AddTaskChild<DashAtThePlayerTask>(boss, player);

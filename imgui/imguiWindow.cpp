@@ -109,6 +109,21 @@ void ImguiWindow::Update(const float& deltaTime)
         ImGui::Text(u8"攻撃判定部位 :%s", atkPartsUtf8Name.c_str());
     }
     ImGui::Text(u8"ビヘイビアツリー");
+
+    ImGui::SameLine();
+
+    if (ImGui::Button(u8"派生技情報の表示形式を変更"))
+    {
+        if (m_ShowDerivationInfo == 0)
+        {
+            m_ShowDerivationInfo = 1;
+        }
+        else if (m_ShowDerivationInfo == 1)
+        {
+            m_ShowDerivationInfo = 0;
+        }
+    }
+
     // 青色：現在使用中
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f),u8"青色：現在使用中");
     // 改行しない
@@ -131,9 +146,14 @@ void ImguiWindow::Draw()
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // 実行
 }
 
-bool ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const int& depth)
+void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode* parentNode, const int& parentChildNum)
 {
-    if (root == nullptr) return false;
+    if (parentNode == nullptr)
+    {
+        parentNode = root;
+    }
+    if (parentNode == nullptr || root == nullptr) return;
+
     std::string name = root->GetTaskName().c_str();
     if (name == "")
     {
@@ -159,43 +179,56 @@ bool ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const int& depth)
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // 文字色
     }
 
-    bool open = false;
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+    ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     if (ImGui::TreeNode(utf8Name.c_str()))
     {
         int childNum = 0;
-        open = true;
+
+        if (parentNode != root)
+        {
+            // 分岐確率
+            if (parentNode->GetTotalDerivChance() > 0)
+            {
+                ImGui::SameLine();
+                ImGui::Text(u8"== 分岐確率: %i %%", parentNode->GetDerivChance(parentChildNum));
+            }
+
+            // 派生技のデータを表記
+            if (parentNode->GetDerivationData().size() > 0)
+            {
+                if (m_ShowDerivationInfo == 0)
+                {
+                    ImGui::Text(u8"{");
+                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
+                    //ImGui::SameLine();
+                    ImGui::Text(u8"  派生確率: %i %%", parentNode->GetDerivationData(parentChildNum).Chance);
+                    //ImGui::SameLine();
+                    ImGui::Text(u8"  派生開始時間: 全体フレーム * %.2f", parentNode->GetDerivationData(parentChildNum).TransTimeValue);
+                    ImGui::Text(u8"}");
+                }
+                else if (m_ShowDerivationInfo == 1)
+                {
+                    ImGui::Text(u8"{");
+                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
+                    ImGui::SameLine();
+                    ImGui::Text(u8"| 派生確率: %i %%", parentNode->GetDerivationData(parentChildNum).Chance);
+                    ImGui::SameLine();
+                    ImGui::Text(u8"| 派生開始時間: 全体フレーム * %.2f", parentNode->GetDerivationData(parentChildNum).TransTimeValue);
+                    ImGui::Text(u8"}");
+                }
+            }
+        }
+
         for (const BehaviorNode* child : root->GetChildren())
         {
-            open = DrawBehaviorTree(child, depth + 1);
+            DrawBehaviorTree(child, root, childNum);
 
-            // 分岐確率
-            if (root->GetTotalDerivChance() > 0 && childNum < depth)
-            {
-                ImGui::SameLine();
-                ImGui::Text(u8"-> 分岐確率: %i %%", root->GetDerivChance(childNum));
-            }
-            else if (root->GetTotalDerivChance() > 0 && childNum >= depth && !open)
-            {
-                ImGui::SameLine();
-                ImGui::Text(u8"-> 分岐確率: %i %%", root->GetDerivChance(childNum));
-            }
-            // 派生技のデータを表記
-            if (root->GetDerivationData().size() > 0)
-            {
-                 ImGui::Text(u8"| 派生可能体力: %.2f", root->GetDerivationData(childNum).Health * m_BossEnemyCache->GetMaxHealth());
-                 ImGui::SameLine();
-                 ImGui::Text(u8"| 派生確率: %i %%", root->GetDerivationData(childNum).Chance);
-                 ImGui::SameLine();
-                 ImGui::Text(u8"| 派生開始時間: %.2f 割合", root->GetDerivationData(childNum).TransTimeValue);
-            }
             childNum++;
         }
         ImGui::TreePop();
     }
     ImGui::PopStyleColor(1);
-
-    return open;
 }
 
 void ImguiWindow::ClearNode()

@@ -26,6 +26,8 @@ private:
     std::string ToUtf8(const std::wstring& wstr);
     std::string GetCurrentPlayerStateName();
     std::string GetCurrentEnemyAttackParts();
+
+    int m_ShowDerivationInfo = 1;
 public:
     ImguiWindow();
     ~ImguiWindow();
@@ -33,6 +35,6 @@ public:
     void GetRootNode(Scene* scene);
     void Update(const float& deltaTime);
     void Draw();
-    bool DrawBehaviorTree(const BehaviorNode* root,const int& depth = 0);
+    void DrawBehaviorTree(const BehaviorNode* root,const BehaviorNode* parentNode = nullptr,const int& parentChildNum = 0);
     void ClearNode();
 };
