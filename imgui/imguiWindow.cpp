@@ -100,8 +100,10 @@ void ImguiWindow::Update(const float& deltaTime)
     ImGui::Text(u8"------------- エネミー -------------");
     if (m_BossEnemyCache != nullptr)
     {
-        ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
         ImGui::Text(u8"体力 :%f / %f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
+        ImGui::SameLine();
+        ImGui::Text(u8"| スタミナ :%f / %f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
+
         std::wstring atkPartsName = ToWString(GetCurrentEnemyAttackParts(), 932);
         std::string atkPartsUtf8Name = ToUtf8(atkPartsName);
         ImGui::Text(u8"攻撃判定部位 :%s", atkPartsUtf8Name.c_str());
@@ -170,9 +172,10 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
             if (root->GetDerivationData().size() > 0)
             {
                  ImGui::SameLine();
-                 ImGui::Text(u8"派生技の発生確率 : %i", root->GetDerivationData(childNum).Chance);
+                 ImGui::Text(u8"派生可能体力 : %f", root->GetDerivationData(childNum).Health * m_BossEnemyCache->GetMaxHealth());
                  ImGui::SameLine();
-                 ImGui::Text(u8"/ 派生可能体力割合 : %f", root->GetDerivationData(childNum).Health);
+                 ImGui::Text(u8"| 派生確率 : %i %%", root->GetDerivationData(childNum).Chance);
+
                  childNum++;
             }
         }
