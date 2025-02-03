@@ -61,13 +61,18 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ”ÍˆÍ‚ÌŠm”F
 	attackSelNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// UŒ‚
+	// ‹ß‹——£
 	BehaviorNode* shortAttackTask = attackSelNode->AddTaskChild<ShortRangeAttackTask>(boss, player);
 	shortAttackTask->AddTaskChild<RightPunchTask>(30,boss, player);
 	BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(70,boss, player);
 	if (leftSwiping == nullptr) return;
-	leftSwiping->AddTaskChild<RightSwipingTask>(boss, player);
+	DERIVATION leftSwipinDerivData = {0.7f,100};
+	leftSwiping->AddTaskChild<RightSwipingTask>(leftSwipinDerivData,boss, player);
+
+	// ’†‹——£
 	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
-	jumpAttack->AddTaskChild<AirLightningBallTask>(boss, player);
+	DERIVATION lightningBDerivData = { 0.75f,70 };
+	jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBDerivData,boss, player);
 	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
 	// UŒ‚•s‰Â
 	attackSelNode->AddTaskChild<DashAtThePlayerTask>(boss, player);

@@ -39,9 +39,7 @@ void TaskNode::InitSkillData(const std::string& skillName)
 	m_DamageValue = FindSkillData("攻撃_倍率");
 	m_SpeedValue = FindSkillData("速度_倍率");
 	m_UseStaminaValue = FindSkillData("消費スタミナ_割合");
-	m_DerivationHealth = FindSkillData("派生技の発生体力_割合");
 	m_DerivationTimeValue = FindSkillData("派生技移行時間_割合");
-	m_DerivationChance = FindSkillData("派生技発生_確率");
 	m_AttackEnableTimeValue = FindSkillData("ダメージ開始時間_割合");
 	m_AttackDisableTimeValue = FindSkillData("ダメージ終了時間_割合");
 	if (FindSkillData("パリィ可能_攻撃") != 0.0f)

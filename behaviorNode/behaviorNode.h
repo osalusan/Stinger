@@ -9,13 +9,22 @@ enum class NODE_STATE
     RUNNING
 };
 
+struct DERIVATION
+{
+    float Health = 0.0f;      // ”h¶‰Â”\‘Ì—Í
+    int Chance = 0;        // ”h¶‹Z”­¶Šm—¦
+};
+
 class BehaviorNode 
 {
+private:
+    std::vector<DERIVATION> m_DerivationData = {};              // ”h¶‹Z‚Ìƒf[ƒ^‚ğŠi”[ / Get‚©‚ç‚µ‚©æ“¾‚Å‚«‚È‚¢‚æ‚¤‚É
 protected:
-    std::string m_TaskName = {};    // CSV‚Ì•û‚Æ–¼‘O‚ğ“¯‚¶‚É
+    std::string m_TaskName = {};                                // CSV‚Ì•û‚Æ–¼‘O‚ğ“¯‚¶‚É
     std::vector<BehaviorNode*> m_Children = {};
     NODE_STATE m_CurrentState = NODE_STATE::FAILURE;
-    std::vector<int> m_ChildDerivChance = {};		// ”h¶‹Z‚ÌŠm—¦ / ‡Œv‚Å100‚É‚È‚é‚æ‚¤‚É
+
+    std::vector<int> m_ChildDerivChance = {};		            // ”h¶‹Z‚ÌŠm—¦ / ‡Œv‚Å100‚É‚È‚é‚æ‚¤‚É
 public:
     virtual ~BehaviorNode();
     virtual void Init() = 0;
@@ -37,10 +46,24 @@ public:
     template <typename T, typename... Args>
     BehaviorNode* AddTaskChild(int derivChance, Args&&... args)
     {
-        if (derivChance != 0)
-        {
-            m_ChildDerivChance.emplace_back(derivChance);
-        }
+        m_ChildDerivChance.emplace_back(derivChance);
+        
+        return AddTaskChild<T>(std::forward<Args>(args)...);
+    }
+
+    template <typename T, typename... Args>
+    BehaviorNode* AddTaskChild(DERIVATION derivData, Args&&... args)
+    {
+        m_DerivationData.emplace_back(derivData);
+
+        return AddTaskChild<T>(std::forward<Args>(args)...);
+    }
+
+    template <typename T, typename... Args>
+    BehaviorNode* AddTaskChild(int derivChance, DERIVATION derivData, Args&&... args)
+    {
+        m_ChildDerivChance.emplace_back(derivChance);
+        m_DerivationData.emplace_back(derivData);
 
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
@@ -70,6 +93,7 @@ public:
     {
         return m_CurrentState;
     }
+    DERIVATION GetDerivationData(const int& num)const;
     int GetTotalDerivChance()const;
     // ƒ‹[ƒgƒm[ƒh—p
     void SetTaskName(const std::string& name)

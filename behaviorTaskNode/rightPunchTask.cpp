@@ -5,7 +5,7 @@
 void RightPunchTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\mutantPunch_MawJ.fbx", "rightPunch");
-	m_TaskName = "右パンチ";
+	m_TaskName = "右高速パンチ";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;
 }

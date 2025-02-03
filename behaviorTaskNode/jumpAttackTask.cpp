@@ -45,8 +45,9 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 				m_Accel = INIT_ACCEL;
 				m_UseDerivation = false;
 				m_EnableDerivation = false;
+
 				// Šm—¦
-				if (rand() % 100 < static_cast<int>(m_DerivationChance))
+				if (rand() % 100 < GetDerivationData(0).Chance)
 				{
 					m_EnableDerivation = true;
 				}
@@ -63,7 +64,7 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	// ”h¶‹Z‚Ì”­¶Šm”F
 	if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
 	{
-		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * m_DerivationHealth)
+		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(0).Health)
 		{
 			m_UseDerivation = true;
 			m_EnableDerivation = false;
