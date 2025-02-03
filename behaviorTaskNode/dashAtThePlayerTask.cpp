@@ -30,7 +30,7 @@ NODE_STATE DashAtThePlayerTask::Update(const float& deltaTime)
 
 	m_BossCache->AddVelocity({ direction.x * moveSpeed ,0.0f,direction.z * moveSpeed });
 
-	m_BossCache->ChangeAnimation(m_AnimeName);
+	m_BossCache->ChangeAnimation(m_AnimName);
 
 	return NODE_STATE::RUNNING;
 }

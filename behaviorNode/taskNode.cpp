@@ -20,12 +20,12 @@ float TaskNode::FindSkillData(const std::string& name)
 // ---------------------------- protected ----------------------------
 void TaskNode::ReserveAnimation(const std::string& fileName, const std::string& animationName)
 {
-	m_AnimeName = animationName;
+	m_AnimName = animationName;
 
 	// TODO :追加予定 / 敵が追加されたらそのたびに追加
 	if (MawJLaygo* maw = dynamic_cast<MawJLaygo*>(m_BossCache))
 	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, fileName, m_AnimeName);
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, fileName, m_AnimName);
 	}
 }
 
@@ -148,11 +148,11 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 		return NODE_STATE();
 	}
 	// アニメーションしないタスクを一番最初にはじくように
-	if (m_AnimeName != "" && m_MaxAnimTime == 0.0f)
+	if (m_AnimName != "" && m_MaxAnimTime == 0.0f)
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossCache->GetAnimeModel()))
 		{
-			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
+			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimName);
 			m_CurrentTime = m_MaxAnimTime;
 		}
 	}

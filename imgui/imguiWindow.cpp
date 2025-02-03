@@ -1,8 +1,11 @@
+// 一番最初にインクルード
+#include "renderer/fbxModelRenderer.h"
+
 #include "imguiWindow.h"
 #include "main/main.h"
 #include "scene/scene.h"
-#include "renderer/renderer.h"
 #include "manager/objectManager.h"
+#include "manager/fbxModelManager.h"
 #include "character/bossEnemy.h"
 #include "character/player.h"
 #include "playerState/playerStateMachine.h"
@@ -187,6 +190,12 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
 
         if (parentNode != root)
         {
+            float maxAnimationTime = 0.0f;
+            if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossEnemyCache->GetAnimeModel()))
+            {
+                maxAnimationTime = model->GetMaxAnimeTime(root->GetAnimName());
+            }
+
             // 分岐確率
             if (parentNode->GetTotalDerivChance() > 0)
             {
@@ -201,10 +210,8 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                 {
                     ImGui::Text(u8"{");
                     ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
-                    //ImGui::SameLine();
                     ImGui::Text(u8"  派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
-                    //ImGui::SameLine();
-                    ImGui::Text(u8"  派生開始時間: 全体フレーム * %.2f", parentNode->GetDerivationData(parentChildNum).TransTimeValue);
+                    ImGui::Text(u8"  派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
                     ImGui::Text(u8"}");
                 }
                 else if (m_ShowDerivationInfo == 1)
@@ -214,7 +221,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                     ImGui::SameLine();
                     ImGui::Text(u8"| 派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                     ImGui::SameLine();
-                    ImGui::Text(u8"| 派生開始時間: 全体フレーム * %.2f", parentNode->GetDerivationData(parentChildNum).TransTimeValue);
+                    ImGui::Text(u8"| 派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
                     ImGui::Text(u8"}");
                 }
             }

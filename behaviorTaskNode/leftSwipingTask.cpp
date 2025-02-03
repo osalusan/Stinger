@@ -62,7 +62,7 @@ NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
 		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimeName);
+		m_BossCache->ChangeAnimation(m_AnimName);
 		// UŒ‚ó‘Ô‚ğ•Û‘¶
 		m_BossCache->SetRunningNode(this);
 		// ƒ_ƒ[ƒW”­¶

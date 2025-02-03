@@ -88,7 +88,7 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
 		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimeName);
+		m_BossCache->ChangeAnimation(m_AnimName);
 		// ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
 

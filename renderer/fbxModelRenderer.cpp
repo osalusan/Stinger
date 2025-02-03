@@ -361,9 +361,11 @@ void FbxModelRenderer::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	}
 }
 
-float FbxModelRenderer::GetMaxAnimeTime(const std::string& name)
+float FbxModelRenderer::GetMaxAnimeTime(const std::string& name)const
 {
-	aiAnimation* animation = m_Animation[name.c_str()]->mAnimations[0];
+	if (m_Animation.count(name.c_str()) <= 0) return 0.0f;
+
+	aiAnimation* animation = m_Animation.at(name.c_str())->mAnimations[0];
 	const float& ticksPerSecond = static_cast<float>(animation->mTicksPerSecond);
 	return static_cast<float>(animation->mDuration / ticksPerSecond);
 }

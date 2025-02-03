@@ -36,7 +36,7 @@ NODE_STATE LoadIdleTask::Update(const float& deltaTime)
 		m_BossCache->RotToTarget(m_CameraCache,deltaTime);
 	}
 
-	m_BossCache->ChangeAnimation(m_AnimeName);
+	m_BossCache->ChangeAnimation(m_AnimName);
 
 	return NODE_STATE::SUCCESS;
 }

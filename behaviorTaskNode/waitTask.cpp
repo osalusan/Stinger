@@ -43,7 +43,7 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 	if (m_CurrentTime < m_BossCache->GetMaxWaitTime() * m_WaitValue)
 	{
 		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimeName);
+		m_BossCache->ChangeAnimation(m_AnimName);
 		// スタミナ回復
 		m_BossCache->UseStamina(-deltaTime * 0.5f);
 		// 状態を保存

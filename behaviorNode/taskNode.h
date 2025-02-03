@@ -18,7 +18,6 @@ protected:
 
 	float m_CurrentTime = 0.0f;
 	float m_MaxAnimTime = 0.0f;
-	std::string m_AnimeName = "";
 
 	bool m_UseDerivation = false;					// ”h¶‹Z‚Ì‰Šúİ’è‚ğ‚µ‚½‚©
 	bool m_EnableDerivation = false;				// ”h¶‹Z‚ªg‚¦‚é‚©

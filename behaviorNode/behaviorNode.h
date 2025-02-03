@@ -20,13 +20,14 @@ struct DERIVATION_DATA
 class BehaviorNode 
 {
 private:
-    std::vector<DERIVATION_DATA> m_DerivationData = {};              // ”h¶‹Z‚Ìƒf[ƒ^‚ğŠi”[ / Get‚©‚ç‚µ‚©æ“¾‚Å‚«‚È‚¢‚æ‚¤‚É
+    std::vector<DERIVATION_DATA> m_DerivationData = {};             // ”h¶‹Z‚Ìƒf[ƒ^‚ğŠi”[ / Get‚©‚ç‚µ‚©æ“¾‚Å‚«‚È‚¢‚æ‚¤‚É
 protected:
-    std::string m_TaskName = {};                                // CSV‚Ì•û‚Æ–¼‘O‚ğ“¯‚¶‚É
+    std::string m_TaskName = {};                                    // CSV‚Ì•û‚Æ–¼‘O‚ğ“¯‚¶‚É
     std::vector<BehaviorNode*> m_Children = {};
     NODE_STATE m_CurrentState = NODE_STATE::FAILURE;
 
-    std::vector<int> m_ChildDerivChance = {};		            // ”h¶‹Z‚ÌŠm—¦ / ‡Œv‚Å100‚É‚È‚é‚æ‚¤‚É
+    std::vector<int> m_ChildDerivChance = {};		                // ”h¶‹Z‚ÌŠm—¦ / ‡Œv‚Å100‚É‚È‚é‚æ‚¤‚É
+    std::string m_AnimName = "";
 public:
     virtual ~BehaviorNode();
     virtual void Init() = 0;
@@ -94,6 +95,10 @@ public:
     const NODE_STATE& GetNodeState()const
     {
         return m_CurrentState;
+    }
+    const std::string& GetAnimName()const
+    {
+        return m_AnimName;
     }
     DERIVATION_DATA GetDerivationData(const int& num)const;
 
