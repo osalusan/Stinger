@@ -37,7 +37,12 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	rootNode->AddTaskChild<BackJumpTask>(boss, player);
+
+	// ▼デバッグ用▼
+
+	// rootNode->AddTaskChild<BackJumpTask>(boss, player);
+
+	// ▲デバッグ用▲
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
@@ -64,13 +69,21 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// 範囲の確認
 	attackSelNode->AddTaskChild<CheckRangeTask>(boss, player);
 	// 攻撃
+	
 	// 近距離
-	BehaviorNode* shortAttackTask = attackSelNode->AddTaskChild<ShortRangeAttackTask>(boss, player);
-	shortAttackTask->AddTaskChild<RightPunchTask>(30,boss, player);
-	BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(70,boss, player);
-	if (leftSwiping == nullptr) return;
-	DERIVATION_DATA leftSwipinDerivData = {0.7f,100};
-	leftSwiping->AddTaskChild<RightSwipingTask>(leftSwipinDerivData,boss, player);
+	if (BehaviorNode* shortAttackTask = attackSelNode->AddTaskChild<ShortRangeAttackTask>(boss, player))
+	{
+		shortAttackTask->AddTaskChild<RightPunchTask>(25, boss, player);
+		shortAttackTask->AddTaskChild<BackJumpTask>(10,boss, player);
+		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(65, boss, player))
+		{
+			DERIVATION_DATA derivToRightSwiping = { 0.7f,100 };
+			DERIVATION_DATA derivToBackJump = { 0.7f,100 };
+
+			leftSwiping->AddTaskChild<RightSwipingTask>(derivToRightSwiping,80 ,boss, player);
+			leftSwiping->AddTaskChild<BackJumpTask>(derivToBackJump,20, boss, player);
+		}
+	}
 
 	// 中距離
 	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);

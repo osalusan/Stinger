@@ -39,18 +39,22 @@ NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
 	// 派生技の発生確認
 	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
 	{
-		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(0).Health)
+		if (DerivationChance() >= 0)
 		{
-			m_UseDerivation = true;
-			m_CurrentTime = m_MaxAnimTime;
-			m_BossCache->SetRunningNode(nullptr);
+			if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			{
+				m_UseDerivation = true;
+				m_CurrentTime = m_MaxAnimTime;
+				m_BossCache->SetRunningNode(nullptr);
+			}
 		}
 	}
 
 	// 派生技の発生確認後に配置
 	if (m_UseDerivation)
 	{
-		return UpdateChildren(deltaTime);
+		// 一つのタスクのみ更新
+		return UpdateUseDerivationTask(deltaTime);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
