@@ -11,8 +11,9 @@ enum class NODE_STATE
 
 struct DERIVATION_DATA
 {
-    float Health = 0.0f;      // ”h¶‰Â”\‘Ì—Í
-    int Chance = 0;        // ”h¶‹Z”­¶Šm—¦
+    float Health = 0.0f;                 // ”h¶‰Â”\‘Ì—Í
+    int Chance = 0;                      // ”h¶‹Z”­¶Šm—¦
+    float TransTimeValue = 0.0f;	     // ”h¶ˆÚsŠÔŠ„‡
 };
 
 class BehaviorNode 

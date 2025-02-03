@@ -85,7 +85,7 @@ void ImguiWindow::Update(const float& deltaTime)
     ImGui::Text(u8"------------- プレイヤー -------------");
     if (m_PlayerCache != nullptr)
     {
-        ImGui::Text(u8"体力 :%f / %f", m_PlayerCache->GetHealth(), m_PlayerCache->GetMaxHealth());
+        ImGui::Text(u8"体力 :%.3f / %.3f", m_PlayerCache->GetHealth(), m_PlayerCache->GetMaxHealth());
     }
     if (m_PlayerStateMachineCache != nullptr)
     {
@@ -100,9 +100,9 @@ void ImguiWindow::Update(const float& deltaTime)
     ImGui::Text(u8"------------- エネミー -------------");
     if (m_BossEnemyCache != nullptr)
     {
-        ImGui::Text(u8"体力 :%f / %f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
+        ImGui::Text(u8"体力 :%.3f / %.3f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
         ImGui::SameLine();
-        ImGui::Text(u8"| スタミナ :%f / %f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
+        ImGui::Text(u8"| スタミナ :%.3f / %.3f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
 
         std::wstring atkPartsName = ToWString(GetCurrentEnemyAttackParts(), 932);
         std::string atkPartsUtf8Name = ToUtf8(atkPartsName);
@@ -172,9 +172,11 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
             if (root->GetDerivationData().size() > 0)
             {
                  ImGui::SameLine();
-                 ImGui::Text(u8"派生可能体力 : %f", root->GetDerivationData(childNum).Health * m_BossEnemyCache->GetMaxHealth());
+                 ImGui::Text(u8"| 派生可能体力: %.2f", root->GetDerivationData(childNum).Health * m_BossEnemyCache->GetMaxHealth());
                  ImGui::SameLine();
-                 ImGui::Text(u8"| 派生確率 : %i %%", root->GetDerivationData(childNum).Chance);
+                 ImGui::Text(u8"| 派生確率: %i %%", root->GetDerivationData(childNum).Chance);
+                 ImGui::SameLine();
+                 ImGui::Text(u8"| 派生開始時間: %.2f 割合", root->GetDerivationData(childNum).TransTimeValue);
 
                  childNum++;
             }

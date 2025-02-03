@@ -33,15 +33,17 @@ NODE_STATE LeftSwipingTask::Update(const float& deltaTime)
 			m_UseDerivation = false;
 			m_CurrentTime = 0.0f;
 			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
+			// ”h¶‹ZU‚è•ª‚¯
+			DerivationChance();
 		}
 	}
 
 	// ”h¶‹Z‚Ì”­¶Šm”F
-	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
+	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
 	{
-		if (DerivationChance() >= 0)
+		if (GetDerivationData().size() > 0)
 		{
-			if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
 			{
 				m_UseDerivation = true;
 				m_CurrentTime = m_MaxAnimTime;

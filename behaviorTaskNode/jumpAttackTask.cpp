@@ -46,8 +46,11 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 				m_UseDerivation = false;
 				m_EnableDerivation = false;
 
+				// ”h¶‹ZU‚è•ª‚¯
+				DerivationChance();
+
 				// Šm—¦
-				if (rand() % 100 < GetDerivationData(0).Chance)
+				if (rand() % 100 < GetDerivationData(m_UseDerivNumber).Chance)
 				{
 					m_EnableDerivation = true;
 				}
@@ -62,21 +65,24 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	}
 
 	// ”h¶‹Z‚Ì”­¶Šm”F
-	if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * m_DerivationTimeValue)
+	if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
 	{
-		if (m_Children.size() != 0 && m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(0).Health)
+		if (DerivationChance() >= 0)
 		{
-			m_UseDerivation = true;
-			m_EnableDerivation = false;
-			m_CurrentTime = m_MaxAnimTime;
-			m_BossCache->SetRunningNode(nullptr);
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			{
+				m_UseDerivation = true;
+				m_EnableDerivation = false;
+				m_CurrentTime = m_MaxAnimTime;
+				m_BossCache->SetRunningNode(nullptr);
+			}
 		}
 	}
 
 	// ”h¶‹Z‚Ì”­¶Šm”FŒã‚É”z’u
 	if (m_UseDerivation)
 	{
-		return UpdateChildren(deltaTime);
+		return UpdateUseDerivationTask(deltaTime);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)

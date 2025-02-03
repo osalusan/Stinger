@@ -28,7 +28,6 @@ protected:
 	float m_DamageValue = 0.0f;						// ダメージ倍率
 	float m_SpeedValue = 0.0f;						// 速度倍率
 	float m_UseStaminaValue = 0.0f;					// 使用スタミナ倍率
-	float m_DerivationTimeValue = 0.0f;				// 派生移行時間割合
 	float m_AttackEnableTimeValue = 0.0f;			// 攻撃判定開始時間
 	float m_AttackDisableTimeValue = 1.0f;			// 攻撃判定終了時間
 	float m_BulletSpeed = 0.0f;						// 弾速

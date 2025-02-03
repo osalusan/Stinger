@@ -77,8 +77,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 		shortAttackTask->AddTaskChild<BackJumpTask>(10,boss, player);
 		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(65, boss, player))
 		{
-			DERIVATION_DATA derivToRightSwiping = { 0.7f,100 };
-			DERIVATION_DATA derivToBackJump = { 0.7f,100 };
+			DERIVATION_DATA derivToRightSwiping = { 0.7f,100,0.7f };
+			DERIVATION_DATA derivToBackJump = { 0.7f,100,0.2f };
 
 			leftSwiping->AddTaskChild<RightSwipingTask>(derivToRightSwiping,80 ,boss, player);
 			leftSwiping->AddTaskChild<BackJumpTask>(derivToBackJump,20, boss, player);
@@ -87,7 +87,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ’†‹——£
 	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
-	DERIVATION_DATA lightningBDerivData = { 0.75f,70 };
+	DERIVATION_DATA lightningBDerivData = { 0.75f,70 ,0.3f};
 	jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBDerivData,boss, player);
 	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
 	// UŒ‚•s‰Â

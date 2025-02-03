@@ -3,7 +3,7 @@
 #include "character/bossEnemy.h"
 
 // アニメーションに合わせる
-constexpr float MOVE_MIN_TIME_VALUE = 0.4;
+constexpr float MOVE_MIN_TIME_VALUE = 0.4f;
 constexpr float MOVE_MAX_TIME_VALUE = 0.75f;
 
 void BackJumpTask::Init()
