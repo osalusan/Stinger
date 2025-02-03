@@ -29,13 +29,13 @@ bool BehaviorNode::CheckRunningNode(BehaviorNode* currentNode)
 	return false;
 }
 
-DERIVATION BehaviorNode::GetDerivationData(const int& num) const
+DERIVATION_DATA BehaviorNode::GetDerivationData(const int& num) const
 {
 	if (m_DerivationData.size() > num)
 	{
 		return m_DerivationData[num];
 	}
-	return DERIVATION();
+	return DERIVATION_DATA();
 }
 
 int BehaviorNode::GetTotalDerivChance() const

@@ -9,7 +9,7 @@ enum class NODE_STATE
     RUNNING
 };
 
-struct DERIVATION
+struct DERIVATION_DATA
 {
     float Health = 0.0f;      // ”h¶‰Â”\‘Ì—Í
     int Chance = 0;        // ”h¶‹Z”­¶Šm—¦
@@ -18,7 +18,7 @@ struct DERIVATION
 class BehaviorNode 
 {
 private:
-    std::vector<DERIVATION> m_DerivationData = {};              // ”h¶‹Z‚Ìƒf[ƒ^‚ğŠi”[ / Get‚©‚ç‚µ‚©æ“¾‚Å‚«‚È‚¢‚æ‚¤‚É
+    std::vector<DERIVATION_DATA> m_DerivationData = {};              // ”h¶‹Z‚Ìƒf[ƒ^‚ğŠi”[ / Get‚©‚ç‚µ‚©æ“¾‚Å‚«‚È‚¢‚æ‚¤‚É
 protected:
     std::string m_TaskName = {};                                // CSV‚Ì•û‚Æ–¼‘O‚ğ“¯‚¶‚É
     std::vector<BehaviorNode*> m_Children = {};
@@ -52,7 +52,7 @@ public:
     }
 
     template <typename T, typename... Args>
-    BehaviorNode* AddTaskChild(DERIVATION derivData, Args&&... args)
+    BehaviorNode* AddTaskChild(DERIVATION_DATA derivData, Args&&... args)
     {
         m_DerivationData.emplace_back(derivData);
 
@@ -60,7 +60,7 @@ public:
     }
 
     template <typename T, typename... Args>
-    BehaviorNode* AddTaskChild(int derivChance, DERIVATION derivData, Args&&... args)
+    BehaviorNode* AddTaskChild(int derivChance, DERIVATION_DATA derivData, Args&&... args)
     {
         m_ChildDerivChance.emplace_back(derivChance);
         m_DerivationData.emplace_back(derivData);
@@ -93,7 +93,14 @@ public:
     {
         return m_CurrentState;
     }
-    DERIVATION GetDerivationData(const int& num)const;
+    DERIVATION_DATA GetDerivationData(const int& num)const;
+
+    const std::vector<DERIVATION_DATA>& GetDerivationData()const
+    {
+        return m_DerivationData;
+    }
+
+
     int GetTotalDerivChance()const;
     // ƒ‹[ƒgƒm[ƒh—p
     void SetTaskName(const std::string& name)

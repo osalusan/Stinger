@@ -161,9 +161,20 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::TreeNode(utf8Name.c_str()))
     {
+        int childNum = 0;
         for (const BehaviorNode* child : root->GetChildren())
         {
             DrawBehaviorTree(child);
+
+            // ”h¶‹Z‚Ìƒf[ƒ^‚ð•\‹L
+            if (root->GetDerivationData().size() > 0)
+            {
+                 ImGui::SameLine();
+                 ImGui::Text(u8"”h¶‹Z‚Ì”­¶Šm—¦ : %i", root->GetDerivationData(childNum).Chance);
+                 ImGui::SameLine();
+                 ImGui::Text(u8"/ ”h¶‰Â”\‘Ì—ÍŠ„‡ : %f", root->GetDerivationData(childNum).Health);
+                 childNum++;
+            }
         }
         ImGui::TreePop();
     }
