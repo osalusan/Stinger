@@ -19,6 +19,7 @@ public:
 void NoNameTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\‚È‚Ü‚¦.fbx", " ");
+	m_TaskName = " ";
 }
 
 NODE_STATE NoNameTask::Update(const float& deltaTime)

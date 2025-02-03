@@ -24,6 +24,7 @@
     <ClCompile Include="behaviorNode\sequenceNode.cpp" />
     <ClCompile Include="behaviorNode\taskNode.cpp" />
     <ClCompile Include="behaviorTaskNode\airLightningBallTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\backJumpTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkAttackParry.cpp" />
     <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="behaviorNode\sequenceNode.h" />
     <ClInclude Include="behaviorNode\taskNode.h" />
     <ClInclude Include="behaviorTaskNode\airLightningBallTask.h" />
+    <ClInclude Include="behaviorTaskNode\backJumpTask.h" />
     <ClInclude Include="behaviorTaskNode\checkAttackParry.h" />
     <ClInclude Include="behaviorTaskNode\checkHealthTask.h" />
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />

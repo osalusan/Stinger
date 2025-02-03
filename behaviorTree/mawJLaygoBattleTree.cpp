@@ -20,6 +20,7 @@
 #include "behaviorTaskNode/airLightningBallTask.h"
 #include "behaviorTaskNode/rightPunchTask.h"
 #include "behaviorTaskNode/shortRangeAttackTask.h"
+#include "behaviorTaskNode/backJumpTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -35,6 +36,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
+
+	rootNode->AddTaskChild<BackJumpTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
