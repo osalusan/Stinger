@@ -191,7 +191,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
             if (parentNode->GetTotalDerivChance() > 0)
             {
                 ImGui::SameLine();
-                ImGui::Text(u8"== 分岐確率: %i %%", parentNode->GetDerivChance(parentChildNum));
+                ImGui::Text(u8"(分岐確率: %i %%)", parentNode->GetDerivChance(parentChildNum));
             }
 
             // 派生技のデータを表記
@@ -202,7 +202,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                     ImGui::Text(u8"{");
                     ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
                     //ImGui::SameLine();
-                    ImGui::Text(u8"  派生確率: %i %%", parentNode->GetDerivationData(parentChildNum).Chance);
+                    ImGui::Text(u8"  派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                     //ImGui::SameLine();
                     ImGui::Text(u8"  派生開始時間: 全体フレーム * %.2f", parentNode->GetDerivationData(parentChildNum).TransTimeValue);
                     ImGui::Text(u8"}");
@@ -212,7 +212,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                     ImGui::Text(u8"{");
                     ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
                     ImGui::SameLine();
-                    ImGui::Text(u8"| 派生確率: %i %%", parentNode->GetDerivationData(parentChildNum).Chance);
+                    ImGui::Text(u8"| 派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                     ImGui::SameLine();
                     ImGui::Text(u8"| 派生開始時間: 全体フレーム * %.2f", parentNode->GetDerivationData(parentChildNum).TransTimeValue);
                     ImGui::Text(u8"}");
