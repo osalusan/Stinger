@@ -65,9 +65,9 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	}
 
 	// ”h¶‹Z‚Ì”­¶Šm”F
-	if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
+	if (GetDerivationData().size() > 0)
 	{
-		if (DerivationChance() >= 0)
+		if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
 		{
 			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
 			{
