@@ -33,6 +33,6 @@ public:
     void GetRootNode(Scene* scene);
     void Update(const float& deltaTime);
     void Draw();
-    void DrawBehaviorTree(const BehaviorNode* root);
+    bool DrawBehaviorTree(const BehaviorNode* root,const int& depth = 0);
     void ClearNode();
 };

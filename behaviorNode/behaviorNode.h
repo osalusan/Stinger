@@ -103,6 +103,7 @@ public:
 
 
     int GetTotalDerivChance()const;
+    int GetDerivChance(const int& num)const;
     // ルートノード用
     void SetTaskName(const std::string& name)
     {

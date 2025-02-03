@@ -49,3 +49,12 @@ int BehaviorNode::GetTotalDerivChance() const
 
 	return totalValue;
 }
+
+int BehaviorNode::GetDerivChance(const int& num) const
+{
+	if (m_ChildDerivChance.size() > num)
+	{
+		return m_ChildDerivChance[num];
+	}
+	return -1;
+}

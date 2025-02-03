@@ -131,9 +131,9 @@ void ImguiWindow::Draw()
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // 実行
 }
 
-void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
+bool ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const int& depth)
 {
-    if (root == nullptr) return;
+    if (root == nullptr) return false;
     std::string name = root->GetTaskName().c_str();
     if (name == "")
     {
@@ -159,31 +159,43 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // 文字色
     }
 
-    
+    bool open = false;
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::TreeNode(utf8Name.c_str()))
     {
         int childNum = 0;
+        open = true;
         for (const BehaviorNode* child : root->GetChildren())
         {
-            DrawBehaviorTree(child);
+            open = DrawBehaviorTree(child, depth + 1);
 
+            // 分岐確率
+            if (root->GetTotalDerivChance() > 0 && childNum < depth)
+            {
+                ImGui::SameLine();
+                ImGui::Text(u8"-> 分岐確率: %i %%", root->GetDerivChance(childNum));
+            }
+            else if (root->GetTotalDerivChance() > 0 && childNum >= depth && !open)
+            {
+                ImGui::SameLine();
+                ImGui::Text(u8"-> 分岐確率: %i %%", root->GetDerivChance(childNum));
+            }
             // 派生技のデータを表記
             if (root->GetDerivationData().size() > 0)
             {
-                 ImGui::SameLine();
                  ImGui::Text(u8"| 派生可能体力: %.2f", root->GetDerivationData(childNum).Health * m_BossEnemyCache->GetMaxHealth());
                  ImGui::SameLine();
                  ImGui::Text(u8"| 派生確率: %i %%", root->GetDerivationData(childNum).Chance);
                  ImGui::SameLine();
                  ImGui::Text(u8"| 派生開始時間: %.2f 割合", root->GetDerivationData(childNum).TransTimeValue);
-
-                 childNum++;
             }
+            childNum++;
         }
         ImGui::TreePop();
     }
     ImGui::PopStyleColor(1);
+
+    return open;
 }
 
 void ImguiWindow::ClearNode()
