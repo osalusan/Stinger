@@ -38,6 +38,8 @@ void BossEnemy::MoveControl(const float& deltaTime)
 	{
 		TakeDamage(1);
 	}
+
+	CheckWorldWallPos();
 }
 
 void BossEnemy::ParameterControl(const float& deltaTime)

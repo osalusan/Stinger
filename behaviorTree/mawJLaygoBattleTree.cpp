@@ -37,13 +37,6 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-
-	// ▼デバッグ用▼
-
-	// rootNode->AddTaskChild<BackJumpTask>(boss, player);
-
-	// ▲デバッグ用▲
-
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
 
@@ -60,6 +53,19 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	if (ceckParry == nullptr) return;
 	// パリィされた
 	ceckParry->AddTaskChild<ParryRecoilTask>(boss, player);
+
+
+	// ▼デバッグ用▼
+	
+	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
+	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
+	//BehaviorNode* debug2 = debug1->AddTaskChild<AirLightningBallTask>(deb,boss, player);
+	//BehaviorNode* debug3 = debug2->AddTaskChild<AirLightningBallTask>(deb,boss, player);
+	//DERIVATION_DATA derivToBackJump = { 1.0f,100,0.2f };
+	//debug3->AddTaskChild<JumpAttackTask>(derivToBackJump, boss, player);
+
+	// ▲デバッグ用▲
+
 
 	BehaviorNode* attackSelNode = rootNode->AddNodeChild<SelectorNode>("攻撃管理セレクター");
 	if (attackSelNode == nullptr) return;
@@ -83,7 +89,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 			leftSwiping->AddTaskChild<RightSwipingTask>(derivToRightSwiping, 80, boss, player);
 			if (BehaviorNode* backJump = leftSwiping->AddTaskChild<BackJumpTask>(derivToBackJump, 20, boss, player))
 			{
-				DERIVATION_DATA lightningBDerivData = { 0.5f, 50 ,0.9f };
+				DERIVATION_DATA lightningBDerivData = { 0.5f, 50 ,0.85f };
 				backJump->AddTaskChild<AirLightningBallTask>(lightningBDerivData, boss, player);
 			}
 		}

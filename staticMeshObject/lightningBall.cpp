@@ -137,3 +137,11 @@ void LightningBall::Attack(const XMFLOAT3& shotPos,const float& damage)
 	if (m_LightningBallEffCache == nullptr) return;
 	m_LightningBallEffCache->UseBillboard();
 }
+
+void LightningBall::KeepPos(const XMFLOAT3& shotPos)
+{
+	m_Position = shotPos;
+
+	if (m_LightningBallEffCache == nullptr) return;
+	m_LightningBallEffCache->UseBillboard();
+}

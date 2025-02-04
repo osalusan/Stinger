@@ -30,6 +30,38 @@ NODE_STATE BackJumpTask::Update(const float& deltaTime)
 	if (node == nullptr)
 	{
 		m_CurrentTime = 0.0f;
+		m_UseDerivation = false;
+		m_EnableDerivation = false;
+
+		// ”h¶‹ZU‚è•ª‚¯
+		DerivationChance();
+
+		// Šm—¦
+		if (rand() % 100 < GetDerivationData(m_UseDerivNumber).Chance)
+		{
+			m_EnableDerivation = true;
+		}
+	}
+
+	// ”h¶‹Z‚Ì”­¶Šm”F
+	if (GetDerivationData().size() > 0)
+	{
+		if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
+		{
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			{
+				m_UseDerivation = true;
+				m_EnableDerivation = false;
+				m_CurrentTime = m_MaxAnimTime;
+				m_BossCache->SetRunningNode(nullptr);
+			}
+		}
+	}
+
+	// ”h¶‹Z‚Ì”­¶Šm”FŒã‚É”z’u
+	if (m_UseDerivation)
+	{
+		return UpdateUseDerivationTask(deltaTime);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)

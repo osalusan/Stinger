@@ -34,7 +34,7 @@ NODE_STATE AirLightningBallTask::Update(const float& deltaTime)
 	}
 
 	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (node != nullptr && node != this)
+	if (!CheckRunningNode(node))
 	{
 		return NODE_STATE::FAILURE;
 	}
@@ -43,7 +43,30 @@ NODE_STATE AirLightningBallTask::Update(const float& deltaTime)
 	if (node == nullptr)
 	{
 		m_SpawnBall = false;
+		m_UseDerivation = false;
 		m_CurrentTime = 0.0f;
+		DerivationChance();
+	}
+
+	// 派生技の発生確認
+	if (!m_UseDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
+	{
+		if (GetDerivationData().size() > 0)
+		{
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			{
+				m_UseDerivation = true;
+				m_CurrentTime = m_MaxAnimTime;
+				m_BossCache->SetRunningNode(nullptr);
+			}
+		}
+	}
+
+	// 派生技の発生確認後に配置
+	if (m_UseDerivation)
+	{
+		// 一つのタスクのみ更新
+		return UpdateUseDerivationTask(deltaTime);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)

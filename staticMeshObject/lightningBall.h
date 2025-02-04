@@ -19,4 +19,5 @@ public:
 	LightningBall() = delete;
 	LightningBall(const GameObject* target,const float& speed);
 	void Attack(const XMFLOAT3& shotPos, const float& damage);
+	void KeepPos(const XMFLOAT3& shotPos);
 };
