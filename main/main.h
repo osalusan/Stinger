@@ -41,3 +41,4 @@ using namespace DirectX;
 
 HWND GetWindow();
 int GetRandom(); // +‚Æ-‚ª‚Ç‚¿‚ç‚à”­¶‚·‚é
+bool GetWindowActive();

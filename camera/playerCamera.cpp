@@ -91,10 +91,13 @@ void PlayerCamera::Update(const float& deltaTime)
 	if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE || 
 		m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
 	{
-		SetCursorPos(CENTER.x, CENTER.y);
-		GetCursorPos(&MousePos);
-		m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
-		m_OldMousePos = m_MousePos;
+		if (GetWindowActive())
+		{
+			SetCursorPos(CENTER.x, CENTER.y);
+			GetCursorPos(&MousePos);
+			m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
+			m_OldMousePos = m_MousePos;
+		}
 	}
 #endif // _DEBUG
 
