@@ -57,12 +57,12 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
-	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
-	//BehaviorNode* debug2 = debug1->AddTaskChild<AirLightningBallTask>(deb,boss, player);
-	//BehaviorNode* debug3 = debug2->AddTaskChild<AirLightningBallTask>(deb,boss, player);
-	//DERIVATION_DATA derivToBackJump = { 1.0f,100,0.2f };
-	//debug3->AddTaskChild<JumpAttackTask>(derivToBackJump, boss, player);
+	DERIVATION_DATA deb = { 1.0f,100,1.0f };
+	BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
+	BehaviorNode* debug2 = debug1->AddTaskChild<AirLightningBallTask>(deb,boss, player);
+	BehaviorNode* debug3 = debug2->AddTaskChild<AirLightningBallTask>(deb,boss, player);
+	DERIVATION_DATA derivToBackJump = { 1.0f,100,0.2f };
+	debug3->AddTaskChild<JumpAttackTask>(derivToBackJump, boss, player);
 
 	// ▲デバッグ用▲
 

@@ -73,6 +73,9 @@
     <Filter Include="billboard">
       <UniqueIdentifier>{b96b79ae-fd68-4f5b-af23-5024385e37c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enemyAttackObject">
+      <UniqueIdentifier>{3b69d76c-75ed-4ace-b773-50e46309fdb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -315,9 +318,6 @@
     <ClCompile Include="behaviorTaskNode\airLightningBallTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="staticMeshObject\lightningBall.cpp">
-      <Filter>staticMeshObject</Filter>
-    </ClCompile>
     <ClCompile Include="billboard\billboard.cpp">
       <Filter>billboard</Filter>
     </ClCompile>
@@ -332,6 +332,12 @@
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\backJumpTask.cpp">
       <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAttackObject\lightningBall.cpp">
+      <Filter>enemyAttackObject</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAttackObject\enemyAttackObject.cpp">
+      <Filter>enemyAttackObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -584,9 +590,6 @@
     <ClInclude Include="behaviorTaskNode\airLightningBallTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="staticMeshObject\lightningBall.h">
-      <Filter>staticMeshObject</Filter>
-    </ClInclude>
     <ClInclude Include="billboard\billboard.h">
       <Filter>billboard</Filter>
     </ClInclude>
@@ -601,6 +604,12 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\backJumpTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAttackObject\lightningBall.h">
+      <Filter>enemyAttackObject</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAttackObject\enemyAttackObject.h">
+      <Filter>enemyAttackObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

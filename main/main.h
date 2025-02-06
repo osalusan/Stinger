@@ -28,10 +28,10 @@ using namespace DirectX;
 #pragma comment (lib, "winmm.lib")
 
 #if _DEBUG
-//#define SCREEN_WIDTH	(1280)
-//#define SCREEN_HEIGHT	(720)
-#define SCREEN_WIDTH	(1920)
-#define SCREEN_HEIGHT	(1080)
+#define SCREEN_WIDTH	(1280)
+#define SCREEN_HEIGHT	(720)
+//#define SCREEN_WIDTH	(1920)
+//#define SCREEN_HEIGHT	(1080)
 #else
 #define SCREEN_WIDTH	(1920)
 #define SCREEN_HEIGHT	(1080)

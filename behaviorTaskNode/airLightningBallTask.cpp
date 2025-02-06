@@ -4,7 +4,7 @@
 #include "scene/scene.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
-#include "staticMeshObject/lightningBall.h"
+#include "enemyAttackObject/lightningBall.h"
 
 constexpr float SPAWN_LIGHTNINGBALL_VALUE = 0.37f;
 
