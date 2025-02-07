@@ -83,7 +83,11 @@ void AudioManager::LoadAudio(const AUDIO& audio,const char *FileName)
 
 		if (mmckinfo.cksize >= sizeof(WAVEFORMATEX))
 		{
-			mmioRead(hmmio, (HPSTR)&wfx, sizeof(wfx));
+			BYTE* pFormatData = new BYTE[mmckinfo.cksize];
+			if (pFormatData == nullptr) return;
+			mmioRead(hmmio, (HPSTR)pFormatData, mmckinfo.cksize);
+			memcpy(&wfx, pFormatData, sizeof(WAVEFORMATEX)); 
+			delete[] pFormatData;
 		}
 		else
 		{
@@ -93,12 +97,11 @@ void AudioManager::LoadAudio(const AUDIO& audio,const char *FileName)
 			memcpy(&wfx, &pcmwf, sizeof(pcmwf));
 			wfx.cbSize = 0;
 		}
+
 		mmioAscend(hmmio, &mmckinfo, 0);
 
 		datachunkinfo.ckid = mmioFOURCC('d', 'a', 't', 'a');
 		mmioDescend(hmmio, &datachunkinfo, &riffchunkinfo, MMIO_FINDCHUNK);
-
-
 
 		buflen = datachunkinfo.cksize;
 		audioData->s_SoundData = new unsigned char[buflen];
@@ -188,8 +191,7 @@ void AudioManager::Play(const AUDIO& audio, const bool& Loop, const float& volum
 
 	sourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
 
-
-	float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
+	float outputMatrix[4] = { 1.0f , 0.0f, 0.0f , 1.0f };
 	sourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
 	sourceVoice->SetVolume(MASTER_VOLUME * volume);
 
@@ -198,5 +200,16 @@ void AudioManager::Play(const AUDIO& audio, const bool& Loop, const float& volum
 
 }
 
+void AudioManager::Finish(const AUDIO& audio)
+{
+	if (m_LoadAudioPool.count(audio) <= 0) return;
+	AUDIO_DATA* audioData = m_LoadAudioPool.at(audio);
+	if (audioData == nullptr) return;
+	IXAudio2SourceVoice* sourceVoice = audioData->s_SourceVoice;
+	if (sourceVoice == nullptr) return;
+	BYTE* soundData = audioData->s_SoundData;
+	if (soundData == nullptr) return;
 
-
+	sourceVoice->Stop();
+	sourceVoice->FlushSourceBuffers();
+}
