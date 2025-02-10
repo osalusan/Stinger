@@ -13,18 +13,25 @@ bool EnemyAttackObject::CollisionControl()
 
 		player->TakeDamage(m_Damage);
 
-		m_Enable = false;
+		Finish();
 
 		return true;
 	}
+	return false;
+}
+
+void EnemyAttackObject::Finish()
+{
+	m_Enable = false;
+	m_IsAttack = false;
 }
 
 // ---------------------------- public ----------------------------
-
-EnemyAttackObject::EnemyAttackObject()
+EnemyAttackObject::EnemyAttackObject(const GameObject* target)
 {
 	m_Enable = false;
 	m_BoxCollCache = AddComponent<BoxCollisionComponent>(this, COLLISION_TAG::ENEMY_ATTACK);
+	m_TargetObject = target;
 }
 
 void EnemyAttackObject::Update(const float& deltaTime)
@@ -41,13 +48,12 @@ void EnemyAttackObject::Update(const float& deltaTime)
 	CollisionControl();
 }
 
-void EnemyAttackObject::Attack(const XMFLOAT3& shotPos, const float& damage)
+void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage)
 {
 	m_Position = shotPos;
-	m_IsAttack = true;
 	m_Enable = true;
+	m_IsAttack = true;
 	m_Damage = damage;
-
 	if (m_BoxCollCache != nullptr)
 	{
 		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());

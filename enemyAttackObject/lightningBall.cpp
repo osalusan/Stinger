@@ -12,7 +12,7 @@ constexpr XMFLOAT3 DEFALUT_SCALE = { 3.0f,3.0f,3.0f };
 
 void LightningBall::MoveControl(const float& deltaTime)
 {
-	if (!m_IsAttack || m_TargetObject == nullptr) return;
+	if (!m_IsHoming || m_TargetObject == nullptr) return;
 
 	const XMFLOAT3& targetPos = m_TargetObject->GetPos();
 
@@ -92,11 +92,19 @@ bool LightningBall::CollisionControl()
 	{
 		if (m_LightningBallEffCache == nullptr) return false;
 		m_LightningBallEffCache->SetEnable(false);
+		m_IsHoming = false;
 	}
+	return false;
+}
 
+void LightningBall::Finish()
+{
+	EnemyAttackObject::Finish();
+	m_Rotation = {};
 }
 
 LightningBall::LightningBall(const GameObject* target, const float& speed)
+	:EnemyAttackObject(target)
 {
 	m_Scale = DEFALUT_SCALE;
 	m_TargetObject = target;
@@ -113,19 +121,61 @@ LightningBall::LightningBall(const GameObject* target, const float& speed)
 	}
 }
 
-void LightningBall::Attack(const XMFLOAT3& shotPos,const float& damage)
+void LightningBall::Attack()
 {
-	EnemyAttackObject::Attack(shotPos,damage);
-	m_IsHoming = true;
-
-	if (m_LightningBallEffCache == nullptr) return;
-	m_LightningBallEffCache->UseBillboard();
+	if (m_IsAttack)
+	{
+		m_IsHoming = true;
+	}
 }
 
-void LightningBall::KeepPos(const XMFLOAT3& shotPos)
-{
-	EnemyAttackObject::KeepPos(shotPos);
 
-	if (m_LightningBallEffCache == nullptr) return;
-	m_LightningBallEffCache->UseBillboard();
+void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage)
+{
+	EnemyAttackObject::Spawn(shotPos, damage);
+
+	if (m_Enable)
+	{
+		if (m_TargetObject == nullptr) return;
+		const XMFLOAT3& targetPos = m_TargetObject->GetPos();
+		// ‰¡
+		float currentAngleY = m_Rotation.y;
+		const float& targetAngleY = atan2f(targetPos.x - m_Position.x, targetPos.z - m_Position.z);
+
+		float angleDiffY = targetAngleY - currentAngleY;
+		while (angleDiffY > XM_PI)
+		{
+			angleDiffY -= XM_2PI;
+		}
+		while (angleDiffY < -XM_PI)
+		{
+			angleDiffY += XM_2PI;
+		}
+
+		m_Rotation.y = angleDiffY;
+
+		// c
+		float directionX = targetPos.x - m_Position.x;
+		float directionY = targetPos.y - m_Position.y;
+		float directionZ = targetPos.z - m_Position.z;
+		float horizontalDist = sqrtf(directionX * directionX + directionZ * directionZ);
+
+		float currentAngleX = m_Rotation.x;
+		float targetAngleX = atan2f(directionY, horizontalDist);
+
+		float angleDiffX = targetAngleX - currentAngleX;
+		while (angleDiffX > XM_PI)
+		{
+			angleDiffX -= XM_2PI;
+		}
+		while (angleDiffX < -XM_PI)
+		{
+			angleDiffX += XM_2PI;
+		}
+
+		m_Rotation.x = angleDiffX;
+
+		if (m_LightningBallEffCache == nullptr) return;
+		m_LightningBallEffCache->UseBillboard();
+	}
 }

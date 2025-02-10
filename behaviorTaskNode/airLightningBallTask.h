@@ -8,7 +8,7 @@ class AirLightningBallTask final : public TaskNode
 {
 private:
 	LightningBall* m_LightningBallCache = nullptr;
-	bool m_SpawnBall = false;
+	bool m_Attack = false;
 public:
 	using TaskNode::TaskNode;
 	virtual void Init()override;
