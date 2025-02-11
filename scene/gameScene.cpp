@@ -3,7 +3,6 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
-#include "manager/particleManager.h"
 #include "manager/audioManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
@@ -14,6 +13,9 @@
 #include "behaviorTree/mawJLaygoBattleTree.h"
 #include "object/transparentWall.h"
 
+#include "enemyAttackObject\lightningFall.h"
+#include "particle/lightningCharge.h"
+#include "particle\spiralBlueorb.h"
 constexpr XMFLOAT3 WALL_MAX = { 150.0f, 100.0f, 150.0f }; // 壁の最大範囲
 void GameScene::Init()
 {
@@ -31,6 +33,7 @@ void GameScene::Init()
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+	m_ObjectManager->AddGameObjectArg<LightningCharge>(OBJECT::BILLBOARD, XMFLOAT3(0.0f, 0.0f, 10.0f), true);
 
 	// ワールド限界を可視化
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(WALL_MAX.z, 0.0f, 0.0f), XMFLOAT3(5.0f, WALL_MAX.y, WALL_MAX.z));
@@ -38,10 +41,7 @@ void GameScene::Init()
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, WALL_MAX.x), XMFLOAT3(WALL_MAX.x,WALL_MAX.y,5.0f));
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, -WALL_MAX.x), XMFLOAT3(WALL_MAX.x,WALL_MAX.y,5.0f));
 
-	// オブジェクトの追加後に配置
-	CreateParticleManager();
-	if (m_ParticleManager == nullptr) return;
-
+	m_ObjectManager->AddGameObjectArg<LightningFall>(OBJECT::ATTACK, nullptr);
 
 }
 

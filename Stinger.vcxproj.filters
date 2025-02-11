@@ -180,9 +180,6 @@
     <ClCompile Include="particle\particleEmitter.cpp">
       <Filter>particle</Filter>
     </ClCompile>
-    <ClCompile Include="manager\particleManager.cpp">
-      <Filter>manager</Filter>
-    </ClCompile>
     <ClCompile Include="particle\spiralBlueorb.cpp">
       <Filter>particle</Filter>
     </ClCompile>
@@ -345,6 +342,9 @@
     <ClCompile Include="enemyAttackObject\lightningFall.cpp">
       <Filter>enemyAttackObject</Filter>
     </ClCompile>
+    <ClCompile Include="particle\lightningCharge.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -454,9 +454,6 @@
     </ClInclude>
     <ClInclude Include="particle\particleEmitter.h">
       <Filter>particle</Filter>
-    </ClInclude>
-    <ClInclude Include="manager\particleManager.h">
-      <Filter>manager</Filter>
     </ClInclude>
     <ClInclude Include="particle\spiralBlueorb.h">
       <Filter>particle</Filter>
@@ -622,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="enemyAttackObject\lightningFall.h">
       <Filter>enemyAttackObject</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\lightningCharge.h">
+      <Filter>particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

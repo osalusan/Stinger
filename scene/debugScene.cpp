@@ -3,7 +3,6 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
-#include "manager/particleManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
@@ -30,12 +29,6 @@ void DebugScene::Init()
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
-
-	// オブジェクトの追加後に配置
-	CreateParticleManager();
-	if (m_ParticleManager == nullptr) return;
-
-
 }
 
 void DebugScene::Update(const float& deltaTime)

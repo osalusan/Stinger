@@ -4,7 +4,6 @@
 #include "manager/sceneManager.h"
 #include "manager/inputManager.h"
 #include "manager/textureManager.h"
-#include "manager/particleManager.h"
 #include "manager/fbxModelManager.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/gameScene.h"
@@ -44,11 +43,8 @@ void TitleScene::Init()
 	{
 		m_ObjectManager->AddGameObjectArg<MoveRandSizeBox>(OBJECT::STATICMESH, cameraPosZ, DEFAULT_POSZ);
 	}
-	// オブジェクトの追加後に配置
-	CreateParticleManager();
-	if (m_ParticleManager == nullptr) return;
 
-	m_ParticleManager->AddParticleObjectArg<SpiralBlueOrb>(PARTICLE::SPIRAL_BLUEORB,XMFLOAT3(0.0f,4.0f, DEFAULT_POSZ),false);
+	m_ObjectManager->AddGameObjectArg<SpiralBlueOrb>(OBJECT::BILLBOARD,XMFLOAT3(0.0f,4.0f, DEFAULT_POSZ),false);
 
 	CreateShadowVolume();
 }
@@ -78,13 +74,13 @@ void TitleScene::Update(const float& deltaTime)
 			}
 		}
 		
-		if (m_ParticleManager == nullptr) return;
-		std::vector<ParticleEmiter*> particles = {};
-		m_ParticleManager->GetParticleObjects(particles,PARTICLE::SPIRAL_BLUEORB);
+		std::vector<GameObject*> particles = {};
+		m_ObjectManager->GetGameObjects(particles,OBJECT::BILLBOARD);
 
-		for (ParticleEmiter* particle : particles)
+		for (GameObject* particle : particles)
 		{
-			particle->SetEnable(true);
+			SpiralBlueOrb* spb = dynamic_cast<SpiralBlueOrb*>(particle);
+			spb->SetEnable(true);
 		}
 	}
 	if (m_NextScene)

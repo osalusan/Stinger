@@ -24,6 +24,11 @@ ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos, const bool& disable)
 	m_Enable = disable;
 }
 
+ParticleEmiter::ParticleEmiter(const bool& disable)
+{
+	m_Enable = disable;
+}
+
 ParticleEmiter::~ParticleEmiter()
 {
 	m_CameraCache = nullptr;

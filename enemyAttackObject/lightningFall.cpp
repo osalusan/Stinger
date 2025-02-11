@@ -5,6 +5,7 @@
 #include "component/boxCollisionComponent.h"
 #include "scene/scene.h"
 #include "billboard/lightningFallEffect.h"
+#include "particle/lightningCharge.h"
 
 constexpr XMFLOAT3 DEFALUT_SCALE = { 1.0f,15.0f,1.0f };
 
@@ -12,7 +13,7 @@ constexpr XMFLOAT3 DEFALUT_SCALE = { 1.0f,15.0f,1.0f };
 
 void LightningFall::AttackControl(const float& deltaTime)
 {
-	//ƒˆ‰¼‘zŠÖ”‚Ìˆ×‰¼ŽÀ‘•
+	m_LightningChargeCache->SetPos(m_Position);
 }
 
 // -------------------------------------- public --------------------------------------
@@ -32,6 +33,10 @@ LightningFall::LightningFall(const GameObject* target)
 	if (m_LightningFallEffCache == nullptr)
 	{
 		m_LightningFallEffCache = objManager->AddGameObjectArg<LightningFallEffect>(OBJECT::BILLBOARD, this);
+	}
+	if (m_LightningChargeCache == nullptr)
+	{
+		m_LightningChargeCache = objManager->AddGameObjectArg<LightningCharge>(OBJECT::BILLBOARD,true);
 	}
 	m_Enable = true;
 }
