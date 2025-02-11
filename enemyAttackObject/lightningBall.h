@@ -10,7 +10,7 @@ private:
 	LightningBallEffect* m_LightningBallEffCache = nullptr;
 	bool m_IsHoming = false;
 	float m_Speed = 0.0f;
-	virtual void MoveControl(const float& deltaTime)override;
+	virtual void AttackControl(const float& deltaTime)override;
 	virtual bool CollisionControl()override;
 	virtual void Finish()override;
 public:

@@ -10,7 +10,8 @@ constexpr float HOMING_VALUE = 26.0f;	// ホーミングの強度
 constexpr float HOMING_RANGE = 10.0f;	// ホーミング終了の距離
 constexpr XMFLOAT3 DEFALUT_SCALE = { 3.0f,3.0f,3.0f };
 
-void LightningBall::MoveControl(const float& deltaTime)
+// -------------------------------------- private --------------------------------------
+void LightningBall::AttackControl(const float& deltaTime)
 {
 	if (!m_IsHoming || m_TargetObject == nullptr) return;
 
@@ -103,6 +104,8 @@ void LightningBall::Finish()
 	m_Rotation = {};
 }
 
+// -------------------------------------- public --------------------------------------
+
 LightningBall::LightningBall(const GameObject* target, const float& speed)
 	:EnemyAttackObject(target)
 {
@@ -128,7 +131,6 @@ void LightningBall::Attack()
 		m_IsHoming = true;
 	}
 }
-
 
 void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage)
 {

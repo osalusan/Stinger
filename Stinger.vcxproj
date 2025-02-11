@@ -60,6 +60,7 @@
     <ClCompile Include="component\shaderComponent.cpp" />
     <ClCompile Include="enemyAttackObject\enemyAttackObject.cpp" />
     <ClCompile Include="enemyAttackObject\lightningBall.cpp" />
+    <ClCompile Include="enemyAttackObject\lightningFall.cpp" />
     <ClCompile Include="equipment\equipmentObject.cpp" />
     <ClCompile Include="fade\fade.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="enemyAttackObject\enemyAttackObject.h" />
     <ClInclude Include="enemyAttackObject\lightningBall.h" />
+    <ClInclude Include="enemyAttackObject\lightningFall.h" />
     <ClInclude Include="equipment\equipmentObject.h" />
     <ClInclude Include="fade\fade.h" />
     <ClInclude Include="imgui\imconfig.h" />

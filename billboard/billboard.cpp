@@ -149,13 +149,32 @@ void BillBoard::Draw()
 	}
 
 	if (m_CameraCache == nullptr) return;
-	XMMATRIX view = m_CameraCache->GetViewMatrix();
 
-	XMMATRIX invView;
-	invView = XMMatrixInverse(nullptr, view);//逆行列
-	invView.r[3].m128_f32[0] = 0.0f;
-	invView.r[3].m128_f32[1] = 0.0f;
-	invView.r[3].m128_f32[2] = 0.0f;
+	XMMATRIX invView = {};
+	if (m_BillboardY)
+	{
+		XMFLOAT3 cameraPos = m_CameraCache->GetPos();		// カメラのワールド座標
+		XMFLOAT3 myPos = m_Position;                        // オブジェクトのワールド座標
+
+		XMFLOAT3 vecObject = {
+			myPos.x - cameraPos.x,
+			0.0f,
+			myPos.z - cameraPos.z
+		};
+
+		float angle = atan2f(vecObject.x, vecObject.z);
+
+		invView = XMMatrixRotationY(angle);
+	}
+	else
+	{
+		XMMATRIX view = m_CameraCache->GetViewMatrix();
+
+		invView = XMMatrixInverse(nullptr, view);//逆行列
+		invView.r[3].m128_f32[0] = 0.0f;
+		invView.r[3].m128_f32[1] = 0.0f;
+		invView.r[3].m128_f32[2] = 0.0f;
+	}
 
 	//ワールドマトリクス設定
 	XMMATRIX world, scale, trans;

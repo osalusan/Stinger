@@ -10,7 +10,7 @@ protected:
 	BoxCollisionComponent* m_BoxCollCache = nullptr;
 	bool m_IsAttack = false;
 	float m_Damage = 0.0f;
-	virtual void MoveControl(const float& deltaTime) = 0;
+	virtual void AttackControl(const float& deltaTime) = 0;
 	virtual bool CollisionControl();
 	virtual void Finish();
 public:

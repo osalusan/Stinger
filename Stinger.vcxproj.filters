@@ -342,6 +342,9 @@
     <ClCompile Include="billboard\lightningFallEffect.cpp">
       <Filter>billboard</Filter>
     </ClCompile>
+    <ClCompile Include="enemyAttackObject\lightningFall.cpp">
+      <Filter>enemyAttackObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -616,6 +619,9 @@
     </ClInclude>
     <ClInclude Include="billboard\lightningFallEffect.h">
       <Filter>billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAttackObject\lightningFall.h">
+      <Filter>enemyAttackObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

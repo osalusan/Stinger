@@ -21,7 +21,7 @@ void AirLightningBallTask::Init()
 
 	if (m_LightningBallCache == nullptr)
 	{
-		m_LightningBallCache = objManager->AddGameObjectArg<LightningBall>(OBJECT::STATICMESH, objManager->GetPlayer(), m_BulletSpeed);
+		m_LightningBallCache = objManager->AddGameObjectArg<LightningBall>(OBJECT::ATTACK, objManager->GetPlayer(), m_BulletSpeed);
 	}
 }
 

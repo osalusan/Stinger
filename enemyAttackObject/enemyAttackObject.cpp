@@ -38,7 +38,7 @@ void EnemyAttackObject::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
 
-	MoveControl(deltaTime);
+	AttackControl(deltaTime);
 
 	if (m_BoxCollCache != nullptr)
 	{

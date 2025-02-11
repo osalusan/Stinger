@@ -14,8 +14,6 @@
 #include "behaviorTree/mawJLaygoBattleTree.h"
 #include "object/transparentWall.h"
 
-#include "billboard\lightningFallEffect.h"
-
 constexpr XMFLOAT3 WALL_MAX = { 150.0f, 100.0f, 150.0f }; // 壁の最大範囲
 void GameScene::Init()
 {
@@ -39,10 +37,6 @@ void GameScene::Init()
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(-WALL_MAX.z, 0.0f, 0.0f), XMFLOAT3(5.0f,WALL_MAX.y, WALL_MAX.z));
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, WALL_MAX.x), XMFLOAT3(WALL_MAX.x,WALL_MAX.y,5.0f));
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, -WALL_MAX.x), XMFLOAT3(WALL_MAX.x,WALL_MAX.y,5.0f));
-
-	m_ObjectManager->AddGameObjectArg<LightningFallEffect>(OBJECT::BILLBOARD, m_ObjectManager->GetPlayer());
-	m_ObjectManager->AddGameObjectArg<LightningFallEffect>(OBJECT::BILLBOARD, m_ObjectManager->GetPlayer());
-	m_ObjectManager->AddGameObjectArg<LightningFallEffect>(OBJECT::BILLBOARD, m_ObjectManager->GetPlayer());
 
 	// オブジェクトの追加後に配置
 	CreateParticleManager();
