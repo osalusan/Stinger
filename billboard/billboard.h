@@ -21,6 +21,7 @@ protected:
 	int m_AnimCount = 0;
 	int m_MaxCount = 0;
 	float m_NextAnimTime = 0.0f;
+	float m_MaxTime = 0.0f;
 	bool m_Loop = false;
 	int m_LoopStart = 0;
 	int m_LoopEnd = 0;

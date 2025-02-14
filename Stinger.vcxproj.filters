@@ -345,6 +345,9 @@
     <ClCompile Include="particle\lightningCharge.cpp">
       <Filter>particle</Filter>
     </ClCompile>
+    <ClCompile Include="lightningBattlecryTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -622,6 +625,9 @@
     </ClInclude>
     <ClInclude Include="particle\lightningCharge.h">
       <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="lightningBattlecryTask.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

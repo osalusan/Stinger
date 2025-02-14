@@ -29,7 +29,9 @@ void TitleScene::Init()
 	m_ObjectManager->AddGameObject<TitleCamera>(OBJECT::CAMERA_MAIN);
 	m_ObjectManager->AddGameObject<MeshFiled>(OBJECT::FILED);
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\stinger.png");
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\stinger.png");	
+	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.9f), XMFLOAT2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.15f), PIVOT::CENTER, TEXTURE::PUSHSPACEKEY, L"asset\\texture\\pushSpaceKey.png");
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 	
 	Camera* camera = m_ObjectManager->GetCamera();
@@ -47,7 +49,7 @@ void TitleScene::Init()
 void TitleScene::Update(const float& deltaTime)
 {
 	Scene::Update(deltaTime);
-	if (InputManager::GetKeyPress('2'))
+	if (InputManager::GetKeyPress(VK_SPACE))
 	{
 		m_NextScene = true;
 		std::vector<GameObject*> objects = {};
@@ -61,11 +63,6 @@ void TitleScene::Update(const float& deltaTime)
 			if (Polygon2D* poly = dynamic_cast<Polygon2D*>(obj))
 			{
 				poly->SetEnable(false);
-				if (poly->GetTexture() == TEXTURE::TITLE)
-				{
-					poly->SetEnable(false);
-					break;
-				}
 			}
 		}
 		

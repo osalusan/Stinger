@@ -38,6 +38,8 @@ BillBoard::BillBoard(const XMFLOAT3& position, const XMFLOAT3& size, const TEXTU
 		m_MaxCount = maxTexture;
 	}
 
+	m_MaxTime = m_MaxCount * m_NextAnimTime;
+
 	TextureManager::ReservTexture(m_Texture, fileName);
 
 	AddComponent<ShaderComponent>(this);
@@ -204,8 +206,11 @@ void BillBoard::Draw()
 	//プリミティブポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	Renderer::SetATCEnable(true);
 	//ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
+
+	Renderer::SetATCEnable(false);
 }
 
 void BillBoard::UseBillboard()
