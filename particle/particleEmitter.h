@@ -1,6 +1,6 @@
 #pragma once
 #include "object/gameObject.h"
-#define PARTICLE_MAX (1000)
+#define PARTICLE_MAX (800)
 
 enum class TEXTURE;
 

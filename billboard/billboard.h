@@ -37,5 +37,6 @@ public:
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
 
+	virtual void End();
 	void UseBillboard();
 };

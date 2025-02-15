@@ -68,6 +68,7 @@ void GameScene::Update(const float& deltaTime)
 	BossEnemy* boss = m_ObjectManager->GetBossEnemy();
 	if (boss == nullptr) return;
 
+	// ゲームクリア画面
 	if (boss->GetHealth() <= 0.0f)
 	{
 		m_CurrentClearTime += deltaTime;
@@ -95,6 +96,7 @@ void GameScene::Update(const float& deltaTime)
 		}
 	}
 
+	// ゲームオーバー画面
 	if (player->GetHealth() <= 0.0f)
 	{
 		m_CurrentGameOverTime += deltaTime;
@@ -140,6 +142,10 @@ void GameScene::Update(const float& deltaTime)
 						{
 							poly->SetEnable(true);
 						}
+					}
+					else
+					{
+						poly->SetEnable(false);
 					}
 				}
 			}

@@ -15,5 +15,5 @@ public:
 	LightningFall() = delete;
 	LightningFall(const GameObject* target);
 	virtual void Attack()override;
-	virtual void Spawn(const XMFLOAT3& shotPos, const float& damage)override;
+	void Spawn(const XMFLOAT3& shotPos, const float& damage, const float& baletTime);
 };

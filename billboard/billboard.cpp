@@ -94,9 +94,16 @@ void BillBoard::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
 	if (m_CurrentTime >= m_NextAnimTime)
-	{ 
-		m_AnimCount++; 
+	{
+		m_AnimCount++;
 		m_CurrentTime = 0.0f;
+		if (!m_Loop)
+		{
+			if (m_AnimCount >= m_MaxCount)
+			{
+				End();
+			}
+		}
 	}
 
 	if (m_Loop)
@@ -105,12 +112,14 @@ void BillBoard::Update(const float& deltaTime)
 		{
 			m_AnimCount = m_LoopStart;
 		}
+
+		if (m_AnimCount >= m_MaxCount)
+		{
+			m_AnimCount = 0;
+		}
 	}
 	
-	if (m_AnimCount >= m_MaxCount)
-	{ 
-		m_AnimCount = 0; 
-	}
+
 	m_CurrentTime += deltaTime;
 }
 void BillBoard::Draw()
@@ -211,6 +220,13 @@ void BillBoard::Draw()
 	Renderer::GetDeviceContext()->Draw(4, 0);
 
 	Renderer::SetATCEnable(false);
+}
+
+void BillBoard::End()
+{
+	m_Enable = false;
+	m_CurrentTime = 0.0f;
+	m_AnimCount = 0;
 }
 
 void BillBoard::UseBillboard()

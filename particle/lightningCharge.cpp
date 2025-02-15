@@ -1,25 +1,41 @@
 #include "lightningCharge.h"
 
+constexpr float LENGTH_VALUE = 0.4f;
 void LightningCharge::CreateParticleEffect(const float& deltaTime)
 {
+	if (!m_ChargeEnable) return;
+	int count = 0;
+
 	for (int i = 0; i < PARTICLE_MAX; i++)
 	{
 		if (!m_Particle[i].enable)
 		{
 			m_Particle[i].enable = true;
-			m_Particle[i].position = m_Position;
-			m_Particle[i].velocity.x = (rand() % 100 - 50) * 0.3f;
-			m_Particle[i].velocity.y = (rand() % 100 - 50) * 0.3f;
-			m_Particle[i].velocity.z = (rand() % 100 - 50) * 0.3f;
+			const float& rangeX = static_cast<float>((rand() % 100) - 50);
+			const float& rangeZ = static_cast<float>((rand() % 100) - 50);
+			const float& rangeY = static_cast<float>(rand() % 50);
+			m_Particle[i].position.x = m_Position.x + (rangeX * LENGTH_VALUE);
+			m_Particle[i].position.y = m_Position.y + (rangeY * LENGTH_VALUE);
+			m_Particle[i].position.z = m_Position.z + (rangeZ * LENGTH_VALUE);
+			m_Particle[i].velocity.x = -(rangeX * LENGTH_VALUE) / m_AcceptTime;
+			m_Particle[i].velocity.y = -(rangeY * LENGTH_VALUE) / m_AcceptTime;
+			m_Particle[i].velocity.z = -(rangeZ * LENGTH_VALUE) / m_AcceptTime;
 			m_Particle[i].scale = m_Scale;
-			m_Particle[i].lifetime = 1.5f;
-			break;
+			m_Particle[i].lifetime = m_AcceptTime;
+			m_Particle[i].color = {0.55f,0.4f,1.0f,1.0f};
+			count++;
+			if (count > 100)
+			{
+				m_ChargeEnable = false;
+				break;
+			}
 		}
 	}
 }
 
 void LightningCharge::UpdateParticleEffect(const float& deltaTime)
 {
+	m_CurrentTime += deltaTime;
 	for (int i = 0; i < PARTICLE_MAX; i++)
 	{
 		if (m_Particle[i].enable)
@@ -35,4 +51,31 @@ void LightningCharge::UpdateParticleEffect(const float& deltaTime)
 			}
 		}
 	}
+}
+
+void LightningCharge::Start(const float& time)
+{
+	m_ChargeEnable = true;
+	m_AcceptTime = time;
+	m_Enable = true;
+	m_CurrentTime = 0.0f;
+}
+
+void LightningCharge::End()
+{
+	m_ChargeEnable = false;
+	m_AcceptTime = 0.0f;
+	m_Enable = false;
+}
+
+bool LightningCharge::Finish()
+{
+	if (m_AcceptTime == 0.0f) return false;
+
+	if (m_CurrentTime > m_AcceptTime)
+	{
+		End();
+		return true;
+	}
+	return false;
 }

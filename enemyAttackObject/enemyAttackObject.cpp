@@ -6,7 +6,7 @@ bool EnemyAttackObject::CollisionControl()
 {
 	if (m_BoxCollCache == nullptr) return false;
 
-	if (m_BoxCollCache->CheckHitObject(COLLISION_TAG::PLAYER))
+	if (m_IsAttack && m_BoxCollCache->CheckHitObject(COLLISION_TAG::PLAYER))
 	{
 		Player* player = m_BoxCollCache->GetHitGameObject<Player>();
 		if (player == nullptr) return false;
@@ -50,6 +50,8 @@ void EnemyAttackObject::Update(const float& deltaTime)
 
 void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage)
 {
+	if (m_Enable) return;
+
 	m_Position = shotPos;
 	m_Enable = true;
 	m_IsAttack = true;

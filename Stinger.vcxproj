@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lightningBattlecryTask.cpp" />
     <ClCompile Include="behaviorNode\behaviorNode.cpp" />
     <ClCompile Include="behaviorNode\selectorNode.cpp" />
     <ClCompile Include="behaviorNode\sequenceNode.cpp" />
@@ -32,6 +31,7 @@
     <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp" />
     <ClCompile Include="behaviorTaskNode\deadTask.cpp" />
     <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\lightningBattlecryTask.cpp" />
     <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp" />
     <ClCompile Include="behaviorTaskNode\parryRecoilTask.cpp" />
     <ClCompile Include="behaviorTaskNode\rightPunchTask.cpp" />
@@ -111,7 +111,6 @@
     <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lightningBattlecryTask.h" />
     <ClInclude Include="behaviorNode\behaviorNode.h" />
     <ClInclude Include="behaviorNode\selectorNode.h" />
     <ClInclude Include="behaviorNode\sequenceNode.h" />
@@ -124,6 +123,7 @@
     <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h" />
     <ClInclude Include="behaviorTaskNode\deadTask.h" />
     <ClInclude Include="behaviorTaskNode\jumpAttackTask.h" />
+    <ClInclude Include="behaviorTaskNode\lightningBattlecryTask.h" />
     <ClInclude Include="behaviorTaskNode\loadIdleTask.h" />
     <ClInclude Include="behaviorTaskNode\parryRecoilTask.h" />
     <ClInclude Include="behaviorTaskNode\rightPunchTask.h" />

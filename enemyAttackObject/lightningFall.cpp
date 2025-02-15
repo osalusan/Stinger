@@ -14,6 +14,16 @@ constexpr XMFLOAT3 DEFALUT_SCALE = { 1.0f,15.0f,1.0f };
 void LightningFall::AttackControl(const float& deltaTime)
 {
 	m_LightningChargeCache->SetPos(m_Position);
+
+	if (m_LightningChargeCache->Finish())
+	{
+		m_LightningFallEffCache->Attack();
+		m_IsAttack = true;
+	}
+	if (m_LightningFallEffCache->Finish())
+	{
+		m_Enable = false;
+	}
 }
 
 // -------------------------------------- public --------------------------------------
@@ -36,9 +46,9 @@ LightningFall::LightningFall(const GameObject* target)
 	}
 	if (m_LightningChargeCache == nullptr)
 	{
-		m_LightningChargeCache = objManager->AddGameObjectArg<LightningCharge>(OBJECT::BILLBOARD,true);
+		m_LightningChargeCache = objManager->AddGameObjectArg<LightningCharge>(OBJECT::BILLBOARD,false);
 	}
-	m_Enable = true;
+	m_Enable = false;
 }
 
 void LightningFall::Attack()
@@ -46,13 +56,18 @@ void LightningFall::Attack()
 	//ƒˆ‰¼‘zŠÖ”‚Ìˆ×‰¼ŽÀ‘•
 }
 
-void LightningFall::Spawn(const XMFLOAT3& shotPos, const float& damage)
+void LightningFall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& baletTime)
 {
-	EnemyAttackObject::Spawn(shotPos, damage);
+	if (m_Enable) return;
 
-	if (m_Enable)
+	m_Position = shotPos;
+	m_Enable = true;
+	m_Damage = damage;
+	if (m_BoxCollCache != nullptr)
 	{
-		if (m_LightningFallEffCache == nullptr) return;
-		m_LightningFallEffCache->UseBillboard();
+		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
 	}
+
+	m_LightningChargeCache->Start(baletTime);
+	m_IsAttack = false;
 }
