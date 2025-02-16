@@ -3,6 +3,8 @@
 
 class RoaringTask final : public TaskNode
 {
+private:
+	bool m_UseRendition = false;
 public:
 	using TaskNode::TaskNode;
 	virtual void Init()override;

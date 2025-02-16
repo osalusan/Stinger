@@ -43,6 +43,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
 
+	// 咆哮
+	healthSeqNode->AddTaskChild<RoaringTask>(boss, player);
 	// 体力の確認
 	healthSeqNode->AddTaskChild<CheckHealthTask>(boss, player);
 	// 死亡
@@ -86,7 +88,9 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	{
 		shortAttackTask->AddTaskChild<RightPunchTask>(25, boss, player);
 		shortAttackTask->AddTaskChild<BackJumpTask>(10, boss, player);
-		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(65, boss, player))
+		DERIVATION_DATA lightningBarstDerivData = { 0.6f,100,0.0f };
+		shortAttackTask->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData,5, boss, player);
+		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(60, boss, player))
 		{
 			DERIVATION_DATA derivToRightSwiping = { 0.7f,100,0.7f };
 			DERIVATION_DATA derivToBackJump = { 0.7f,100,0.4f };
