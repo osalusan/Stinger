@@ -22,6 +22,7 @@ protected:
 	bool m_UseDerivation = false;					// 派生技の初期設定をしたか
 	bool m_EnableDerivation = false;				// 派生技が使えるか
 	int m_UseDerivNumber = 0;                       // 使用する派生技の番号
+	bool m_AttackTask = false;						// 攻撃に使用しているタスク
 
 	// パラメータ
 	float m_DamageValue = 0.0f;						// ダメージ倍率
@@ -45,6 +46,11 @@ protected:
 	int DerivationChance();
 	// 
 	NODE_STATE UpdateUseDerivationTask(const float& deltaTime);
+
+protected:
+	virtual void InitTask(const float& deltaTime);
+	virtual void RunningTask(const float& deltaTime);
+
 public:
 	TaskNode() = delete;
 	TaskNode(BossEnemy* boss, Player* player);

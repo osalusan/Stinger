@@ -122,6 +122,16 @@ NODE_STATE TaskNode::UpdateUseDerivationTask(const float& deltaTime)
 	return NODE_STATE::FAILURE;
 }
 
+void TaskNode::InitTask(const float& deltaTime)
+{
+	return;
+}
+
+void TaskNode::RunningTask(const float& deltaTime)
+{
+	return;
+}
+
 // ---------------------------- public ----------------------------
 TaskNode::TaskNode(BossEnemy* boss, Player* player)
 {
@@ -145,7 +155,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 {
 	if (m_BossCache == nullptr)
 	{
-		return NODE_STATE();
+		return NODE_STATE::FAILURE;
 	}
 	// アニメーションしないタスクを一番最初にはじくように
 	if (m_AnimName != "" && m_MaxAnimTime == 0.0f)
@@ -156,10 +166,95 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 			m_CurrentTime = m_MaxAnimTime;
 		}
 	}
-
 	m_BossCache->SetAttackDamage(m_DamageValue);
 	m_BossCache->SetParryPossibleAtk(m_ParryPossibleAtk);
-	return NODE_STATE();
+
+	// 攻撃タスクじゃなかったら
+	if (!m_AttackTask)
+	{
+		return NODE_STATE::FAILURE;
+	}
+
+	BehaviorNode* node = m_BossCache->GetRunningNode();
+	if (!CheckRunningNode(node))
+	{
+		return NODE_STATE::FAILURE;
+	}
+
+	// 初期化
+	if (node == nullptr)
+	{
+		if (m_MaxAnimTime == 0.0f)
+		{
+			return NODE_STATE::FAILURE;
+		}
+
+		if (m_CurrentTime >= m_MaxAnimTime)
+		{
+			const float& maxStamina = m_BossCache->GetaMaxStamina();
+			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
+			{
+				InitTask(deltaTime);
+
+				if (m_ChildDerivChance.size() > 0)
+				{
+					if (GetDerivationData(m_UseDerivNumber).Chance == 0 || GetDerivationData(m_UseDerivNumber).Chance == 100)
+					{
+						m_EnableDerivation = true;
+					}
+					// 確率
+					if (rand() % 100 < GetDerivationData(m_UseDerivNumber).Chance)
+					{
+						m_EnableDerivation = true;
+					}
+				}
+			}
+		}
+	}
+
+	// 派生技の発生確認
+	if (GetDerivationData().size() > 0)
+	{
+		if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
+		{
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			{
+				m_UseDerivation = true;
+				m_EnableDerivation = false;
+				m_CurrentTime = m_MaxAnimTime;
+				m_BossCache->SetRunningNode(nullptr);
+			}
+		}
+	}
+
+	// 派生技の発生確認後に配置
+	if (m_UseDerivation)
+	{
+		return UpdateUseDerivationTask(deltaTime);
+	}
+
+	if (m_CurrentTime < m_MaxAnimTime)
+	{
+		m_CurrentTime += deltaTime;
+		m_BossCache->ChangeAnimation(m_AnimName);
+		// 状態を保存
+		m_BossCache->SetRunningNode(this);
+
+		RunningTask(deltaTime);
+
+		return NODE_STATE::RUNNING;
+	}
+	else
+	{
+		if (node == this)
+		{
+			// 状態を削除
+			m_BossCache->SetRunningNode(nullptr);
+			return NODE_STATE::SUCCESS;
+		}
+	}
+
+	return NODE_STATE::FAILURE;
 }
 
 void TaskNode::CancelRunningTask()
