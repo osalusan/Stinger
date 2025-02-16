@@ -214,6 +214,10 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 					}
 				}
 			}
+			else
+			{
+				return NODE_STATE::FAILURE;
+			}
 		}
 	}
 
