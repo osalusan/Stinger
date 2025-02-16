@@ -9,7 +9,7 @@ constexpr float LENGTH = (1.0f / SCREEN_SCALE) * 70.0f;
 constexpr float OFFSET_TARGET_POS_Y = LENGTH * 0.35f;
 // É}ÉEÉXÇÃê›íË
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
-constexpr XMFLOAT2 MOUSE_SPEED = { 0.005f,0.005f };
+constexpr XMFLOAT2 MOUSE_SPEED = { 0.002f,0.002f };
 constexpr int MOUSE_MOVE_SPACE = 100;
 
 PlayerCamera::~PlayerCamera()
