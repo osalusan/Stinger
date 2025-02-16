@@ -56,8 +56,11 @@ NODE_STATE LightningBattlecryTask::Update(const float& deltaTime)
 	// ‰Šú‰»
 	if (node == nullptr)
 	{
-		m_CurrentTime = 0.0f;
-		m_UseLingtning = 0;
+		if (m_BossCache->UseStamina(m_BossCache->GetaMaxStamina() * m_UseStaminaValue))
+		{
+			m_CurrentTime = 0.0f;
+			m_UseLingtning = 0;
+		}
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
@@ -90,7 +93,7 @@ NODE_STATE LightningBattlecryTask::Update(const float& deltaTime)
 				spawnPos.y = m_BossCache->GetPos().y;
 				spawnPos.z = m_BossCache->GetPos().z + offsetZ;
 
-				fall->Spawn(spawnPos, damage, 1.0f);
+				fall->Spawn(spawnPos, damage, m_BulletSpeed);
 
 				i++;
 

@@ -351,6 +351,9 @@
     <ClCompile Include="behaviorTaskNode\middleRangeAttackTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\lightningFallFowardRainTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -633,6 +636,9 @@
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\middleRangeAttackTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\lightningFallFowardRainTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
