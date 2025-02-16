@@ -40,11 +40,12 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
+	// ™ôšK
+	rootNode->AddTaskChild<RoaringTask>(boss, player);
+
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("‘Ì—ÍŠÇ—ƒV[ƒPƒ“ƒX");
 	if (healthSeqNode == nullptr) return;
 
-	// ™ôšK
-	healthSeqNode->AddTaskChild<RoaringTask>(boss, player);
 	// ‘Ì—Í‚ÌŠm”F
 	healthSeqNode->AddTaskChild<CheckHealthTask>(boss, player);
 	// Ž€–S
@@ -87,9 +88,17 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	if (BehaviorNode* shortAttackTask = attackSelNode->AddTaskChild<ShortRangeAttackTask>(boss, player))
 	{
 		shortAttackTask->AddTaskChild<RightPunchTask>(25, boss, player);
-		shortAttackTask->AddTaskChild<BackJumpTask>(10, boss, player);
 		DERIVATION_DATA lightningBarstDerivData = { 0.6f,100,0.0f };
-		shortAttackTask->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData,5, boss, player);
+		shortAttackTask->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData, 5, boss, player);
+		// ƒoƒbƒNƒWƒƒƒ“ƒv”h¶
+		if (BehaviorNode* backJump = shortAttackTask->AddTaskChild<BackJumpTask>(10, boss, player))
+		{
+			DERIVATION_DATA backJumpTo{ 0.6f,100,0.9f };
+			backJump->AddTaskChild<LightningFallFowardRainTask>(backJumpTo,60, boss, player);
+			backJump->AddTaskChild<JumpAttackTask>(backJumpTo,40, boss, player);
+		}
+
+		// ¶U‚è‚©‚´‚µ”h¶
 		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(60, boss, player))
 		{
 			DERIVATION_DATA derivToRightSwiping = { 0.7f,100,0.7f };

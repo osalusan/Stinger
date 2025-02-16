@@ -31,7 +31,7 @@ void GameScene::Init()
 	// プレイヤーの次に作成
 	m_ObjectManager->AddGameObject<PlayerCamera>(OBJECT::CAMERA_MAIN);
 	// カメラの後に作成
-	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 10.0f));
+	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 50.0f));
 
 	// プレイヤーの後に
 	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
