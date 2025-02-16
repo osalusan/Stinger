@@ -11,8 +11,8 @@ constexpr int LIGHTNINGFALL_NUM2 = 12;
 constexpr int LIGHTNINGFALL_NUM3 = 18;
 constexpr int MAX_LINGHTNINGFALL = LIGHTNINGFALL_NUM1 + LIGHTNINGFALL_NUM2 + LIGHTNINGFALL_NUM3;
 constexpr float SPAWN_LIGHTNINGFALL1_VALUE = 0.29f;
-constexpr float SPAWN_LIGHTNINGFALL2_VALUE = 0.59f;
-constexpr float SPAWN_LIGHTNINGFALL3_VALUE = 0.88f;
+constexpr float SPAWN_LIGHTNINGFALL2_VALUE = 0.49f;
+constexpr float SPAWN_LIGHTNINGFALL3_VALUE = 0.69f;
 constexpr float RADIUS = 10.0f;
 LightningBattlecryTask::~LightningBattlecryTask()
 {

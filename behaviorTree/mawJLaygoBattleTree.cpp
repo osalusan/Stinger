@@ -22,6 +22,7 @@
 #include "behaviorTaskNode/shortRangeAttackTask.h"
 #include "behaviorTaskNode/backJumpTask.h"
 #include "behaviorTaskNode/lightningBattlecryTask.h"
+#include "behaviorTaskNode/middleRangeAttackTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -58,7 +59,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	rootNode->AddTaskChild<LightningBattlecryTask>(boss, player);
+	// rootNode->AddTaskChild<LightningBattlecryTask>(boss, player);
 
 	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
 	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
@@ -98,11 +99,39 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 		}
 	}
 
+
 	// 中距離
-	BehaviorNode* jumpAttack = attackSelNode->AddTaskChild<JumpAttackTask>(boss, player);
-	DERIVATION_DATA lightningBDerivData = { 0.75f,70 ,0.3f };
-	jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBDerivData, boss, player);
-	attackSelNode->AddTaskChild<RoaringTask>(boss, player);
+	if (BehaviorNode* middleAttackTask = attackSelNode->AddTaskChild<MiddleRangeAttackTask>(boss, player))
+	{
+		// ジャンプ攻撃派生
+		if (BehaviorNode* jumpAttack = middleAttackTask->AddTaskChild<JumpAttackTask>(80,boss, player))
+		{
+			DERIVATION_DATA lightningBallDerivData = { 0.75f,70 ,0.3f };
+			jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, 50, boss, player);
+			DERIVATION_DATA lightningBarstDerivData = { 0.7f,70,0.6f };
+			jumpAttack->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData, 40, boss, player);
+			// 少し早い
+			jumpAttack->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData, 10, boss, player);
+		}
+
+		// 連続雷弾 / 2段目,3段目キャンセル
+		if (BehaviorNode* lb1 = middleAttackTask->AddTaskChild<AirLightningBallTask>(20,boss, player))
+		{
+			DERIVATION_DATA lightningBallDerivData = { 0.83f,100,1.0f };
+			if (BehaviorNode* lb2 = lb1->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, boss, player))
+			{
+				DERIVATION_DATA jumpAttackDerivData = { 0.68f,100,0.2f };
+				lb2->AddTaskChild<JumpAttackTask>(jumpAttackDerivData, 25, boss, player);
+
+				if (BehaviorNode* lb3 = lb2->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, 75, boss, player))
+				{
+					lb3->AddTaskChild<JumpAttackTask>(jumpAttackDerivData, boss, player);
+				}		
+			}
+
+		}
+	}
+
 	// 攻撃不可
 	attackSelNode->AddTaskChild<DashAtThePlayerTask>(boss, player);
 

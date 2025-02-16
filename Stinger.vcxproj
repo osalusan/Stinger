@@ -33,6 +33,7 @@
     <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp" />
     <ClCompile Include="behaviorTaskNode\lightningBattlecryTask.cpp" />
     <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\middleRangeAttackTask.cpp" />
     <ClCompile Include="behaviorTaskNode\parryRecoilTask.cpp" />
     <ClCompile Include="behaviorTaskNode\rightPunchTask.cpp" />
     <ClCompile Include="behaviorTaskNode\rightSwipingTask.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="behaviorTaskNode\jumpAttackTask.h" />
     <ClInclude Include="behaviorTaskNode\lightningBattlecryTask.h" />
     <ClInclude Include="behaviorTaskNode\loadIdleTask.h" />
+    <ClInclude Include="behaviorTaskNode\middleRangeAttackTask.h" />
     <ClInclude Include="behaviorTaskNode\parryRecoilTask.h" />
     <ClInclude Include="behaviorTaskNode\rightPunchTask.h" />
     <ClInclude Include="behaviorTaskNode\rightSwipingTask.h" />

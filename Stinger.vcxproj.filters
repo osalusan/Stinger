@@ -348,6 +348,9 @@
     <ClCompile Include="behaviorTaskNode\lightningBattlecryTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\middleRangeAttackTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -627,6 +630,9 @@
       <Filter>particle</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\lightningBattlecryTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\middleRangeAttackTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>

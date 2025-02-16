@@ -34,8 +34,6 @@ NODE_STATE JumpAttackTask::Update(const float& deltaTime)
 	// ‰Šú‰»
 	if (node == nullptr)
 	{
-		const RANGE& currentRange = m_BossCache->GetCurrentRange();
-		// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
 		if (m_CurrentTime >= m_MaxAnimTime)
 		{
 			const float& maxStamina = m_BossCache->GetaMaxStamina();
