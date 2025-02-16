@@ -35,7 +35,7 @@ void DebugScene::Update(const float& deltaTime)
 {
 	Scene::Update(deltaTime);
 
-	// TODO：動作確認用の仮処理　削除予定
+#if _DEBUG
 	if (InputManager::GetKeyPress('1'))
 	{
 		SceneManager::SetScene<TitleScene>();
@@ -44,4 +44,5 @@ void DebugScene::Update(const float& deltaTime)
 	{
 		SceneManager::SetScene<GameScene>();
 	}
+#endif // _DEBUG
 }

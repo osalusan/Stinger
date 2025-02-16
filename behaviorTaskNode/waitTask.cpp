@@ -1,9 +1,6 @@
 #include "waitTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
-// TODO : 完成前に削除予定 / デバッグ用
-#include "manager/inputManager.h"
-
 
 void WaitTask::Init()
 {

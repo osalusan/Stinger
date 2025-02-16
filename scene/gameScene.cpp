@@ -172,13 +172,14 @@ void GameScene::Update(const float& deltaTime)
 			}
 		}
 	}
-	// TODO：動作確認用の仮処理　削除予定
-	if (InputManager::GetKeyPress('2'))
-	{
-		SceneManager::SetScene<GameScene>();
-	}
+#if _DEBUG
 	if (InputManager::GetKeyPress('1'))
 	{
 		SceneManager::SetScene<TitleScene>();
 	}
+	if (InputManager::GetKeyPress('2'))
+	{
+		SceneManager::SetScene<GameScene>();
+	}
+#endif // _DEBUG
 }
