@@ -24,13 +24,7 @@ void JumpAttackTask::InitTask(const float& deltaTime)
 {
 	TaskNode::InitTask(deltaTime);
 
-	m_CurrentTime = 0.0f;
 	m_Accel = INIT_ACCEL;
-	m_UseDerivation = false;
-	m_EnableDerivation = false;
-
-	// ”h¶‹ZU‚è•ª‚¯
-	DerivationChance();
 }
 
 void JumpAttackTask::RunningTask(const float& deltaTime)

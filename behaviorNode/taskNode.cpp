@@ -124,7 +124,12 @@ NODE_STATE TaskNode::UpdateUseDerivationTask(const float& deltaTime)
 
 void TaskNode::InitTask(const float& deltaTime)
 {
-	return;
+	m_CurrentTime = 0.0f;
+	m_UseDerivation = false;
+	m_EnableDerivation = false;
+
+	// ”h¶‹ZU‚è•ª‚¯
+	DerivationChance();
 }
 
 void TaskNode::RunningTask(const float& deltaTime)
