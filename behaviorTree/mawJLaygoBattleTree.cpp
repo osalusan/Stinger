@@ -21,7 +21,7 @@
 #include "behaviorTaskNode/rightPunchTask.h"
 #include "behaviorTaskNode/shortRangeAttackTask.h"
 #include "behaviorTaskNode/backJumpTask.h"
-#include "behaviorTaskNode/lightningBattlecryTask.h"
+#include "behaviorTaskNode/lightningBarstTask.h"
 #include "behaviorTaskNode/middleRangeAttackTask.h"
 #include "behaviorTaskNode/lightningFallFowardRainTask.h"
 
@@ -63,7 +63,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	// rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
+	rootNode->AddTaskChild<LightningBarstTask>(boss, player);
 
 	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
 	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
@@ -89,7 +89,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	{
 		shortAttackTask->AddTaskChild<RightPunchTask>(25, boss, player);
 		DERIVATION_DATA lightningBarstDerivData = { 0.6f,100,0.0f };
-		shortAttackTask->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData, 5, boss, player);
+		shortAttackTask->AddTaskChild<LightningBarstTask>(lightningBarstDerivData, 5, boss, player);
 		// バックジャンプ派生
 		if (BehaviorNode* backJump = shortAttackTask->AddTaskChild<BackJumpTask>(10, boss, player))
 		{
@@ -123,9 +123,9 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 			DERIVATION_DATA lightningBallDerivData = { 0.75f,70 ,0.3f };
 			jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, 50, boss, player);
 			DERIVATION_DATA lightningBarstDerivData = { 0.7f,70,0.6f };
-			jumpAttack->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData, 40, boss, player);
+			jumpAttack->AddTaskChild<LightningBarstTask>(lightningBarstDerivData, 40, boss, player);
 			// 少し早い
-			jumpAttack->AddTaskChild<LightningBattlecryTask>(lightningBarstDerivData, 10, boss, player);
+			jumpAttack->AddTaskChild<LightningBarstTask>(lightningBarstDerivData, 10, boss, player);
 		}
 
 		// 連続雷弾 / 2段目,3段目キャンセル
