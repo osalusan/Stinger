@@ -40,8 +40,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
-	// 咆哮
-	rootNode->AddTaskChild<RoaringTask>(boss, player);
+	// 演出用の咆哮
+	// rootNode->AddTaskChild<RoaringTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
@@ -63,7 +63,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	rootNode->AddTaskChild<LightningBarstTask>(boss, player);
+	rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
 
 	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
 	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);

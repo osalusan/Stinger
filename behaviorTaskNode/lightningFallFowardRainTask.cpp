@@ -21,6 +21,7 @@ void LightningFallFowardRainTask::Init()
 	ReserveAnimation("asset\\model\\mawJ\\standing2HCastSpell01_MawJ.fbx", "standing2HCastSpell01");
 	m_TaskName = "ライトニングフォワードレイン";
 	InitSkillData(m_TaskName);
+	m_AttackTask = true;
 
 	Scene* scene = SceneManager::GetScene();
 	if (scene == nullptr) return;
@@ -36,86 +37,54 @@ void LightningFallFowardRainTask::Init()
 	}
 }
 
-NODE_STATE LightningFallFowardRainTask::Update(const float& deltaTime)
+void LightningFallFowardRainTask::InitTask(const float& deltaTime)
 {
-	TaskNode::Update(deltaTime);
-	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
-	{
-		return NODE_STATE::FAILURE;
-	}
+	TaskNode::InitTask(deltaTime);
+	m_SpawnLingtning = false;
+}
 
-	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (!CheckRunningNode(node))
+void LightningFallFowardRainTask::RunningTask(const float& deltaTime)
+{
+	TaskNode::RunningTask(deltaTime);
+	if (!m_SpawnLingtning && m_CurrentTime >= m_MaxAnimTime * SPAWN_LIGHTNINGFALL_VALUE)
 	{
-		return NODE_STATE::FAILURE;
-	}
+		const float damage = m_BossCache->GetAttack() * m_DamageValue;
 
-	// 初期化
-	if (node == nullptr)
-	{
-		m_CurrentTime = 0.0f;
-		m_SpawnLingtning = false;
-	}
+		XMFLOAT3 bossForward = m_BossCache->GetForward();
+		XMFLOAT3 bossRight = m_BossCache->GetRight();
+		XMFLOAT3 bossPos = m_BossCache->GetPos();
 
-	if (m_CurrentTime < m_MaxAnimTime)
-	{
-		if (!m_SpawnLingtning && m_CurrentTime >= m_MaxAnimTime * SPAWN_LIGHTNINGFALL_VALUE)
+		int x = 0;
+		int z = 0;
+
+		for (LightningFall* fall : m_LightningFallCache)
 		{
-			const float damage = m_BossCache->GetAttack() * m_DamageValue;
-
-			XMFLOAT3 bossForward = m_BossCache->GetForward();
-			XMFLOAT3 bossRight = m_BossCache->GetRight();
-			XMFLOAT3 bossPos = m_BossCache->GetPos();
-
-			int x = 0;
-			int z = 0;
-
-			for (LightningFall* fall : m_LightningFallCache)
+			if (fall->GetEnable())
 			{
-				if (fall->GetEnable())
+				continue;
+			}
+
+			XMFLOAT3 spawnPos;
+			spawnPos.x = bossPos.x + bossForward.x * (z * DISTANCE) + bossRight.x * ((x - 1) * DISTANCE);;
+			spawnPos.y = bossPos.y;
+			spawnPos.z = bossPos.z + bossForward.z * (z * DISTANCE) + bossRight.z * ((x - 1) * DISTANCE);
+
+			fall->Spawn(spawnPos, damage, m_BulletSpeed);
+
+			z++;
+
+			if (z >= LINGHTNINGFALL_NUM_Z)
+			{
+				x++;
+				z = 0;
+
+				if (x >= LINGHTNINGFALL_NUM_X)
 				{
-					continue;
-				}
-
-				XMFLOAT3 spawnPos;
-				spawnPos.x = bossPos.x + bossForward.x * (z * DISTANCE) + bossRight.x * ((x - 1) * DISTANCE);;
-				spawnPos.y = bossPos.y;
-				spawnPos.z = bossPos.z + bossForward.z * (z * DISTANCE) + bossRight.z * ((x - 1) * DISTANCE);
-
-				fall->Spawn(spawnPos, damage, m_BulletSpeed);
-
-				z++;
-
-				if (z >= LINGHTNINGFALL_NUM_Z)
-				{
-					x++;
-					z = 0;
-
-					if (x >= LINGHTNINGFALL_NUM_X)
-					{
-						break;
-					}
+					break;
 				}
 			}
-			m_SpawnLingtning = false;
 		}
-		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
-		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimName);
-		// 状態を保存
-		m_BossCache->SetRunningNode(this);
-
-		return NODE_STATE::RUNNING;
+		m_SpawnLingtning = true;
 	}
-	else
-	{
-		if (node == this)
-		{
-			// 状態を削除
-			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATE::SUCCESS;
-		}
-	}
-
-	return NODE_STATE::FAILURE;
+	m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 }
