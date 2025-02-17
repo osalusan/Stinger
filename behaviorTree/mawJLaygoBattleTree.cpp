@@ -63,7 +63,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
+	// rootNode->AddTaskChild<RightSwipingTask>(boss, player);
 
 	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
 	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);

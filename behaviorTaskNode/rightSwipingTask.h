@@ -3,8 +3,11 @@
 
 class RightSwipingTask final : public TaskNode
 {
+private:
+	virtual void InitTask(const float& deltaTime)override;
+	virtual void RunningTask(const float& deltaTime)override;
+
 public:
 	using TaskNode::TaskNode;
 	virtual void Init()override;
-	virtual NODE_STATE Update(const float& deltaTime) override;
 };

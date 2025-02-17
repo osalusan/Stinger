@@ -16,6 +16,12 @@ void BackJumpTask::Init()
 void BackJumpTask::RunningTask(const float& deltaTime)
 {
 	TaskNode::RunningTask(deltaTime);
+
+	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
+	{
+		return;
+	}
+
 	if (m_CurrentTime > m_MaxAnimTime * MOVE_MIN_TIME_VALUE && m_CurrentTime < m_MaxAnimTime * MOVE_MAX_TIME_VALUE)
 	{
 		const XMFLOAT3& playerPos = m_PlayerCache->GetPos();

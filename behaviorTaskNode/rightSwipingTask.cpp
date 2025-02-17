@@ -8,58 +8,29 @@ void RightSwipingTask::Init()
 	m_TaskName = "右殴り";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;
+	m_AttackTask = true;
 }
 
-NODE_STATE RightSwipingTask::Update(const float& deltaTime)
+void RightSwipingTask::InitTask(const float& deltaTime)
 {
-	TaskNode::Update(deltaTime);
+	TaskNode::InitTask(deltaTime);
+	const float& startAnimeTime = m_MaxAnimTime * 0.3f;
+	m_CurrentTime = startAnimeTime;
+	m_BossCache->SetNextAnimationTime(startAnimeTime);
+}
+
+void RightSwipingTask::RunningTask(const float& deltaTime)
+{
+	TaskNode::RunningTask(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATE::FAILURE;
+		return;
 	}
+	// ダメージ発生
+	UseAttack(ATTACK_PARTS::RIGHT_ARM);
 
-	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (node != nullptr && node != this)
+	if (m_CurrentTime < m_MaxAnimTime * m_AttackDisableTimeValue)
 	{
-		return NODE_STATE::FAILURE;
+		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 	}
-
-	// 範囲内に入っていたら
-	if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHORT)
-	{
-		if (node == nullptr)
-		{
-			const float& startAnimeTime = m_MaxAnimTime * 0.3f;
-			m_CurrentTime = startAnimeTime;
-			m_BossCache->SetNextAnimationTime(startAnimeTime);
-		}
-	}
-
-	if (m_CurrentTime < m_MaxAnimTime)
-	{
-		if (m_CurrentTime < m_MaxAnimTime * m_AttackDisableTimeValue)
-		{
-			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
-		}
-		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimName);
-		// 攻撃状態を保存
-		m_BossCache->SetRunningNode(this);
-		// ダメージ発生
-		UseAttack(ATTACK_PARTS::RIGHT_ARM);
-
-		return NODE_STATE::RUNNING;
-	}
-	else
-	{
-		if (node == this)
-		{
-			// 攻撃状態を削除
-			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATE::SUCCESS;
-		}
-	}
-
-	return NODE_STATE::FAILURE;
 }
-

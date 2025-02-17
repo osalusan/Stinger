@@ -30,6 +30,10 @@ void JumpAttackTask::InitTask(const float& deltaTime)
 void JumpAttackTask::RunningTask(const float& deltaTime)
 {
 	TaskNode::RunningTask(deltaTime);
+	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
+	{
+		return;
+	}
 	// ˆÚ“® / ƒWƒƒƒ“ƒv
 	if (m_CurrentTime >= m_MaxAnimTime * LANDING_MIN_VALUE && m_CurrentTime < m_MaxAnimTime * LANDING_MAX_VALUE)
 	{

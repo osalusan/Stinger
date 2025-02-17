@@ -48,6 +48,12 @@ void LightningBarstTask::InitTask(const float& deltaTime)
 void LightningBarstTask::RunningTask(const float& deltaTime)
 {
 	TaskNode::RunningTask(deltaTime);
+
+	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
+	{
+		return;
+	}
+
 	if (m_UseLingtning == 0 && m_CurrentTime >= m_MaxAnimTime * SPAWN_LIGHTNINGFALL1_VALUE)
 	{
 		const float& damage = m_BossCache->GetAttack() * m_DamageValue;
