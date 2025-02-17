@@ -8,8 +8,12 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-// TODO :完成直前時に削除予定 / デバッグ用
+
+#if _DEBUG
 #include "manager/inputManager.h"
+#endif // _DEBUG
+
+
 
 constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.035f };
 constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.01f };
@@ -28,8 +32,7 @@ void BossEnemy::MoveControl(const float& deltaTime)
 	{
 		m_Tree->Update(deltaTime);
 	}
-
-	// TODO :削除予定 / デバッグ用
+#if _DEBUG
 	if (InputManager::GetKeyPress('0'))
 	{
 		TakeDamage(2000);
@@ -38,6 +41,9 @@ void BossEnemy::MoveControl(const float& deltaTime)
 	{
 		TakeDamage(1);
 	}
+#endif // _DEBUG
+
+	CheckWorldWallPos();
 }
 
 void BossEnemy::ParameterControl(const float& deltaTime)

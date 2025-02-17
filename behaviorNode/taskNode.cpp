@@ -20,12 +20,12 @@ float TaskNode::FindSkillData(const std::string& name)
 // ---------------------------- protected ----------------------------
 void TaskNode::ReserveAnimation(const std::string& fileName, const std::string& animationName)
 {
-	m_AnimeName = animationName;
+	m_AnimName = animationName;
 
 	// TODO :í«â¡ó\íË / ìGÇ™í«â¡Ç≥ÇÍÇΩÇÁÇªÇÃÇΩÇ—Ç…í«â¡
 	if (MawJLaygo* maw = dynamic_cast<MawJLaygo*>(m_BossCache))
 	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, fileName, m_AnimeName);
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::MAWJLAYGO, fileName, m_AnimName);
 	}
 }
 
@@ -39,9 +39,6 @@ void TaskNode::InitSkillData(const std::string& skillName)
 	m_DamageValue = FindSkillData("çUåÇ_î{ó¶");
 	m_SpeedValue = FindSkillData("ë¨ìx_î{ó¶");
 	m_UseStaminaValue = FindSkillData("è¡îÔÉXÉ^É~Éi_äÑçá");
-	m_DerivationHealth = FindSkillData("îhê∂ãZÇÃî≠ê∂ëÃóÕ_äÑçá");
-	m_DerivationTimeValue = FindSkillData("îhê∂ãZà⁄çséûä‘_äÑçá");
-	m_DerivationChance = FindSkillData("îhê∂ãZî≠ê∂_ämó¶");
 	m_AttackEnableTimeValue = FindSkillData("É_ÉÅÅ[ÉWäJénéûä‘_äÑçá");
 	m_AttackDisableTimeValue = FindSkillData("É_ÉÅÅ[ÉWèIóπéûä‘_äÑçá");
 	if (FindSkillData("ÉpÉäÉBâ¬î\_çUåÇ") != 0.0f)
@@ -91,6 +88,11 @@ int TaskNode::DerivationChance()
 		totalChance += chance;
 	}
 
+	if (totalChance == 0)
+	{
+		return 0;
+	}
+
 	const int& randValue = rand() % totalChance;
 	totalChance = 0;
 	int loop = 0;
@@ -120,6 +122,21 @@ NODE_STATE TaskNode::UpdateUseDerivationTask(const float& deltaTime)
 	return NODE_STATE::FAILURE;
 }
 
+void TaskNode::InitTask(const float& deltaTime)
+{
+	m_CurrentTime = 0.0f;
+	m_UseDerivation = false;
+	m_EnableDerivation = false;
+
+	// îhê∂ãZêUÇËï™ÇØ
+	DerivationChance();
+}
+
+void TaskNode::RunningTask(const float& deltaTime)
+{
+	return;
+}
+
 // ---------------------------- public ----------------------------
 TaskNode::TaskNode(BossEnemy* boss, Player* player)
 {
@@ -143,21 +160,110 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 {
 	if (m_BossCache == nullptr)
 	{
-		return NODE_STATE();
+		return NODE_STATE::FAILURE;
 	}
 	// ÉAÉjÉÅÅ[ÉVÉáÉìÇµÇ»Ç¢É^ÉXÉNÇàÍî‘ç≈èâÇ…ÇÕÇ∂Ç≠ÇÊÇ§Ç…
-	if (m_AnimeName != "" && m_MaxAnimTime == 0.0f)
+	if (m_AnimName != "" && m_MaxAnimTime == 0.0f)
 	{
 		if (FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossCache->GetAnimeModel()))
 		{
-			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimeName);
+			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimName);
 			m_CurrentTime = m_MaxAnimTime;
 		}
 	}
-
 	m_BossCache->SetAttackDamage(m_DamageValue);
 	m_BossCache->SetParryPossibleAtk(m_ParryPossibleAtk);
-	return NODE_STATE();
+
+	// çUåÇÉ^ÉXÉNÇ∂Ç·Ç»Ç©Ç¡ÇΩÇÁ
+	if (!m_AttackTask)
+	{
+		return NODE_STATE::FAILURE;
+	}
+
+	BehaviorNode* node = m_BossCache->GetRunningNode();
+	if (!CheckRunningNode(node))
+	{
+		return NODE_STATE::FAILURE;
+	}
+
+	// èâä˙âª
+	if (node == nullptr)
+	{
+		if (m_MaxAnimTime == 0.0f)
+		{
+			return NODE_STATE::FAILURE;
+		}
+
+		if (m_CurrentTime >= m_MaxAnimTime)
+		{
+			const float& maxStamina = m_BossCache->GetaMaxStamina();
+			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
+			{
+				InitTask(deltaTime);
+
+				if (m_ChildDerivChance.size() > 0)
+				{
+					if (GetDerivationData(m_UseDerivNumber).Chance == 0 || GetDerivationData(m_UseDerivNumber).Chance == 100)
+					{
+						m_EnableDerivation = true;
+					}
+					// ämó¶
+					if (rand() % 100 < GetDerivationData(m_UseDerivNumber).Chance)
+					{
+						m_EnableDerivation = true;
+					}
+				}
+			}
+			else
+			{
+				return NODE_STATE::FAILURE;
+			}
+		}
+	}
+
+	// îhê∂ãZÇÃî≠ê∂ämîF
+	if (GetDerivationData().size() > 0)
+	{
+		if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
+		{
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			{
+				m_UseDerivation = true;
+				m_EnableDerivation = false;
+				m_CurrentTime = m_MaxAnimTime;
+				m_BossCache->SetRunningNode(nullptr);
+			}
+		}
+	}
+
+	// îhê∂ãZÇÃî≠ê∂ämîFå„Ç…îzíu
+	if (m_UseDerivation)
+	{
+		return UpdateUseDerivationTask(deltaTime);
+	}
+
+	if (m_CurrentTime < m_MaxAnimTime)
+	{
+		m_CurrentTime += deltaTime;
+		m_BossCache->ChangeAnimation(m_AnimName);
+		// èÛë‘Çï€ë∂
+		m_BossCache->SetRunningNode(this);
+
+		RunningTask(deltaTime);
+
+		return NODE_STATE::RUNNING;
+	}
+	else
+	{
+		if (node == this)
+		{
+			// èÛë‘ÇçÌèú
+			m_BossCache->SetRunningNode(nullptr);
+			return NODE_STATE::SUCCESS;
+		}
+	}
+
+	return NODE_STATE::FAILURE;
 }
 
 void TaskNode::CancelRunningTask()

@@ -42,7 +42,7 @@ NODE_STATE RightSwipingTask::Update(const float& deltaTime)
 			m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 		}
 		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimeName);
+		m_BossCache->ChangeAnimation(m_AnimName);
 		// UŒ‚ó‘Ô‚ğ•Û‘¶
 		m_BossCache->SetRunningNode(this);
 		// ƒ_ƒ[ƒW”­¶

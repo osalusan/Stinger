@@ -24,6 +24,9 @@ private:
 
 	bool m_ChengeAnimation = false;				// アニメーションが今変えられるかどうか
 	bool m_UseAttack = false;
+	float m_CurrentHealTime = 0.0f;
+	float m_HealTime = 0.0f;
+	float m_HealSpeed = 0.0f;
 
 	virtual void MoveControl(const float& deltaTime)override;
 	virtual void CustomCollisionInfo()override;

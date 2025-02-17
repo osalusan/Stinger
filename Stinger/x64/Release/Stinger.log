@@ -1,4 +1,6 @@
 ﻿  taskNode.cpp
+  airLightningBallTask.cpp
+  backJumpTask.cpp
   checkAttackParry.cpp
   checkHealthTask.cpp
   checkRangeTask.cpp
@@ -6,19 +8,27 @@
   deadTask.cpp
   jumpAttackTask.cpp
   leftSwipingTask.cpp
+  lightningBattlecryTask.cpp
+  lightningFallFowardRainTask.cpp
   loadIdleTask.cpp
+  middleRangeAttackTask.cpp
   parryRecoilTask.cpp
+  rightPunchTask.cpp
   rightSwipingTask.cpp
   roaringInfinityTask.cpp
   roaringTask.cpp
+  shortRangeAttackTask.cpp
+  コンパイル中...
   waitTask.cpp
   mawJLaygoBattleTree.cpp
   mawJLaygoLoadTree.cpp
   mawJLaygoTitleTree.cpp
+  billboard.cpp
+  lightningBallEffect.cpp
+  lightningFallEffect.cpp
   camera.cpp
   loadCamera.cpp
   playerCamera.cpp
-  コンパイル中...
   titleCamera.cpp
   bossEnemy.cpp
   character.cpp
@@ -27,6 +37,10 @@
   boxCollisionComponent.cpp
   collisionComponent.cpp
   shaderComponent.cpp
+  enemyAttackObject.cpp
+  lightningBall.cpp
+  コンパイル中...
+  lightningFall.cpp
   equipmentObject.cpp
   fade.cpp
   imguiWindow.cpp
@@ -36,17 +50,17 @@
   inputManager.cpp
   objModelManager.cpp
   objectManager.cpp
-  particleManager.cpp
   sceneManager.cpp
   textureManager.cpp
-  コンパイル中...
   meshFiled.cpp
   gameObject.cpp
   transparentWall.cpp
+  lightningCharge.cpp
   particleEmitter.cpp
   spiralBlueorb.cpp
   playerState.cpp
   playerStateIdle.cpp
+  コンパイル中...
   playerStateJump.cpp
   playerStateMachine.cpp
   playerStateNormalAttack.cpp
@@ -60,7 +74,6 @@
   debugScene.cpp
   gameScene.cpp
   loadScene.cpp
-  コンパイル中...
   scene.cpp
   titleScene.cpp
   shadowVolume.cpp
@@ -68,10 +81,12 @@
   box.cpp
   moveRandSizeBox.cpp
   ruins.cpp
+  コンパイル中...
   staticmeshObject.cpp
   コード生成しています。
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 5114 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  0 of 5273 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    11 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

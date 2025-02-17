@@ -1,6 +1,6 @@
 #pragma once
 #include "object/gameObject.h"
-#define PARTICLE_MAX (1000)
+#define PARTICLE_MAX (800)
 
 enum class TEXTURE;
 
@@ -46,6 +46,7 @@ public:
 	ParticleEmiter();
 	ParticleEmiter(const XMFLOAT3& pos);
 	ParticleEmiter(const XMFLOAT3& pos,const bool& disable);
+	ParticleEmiter(const bool& disable);
 	~ParticleEmiter();
 	void Init();
 	void Update(const float& deltaTime);
@@ -58,5 +59,10 @@ public:
 	const bool& GetEnable()const
 	{
 		return m_Enable;
+	}
+
+	void SetPos(const XMFLOAT3& pos)
+	{
+		m_Position = pos;
 	}
 };

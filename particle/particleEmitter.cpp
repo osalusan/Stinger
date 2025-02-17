@@ -13,13 +13,20 @@ ParticleEmiter::ParticleEmiter()
 	m_Texture = TEXTURE::MAX;
 }
 
-ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos):ParticleEmiter()
+ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos)
+	:ParticleEmiter()
 {
 	m_Position = pos;
 }
 
 ParticleEmiter::ParticleEmiter(const XMFLOAT3& pos, const bool& disable)
 	:ParticleEmiter(pos)
+{
+	m_Enable = disable;
+}
+
+ParticleEmiter::ParticleEmiter(const bool& disable)
+	:ParticleEmiter()
 {
 	m_Enable = disable;
 }

@@ -81,7 +81,7 @@ public:
 	{
 		return m_Scale;
 	}
-	float GetMaxAnimeTime(const std::string& name);
+	float GetMaxAnimeTime(const std::string& name)const;
 
 	XMMATRIX AiMatrixToXMMATRIX(const aiMatrix4x4& mat) const
 	{

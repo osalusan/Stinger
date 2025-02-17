@@ -1,9 +1,6 @@
 #include "waitTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
-// TODO : 完成前に削除予定 / デバッグ用
-#include "manager/inputManager.h"
-
 
 void WaitTask::Init()
 {
@@ -37,14 +34,15 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 		// スタミナが多ければ多いほど、復帰時間が早くなる確率が上がる
 		const int& randValue = rand() % static_cast<int>(m_BossCache->GetStamina());
 		m_WaitValue = randValue * 0.01f;
+		m_CurrentTime = 0.0f;
 	}
 
 	if (m_CurrentTime < m_BossCache->GetMaxWaitTime() * m_WaitValue)
 	{
 		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimeName);
+		m_BossCache->ChangeAnimation(m_AnimName);
 		// スタミナ回復
-		m_BossCache->UseStamina(-deltaTime * 0.5f);
+		m_BossCache->UseStamina(-deltaTime * 0.7f);
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
 		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);

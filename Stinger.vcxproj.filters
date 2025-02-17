@@ -73,6 +73,9 @@
     <Filter Include="billboard">
       <UniqueIdentifier>{b96b79ae-fd68-4f5b-af23-5024385e37c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enemyAttackObject">
+      <UniqueIdentifier>{3b69d76c-75ed-4ace-b773-50e46309fdb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
@@ -176,9 +179,6 @@
     </ClCompile>
     <ClCompile Include="particle\particleEmitter.cpp">
       <Filter>particle</Filter>
-    </ClCompile>
-    <ClCompile Include="manager\particleManager.cpp">
-      <Filter>manager</Filter>
     </ClCompile>
     <ClCompile Include="particle\spiralBlueorb.cpp">
       <Filter>particle</Filter>
@@ -315,9 +315,6 @@
     <ClCompile Include="behaviorTaskNode\airLightningBallTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="staticMeshObject\lightningBall.cpp">
-      <Filter>staticMeshObject</Filter>
-    </ClCompile>
     <ClCompile Include="billboard\billboard.cpp">
       <Filter>billboard</Filter>
     </ClCompile>
@@ -328,6 +325,33 @@
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\shortRangeAttackTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\backJumpTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAttackObject\lightningBall.cpp">
+      <Filter>enemyAttackObject</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAttackObject\enemyAttackObject.cpp">
+      <Filter>enemyAttackObject</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard\lightningFallEffect.cpp">
+      <Filter>billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="enemyAttackObject\lightningFall.cpp">
+      <Filter>enemyAttackObject</Filter>
+    </ClCompile>
+    <ClCompile Include="particle\lightningCharge.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\lightningBattlecryTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\middleRangeAttackTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\lightningFallFowardRainTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
   </ItemGroup>
@@ -439,9 +463,6 @@
     </ClInclude>
     <ClInclude Include="particle\particleEmitter.h">
       <Filter>particle</Filter>
-    </ClInclude>
-    <ClInclude Include="manager\particleManager.h">
-      <Filter>manager</Filter>
     </ClInclude>
     <ClInclude Include="particle\spiralBlueorb.h">
       <Filter>particle</Filter>
@@ -581,9 +602,6 @@
     <ClInclude Include="behaviorTaskNode\airLightningBallTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="staticMeshObject\lightningBall.h">
-      <Filter>staticMeshObject</Filter>
-    </ClInclude>
     <ClInclude Include="billboard\billboard.h">
       <Filter>billboard</Filter>
     </ClInclude>
@@ -594,6 +612,33 @@
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\shortRangeAttackTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\backJumpTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAttackObject\lightningBall.h">
+      <Filter>enemyAttackObject</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAttackObject\enemyAttackObject.h">
+      <Filter>enemyAttackObject</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard\lightningFallEffect.h">
+      <Filter>billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="enemyAttackObject\lightningFall.h">
+      <Filter>enemyAttackObject</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\lightningCharge.h">
+      <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\lightningBattlecryTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\middleRangeAttackTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\lightningFallFowardRainTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>

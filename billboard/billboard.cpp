@@ -38,6 +38,8 @@ BillBoard::BillBoard(const XMFLOAT3& position, const XMFLOAT3& size, const TEXTU
 		m_MaxCount = maxTexture;
 	}
 
+	m_MaxTime = m_MaxCount * m_NextAnimTime;
+
 	TextureManager::ReservTexture(m_Texture, fileName);
 
 	AddComponent<ShaderComponent>(this);
@@ -92,9 +94,16 @@ void BillBoard::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
 	if (m_CurrentTime >= m_NextAnimTime)
-	{ 
-		m_AnimCount++; 
+	{
+		m_AnimCount++;
 		m_CurrentTime = 0.0f;
+		if (!m_Loop)
+		{
+			if (m_AnimCount >= m_MaxCount)
+			{
+				End();
+			}
+		}
 	}
 
 	if (m_Loop)
@@ -103,12 +112,14 @@ void BillBoard::Update(const float& deltaTime)
 		{
 			m_AnimCount = m_LoopStart;
 		}
+
+		if (m_AnimCount >= m_MaxCount)
+		{
+			m_AnimCount = 0;
+		}
 	}
 	
-	if (m_AnimCount >= m_MaxCount)
-	{ 
-		m_AnimCount = 0; 
-	}
+
 	m_CurrentTime += deltaTime;
 }
 void BillBoard::Draw()
@@ -149,13 +160,32 @@ void BillBoard::Draw()
 	}
 
 	if (m_CameraCache == nullptr) return;
-	XMMATRIX view = m_CameraCache->GetViewMatrix();
 
-	XMMATRIX invView;
-	invView = XMMatrixInverse(nullptr, view);//逆行列
-	invView.r[3].m128_f32[0] = 0.0f;
-	invView.r[3].m128_f32[1] = 0.0f;
-	invView.r[3].m128_f32[2] = 0.0f;
+	XMMATRIX invView = {};
+	if (m_BillboardY)
+	{
+		XMFLOAT3 cameraPos = m_CameraCache->GetPos();		// カメラのワールド座標
+		XMFLOAT3 myPos = m_Position;                        // オブジェクトのワールド座標
+
+		XMFLOAT3 vecObject = {
+			myPos.x - cameraPos.x,
+			0.0f,
+			myPos.z - cameraPos.z
+		};
+
+		float angle = atan2f(vecObject.x, vecObject.z);
+
+		invView = XMMatrixRotationY(angle);
+	}
+	else
+	{
+		XMMATRIX view = m_CameraCache->GetViewMatrix();
+
+		invView = XMMatrixInverse(nullptr, view);//逆行列
+		invView.r[3].m128_f32[0] = 0.0f;
+		invView.r[3].m128_f32[1] = 0.0f;
+		invView.r[3].m128_f32[2] = 0.0f;
+	}
 
 	//ワールドマトリクス設定
 	XMMATRIX world, scale, trans;
@@ -185,8 +215,18 @@ void BillBoard::Draw()
 	//プリミティブポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
+	Renderer::SetATCEnable(true);
 	//ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
+
+	Renderer::SetATCEnable(false);
+}
+
+void BillBoard::End()
+{
+	m_Enable = false;
+	m_CurrentTime = 0.0f;
+	m_AnimCount = 0;
 }
 
 void BillBoard::UseBillboard()

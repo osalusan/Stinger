@@ -21,10 +21,12 @@ protected:
 	int m_AnimCount = 0;
 	int m_MaxCount = 0;
 	float m_NextAnimTime = 0.0f;
+	float m_MaxTime = 0.0f;
 	bool m_Loop = false;
 	int m_LoopStart = 0;
 	int m_LoopEnd = 0;
-	XMFLOAT2 m_Offset = { 0.0f,0.0f };
+	XMFLOAT2 m_Offset = {};
+	bool m_BillboardY = false;				// Y軸のビルボードのみ有効
 public:
 	BillBoard() = delete;
 	~BillBoard();
@@ -35,5 +37,6 @@ public:
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
 
+	virtual void End();
 	void UseBillboard();
 };

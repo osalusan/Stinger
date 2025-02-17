@@ -12,19 +12,24 @@
 
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "Stinger";
-const char* GAME_VERSION = "0.9.0";
+const char* GAME_VERSION = "1.0.0";
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
 HWND g_Window;
 int g_Seed = 0;
+bool g_WindowActive = false;
+bool g_ShowMouse = false;
 
 HWND GetWindow()
 {
 	return g_Window;
 }
-
+bool GetWindowActive()
+{
+	return g_WindowActive;
+}
 int XorShiftInt(int& state)
 {
 	state ^= state << 13;
@@ -68,13 +73,6 @@ int APIENTRY WinMain(
 	srand(static_cast<unsigned int>(time(0)));
 
 	g_Seed = static_cast<int>(time(0));
-	// マウスカーソルの表示
-#if _DEBUG
-	ShowCursor(true);
-#else
-	// TODO :falseに変更予定 / デバッグ用
-	ShowCursor(true);
-#endif
 
 	WNDCLASSEX wcex = { 0 };
 	{
@@ -141,6 +139,17 @@ int APIENTRY WinMain(
         }
 		else
 		{
+			// マウスカーソルの表示
+#if _DEBUG
+			ShowCursor(true);
+#else
+			if (g_ShowMouse != g_WindowActive)
+			{
+				g_ShowMouse = g_WindowActive;
+				ShowCursor(!g_ShowMouse);
+			}			
+#endif
+
 			// 現在の時間を取得
 			QueryPerformanceCounter(&currTime);
 			// 経過時間を秒で計算
@@ -199,6 +208,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hWnd);
 			break;
 		}
+		break;
+	case WM_ACTIVATE:
+		g_WindowActive = (wParam != WA_INACTIVE);
+
 		break;
 	default:
 		break;

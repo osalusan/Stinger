@@ -1,8 +1,11 @@
+// 一番最初にインクルード
+#include "renderer/fbxModelRenderer.h"
+
 #include "imguiWindow.h"
 #include "main/main.h"
 #include "scene/scene.h"
-#include "renderer/renderer.h"
 #include "manager/objectManager.h"
+#include "manager/fbxModelManager.h"
 #include "character/bossEnemy.h"
 #include "character/player.h"
 #include "playerState/playerStateMachine.h"
@@ -85,7 +88,7 @@ void ImguiWindow::Update(const float& deltaTime)
     ImGui::Text(u8"------------- プレイヤー -------------");
     if (m_PlayerCache != nullptr)
     {
-        ImGui::Text(u8"体力 :%f / %f", m_PlayerCache->GetHealth(), m_PlayerCache->GetMaxHealth());
+        ImGui::Text(u8"体力 :%.3f / %.3f", m_PlayerCache->GetHealth(), m_PlayerCache->GetMaxHealth());
     }
     if (m_PlayerStateMachineCache != nullptr)
     {
@@ -100,13 +103,30 @@ void ImguiWindow::Update(const float& deltaTime)
     ImGui::Text(u8"------------- エネミー -------------");
     if (m_BossEnemyCache != nullptr)
     {
-        ImGui::Text(u8"スタミナ :%f / %f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
-        ImGui::Text(u8"体力 :%f / %f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
+        ImGui::Text(u8"体力 :%.3f / %.3f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
+        ImGui::SameLine();
+        ImGui::Text(u8"| スタミナ :%.3f / %.3f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
+
         std::wstring atkPartsName = ToWString(GetCurrentEnemyAttackParts(), 932);
         std::string atkPartsUtf8Name = ToUtf8(atkPartsName);
         ImGui::Text(u8"攻撃判定部位 :%s", atkPartsUtf8Name.c_str());
     }
     ImGui::Text(u8"ビヘイビアツリー");
+
+    ImGui::SameLine();
+
+    if (ImGui::Button(u8"派生技情報の表示形式を変更"))
+    {
+        if (m_ShowDerivationInfo == 0)
+        {
+            m_ShowDerivationInfo = 1;
+        }
+        else if (m_ShowDerivationInfo == 1)
+        {
+            m_ShowDerivationInfo = 0;
+        }
+    }
+
     // 青色：現在使用中
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f),u8"青色：現在使用中");
     // 改行しない
@@ -129,9 +149,14 @@ void ImguiWindow::Draw()
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData()); // 実行
 }
 
-void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
+void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode* parentNode, const int& parentChildNum)
 {
-    if (root == nullptr) return;
+    if (parentNode == nullptr)
+    {
+        parentNode = root;
+    }
+    if (parentNode == nullptr || root == nullptr) return;
+
     std::string name = root->GetTaskName().c_str();
     if (name == "")
     {
@@ -157,13 +182,56 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root)
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // 文字色
     }
 
-    
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+    ImVec4 white = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     if (ImGui::TreeNode(utf8Name.c_str()))
     {
+        int childNum = 0;
+
+        if (parentNode != root)
+        {
+            float maxAnimationTime = 0.0f;
+            if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossEnemyCache->GetAnimeModel()))
+            {
+                maxAnimationTime = model->GetMaxAnimeTime(root->GetAnimName());
+            }
+
+            // 分岐確率
+            if (parentNode->GetTotalDerivChance() > 0)
+            {
+                ImGui::SameLine();
+                ImGui::Text(u8"(分岐確率: %i %%)", parentNode->GetDerivChance(parentChildNum));
+            }
+
+            // 派生技のデータを表記
+            if (parentNode->GetDerivationData().size() > 0)
+            {
+                if (m_ShowDerivationInfo == 0)
+                {
+                    ImGui::Text(u8"{");
+                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
+                    ImGui::Text(u8"  派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
+                    ImGui::Text(u8"  派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
+                    ImGui::Text(u8"}");
+                }
+                else if (m_ShowDerivationInfo == 1)
+                {
+                    ImGui::Text(u8"{");
+                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
+                    ImGui::SameLine();
+                    ImGui::Text(u8"| 派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
+                    ImGui::SameLine();
+                    ImGui::Text(u8"| 派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
+                    ImGui::Text(u8"}");
+                }
+            }
+        }
+
         for (const BehaviorNode* child : root->GetChildren())
         {
-            DrawBehaviorTree(child);
+            DrawBehaviorTree(child, root, childNum);
+
+            childNum++;
         }
         ImGui::TreePop();
     }

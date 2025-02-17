@@ -5,7 +5,7 @@
 void RightPunchTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\mutantPunch_MawJ.fbx", "rightPunch");
-	m_TaskName = "右パンチ";
+	m_TaskName = "右高速パンチ";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;
 }
@@ -36,7 +36,7 @@ NODE_STATE RightPunchTask::Update(const float& deltaTime)
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
 		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimeName);
+		m_BossCache->ChangeAnimation(m_AnimName);
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
 

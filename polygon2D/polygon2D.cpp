@@ -43,7 +43,16 @@ Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT
 	:Polygon2D(position,size,pivot,texture,fileName)
 {
 	m_UseStencil = useStencil;
-	m_Color = { 0.0f,0.0f,0.0f,0.5f };
+	if (m_UseStencil)
+	{
+		m_Color = { 0.0f,0.0f,0.0f,0.5f };
+	}
+}
+
+Polygon2D::Polygon2D(const XMFLOAT2& position, const XMFLOAT2& size, const PIVOT& pivot, const TEXTURE& texture, const bool& useStencil, const wchar_t* fileName, const bool& enable)
+	:Polygon2D(position, size, pivot, texture, useStencil ,fileName)
+{
+	m_Enable = enable;
 }
 
 void Polygon2D::Init()

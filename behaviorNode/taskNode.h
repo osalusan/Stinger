@@ -18,19 +18,16 @@ protected:
 
 	float m_CurrentTime = 0.0f;
 	float m_MaxAnimTime = 0.0f;
-	std::string m_AnimeName = "";
 
 	bool m_UseDerivation = false;					// 派生技の初期設定をしたか
 	bool m_EnableDerivation = false;				// 派生技が使えるか
 	int m_UseDerivNumber = 0;                       // 使用する派生技の番号
+	bool m_AttackTask = false;						// 攻撃に使用しているタスク
 
 	// パラメータ
 	float m_DamageValue = 0.0f;						// ダメージ倍率
 	float m_SpeedValue = 0.0f;						// 速度倍率
 	float m_UseStaminaValue = 0.0f;					// 使用スタミナ倍率
-	float m_DerivationHealth = 0.0f;				// 派生可能体力
-	float m_DerivationTimeValue = 0.0f;				// 派生移行時間割合
-	float m_DerivationChance = 0.0f;				// 派生確率
 	float m_AttackEnableTimeValue = 0.0f;			// 攻撃判定開始時間
 	float m_AttackDisableTimeValue = 1.0f;			// 攻撃判定終了時間
 	float m_BulletSpeed = 0.0f;						// 弾速
@@ -49,6 +46,11 @@ protected:
 	int DerivationChance();
 	// 
 	NODE_STATE UpdateUseDerivationTask(const float& deltaTime);
+
+protected:
+	virtual void InitTask(const float& deltaTime);
+	virtual void RunningTask(const float& deltaTime);
+
 public:
 	TaskNode() = delete;
 	TaskNode(BossEnemy* boss, Player* player);

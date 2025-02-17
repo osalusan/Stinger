@@ -43,5 +43,6 @@ public:
 	static void ReservAudio(const AUDIO& audio, const char* fileName,const bool& startSound = false,const bool& loopSound = false);
 
 	static void Play(const AUDIO& audio,const bool& Loop = false,const float& volume = 1.0f);
+	static void Finish(const AUDIO& audio);
 };
 

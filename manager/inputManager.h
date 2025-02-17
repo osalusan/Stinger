@@ -16,5 +16,5 @@ public:
 
 	static bool GetMouseLeftPress();
 	static bool GetMouseRightPress();
-
+	
 };

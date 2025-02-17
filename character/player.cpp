@@ -112,6 +112,8 @@ void Player::TakeDamage(const float& atk)
 
 	m_Health -= atk;
 
+	m_CurrentHealTime = 0.0f;
+
 	if (m_PlayerHpCache != nullptr)
 	{
 		const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR.y};
@@ -157,6 +159,24 @@ void Player::MoveControl(const float& deltaTime)
 	if (m_PlayerStateMachine != nullptr)
 	{
 		m_PlayerStateMachine->Update(deltaTime);
+	}
+	// 自然回復
+	m_CurrentHealTime += deltaTime;
+
+	if (m_CurrentHealTime >= m_HealTime)
+	{
+		m_Health += deltaTime * m_HealSpeed;
+
+		if (m_Health >= m_MaxHealth)
+		{
+			m_Health = m_MaxHealth;
+		}
+
+		if (m_PlayerHpCache != nullptr)
+		{
+			const XMFLOAT2& size = { DEFAULT_SCALE_HPBAR.x * (m_Health / m_MaxHealth),DEFAULT_SCALE_HPBAR.y };
+			m_PlayerHpCache->ChangeUVScaling({ m_Health / m_MaxHealth ,1.0f });
+		}
 	}
 }
 
@@ -369,13 +389,15 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 	}
 
 	// ステータスの要素を追加した分だけ、if文の数値も変更
-	if (baseStatas.size() == 5)
+	if (baseStatas.size() == 7)
 	{
 		m_MaxHealth = std::stof(baseStatas[0]);
 		m_Attack = std::stof(baseStatas[1]);
 		m_MoveSpeed = std::stof(baseStatas[2]);
 		m_GravityValue = std::stof(baseStatas[3]);
 		m_RotSpeed = std::stof(baseStatas[4]);
+		m_HealTime = std::stof(baseStatas[5]);
+		m_HealSpeed = std::stof(baseStatas[6]);
 
 		m_Health = m_MaxHealth;
 	}
