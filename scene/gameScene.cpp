@@ -13,7 +13,7 @@
 #include "behaviorTree/mawJLaygoBattleTree.h"
 #include "object/transparentWall.h"
 
-constexpr XMFLOAT3 WALL_MAX = { 150.0f, 100.0f, 150.0f }; // 壁の最大範囲
+constexpr XMFLOAT3 WALL_MAX = { 250.0f, 100.0f, 250.0f }; // 壁の最大範囲
 constexpr float CLEAR_TO_TITLE = 5.0f;
 constexpr float INOPERABLE_TIME = 1.0f;
 constexpr XMFLOAT2 RETRY_AND_GOTITLE_SCALE = { SCREEN_WIDTH * 0.28f,SCREEN_HEIGHT * 0.12f };
@@ -69,7 +69,7 @@ void GameScene::Update(const float& deltaTime)
 	if (boss == nullptr) return;
 
 	// ゲームクリア画面
-	if (boss->GetHealth() <= 0.0f)
+	if (boss->GetHealth() <= 0.0f && m_CurrentGameOverTime == 0.0f)
 	{
 		m_CurrentClearTime += deltaTime;
 		std::vector<GameObject*> objects = {};
@@ -97,7 +97,7 @@ void GameScene::Update(const float& deltaTime)
 	}
 
 	// ゲームオーバー画面
-	if (player->GetHealth() <= 0.0f)
+	if (player->GetHealth() <= 0.0f && m_CurrentClearTime == 0.0f)
 	{
 		m_CurrentGameOverTime += deltaTime;
 		std::vector<GameObject*> objects = {};
