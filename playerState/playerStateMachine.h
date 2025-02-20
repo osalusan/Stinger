@@ -55,6 +55,7 @@ private:
 	XMFLOAT3 m_Rotation = {};
 
 	float m_AnimeBlendTimeValue = 0.0f;				// アニメーションのブレンド速度
+	int m_ParryCount = 0;						// パリィカウント
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
@@ -63,6 +64,7 @@ private:
 	bool m_IsNormalAttackButton = false;			// 通常攻撃をしたか
 	bool m_IsHitAttacked = false;					// 攻撃を受けたか
 	bool m_IsInvincible = false;					// 無敵状態かどうか
+	bool m_IsExtrAttack = false;					// エクストラ攻撃が発動可能か
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
@@ -83,6 +85,11 @@ public:
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// 地面に当たった
+
+	void InitParryCount()
+	{
+		m_ParryCount = 0;
+	}
 
 	const Player* GetPlayerCache()const
 	{
@@ -142,7 +149,10 @@ public:
 	{
 		return m_IsHitAttacked;
 	}	
-
+	const bool& GetIsExtrAttack()const
+	{
+		return m_IsExtrAttack;
+	}
 
 	void SetIsHitAttack(const bool& hit)
 	{

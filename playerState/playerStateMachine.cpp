@@ -13,6 +13,8 @@
 #include "playerStateNormalAttack.h"
 #include "playerState/playerStateRolling.h"
 
+constexpr int EXTRATTACK_ACCEPT_PARRY_MAX = 3;
+
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
 	if (player == nullptr || m_PlayerCache != nullptr) return;
@@ -90,6 +92,7 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_IsParryAttackButton = false;
 	m_IsNormalAttackButton = false;
 	m_IsRollingButton = false;
+	m_IsExtrAttack = false;
 
 	// UŒ‚
 	if (InputManager::GetMouseRightPress())
@@ -99,6 +102,11 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	if (InputManager::GetMouseLeftPress())
 	{
 		m_IsNormalAttackButton = true;
+
+		if (m_ParryCount >= EXTRATTACK_ACCEPT_PARRY_MAX)
+		{
+			m_IsExtrAttack = true;
+		}
 	}
 	// ‰ñ”ð
 	if (InputManager::GetKeyPress(VK_SPACE))

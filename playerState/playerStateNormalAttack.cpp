@@ -229,7 +229,6 @@ void PlayerStateNormalAttack::ChangeStateControl()
 
 	// 優先順位順
 
-	// TODO :アニメーションの時間を設定
 	if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);

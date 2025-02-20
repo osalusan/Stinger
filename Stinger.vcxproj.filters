@@ -354,6 +354,9 @@
     <ClCompile Include="behaviorTaskNode\lightningFallFowardRainTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="playerState\playerStateExtrAttack.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -640,6 +643,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\lightningFallFowardRainTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateExtrAttack.h">
+      <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
