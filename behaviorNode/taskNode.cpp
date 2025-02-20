@@ -201,7 +201,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 			{
 				InitTask(deltaTime);
 
-				if (m_ChildDerivChance.size() > 0)
+				if (m_Children.size() > 0)
 				{
 					if (GetDerivationData(m_UseDerivNumber).Chance == 0 || GetDerivationData(m_UseDerivNumber).Chance == 100)
 					{

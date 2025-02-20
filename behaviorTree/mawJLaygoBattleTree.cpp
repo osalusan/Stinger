@@ -63,7 +63,21 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	// rootNode->AddTaskChild<RightSwipingTask>(boss, player);
+	// rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
+	if (BehaviorNode* lb1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player))
+	{
+		DERIVATION_DATA lightningBallDerivData = { 0.83f,100,1.0f };
+		if (BehaviorNode* lb2 = lb1->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, boss, player))
+		{
+			DERIVATION_DATA jumpAttackDerivData = { 0.68f,100,0.2f };
+			lb2->AddTaskChild<JumpAttackTask>(jumpAttackDerivData, 25, boss, player);
+
+			if (BehaviorNode* lb3 = lb2->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, 75, boss, player))
+			{
+				lb3->AddTaskChild<JumpAttackTask>(jumpAttackDerivData, boss, player);
+			}
+		}
+	}
 
 	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
 	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
