@@ -233,6 +233,10 @@ void PlayerStateNormalAttack::ChangeStateControl()
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
+	else if (m_PlayerMachine->GetIsExtrAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_EXTR);
+	}
 	else if (m_AttackCancel)
 	{
 		// ƒpƒŠƒBUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç

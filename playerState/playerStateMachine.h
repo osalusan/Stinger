@@ -11,6 +11,7 @@ enum class PLAYER_STATE
 	ROLLING,
 	ATTACK_PARRY,
 	ATTACK_NORMAL,
+	ATTACK_EXTR,
 	RUN,
 	DEAD,
 	MAX
@@ -32,6 +33,7 @@ class Camera;
 class PlayerStateParryAttack;
 class PlayerStateRolling;
 class PlayerStateNormalAttack;
+class PlayerStateExtrAttack;
 
 class PlayerStateMachine final
 {
@@ -42,6 +44,7 @@ private:
 	PlayerState* m_CurrentPlayerState = nullptr;
 	PlayerStateParryAttack* m_ParryCache = nullptr;
 	PlayerStateNormalAttack* m_NormalAttackCache = nullptr;
+	PlayerStateExtrAttack* m_ExtrAttackCache = nullptr;
 
 	PlayerStateRolling* m_RollingCache = nullptr;
 	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
@@ -86,7 +89,7 @@ public:
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// ’n–Ê‚É“–‚½‚Á‚½
 
-	void InitParryCount()
+	void UseExtrAttack()
 	{
 		m_ParryCount = 0;
 	}

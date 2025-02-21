@@ -12,6 +12,7 @@
 #include "playerStateParryAttack.h"
 #include "playerStateNormalAttack.h"
 #include "playerState/playerStateRolling.h"
+#include "playerState/playerStateExtrAttack.h"
 
 constexpr int EXTRATTACK_ACCEPT_PARRY_MAX = 3;
 
@@ -39,6 +40,7 @@ void PlayerStateMachine::Init()
 		m_ParryCache = new PlayerStateParryAttack(this);
 		m_RollingCache = new PlayerStateRolling(this);
 		m_NormalAttackCache = new PlayerStateNormalAttack(this);
+		m_ExtrAttackCache = new PlayerStateExtrAttack(this);
 		// 要素上限分リハッシュ
 		m_PlayerStatePool.reserve(static_cast<int>(PLAYER_STATE::MAX) - 1);
 
@@ -46,6 +48,7 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::RUN, new PlayerStateRun(this));
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_PARRY, m_ParryCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, m_NormalAttackCache);
+		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_EXTR, m_ExtrAttackCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ROLLING, m_RollingCache);
 	}
 	// 初期化
@@ -93,6 +96,12 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	m_IsNormalAttackButton = false;
 	m_IsRollingButton = false;
 	m_IsExtrAttack = false;
+
+	// TODO :デバッグ用 / 削除予定
+	if (InputManager::GetKeyPress('Q'))
+	{
+		m_ParryCount++;
+	}
 
 	// 攻撃
 	if (InputManager::GetMouseRightPress())
@@ -203,7 +212,12 @@ bool PlayerStateMachine::CheckParry()
 
 	if (m_ParryCache == nullptr) return false;
 	
-	return m_ParryCache->CheckParryAccept();
+	if (m_ParryCache->CheckParryAccept())
+	{
+		m_ParryCount++;
+		return true;
+	}
+	return false;
 }
 
 bool PlayerStateMachine::CheckRolling()
@@ -217,12 +231,21 @@ bool PlayerStateMachine::CheckRolling()
 
 bool PlayerStateMachine::CheckAttack()
 {
-	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_NORMAL]) return false;
+	if (m_CurrentPlayerState == m_PlayerStatePool[PLAYER_STATE::ATTACK_NORMAL])
+	{
+		if (m_NormalAttackCache == nullptr) return false;
 
-	if (m_NormalAttackCache == nullptr) return false;
+		return m_NormalAttackCache->CheckAttackAccept();
+	}
 
-	return m_NormalAttackCache->CheckAttackAccept();
+	if (m_CurrentPlayerState == m_PlayerStatePool[PLAYER_STATE::ATTACK_EXTR])
+	{
+		if (m_ExtrAttackCache == nullptr) return false;
 
+		return m_ExtrAttackCache->CheckAttackAccept();
+	}
+	
+	return false;
 }
 
 XMFLOAT3 PlayerStateMachine::GetCameraForward() const

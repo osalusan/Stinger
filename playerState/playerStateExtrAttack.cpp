@@ -10,7 +10,11 @@
 void PlayerStateExtrAttack::Init()
 {
 	m_CurrentTime = 0.0f;
+	m_AttackAccept = false;
+
 	if (m_PlayerMachine == nullptr) return;
+
+	m_PlayerMachine->UseExtrAttack();
 
 	if (m_PlayerCache == nullptr)
 	{
@@ -33,13 +37,6 @@ void PlayerStateExtrAttack::Init()
 		m_Load = true;
 	}
 
-	if (m_BossCache == nullptr)
-	{
-		if (m_ObjManagerCache != nullptr)
-		{
-			m_BossCache = m_ObjManagerCache->GetBossEnemy();
-		}
-	}
 	if (m_ObjManagerCache == nullptr)
 	{
 		Scene* scene = SceneManager::GetScene();
@@ -47,10 +44,20 @@ void PlayerStateExtrAttack::Init()
 		m_ObjManagerCache = scene->GetObjectManager();
 	}
 
+	if (m_BossCache == nullptr)
+	{
+		if (m_ObjManagerCache != nullptr)
+		{
+			m_BossCache = m_ObjManagerCache->GetBossEnemy();
+		}
+	}
+
 	if (m_ObjManagerCache != nullptr && m_PlayerMachine->GetIsExtrAttack())
 	{
-		m_ObjManagerCache->SetSlowTime(1.5f);
-		m_ObjManagerCache->SetSlowValue(0.0f);
+		// TODO :エネミーの動きのみを止める処理
+
+		//m_ObjManagerCache->SetSlowTime(1.5f);
+		//m_ObjManagerCache->SetSlowValue(0.0f);
 	}
 }
 
@@ -79,4 +86,22 @@ void PlayerStateExtrAttack::ChangeStateControl()
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
+}
+
+bool PlayerStateExtrAttack::CheckAttackAccept()
+{
+	if (!m_AttackAccept)
+	{
+		if (m_BossCache == nullptr || m_PlayerCache == nullptr)
+		{
+			return false;
+		}
+
+		m_BossCache->TakeDamage(m_PlayerCache->GetAttack() * m_DamageValue);
+		m_AttackAccept = true;
+
+		// TODO :音の変更予定 / 借り素材
+		AudioManager::Play(AUDIO::SLASH2_SE, false, 0.85f);
+	}
+	return m_AttackAccept;
 }
