@@ -14,7 +14,19 @@ private:
 	PlayerCamera* m_CameraCache = nullptr;
 
 	bool m_AttackAccept = false;
+	// アニメーション制御用パラメータ
+	float m_AnimSpeedValue = 0.0f;
+	bool m_StopAnim = false;
+	float m_CurrentStopAnimTime = 0.0f;
+
+	// CSVからの読み込み
 	float m_DamageValue = 0.0f;
+	float m_CutInTimeMax = 0.0f;
+	float m_CutInTimeMin = 0.0f;
+	float m_MoveTimeMax = 0.0f;
+	float m_StartStopAnimTimeValue = 0.0f;
+	float m_StopAnimTimeValue = 0.0f;
+
 public:
 	using PlayerState::PlayerState;
 	virtual void Init()override;

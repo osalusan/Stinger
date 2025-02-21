@@ -8,10 +8,16 @@
 #include "character/bossEnemy.h"
 #include "camera/playerCamera.h"
 
+constexpr float SLOW_ANIMATION_SPEED = 0.1f;
+constexpr float QUICK_ANIMATION_SPEED = 1.3f;
+
 void PlayerStateExtrAttack::Init()
 {
 	m_CurrentTime = 0.0f;
 	m_AttackAccept = false;
+	m_StopAnim = false;
+	m_CurrentStopAnimTime = 0.0f;
+	m_AnimSpeedValue = 1.0f;
 
 	if (m_PlayerMachine == nullptr) return;
 
@@ -34,6 +40,11 @@ void PlayerStateExtrAttack::Init()
 		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("エクストラ攻撃");
 
 		m_DamageValue = FindStateData(parryAttak, "ダメージ_倍率");
+		m_CutInTimeMin = FindStateData(parryAttak, "カットイン時間_最小");
+		m_CutInTimeMax = FindStateData(parryAttak, "カットイン時間_最大");
+		m_MoveTimeMax = FindStateData(parryAttak, "移動時間_最大");
+		m_StartStopAnimTimeValue = FindStateData(parryAttak, "アニメーション速度制御開始時間_割合");
+		m_StopAnimTimeValue = FindStateData(parryAttak, "アニメーション速度制御時間_割合");
 
 		m_Load = true;
 	}
@@ -60,10 +71,6 @@ void PlayerStateExtrAttack::Init()
 			m_CameraCache = dynamic_cast<PlayerCamera*>(m_ObjManagerCache->GetCamera());
 		}
 	}	
-	if (m_CameraCache != nullptr)
-	{
-		m_CameraCache->StartCutIn();
-	}
 
 	if (m_ObjManagerCache != nullptr && m_PlayerMachine->GetIsExtrAttack())
 	{
@@ -82,7 +89,7 @@ void PlayerStateExtrAttack::Unit()
 void PlayerStateExtrAttack::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
-	m_CurrentTime += deltaTime;
+	m_CurrentTime += deltaTime * m_AnimSpeedValue;
 
 	if (m_MaxAnimTime == 0.0f)
 	{
@@ -91,23 +98,67 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimName);
 		}
 	}
-}
 
-void PlayerStateExtrAttack::ChangeStateControl()
-{
-	if (m_CurrentTime >= m_MaxAnimTime)
+	// カットイン制御
+	if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMax)
 	{
 		if (m_CameraCache != nullptr)
 		{
 			m_CameraCache->EndCutIn();
 		}
+	}
+	else if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMin)
+	{
+		if (m_CameraCache != nullptr)
+		{
+			m_CameraCache->StartCutIn();
+		}
+	}
+
+	if (m_PlayerMachine == nullptr) return;
+
+	// アニメーションの停止
+	if (m_CurrentStopAnimTime == 0.0f)
+	{
+		if (m_CurrentTime >= m_MaxAnimTime * m_StartStopAnimTimeValue)
+		{
+			m_AnimSpeedValue = SLOW_ANIMATION_SPEED;
+			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
+			m_StopAnim = true;
+		}
+	}
+
+	if (m_StopAnim)
+	{
+		m_CurrentStopAnimTime += deltaTime;
+
+		if (m_CurrentStopAnimTime >= m_StopAnimTimeValue)
+		{
+			m_AnimSpeedValue = QUICK_ANIMATION_SPEED;
+			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
+			m_StopAnim = false;
+		}
+	}
+}
+
+void PlayerStateExtrAttack::ChangeStateControl()
+{
+	if (m_CurrentTime >= m_MaxAnimTime)
+	{		
+		if (m_PlayerMachine != nullptr)
+		{
+			m_AnimSpeedValue = 1.0f;
+			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
+		}
+
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
 }
 
 bool PlayerStateExtrAttack::CheckAttackAccept()
 {
-	if (!m_AttackAccept)
+	// カットイン終了後に判定を出す
+	if (!m_AttackAccept && m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMin)
 	{
 		if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 		{
@@ -115,6 +166,8 @@ bool PlayerStateExtrAttack::CheckAttackAccept()
 		}
 
 		m_BossCache->TakeDamage(m_PlayerCache->GetAttack() * m_DamageValue);
+		m_BossCache->SetParryRecoil(true);
+		
 		m_AttackAccept = true;
 
 		// TODO :音の変更予定 / 借り素材

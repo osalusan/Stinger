@@ -206,6 +206,13 @@ void PlayerStateMachine::InitVelocity()
 	m_Velocity = {};
 }
 
+void PlayerStateMachine::SetAnimationSpeedValue(const float& value)
+{
+	if (m_ParryCache == nullptr) return;
+
+	m_PlayerCache->SetAnimationSpeedValue(value);
+}
+
 bool PlayerStateMachine::CheckParry()
 {
 	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_PARRY]) return false;

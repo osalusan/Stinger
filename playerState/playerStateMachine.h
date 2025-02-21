@@ -81,6 +81,7 @@ public:
 
 	void SetPlayerState(const PLAYER_STATE& state);
 	void InitVelocity();
+	void SetAnimationSpeedValue(const float& value);
 
 	bool CheckParry();
 	bool CheckRolling();
