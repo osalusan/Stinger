@@ -102,10 +102,7 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 	// カットイン制御
 	if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMax)
 	{
-		if (m_CameraCache != nullptr)
-		{
-			m_CameraCache->EndCutIn();
-		}
+		m_CameraCache->StartEnemyDirection();
 	}
 	else if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMin)
 	{
@@ -149,6 +146,11 @@ void PlayerStateExtrAttack::ChangeStateControl()
 		{
 			m_AnimSpeedValue = 1.0f;
 			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
+		}
+
+		if (m_CameraCache != nullptr)
+		{
+			m_CameraCache->EndCutIn();
 		}
 
 		ChangePlayerState(PLAYER_STATE::IDLE);

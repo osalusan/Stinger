@@ -1,12 +1,13 @@
 #include "playerCamera.h"
 #include "character/player.h"
+#include "character/bossEnemy.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH = (1.0f / SCREEN_SCALE) * 70.0f;
-constexpr float OFFSET_TARGET_POS_Y = LENGTH * 0.35f;
+constexpr float LENGTH_DEFAULT = (1.0f / SCREEN_SCALE) * 70.0f;
+constexpr float OFFSET_TARGET_POS_Y = LENGTH_DEFAULT * 0.35f;
 constexpr float LENGTH_CUTIN = (1.0f / SCREEN_SCALE) * 9.0f;
 constexpr float CUTIN_TARGET_POS_Y = LENGTH_CUTIN * 1.25f;
 // マウスの設定
@@ -31,13 +32,22 @@ void PlayerCamera::Init()
 		
 		m_PlayerCache = objectManager->GetPlayer();
 	}
-
-	m_Length = LENGTH;
 }
 
 void PlayerCamera::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
+	if (m_PlayerCache == nullptr) return;
+
+	if (m_BossCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objectManager = scene->GetObjectManager();
+		if (objectManager == nullptr) return;
+
+		m_BossCache = objectManager->GetBossEnemy();
+	}
 
 	if (!m_CutInMode)
 	{
@@ -62,11 +72,9 @@ void PlayerCamera::Update(const float& deltaTime)
 			m_Rotation.x = -1.14f;
 		}
 
-		if (m_PlayerCache != nullptr)
-		{
-			m_Target = m_PlayerCache->GetPos();
-			m_Target.y += OFFSET_TARGET_POS_Y;
-		}
+		m_Target = m_PlayerCache->GetPos();
+		m_Target.y += OFFSET_TARGET_POS_Y;
+		
 
 		//カメラの移動処理
 
@@ -75,13 +83,14 @@ void PlayerCamera::Update(const float& deltaTime)
 		const float& sinYaw = sinf(m_Rotation.y);
 		const float& cosYaw = cosf(m_Rotation.y);
 
-		const float& horizontalDist = m_Length * cosPitch;
+		const float& horizontalDist = LENGTH_DEFAULT * cosPitch;
 
 		m_Position.x = m_Target.x - horizontalDist * sinYaw;
 		m_Position.z = m_Target.z - horizontalDist * cosYaw;
-		m_Position.y = m_Target.y - m_Length * sinPitch;
+		m_Position.y = m_Target.y - LENGTH_DEFAULT * sinPitch;
 
 		m_OldMousePos = m_MousePos;
+		m_Length = LENGTH_DEFAULT;
 
 #if _DEBUG
 		if (InputManager::GetKeyPress('R'))
@@ -107,7 +116,28 @@ void PlayerCamera::Update(const float& deltaTime)
 	}
 	else
 	{
-		if (m_PlayerCache != nullptr)
+		m_Length = LENGTH_CUTIN;
+
+		if (m_BossCache == nullptr) return;
+
+		if (m_StartEnemyDirection)
+		{
+			const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
+			const XMFLOAT3& enemyPos = m_BossCache->GetPos();
+			XMFLOAT3 distance = {};
+			distance.x = playerPos.x - enemyPos.x;
+			distance.y = playerPos.y - enemyPos.y;
+			distance.z = playerPos.x - enemyPos.z;
+
+			// 正規化
+			XMVECTOR vec = XMLoadFloat3(&distance);
+			vec = XMVector2Normalize(vec);
+			XMStoreFloat3(&distance, vec);
+
+			m_Target = playerPos;
+			m_Target.y += OFFSET_TARGET_POS_Y;
+		}
+		else
 		{
 			m_Target = m_PlayerCache->GetPos();
 			m_Target.y += CUTIN_TARGET_POS_Y;
@@ -117,8 +147,6 @@ void PlayerCamera::Update(const float& deltaTime)
 			m_Position.y += CUTIN_TARGET_POS_Y;
 		}
 	}
-
-
 }
 
 void PlayerCamera::StartCutIn()
@@ -129,4 +157,10 @@ void PlayerCamera::StartCutIn()
 void PlayerCamera::EndCutIn()
 {
 	m_CutInMode = false;
+	m_StartEnemyDirection = false;
+}
+
+void PlayerCamera::StartEnemyDirection()
+{
+	m_StartEnemyDirection = true;
 }
