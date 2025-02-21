@@ -10,10 +10,17 @@ private:
 
 	XMFLOAT2 m_MousePos = {};
 	XMFLOAT2 m_OldMousePos = {};
+	XMFLOAT3 m_CutInRecordPos = {};
+	XMFLOAT3 m_CutInPos = {};
+
+	bool m_CutInMode = false;
 	int m_CurrentTime = 0;
 public:
 	using Camera::Camera;
 	virtual ~PlayerCamera()override;
 	void Init()override;
 	void Update(const float& deltaTime)override;
+
+	void StartCutIn();
+	void EndCutIn();
 };

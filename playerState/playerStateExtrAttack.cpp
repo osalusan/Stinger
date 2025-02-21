@@ -6,6 +6,7 @@
 #include "renderer/fbxModelRenderer.h"
 #include "scene/scene.h"
 #include "character/bossEnemy.h"
+#include "camera/playerCamera.h"
 
 void PlayerStateExtrAttack::Init()
 {
@@ -27,8 +28,8 @@ void PlayerStateExtrAttack::Init()
 	{
 		LoadAnimation("asset\\model\\player\\swordAndShieldExtrAttack_PaladinJNordstrom.fbx", "extrAttack");
 
-		// TODO :âπÇÇ¬ÇØÇÈ
-		// AudioManager::ReservAudio(AUDIO::PARRY_SE, "asset\\audio\\se\\parry.wav");
+		// TODO :ïœçXó\íË / âºëfçﬁ
+		AudioManager::ReservAudio(AUDIO::SLASH2_SE, "asset\\audio\\se\\slash2.wav");
 
 		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("ÉGÉNÉXÉgÉâçUåÇ");
 
@@ -50,6 +51,18 @@ void PlayerStateExtrAttack::Init()
 		{
 			m_BossCache = m_ObjManagerCache->GetBossEnemy();
 		}
+	}
+
+	if (m_CameraCache == nullptr)
+	{
+		if (m_ObjManagerCache != nullptr)
+		{
+			m_CameraCache = dynamic_cast<PlayerCamera*>(m_ObjManagerCache->GetCamera());
+		}
+	}	
+	if (m_CameraCache != nullptr)
+	{
+		m_CameraCache->StartCutIn();
 	}
 
 	if (m_ObjManagerCache != nullptr && m_PlayerMachine->GetIsExtrAttack())
@@ -84,6 +97,10 @@ void PlayerStateExtrAttack::ChangeStateControl()
 {
 	if (m_CurrentTime >= m_MaxAnimTime)
 	{
+		if (m_CameraCache != nullptr)
+		{
+			m_CameraCache->EndCutIn();
+		}
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
 }
