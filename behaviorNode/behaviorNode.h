@@ -12,9 +12,9 @@ enum class NODE_STATE
 // 派生可能体力割合、発生確率、移行時間割合
 struct DERIVATION_DATA
 {
-    float HealthValue = 0.0f;            // 派生可能体力割合
-    int Chance = 0;                      // 派生技発生確率
-    float TransTimeValue = 0.0f;	     // 派生移行時間割合
+    float HealthValue = 0.0f;            // 派生可能体力割合 / 1.0が最大
+    int Chance = 0;                      // 派生技発生確率 / 100が最大
+    float TransTimeValue = 0.0f;	     // 派生移行時間割合 / 1.0が最大
 };
 
 class BehaviorNode 
