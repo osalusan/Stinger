@@ -11,14 +11,13 @@
   deadTask.cpp
   jumpAttackTask.cpp
   leftSwipingTask.cpp
-  lightningBattlecryTask.cpp
+  lightningBarstTask.cpp
   lightningFallFowardRainTask.cpp
   loadIdleTask.cpp
   middleRangeAttackTask.cpp
   parryRecoilTask.cpp
   rightPunchTask.cpp
   rightSwipingTask.cpp
-  コンパイル中...
   roaringInfinityTask.cpp
   roaringTask.cpp
   shortRangeAttackTask.cpp
@@ -27,70 +26,11 @@
   mawJLaygoBattleTree.cpp
   mawJLaygoLoadTree.cpp
   mawJLaygoTitleTree.cpp
-  billboard.cpp
-  lightningBallEffect.cpp
-  lightningFallEffect.cpp
-  camera.cpp
-  loadCamera.cpp
-  playerCamera.cpp
-  titleCamera.cpp
-  bossEnemy.cpp
-  character.cpp
-  mawJLaygo.cpp
-  player.cpp
-  boxCollisionComponent.cpp
-  コンパイル中...
-  collisionComponent.cpp
-  shaderComponent.cpp
-  enemyAttackObject.cpp
-  lightningBall.cpp
-  lightningFall.cpp
-  equipmentObject.cpp
-  fade.cpp
   imguiWindow.cpp
-  main.cpp
-  audioManager.cpp
-  fbxModelManager.cpp
-  inputManager.cpp
-  objModelManager.cpp
-  objectManager.cpp
-  sceneManager.cpp
-  textureManager.cpp
-  meshFiled.cpp
-  gameObject.cpp
-  transparentWall.cpp
-  lightningCharge.cpp
-  コンパイル中...
-  particleEmitter.cpp
-  spiralBlueorb.cpp
-  playerState.cpp
-  playerStateIdle.cpp
-  playerStateJump.cpp
-  playerStateMachine.cpp
-  playerStateNormalAttack.cpp
-  playerStateParryAttack.cpp
-  playerStateRolling.cpp
-  playerStateRun.cpp
-  polygon2D.cpp
-  fbxModelRenderer.cpp
-  objModelRenderer.cpp
-  renderer.cpp
-  debugScene.cpp
-  gameScene.cpp
-  loadScene.cpp
-  scene.cpp
-  titleScene.cpp
-  shadowVolume.cpp
-  コンパイル中...
-  skydome.cpp
-  box.cpp
-  moveRandSizeBox.cpp
-  ruins.cpp
-  staticmeshObject.cpp
   コード生成しています。
-  10 of 5274 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    33 functions had inline decision re-evaluated but remain unchanged
+  0 of 5291 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

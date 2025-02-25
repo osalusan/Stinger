@@ -46,6 +46,7 @@ void TaskNode::InitSkillData(const std::string& skillName)
 		m_ParryPossibleAtk = true;
 	}
 	m_BulletSpeed = FindSkillData("弾速");
+	m_BulletActionTime = FindSkillData("発射_時間");
 	m_AnimationSpeedValue = FindSkillData("アニメーション速度_倍率");
 }
 
@@ -226,7 +227,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 	{
 		if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
 		{
-			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).HealthValue)
 			{
 				m_UseDerivation = true;
 				m_EnableDerivation = false;

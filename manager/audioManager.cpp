@@ -7,7 +7,7 @@ IXAudio2MasteringVoice*	AudioManager::m_MasteringVoice = nullptr;
 std::unordered_map<AUDIO, AUDIO_DATA*> AudioManager::m_LoadAudioPool = {};
 std::unordered_map<AUDIO, AUDIO_RESERVE_DATA> AudioManager::m_ReservAudioPool = {};
 
-constexpr float MASTER_VOLUME = 0.6f;
+constexpr float MASTER_VOLUME = 0.25f;
 
 void AudioManager::InitMaster()
 {

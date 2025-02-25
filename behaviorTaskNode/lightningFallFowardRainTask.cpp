@@ -75,7 +75,7 @@ void LightningFallFowardRainTask::RunningTask(const float& deltaTime)
 			spawnPos.y = bossPos.y;
 			spawnPos.z = bossPos.z + bossForward.z * (z * DISTANCE) + bossRight.z * ((x - 1) * DISTANCE);
 
-			fall->Spawn(spawnPos, damage, m_BulletSpeed);
+			fall->Spawn(spawnPos, damage, m_BulletActionTime);
 
 			z++;
 

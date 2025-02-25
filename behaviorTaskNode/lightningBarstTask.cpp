@@ -77,7 +77,7 @@ void LightningBarstTask::RunningTask(const float& deltaTime)
 			spawnPos.y = m_BossCache->GetPos().y;
 			spawnPos.z = m_BossCache->GetPos().z + offsetZ;
 
-			fall->Spawn(spawnPos, damage, m_BulletSpeed);
+			fall->Spawn(spawnPos, damage, m_BulletActionTime);
 
 			i++;
 
@@ -111,7 +111,7 @@ void LightningBarstTask::RunningTask(const float& deltaTime)
 			spawnPos.y = m_BossCache->GetPos().y;
 			spawnPos.z = m_BossCache->GetPos().z + offsetZ;
 
-			fall->Spawn(spawnPos, damage, 1.0f);
+			fall->Spawn(spawnPos, damage, m_BulletActionTime);
 
 			i++;
 
@@ -145,7 +145,7 @@ void LightningBarstTask::RunningTask(const float& deltaTime)
 			spawnPos.y = m_BossCache->GetPos().y;
 			spawnPos.z = m_BossCache->GetPos().z + offsetZ;
 
-			fall->Spawn(spawnPos, damage, 1.0f);
+			fall->Spawn(spawnPos, damage, m_BulletActionTime);
 
 			i++;
 

@@ -9,10 +9,10 @@ enum class NODE_STATE
     RUNNING
 };
 
-// 派生可能体力、発生確率、移行時間割合
+// 派生可能体力割合、発生確率、移行時間割合
 struct DERIVATION_DATA
 {
-    float Health = 0.0f;                 // 派生可能体力
+    float HealthValue = 0.0f;            // 派生可能体力割合
     int Chance = 0;                      // 派生技発生確率
     float TransTimeValue = 0.0f;	     // 派生移行時間割合
 };
