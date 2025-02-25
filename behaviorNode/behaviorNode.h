@@ -50,6 +50,7 @@ public:
     BehaviorNode* AddTaskChild(int derivChance, Args&&... args)
     {
         m_ChildDerivChance.emplace_back(derivChance);
+        m_DerivationData.emplace_back(DERIVATION_DATA());
         
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
@@ -63,7 +64,7 @@ public:
     }
 
     template <typename T, typename... Args>
-    BehaviorNode* AddTaskChild(int derivChance, DERIVATION_DATA derivData, Args&&... args)
+    BehaviorNode* AddTaskChild(DERIVATION_DATA derivData, int derivChance, Args&&... args)
     {
         m_ChildDerivChance.emplace_back(derivChance);
         m_DerivationData.emplace_back(derivData);

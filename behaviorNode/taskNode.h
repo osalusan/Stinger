@@ -33,7 +33,7 @@ protected:
 	float m_BulletSpeed = 0.0f;						// 弾速
 	float m_AnimationSpeedValue = 1.0f;				// アニメーション速度倍率
 	float m_BulletActionTime = 0.0f;				// 発射時間
-	bool m_ParryPossibleAtk = false;	// パリィされる攻撃の場合は、CSVの方に0以外の数値を入力する
+	bool m_ParryPossibleAtk = false;				// パリィされる攻撃の場合は、CSVの方に0以外の数値を入力する
 
 	// アニメーションを使用する際は、必ず呼ぶ
 	void ReserveAnimation(const std::string& fileName, const std::string& animationName);

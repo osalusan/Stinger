@@ -94,11 +94,41 @@ int TaskNode::DerivationChance()
 		return 0;
 	}
 
+	// ƒGƒ‰[–hŽ~—p
+	if (GetDerivationData().size() > 0)
+	{
+		totalChance = 0;
+		int enableDerivCount = 0;
+		if (m_BossCache == nullptr) return -1;
+
+		for (const DERIVATION_DATA& derivData : GetDerivationData())
+		{
+			if (m_ChildDerivChance.size() <= enableDerivCount) break;
+
+			if (derivData.HealthValue == 0.0f)
+			{
+				totalChance += m_ChildDerivChance.at(enableDerivCount);
+			}
+			else if (m_BossCache->GetHealth() <= derivData.HealthValue * m_BossCache->GetMaxHealth())
+			{
+				totalChance += m_ChildDerivChance.at(enableDerivCount);
+			}
+			enableDerivCount++;
+		}
+	}
+
+	if (totalChance <= 0)return -1;
+
 	const int& randValue = rand() % totalChance;
 	totalChance = 0;
 	int loop = 0;
 	for (const int& chance : m_ChildDerivChance)
 	{
+		if (GetDerivationData().size() <= loop && GetDerivationData().at(loop).HealthValue == 0.0f)
+		{
+			loop++;
+			continue;
+		}
 		totalChance += chance;
 		if (totalChance >= randValue)
 		{

@@ -62,7 +62,8 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 
 	// ▼デバッグ用▼
-
+	
+	// rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
 	// rootNode->AddTaskChild<WaitTask>(boss, player);
 
 	//// バックジャンプ派生
@@ -110,7 +111,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(60, boss, player))
 		{
 			DERIVATION_DATA derivToRightSwiping = { 0.7f,100,0.7f };
-			DERIVATION_DATA derivToBackJump = { 0.7f,100,0.4f };
+			DERIVATION_DATA derivToBackJump = { 0.4f,100,0.4f };
 
 			leftSwiping->AddTaskChild<RightSwipingTask>(derivToRightSwiping, 80, boss, player);
 			if (BehaviorNode* backJump = leftSwiping->AddTaskChild<BackJumpTask>(derivToBackJump, 20, boss, player))
