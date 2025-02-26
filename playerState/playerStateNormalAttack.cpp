@@ -62,6 +62,7 @@ void PlayerStateNormalAttack::Init()
 	m_AttackAccept = true;
 	m_MaxAnimTime = m_MaxAnimTime1;
 	m_AttackComboNumber = 1;
+	m_AnimSpeedValue = 1.0f;
 
 	if (m_PlayerCache != nullptr)
 	{
@@ -89,7 +90,7 @@ void PlayerStateNormalAttack::Unit()
 void PlayerStateNormalAttack::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
-	m_CurrentTime += deltaTime;
+	m_CurrentTime += deltaTime * m_AnimSpeedValue;
 	if (m_PlayerMachine == nullptr) return;
 
 	// ‰‰ñ‚Ì‚Ý
@@ -162,6 +163,8 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackCancel = false;
 				m_AttackComboNumber = 2;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue2;
+				m_AnimSpeedValue = 1.15f;
+				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
 
@@ -192,6 +195,9 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackCancel = false;
 				m_AttackComboNumber = 3;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue3;
+
+				m_AnimSpeedValue = 1.25f;
+				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
 
@@ -214,6 +220,8 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_AttackCancleValue3))
 		{
 			m_AttackCancel = true;
+			m_AnimSpeedValue = 1.0f;
+			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 		}
 	}
 

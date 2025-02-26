@@ -210,6 +210,9 @@ void PlayerStateMachine::SetPlayerState(const PLAYER_STATE& state)
 		m_CurrentPlayerState->Unit();
 	}
 
+	// アニメーション速度を、前のステートから引き継がないように
+	SetAnimationSpeedValue(1.0f);
+
 	// nullチェック
 	if (m_PlayerStatePool[state] != nullptr)
 	{
