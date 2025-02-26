@@ -44,19 +44,19 @@ public:
 	void Update(const float& deltaTime);
 	void Draw();
 
-	Camera* GetCamera()const
+	Camera* GetCamera()
 	{
 		return m_CameraCache;
 	}
-	Player* GetPlayer()const
+	Player* GetPlayer()
 	{
 		return m_PlayerCache;
 	}
-	BossEnemy* GetBossEnemy()const
+	BossEnemy* GetBossEnemy()
 	{
 		return m_BossCache;
 	}
-	MeshFiled* GetMeshFiled()const
+	MeshFiled* GetMeshFiled()
 	{
 		return m_FiledCache;
 	}

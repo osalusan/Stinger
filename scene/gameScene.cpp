@@ -12,6 +12,7 @@
 #include "character/mawJLaygo.h"
 #include "behaviorTree/mawJLaygoBattleTree.h"
 #include "object/transparentWall.h"
+#include "billboard/extrSlashEffect.h"
 
 constexpr XMFLOAT3 WALL_MAX = { 250.0f, 100.0f, 250.0f }; // •Ç‚ÌÅ‘å”ÍˆÍ
 constexpr float CLEAR_TO_TITLE = 5.0f;
@@ -49,6 +50,8 @@ void GameScene::Init()
 		RETRY_POS, RETRY_AND_GOTITLE_SCALE, PIVOT::CENTER, TEXTURE::RETRY, false, L"asset\\texture\\retry.png", false);
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 		GOTITLE_POS, RETRY_AND_GOTITLE_SCALE, PIVOT::CENTER, TEXTURE::GO_TITLE, false, L"asset\\texture\\goTitle.png", false);
+
+
 
 	// ƒ[ƒ‹ƒhŒÀŠE‚ð‰ÂŽ‹‰»
 	m_ObjectManager->AddGameObjectArg<TransparentWall>(OBJECT::FILED, XMFLOAT3(WALL_MAX.z, 0.0f, 0.0f), XMFLOAT3(5.0f, WALL_MAX.y, WALL_MAX.z));

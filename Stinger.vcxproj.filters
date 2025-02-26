@@ -357,6 +357,9 @@
     <ClCompile Include="playerState\playerStateExtrAttack.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
+    <ClCompile Include="billboard\extrSlashEffect.cpp">
+      <Filter>billboard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -646,6 +649,9 @@
     </ClInclude>
     <ClInclude Include="playerState\playerStateExtrAttack.h">
       <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard\extrSlashEffect.h">
+      <Filter>billboard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

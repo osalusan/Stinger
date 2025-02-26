@@ -1,36 +1,8 @@
-﻿  behaviorNode.cpp
-  selectorNode.cpp
-  sequenceNode.cpp
-  taskNode.cpp
-  airLightningBallTask.cpp
-  backJumpTask.cpp
-  checkAttackParry.cpp
-  checkHealthTask.cpp
-  checkRangeTask.cpp
-  dashAtThePlayerTask.cpp
-  deadTask.cpp
-  jumpAttackTask.cpp
-  leftSwipingTask.cpp
-  lightningBarstTask.cpp
-  lightningFallFowardRainTask.cpp
-  loadIdleTask.cpp
-  middleRangeAttackTask.cpp
-  parryRecoilTask.cpp
-  rightPunchTask.cpp
-  rightSwipingTask.cpp
-  roaringInfinityTask.cpp
-  roaringTask.cpp
-  shortRangeAttackTask.cpp
-  waitTask.cpp
-  behaviorTree.cpp
-  mawJLaygoBattleTree.cpp
-  mawJLaygoLoadTree.cpp
-  mawJLaygoTitleTree.cpp
-  imguiWindow.cpp
+﻿  extrSlashEffect.cpp
   コード生成しています。
-  0 of 5291 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+  3 of 5316 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    40 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

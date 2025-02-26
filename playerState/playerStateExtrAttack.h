@@ -5,6 +5,7 @@
 class ObjectManager;
 class BossEnemy;
 class PlayerCamera;
+class ExtrSlashEffect;
 
 class PlayerStateExtrAttack final :public PlayerState
 {
@@ -12,6 +13,7 @@ private:
 	ObjectManager* m_ObjManagerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;
 	PlayerCamera* m_CameraCache = nullptr;
+	ExtrSlashEffect* m_ExtrSlashEfCache = nullptr;
 
 	bool m_AttackAccept = false;
 	// アニメーション制御用パラメータ

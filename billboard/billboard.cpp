@@ -23,8 +23,10 @@ BillBoard::BillBoard(const XMFLOAT3& position, const XMFLOAT3& size, const TEXTU
 
 	m_Position.x = position.x;
 	m_Position.y = position.y;
+	m_Position.z = position.z;
 	m_Scale.x = size.x;
 	m_Scale.y = size.y;
+	m_Scale.z = size.z;
 
 	m_NextAnimTime = nextAnimTime;
 	m_Sprite = sprite;
@@ -93,6 +95,18 @@ void BillBoard::Init()
 void BillBoard::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
+
+	// ƒJƒƒ‰‚Ì¶¬‚æ‚è‘O‚Éì‚ç‚ê‚Ä‚µ‚Ü‚Á‚½‚ç
+	if (m_CameraCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		m_CameraCache = objManager->GetCamera();
+	}
+
 	if (m_CurrentTime >= m_NextAnimTime)
 	{
 		m_AnimCount++;
@@ -119,7 +133,6 @@ void BillBoard::Update(const float& deltaTime)
 		}
 	}
 	
-
 	m_CurrentTime += deltaTime;
 }
 void BillBoard::Draw()

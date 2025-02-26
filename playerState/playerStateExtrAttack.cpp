@@ -3,10 +3,13 @@
 #include "manager/objectManager.h"
 #include "manager/fbxModelManager.h"
 #include "manager/audioManager.h"
+#include "manager/textureManager.h"
+#include "polygon2D/polygon2D.h"
 #include "renderer/fbxModelRenderer.h"
 #include "scene/scene.h"
 #include "character/bossEnemy.h"
 #include "camera/playerCamera.h"
+#include "billboard/extrSlashEffect.h"
 
 constexpr float SLOW_ANIMATION_SPEED = 0.1f;
 constexpr float QUICK_ANIMATION_SPEED = 1.3f;
@@ -50,6 +53,17 @@ void PlayerStateExtrAttack::Init()
 		m_StartStopAnimTimeValue = FindStateData(parryAttak, "アニメーション速度制御開始時間_割合");
 		m_StopAnimTimeValue = FindStateData(parryAttak, "アニメーション速度制御時間_割合");
 
+
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		if (m_ExtrSlashEfCache == nullptr)
+		{
+			m_ExtrSlashEfCache = objManager->AddGameObjectArg<ExtrSlashEffect>(OBJECT::BILLBOARD, objManager->GetPlayer());
+		}
+
 		m_Load = true;
 	}
 
@@ -66,6 +80,11 @@ void PlayerStateExtrAttack::Init()
 		{
 			m_BossCache = m_ObjManagerCache->GetBossEnemy();
 		}
+
+		if (m_ExtrSlashEfCache != nullptr)
+		{
+			m_ExtrSlashEfCache->SetEnemyPointer(m_BossCache);
+		}
 	}
 
 	if (m_CameraCache == nullptr)
@@ -78,6 +97,7 @@ void PlayerStateExtrAttack::Init()
 
 	if (m_BossCache != nullptr)
 	{
+		// ボスに向かって回転
 		const XMFLOAT3& myPos = m_PlayerCache->GetPos();
 		const XMFLOAT3& targetPos = m_BossCache->GetPos();
 
@@ -103,8 +123,6 @@ void PlayerStateExtrAttack::Init()
 
 	if (m_ObjManagerCache != nullptr && m_PlayerMachine->GetIsExtrAttack())
 	{
-		// TODO :エネミーの動きのみを止める処理
-
 		m_ObjManagerCache->SetSlowTimeEnemy(m_CutInTimeMax + m_MoveTimeMax);
 		m_ObjManagerCache->SetSlowValue(0.0f);
 	}
@@ -228,6 +246,11 @@ bool PlayerStateExtrAttack::CheckAttackAccept()
 		m_AttackAccept = true;
 
 		AudioManager::Play(AUDIO::SLASH3_SE, false, 0.85f);
+
+		if (m_ExtrSlashEfCache != nullptr)
+		{
+			m_ExtrSlashEfCache->UseBillboard();
+		}
 	}
 	return m_AttackAccept;
 }
