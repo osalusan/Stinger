@@ -6,9 +6,9 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH_DEFAULT = (1.0f / SCREEN_SCALE) * 70.0f;
+constexpr float LENGTH_DEFAULT = 35.0f;
 constexpr float OFFSET_TARGET_POS_Y = LENGTH_DEFAULT * 0.35f;
-constexpr float LENGTH_CUTIN = (1.0f / SCREEN_SCALE) * 9.0f;
+constexpr float LENGTH_CUTIN = 4.5f;
 constexpr float CUTIN_TARGET_POS_Y = LENGTH_CUTIN * 1.25f;
 constexpr float LENGTH_EXTRATTACK = LENGTH_DEFAULT * 1.35f;
 // É}ÉEÉXÇÃê›íË
