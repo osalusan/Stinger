@@ -2,9 +2,11 @@
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
+#include "manager/textureManager.h"
 #include "camera/playerCamera.h"
 #include "scene/gameScene.h"
 #include "character/player.h"
+#include "polygon2D/polygon2D.h"
 #include "playerState.h"
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
@@ -15,6 +17,10 @@
 #include "playerState/playerStateExtrAttack.h"
 
 constexpr int EXTRATTACK_ACCEPT_PARRY_MAX = 3;
+constexpr XMFLOAT2 DEFAULT_SCALE_PARRYGAGE = { SCREEN_WIDTH * 0.4f,SCREEN_HEIGHT * 0.028f };
+constexpr XMFLOAT2 DEFAULT_POS_PARRYGAGE = { (SCREEN_WIDTH - DEFAULT_SCALE_PARRYGAGE.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_PARRYGAGE.y) * 0.925f };
+constexpr XMFLOAT2 DEFAULT_SCALE_PARRYFRAME = { DEFAULT_SCALE_PARRYGAGE.x + (DEFAULT_SCALE_PARRYGAGE.x * 0.007f) ,DEFAULT_SCALE_PARRYGAGE.y + (DEFAULT_SCALE_PARRYGAGE.y * 0.19f) };
+constexpr XMFLOAT2 DEFAULT_POS_PARRYFRAME = { (SCREEN_WIDTH - DEFAULT_SCALE_PARRYFRAME.x) * 0.5f, DEFAULT_POS_PARRYGAGE.y - ((DEFAULT_SCALE_PARRYFRAME.y - DEFAULT_SCALE_PARRYGAGE.y) * 0.5f) };
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
@@ -60,6 +66,24 @@ void PlayerStateMachine::Init()
 	if (m_CurrentPlayerState == nullptr)
 	{
 		m_CurrentPlayerState = m_PlayerStatePool[PLAYER_STATE::IDLE];
+	}
+
+	// テクスチャの生成
+	if (m_ParryGageCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		// HPバーのバックグラウンド
+		objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_PARRYFRAME, DEFAULT_SCALE_PARRYFRAME, PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
+
+		m_ParryGageCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_PARRYGAGE, DEFAULT_SCALE_PARRYGAGE, PIVOT::LEFT_TOP, TEXTURE::WHITE, L"asset\\texture\\white.png", true);
+	}
+	if (m_ParryGageCache != nullptr)
+	{
+		m_ParryGageCache->ChangeUVScaling({ 0.0f,1.0f });
 	}
 }
 
@@ -222,6 +246,14 @@ bool PlayerStateMachine::CheckParry()
 	if (m_ParryCache->CheckParryAccept())
 	{
 		m_ParryCount++;
+		if (m_ParryCount > EXTRATTACK_ACCEPT_PARRY_MAX)
+		{
+			m_ParryCount = EXTRATTACK_ACCEPT_PARRY_MAX;
+		}
+		if (m_ParryGageCache != nullptr)
+		{
+			m_ParryGageCache->ChangeUVScaling({(1.0f / EXTRATTACK_ACCEPT_PARRY_MAX) * m_ParryCount,1.0f });
+		}
 		return true;
 	}
 	return false;

@@ -84,9 +84,10 @@ void Player::Init()
 	}
 
 	// フレーム
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME, PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_PLAYER, L"asset\\texture\\white.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME, PIVOT::LEFT_TOP, TEXTURE::WHITE, L"asset\\texture\\white.png");
 	// HPバーのバックグラウンド
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_PLAYER, L"asset\\texture\\black.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
+	
 	// プレイヤーのUI
 	if (m_PlayerHpCache == nullptr)
 	{

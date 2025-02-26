@@ -34,12 +34,14 @@ class PlayerStateParryAttack;
 class PlayerStateRolling;
 class PlayerStateNormalAttack;
 class PlayerStateExtrAttack;
+class Polygon2D;
 
 class PlayerStateMachine final
 {
 private:
 	Player* m_PlayerCache = nullptr;
 	Camera* m_CameraCache = nullptr;
+	Polygon2D* m_ParryGageCache = nullptr;
 
 	PlayerState* m_CurrentPlayerState = nullptr;
 	PlayerStateParryAttack* m_ParryCache = nullptr;
