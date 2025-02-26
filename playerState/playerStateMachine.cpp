@@ -313,3 +313,12 @@ void PlayerStateMachine::HitGround()
 {
 	m_IsGround = true;
 }
+
+void PlayerStateMachine::UseExtrAttack()
+{
+	m_ParryCount = 0;
+	if (m_ParryGageCache != nullptr)
+	{
+		m_ParryGageCache->ChangeUVScaling({ (1.0f / EXTRATTACK_ACCEPT_PARRY_MAX) * m_ParryCount,1.0f });
+	}
+}

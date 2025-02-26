@@ -92,10 +92,7 @@ public:
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// ’n–Ê‚É“–‚½‚Á‚½
 
-	void UseExtrAttack()
-	{
-		m_ParryCount = 0;
-	}
+	void UseExtrAttack();
 
 	const Player* GetPlayerCache()const
 	{

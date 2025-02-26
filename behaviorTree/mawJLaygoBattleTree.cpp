@@ -64,7 +64,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ▼デバッグ用▼
 	
 	// rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
-	rootNode->AddTaskChild<RightPunchTask>(boss, player);
+	rootNode->AddTaskChild<JumpAttackTask>(boss, player);
 
 	//// バックジャンプ派生
 	//if (BehaviorNode* backJump = rootNode->AddTaskChild<BackJumpTask>(boss, player))
