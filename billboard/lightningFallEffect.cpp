@@ -2,7 +2,7 @@
 #include "manager/textureManager.h"
 
 LightningFallEffect::LightningFallEffect(const GameObject* followObj)
-	:BillBoard(XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(3.0f, 15.0f, 3.0f), TEXTURE::LIGHTNING_FALL, L"asset\\texture\\billboard\\lightningFall.png", 0.05f, XMINT2(6, 1))
+	:BillBoard(XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(3.0f, 15.0f, 3.0f), TEXTURE::LIGHTNING_FALL, L"asset\\texture\\sprite\\lightningFall.png", 0.05f, XMINT2(6, 1))
 {
 	m_FollowObject = followObj;
 	m_Enable = false;
