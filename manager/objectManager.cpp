@@ -54,10 +54,27 @@ void ObjectManager::Update(const float& deltaTime)
 	{
 		if (m_SlowTime > 0.0f)
 		{
-			if (layer == static_cast<int>(OBJECT::PLAYER) || layer == static_cast<int>(OBJECT::BOSS))
+			// “G‚Ì‚Ý‘¬“x‚ð•Ï‚¦‚é
+			if (m_SlowEnemy)
 			{
-				m_SlowTime -= deltaTime;
-				deltaTimeSlow *= m_SlowValue;
+				if (layer == static_cast<int>(OBJECT::BOSS))
+				{
+					m_SlowTime -= deltaTime;
+					deltaTimeSlow *= m_SlowValue;
+				}
+
+				if (m_SlowTime <= 0.0f)
+				{
+					m_SlowEnemy = false;
+				}
+			}
+			else
+			{
+				if (layer == static_cast<int>(OBJECT::PLAYER) || layer == static_cast<int>(OBJECT::BOSS))
+				{
+					m_SlowTime -= deltaTime;
+					deltaTimeSlow *= m_SlowValue;
+				}
 			}
 		}
 

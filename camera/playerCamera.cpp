@@ -127,26 +127,27 @@ void PlayerCamera::Update(const float& deltaTime)
 			m_Length = LENGTH_EXTRATTACK;
 
 			const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
+			const XMFLOAT3& playerFoward = m_PlayerCache->GetForward();
 			const XMFLOAT3& enemyPos = m_BossCache->GetPos();
 
 			m_Target = playerPos;
 			m_Target.y += OFFSET_TARGET_POS_Y;
 
-			m_Position.x = -m_PlayerCache->GetForward().x * m_Length;
-			m_Position.y = m_Target.y;
-			m_Position.z = -m_PlayerCache->GetForward().z * m_Length;
+			m_Position = m_Target;
+			m_Position.x -= playerFoward.x * m_Length;
+			m_Position.z -= playerFoward.z * m_Length;
 
 			m_Rotation = {};
 			m_Rotation.y = m_PlayerCache->GetRot().y;
 		}
 		else
 		{
+			const XMFLOAT3& playerRight = m_PlayerCache->GetRight();
 			m_Target = m_PlayerCache->GetPos();
 			m_Target.y += CUTIN_TARGET_POS_Y;
-			m_Position = m_PlayerCache->GetPos();
-			m_Position.x -= m_PlayerCache->GetRight().x * LENGTH_CUTIN;
-			m_Position.z -= m_PlayerCache->GetRight().z * LENGTH_CUTIN;
-			m_Position.y += CUTIN_TARGET_POS_Y;
+			m_Position = m_Target;
+			m_Position.x -= playerRight.x * LENGTH_CUTIN;
+			m_Position.z -= playerRight.z * LENGTH_CUTIN;
 		}
 	}
 }

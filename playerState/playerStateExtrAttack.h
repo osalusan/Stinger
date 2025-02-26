@@ -21,6 +21,7 @@ private:
 	float m_CurrentMoveTime = 0.0f;
 	XMFLOAT3 m_MoveSpeedVec = {};
 	bool m_AttackEnable = false;
+	bool m_ChageSound = false;
 
 	// CSVÇ©ÇÁÇÃì«Ç›çûÇ›
 	float m_DamageValue = 0.0f;

@@ -36,6 +36,7 @@ private:
 
 	float m_SlowTime = 0.0f;
 	float m_SlowValue = 0.0f;
+	bool m_SlowEnemy = false;
 public:
 	~ObjectManager();
 	void Init();
@@ -67,6 +68,11 @@ public:
 	void SetSlowTime(const float& time)
 	{
 		m_SlowTime = time;
+	}
+	void SetSlowTimeEnemy(const float& time)
+	{
+		m_SlowTime = time;
+		m_SlowEnemy = true;
 	}
 	void SetSlowValue(const float& value)
 	{

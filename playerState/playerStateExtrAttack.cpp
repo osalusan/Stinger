@@ -21,6 +21,7 @@ void PlayerStateExtrAttack::Init()
 	m_AnimSpeedValue = 1.0f;
 	m_MoveSpeedVec = {};
 	m_AttackEnable = false;
+	m_ChageSound = false;
 
 	if (m_PlayerMachine == nullptr) return;
 
@@ -37,8 +38,8 @@ void PlayerStateExtrAttack::Init()
 	{
 		LoadAnimation("asset\\model\\player\\swordAndShieldExtrAttack_PaladinJNordstrom.fbx", "extrAttack");
 
-		// TODO :ïœçXó\íË / âºëfçﬁ
-		AudioManager::ReservAudio(AUDIO::SLASH2_SE, "asset\\audio\\se\\slash2.wav");
+		AudioManager::ReservAudio(AUDIO::SOWRD_CHAGE, "asset\\audio\\se\\sowrdChage.wav");
+		AudioManager::ReservAudio(AUDIO::SLASH3_SE, "asset\\audio\\se\\slash3.wav");
 
 		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("ÉGÉNÉXÉgÉâçUåÇ");
 
@@ -104,8 +105,8 @@ void PlayerStateExtrAttack::Init()
 	{
 		// TODO :ÉGÉlÉ~Å[ÇÃìÆÇ´ÇÃÇ›Çé~ÇﬂÇÈèàóù
 
-		//m_ObjManagerCache->SetSlowTime(1.5f);
-		//m_ObjManagerCache->SetSlowValue(0.0f);
+		m_ObjManagerCache->SetSlowTimeEnemy(m_CutInTimeMax + m_MoveTimeMax);
+		m_ObjManagerCache->SetSlowValue(0.0f);
 	}
 }
 
@@ -133,6 +134,12 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 		if (m_CameraCache != nullptr)
 		{
 			m_CameraCache->StartCutIn();
+
+			if (!m_ChageSound && m_CurrentTime >= (m_MaxAnimTime * m_CutInTimeMax) * 0.5f)
+			{
+				m_ChageSound = true;
+				AudioManager::Play(AUDIO::SOWRD_CHAGE, false, 0.75f);
+			}
 		}
 	}
 
@@ -220,8 +227,7 @@ bool PlayerStateExtrAttack::CheckAttackAccept()
 		
 		m_AttackAccept = true;
 
-		// TODO :âπÇÃïœçXó\íË / éÿÇËëfçﬁ
-		AudioManager::Play(AUDIO::SLASH2_SE, false, 0.85f);
+		AudioManager::Play(AUDIO::SLASH3_SE, false, 0.85f);
 	}
 	return m_AttackAccept;
 }
