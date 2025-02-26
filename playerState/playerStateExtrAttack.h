@@ -20,6 +20,7 @@ private:
 	float m_CurrentStopAnimTime = 0.0f;
 	float m_CurrentMoveTime = 0.0f;
 	XMFLOAT3 m_MoveSpeedVec = {};
+	bool m_AttackEnable = false;
 
 	// CSVÇ©ÇÁÇÃì«Ç›çûÇ›
 	float m_DamageValue = 0.0f;
@@ -36,4 +37,9 @@ public:
 	virtual void Update(const float& deltaTime)override;
 	virtual void ChangeStateControl()override;
 	bool CheckAttackAccept();
+
+	const bool& GetAttackEnable()const
+	{
+		return m_AttackEnable;
+	}
 };

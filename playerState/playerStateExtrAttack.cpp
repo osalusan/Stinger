@@ -20,6 +20,7 @@ void PlayerStateExtrAttack::Init()
 	m_CurrentMoveTime = 0.0f;
 	m_AnimSpeedValue = 1.0f;
 	m_MoveSpeedVec = {};
+	m_AttackEnable = false;
 
 	if (m_PlayerMachine == nullptr) return;
 
@@ -177,6 +178,7 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 		}
 		else if (m_CurrentMoveTime >= m_MoveTimeMax)
 		{
+			m_AttackEnable = true;
 			m_PlayerMachine->InitVelocity();
 			m_AnimSpeedValue = QUICK_ANIMATION_SPEED;
 			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);

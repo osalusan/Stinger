@@ -248,6 +248,7 @@ bool PlayerStateMachine::CheckAttack()
 	if (m_CurrentPlayerState == m_PlayerStatePool[PLAYER_STATE::ATTACK_EXTR])
 	{
 		if (m_ExtrAttackCache == nullptr) return false;
+		if (!m_ExtrAttackCache->GetAttackEnable()) return false;
 
 		return m_ExtrAttackCache->CheckAttackAccept();
 	}
