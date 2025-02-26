@@ -17,7 +17,9 @@ void PlayerStateExtrAttack::Init()
 	m_AttackAccept = false;
 	m_StopAnim = false;
 	m_CurrentStopAnimTime = 0.0f;
+	m_CurrentMoveTime = 0.0f;
 	m_AnimSpeedValue = 1.0f;
+	m_MoveSpeedVec = {};
 
 	if (m_PlayerMachine == nullptr) return;
 
@@ -72,6 +74,31 @@ void PlayerStateExtrAttack::Init()
 		}
 	}	
 
+	if (m_BossCache != nullptr)
+	{
+		const XMFLOAT3& myPos = m_PlayerCache->GetPos();
+		const XMFLOAT3& targetPos = m_BossCache->GetPos();
+
+		m_MoveSpeedVec.x = (targetPos.x - myPos.x) / m_MoveTimeMax;
+		m_MoveSpeedVec.z = (targetPos.z - myPos.z) / m_MoveTimeMax;
+
+		float currentAngle = m_PlayerCache->GetRot().y;
+
+		float targetAngle = atan2f(targetPos.x - myPos.x, targetPos.z - myPos.z);
+
+		float angleDiff = targetAngle - currentAngle;
+		while (angleDiff > XM_PI)
+		{
+			angleDiff -= XM_2PI;
+		}
+		while (angleDiff < -XM_PI)
+		{
+			angleDiff += XM_2PI;
+		}
+
+		m_PlayerMachine->SetRotationY(currentAngle + angleDiff);
+	}
+
 	if (m_ObjManagerCache != nullptr && m_PlayerMachine->GetIsExtrAttack())
 	{
 		// TODO :エネミーの動きのみを止める処理
@@ -100,11 +127,7 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 	}
 
 	// カットイン制御
-	if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMax)
-	{
-		m_CameraCache->StartEnemyDirection();
-	}
-	else if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMin)
+	if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMin)
 	{
 		if (m_CameraCache != nullptr)
 		{
@@ -125,15 +148,38 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 		}
 	}
 
+	// カットイン終了後
 	if (m_StopAnim)
 	{
 		m_CurrentStopAnimTime += deltaTime;
 
 		if (m_CurrentStopAnimTime >= m_StopAnimTimeValue)
 		{
-			m_AnimSpeedValue = QUICK_ANIMATION_SPEED;
+			m_AnimSpeedValue = 0.0f;
 			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			m_StopAnim = false;
+			m_CameraCache->StartEnemyDirection();
+		}
+	}
+	// エネミーの手前まで移動
+	else
+	{
+		if (m_CurrentStopAnimTime >= m_StopAnimTimeValue)
+		{
+			m_CurrentMoveTime += deltaTime;
+		}
+
+		// 移動
+		if (m_CurrentMoveTime != 0.0f && m_CurrentMoveTime <= m_MoveTimeMax)
+		{
+			m_PlayerMachine->SetVelocityX(m_MoveSpeedVec.x);
+			m_PlayerMachine->SetVelocityZ(m_MoveSpeedVec.z);
+		}
+		else if (m_CurrentMoveTime >= m_MoveTimeMax)
+		{
+			m_PlayerMachine->InitVelocity();
+			m_AnimSpeedValue = QUICK_ANIMATION_SPEED;
+			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 		}
 	}
 }

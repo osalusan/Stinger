@@ -18,6 +18,8 @@ private:
 	float m_AnimSpeedValue = 0.0f;
 	bool m_StopAnim = false;
 	float m_CurrentStopAnimTime = 0.0f;
+	float m_CurrentMoveTime = 0.0f;
+	XMFLOAT3 m_MoveSpeedVec = {};
 
 	// CSVÇ©ÇÁÇÃì«Ç›çûÇ›
 	float m_DamageValue = 0.0f;

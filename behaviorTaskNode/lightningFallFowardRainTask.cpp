@@ -71,7 +71,7 @@ void LightningFallFowardRainTask::RunningTask(const float& deltaTime)
 			}
 
 			XMFLOAT3 spawnPos;
-			spawnPos.x = bossPos.x + bossForward.x * (z * DISTANCE) + bossRight.x * ((x - 1) * DISTANCE);;
+			spawnPos.x = bossPos.x + bossForward.x * (z * DISTANCE) + bossRight.x * ((x - 1) * DISTANCE);
 			spawnPos.y = bossPos.y;
 			spawnPos.z = bossPos.z + bossForward.z * (z * DISTANCE) + bossRight.z * ((x - 1) * DISTANCE);
 

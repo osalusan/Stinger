@@ -120,8 +120,8 @@ public:
 	}
 
 	// ターゲットへのベクトルを取得
-	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos) {
-		
+	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos)const 
+	{
 		XMVECTOR vector = XMVector3Normalize(XMVectorSubtract(XMLoadFloat3(&targetpos),XMLoadFloat3(&m_Position)));
 
 		XMFLOAT3 direction;

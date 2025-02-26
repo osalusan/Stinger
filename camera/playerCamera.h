@@ -17,6 +17,7 @@ private:
 
 	bool m_CutInMode = false;
 	bool m_StartEnemyDirection = false;
+	bool m_CheckDistance = false;
 	int m_CurrentTime = 0;
 public:
 	using Camera::Camera;
