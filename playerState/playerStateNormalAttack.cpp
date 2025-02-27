@@ -150,6 +150,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		else
 		{
 			RotToCameraDirection(deltaTime);
+			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 * m_AttackCancleValue1)
@@ -182,6 +183,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		else
 		{
 			RotToInputKeyDirection(deltaTime);
+			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * m_AttackCancleValue2))
@@ -215,6 +217,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		else
 		{
 			RotToInputKeyDirection(deltaTime);
+			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_AttackCancleValue3))
