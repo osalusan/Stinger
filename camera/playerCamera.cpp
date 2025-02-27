@@ -10,7 +10,7 @@ constexpr float LENGTH_DEFAULT = 35.0f;
 constexpr float OFFSET_TARGET_POS_Y = LENGTH_DEFAULT * 0.35f;
 constexpr float LENGTH_CUTIN = 4.5f;
 constexpr float CUTIN_TARGET_POS_Y = LENGTH_CUTIN * 1.25f;
-constexpr float LENGTH_EXTRATTACK = LENGTH_DEFAULT * 1.35f;
+constexpr float LENGTH_EXTRATTACK = LENGTH_DEFAULT * 1.55f;
 // マウスの設定
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
 constexpr XMFLOAT2 MOUSE_SPEED = { 0.002f,0.002f };
@@ -124,8 +124,6 @@ void PlayerCamera::Update(const float& deltaTime)
 
 		if (m_StartEnemyDirection)
 		{
-			m_Length = LENGTH_EXTRATTACK;
-
 			const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
 			const XMFLOAT3& playerFoward = m_PlayerCache->GetForward();
 			const XMFLOAT3& enemyPos = m_BossCache->GetPos();
@@ -133,9 +131,31 @@ void PlayerCamera::Update(const float& deltaTime)
 			m_Target = playerPos;
 			m_Target.y += OFFSET_TARGET_POS_Y;
 
-			m_Position = m_Target;
-			m_Position.x -= playerFoward.x * m_Length;
-			m_Position.z -= playerFoward.z * m_Length;
+			m_Position.y = m_Target.y;
+
+			const XMVECTOR& p1 = XMLoadFloat3(&playerPos);
+			const XMVECTOR& p2 = XMLoadFloat3(&m_Position);
+
+			const XMVECTOR& diff = XMVectorSubtract(p2, p1);
+			const XMVECTOR& lengthVec = XMVector3Length(diff);
+
+			const float& length = XMVectorGetX(lengthVec);
+
+			m_Length = length;
+
+			// 最小値
+			if (length <= LENGTH_DEFAULT)
+			{
+				m_Length = LENGTH_DEFAULT;
+			}
+			// 最大値
+			if (length >= LENGTH_EXTRATTACK)
+			{
+				m_Length = LENGTH_EXTRATTACK;
+			}
+
+			m_Position.x = m_Target.x - (playerFoward.x * m_Length);
+			m_Position.z = m_Target.z - (playerFoward.z * m_Length);
 
 			m_Rotation = {};
 			m_Rotation.y = m_PlayerCache->GetRot().y;

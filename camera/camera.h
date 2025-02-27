@@ -56,4 +56,8 @@ public:
 		XMStoreFloat3(&up, rotationMatrix.r[1]);
 		return up;
 	}
+	const float& GetLength()const
+	{
+		return m_Length;
+	}
 };
