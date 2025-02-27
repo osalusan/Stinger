@@ -16,6 +16,10 @@ public:
 	{
 		m_Target = position;
 	}
+	void SetPosition(const XMFLOAT3& position)
+	{
+		m_Position = position;
+	}
 
 	XMMATRIX GetViewMatrix() 
 	{

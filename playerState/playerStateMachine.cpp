@@ -79,7 +79,7 @@ void PlayerStateMachine::Init()
 		// パリィゲージのバッググラウンド
 		objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_PARRYFRAME, DEFAULT_SCALE_PARRYFRAME, PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
 
-		m_ParryGageCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_PARRYGAGE, DEFAULT_SCALE_PARRYGAGE, PIVOT::LEFT_TOP, TEXTURE::WHITE, L"asset\\texture\\white.png", true);
+		m_ParryGageCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_PARRYGAGE, DEFAULT_SCALE_PARRYGAGE, PIVOT::LEFT_TOP, TEXTURE::PARRYGAGE, L"asset\\texture\\parryGage.png", true);
 	}
 	if (m_ParryGageCache != nullptr)
 	{
