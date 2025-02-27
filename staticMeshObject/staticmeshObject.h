@@ -28,4 +28,9 @@ public:
 	{
 		return m_Model;
 	}
+
+	const XMMATRIX& GetRotationMatrixStaticMesh()const
+	{
+		return m_RotationMatrix;
+	}
 };

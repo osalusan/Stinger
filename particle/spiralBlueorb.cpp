@@ -10,6 +10,7 @@ constexpr float DEFAULT_SIZE = 0.2f;
 void SpiralBlueOrb::CreateParticleEffect(const float& deltaTime)
 {
 	int f = 0;
+	m_ParticleLifeTime = MAX_LIFETIME;
 	for (int i = 0; i < PARTICLE_MAX; i++)
 	{	
 		if (!m_Particle[i].enable)
@@ -25,7 +26,7 @@ void SpiralBlueOrb::CreateParticleEffect(const float& deltaTime)
 			m_Particle[i].velocity.z =- DEFAULT_SPEED;
 			m_Particle[i].scale = { DEFAULT_SIZE ,DEFAULT_SIZE ,DEFAULT_SIZE };
 			m_Particle[i].color = DEFAULT_COLOR;
-			m_Particle[i].lifetime = MAX_LIFETIME;
+			m_Particle[i].lifetime = m_ParticleLifeTime;
 
 			f++;
 			if (f >= 4)

@@ -48,10 +48,12 @@ void ObjectManager::Uninit()
 
 void ObjectManager::Update(const float& deltaTime)
 {
-	float deltaTimeSlow = deltaTime;
+	float deltaTimeSlow = 0.0f;
 
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
+		deltaTimeSlow = deltaTime;
+
 		if (m_SlowTime > 0.0f)
 		{
 			// “G‚Ì‚Ý‘¬“x‚ð•Ï‚¦‚é

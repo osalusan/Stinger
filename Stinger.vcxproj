@@ -86,6 +86,7 @@
     <ClCompile Include="meshFiled\meshFiled.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="object\transparentWall.cpp" />
+    <ClCompile Include="particle\extrSwordBarst.cpp" />
     <ClCompile Include="particle\lightningCharge.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
     <ClCompile Include="particle\spiralBlueorb.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="meshFiled\meshFiled.h" />
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="object\transparentWall.h" />
+    <ClInclude Include="particle\extrSwordBarst.h" />
     <ClInclude Include="particle\lightningCharge.h" />
     <ClInclude Include="particle\particleEmitter.h" />
     <ClInclude Include="particle\spiralBlueorb.h" />

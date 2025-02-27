@@ -110,6 +110,17 @@ void ParticleEmiter::Init()
 void ParticleEmiter::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
+	// カメラより前に作られた時用
+	if (m_CameraCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		m_CameraCache = objManager->GetCamera();
+	}
+
 	if (m_Enable)
 	{
 		// パーティクルの作成が先
@@ -118,6 +129,16 @@ void ParticleEmiter::Update(const float& deltaTime)
 
 	// パーティクルを作成した後に配置
 	UpdateParticleEffect(deltaTime);
+
+	if (!m_ReservEnable)
+	{
+		if (m_CurrentParticleLifeTime >= m_ParticleLifeTime)
+		{
+			m_Enable = false;
+			m_CurrentParticleLifeTime = 0.0f;
+		}
+		m_CurrentParticleLifeTime += deltaTime;
+	}
 }
 
 void ParticleEmiter::Draw()
@@ -185,4 +206,15 @@ void ParticleEmiter::Draw()
 	{
 		Renderer::SetBlendAddEnable(false);
 	}
+}
+
+void ParticleEmiter::End()
+{
+	m_ReservEnable = false;
+}
+
+void ParticleEmiter::Start()
+{
+	m_Enable = true;
+	m_ReservEnable = true;
 }

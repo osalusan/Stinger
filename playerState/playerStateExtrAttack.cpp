@@ -10,8 +10,8 @@
 #include "character/bossEnemy.h"
 #include "camera/playerCamera.h"
 #include "billboard/extrSlashEffect.h"
+#include "particle/extrSwordBarst.h"
 
-constexpr float SLOW_ANIMATION_SPEED = 0.1f;
 constexpr float QUICK_ANIMATION_SPEED = 1.3f;
 
 void PlayerStateExtrAttack::Init()
@@ -50,9 +50,9 @@ void PlayerStateExtrAttack::Init()
 		m_CutInTimeMin = FindStateData(parryAttak, "カットイン時間_最小");
 		m_CutInTimeMax = FindStateData(parryAttak, "カットイン時間_最大");
 		m_MoveTimeMax = FindStateData(parryAttak, "移動時間_最大");
-		m_StartStopAnimTimeValue = FindStateData(parryAttak, "アニメーション速度制御開始時間_割合");
-		m_StopAnimTimeValue = FindStateData(parryAttak, "アニメーション速度制御時間_割合");
-
+		m_StartStopAnimTimeValue = FindStateData(parryAttak, "カットイン速度制御開始時間_割合");
+		m_StopAnimTimeValue = FindStateData(parryAttak, "カットイン速度制御時間_割合");
+		m_SlowAnimSpeedValue = FindStateData(parryAttak, "スロー_倍率");
 
 		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;
@@ -63,7 +63,10 @@ void PlayerStateExtrAttack::Init()
 		{
 			m_ExtrSlashEfCache = objManager->AddGameObjectArg<ExtrSlashEffect>(OBJECT::BILLBOARD, objManager->GetPlayer());
 		}
-
+		if (m_ExtrSwordBarstCache == nullptr)
+		{
+			m_ExtrSwordBarstCache = objManager->AddGameObjectArg<ExtrSwordBarst>(OBJECT::PARTICLE, false);
+		}
 		m_Load = true;
 	}
 
@@ -104,26 +107,17 @@ void PlayerStateExtrAttack::Init()
 		m_MoveSpeedVec.x = (targetPos.x - myPos.x) / m_MoveTimeMax;
 		m_MoveSpeedVec.z = (targetPos.z - myPos.z) / m_MoveTimeMax;
 
-		float currentAngle = m_PlayerCache->GetRot().y;
-
-		float targetAngle = atan2f(targetPos.x - myPos.x, targetPos.z - myPos.z);
-
-		float angleDiff = targetAngle - currentAngle;
-		while (angleDiff > XM_PI)
+		// 初回のみ入らないように
+		if (m_ExtrSwordBarstCache != nullptr)
 		{
-			angleDiff -= XM_2PI;
+			m_ExtrSwordBarstCache->Start();
 		}
-		while (angleDiff < -XM_PI)
-		{
-			angleDiff += XM_2PI;
-		}
-
-		m_PlayerMachine->SetRotationY(currentAngle + angleDiff);
 	}
 
+	// カットイン中に敵が止まるように
 	if (m_ObjManagerCache != nullptr && m_PlayerMachine->GetIsExtrAttack())
 	{
-		m_ObjManagerCache->SetSlowTimeEnemy(m_CutInTimeMax + m_MoveTimeMax);
+		m_ObjManagerCache->SetSlowTimeEnemy(((m_CutInTimeMax - m_StartStopAnimTimeValue) * m_StopAnimTimeValue) / m_SlowAnimSpeedValue + m_MoveTimeMax);
 		m_ObjManagerCache->SetSlowValue(0.0f);
 	}
 }
@@ -136,6 +130,7 @@ void PlayerStateExtrAttack::Unit()
 void PlayerStateExtrAttack::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
+
 	m_CurrentTime += deltaTime * m_AnimSpeedValue;
 
 	if (m_MaxAnimTime == 0.0f)
@@ -159,6 +154,18 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 				AudioManager::Play(AUDIO::SOWRD_CHAGE, false, 0.75f);
 			}
 		}
+
+		// カットインの時だけ向くように
+		if (m_CurrentMoveTime == 0.0f && m_BossCache != nullptr && m_PlayerCache != nullptr)
+		{
+			const XMFLOAT3& myPos = m_PlayerCache->GetPos();
+			const XMFLOAT3& targetPos = m_BossCache->GetPos();
+			float dx = targetPos.x - myPos.x;
+			float dz = targetPos.z - myPos.z;
+
+			float yaw = std::atan2(dx, dz);
+			m_PlayerMachine->SetRotationY(yaw);
+		}
 	}
 
 	if (m_PlayerMachine == nullptr) return;
@@ -168,7 +175,7 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 	{
 		if (m_CurrentTime >= m_MaxAnimTime * m_StartStopAnimTimeValue)
 		{
-			m_AnimSpeedValue = SLOW_ANIMATION_SPEED;
+			m_AnimSpeedValue = m_SlowAnimSpeedValue;
 			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			m_StopAnim = true;
 		}
@@ -221,9 +228,14 @@ void PlayerStateExtrAttack::ChangeStateControl()
 			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 		}
 
+		// 終了設定
 		if (m_CameraCache != nullptr)
 		{
 			m_CameraCache->EndCutIn();
+		}
+		if (m_ExtrSwordBarstCache != nullptr)
+		{
+			m_ExtrSwordBarstCache->End();
 		}
 
 		ChangePlayerState(PLAYER_STATE::IDLE);
@@ -247,6 +259,10 @@ bool PlayerStateExtrAttack::CheckAttackAccept()
 
 		AudioManager::Play(AUDIO::SLASH3_SE, false, 0.85f);
 
+		if (m_ExtrSwordBarstCache != nullptr)
+		{
+			m_ExtrSwordBarstCache->End();
+		}
 		if (m_ExtrSlashEfCache != nullptr)
 		{
 			m_ExtrSlashEfCache->UseBillboard();
