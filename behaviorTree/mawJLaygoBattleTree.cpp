@@ -41,7 +41,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	if (rootNode == nullptr) return;
 
 	// 演出用の咆哮
-	// rootNode->AddTaskChild<RoaringTask>(boss, player);
+	rootNode->AddTaskChild<RoaringTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
@@ -64,22 +64,6 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ▼デバッグ用▼
 	
 	// rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
-	rootNode->AddTaskChild<JumpAttackTask>(boss, player);
-
-	//// バックジャンプ派生
-	//if (BehaviorNode* backJump = rootNode->AddTaskChild<BackJumpTask>(boss, player))
-	//{
-	//	DERIVATION_DATA backJumpTo{ 1.0f,100,0.9f };
-	//	backJump->AddTaskChild<LightningFallFowardRainTask>(backJumpTo, 60, boss, player);
-	//	backJump->AddTaskChild<JumpAttackTask>(backJumpTo, 40, boss, player);
-	//}
-
-	//DERIVATION_DATA deb = { 1.0f,100,1.0f };
-	//BehaviorNode* debug1 = rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
-	//BehaviorNode* debug2 = debug1->AddTaskChild<AirLightningBallTask>(deb,boss, player);
-	//BehaviorNode* debug3 = debug2->AddTaskChild<AirLightningBallTask>(deb,boss, player);
-	//DERIVATION_DATA derivToBackJump = { 1.0f,100,0.2f };
-	//debug3->AddTaskChild<JumpAttackTask>(derivToBackJump, boss, player);
 
 	// ▲デバッグ用▲
 
@@ -134,7 +118,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 			jumpAttack->AddTaskChild<AirLightningBallTask>(lightningBallDerivData, 50, boss, player);
 			DERIVATION_DATA lightningBarstDerivData1 = { 0.7f,jumpAChance,0.6f };
 			jumpAttack->AddTaskChild<LightningBarstTask>(lightningBarstDerivData1, 40, boss, player);
-			// 上のライトニングバーストより少し早い
+			// 上のライトニングバーストより発生が少し早い
 			DERIVATION_DATA lightningBarstDerivData2 = { 0.5f,jumpAChance,0.45f };
 			jumpAttack->AddTaskChild<LightningBarstTask>(lightningBarstDerivData2, 10, boss, player);
 		}

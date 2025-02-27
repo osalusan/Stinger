@@ -7,6 +7,8 @@
   mawJLaygoTitleTree.cpp
   billboard.cpp
   extrSlashEffect.cpp
+  lightningBallEffect.cpp
+  lightningFallEffect.cpp
   camera.cpp
   loadCamera.cpp
   playerCamera.cpp
@@ -21,20 +23,22 @@
   lightningBall.cpp
   lightningFall.cpp
   equipmentObject.cpp
+  fade.cpp
   imguiWindow.cpp
   objectManager.cpp
+  sceneManager.cpp
+  textureManager.cpp
+  meshFiled.cpp
   gameObject.cpp
   transparentWall.cpp
+  extrSwordBarst.cpp
+  lightningCharge.cpp
   particleEmitter.cpp
-  playerState.cpp
+  spiralBlueorb.cpp
   playerStateExtrAttack.cpp
-  playerStateIdle.cpp
-  playerStateJump.cpp
   playerStateMachine.cpp
   playerStateNormalAttack.cpp
   playerStateParryAttack.cpp
-  playerStateRolling.cpp
-  playerStateRun.cpp
   polygon2D.cpp
   debugScene.cpp
   gameScene.cpp
@@ -45,11 +49,12 @@
   skydome.cpp
   box.cpp
   moveRandSizeBox.cpp
+  ruins.cpp
   staticmeshObject.cpp
   コード生成しています。
-  84 of 5317 functions ( 1.6%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    84 functions had inline decision re-evaluated but remain unchanged
+  173 of 5335 functions ( 3.2%) were compiled, the rest were copied from previous compilation.
+    21 functions were new in current compilation
+    138 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
