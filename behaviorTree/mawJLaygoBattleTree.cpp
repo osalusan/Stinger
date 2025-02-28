@@ -45,7 +45,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	if (renditionTask == nullptr) return;
 
 	// 演出用の咆哮
-	renditionTask->AddTaskChild<RoaringTask>(boss, player);
+	// renditionTask->AddTaskChild<RoaringTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
@@ -65,7 +65,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	// rootNode->AddTaskChild<LightningFallFowardRainTask>(boss, player);
+	rootNode->AddTaskChild<LightningBarstTask>(boss, player);
 
 	// ▲デバッグ用▲
 
@@ -86,7 +86,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 		DERIVATION_DATA lightningBarstDerivData = { 0.6f,100,0.0f };
 		shortAttackTask->AddTaskChild<LightningBarstTask>(lightningBarstDerivData, 5, boss, player);
 		// バックジャンプ派生
-		if (BehaviorNode* backJump = shortAttackTask->AddTaskChild<BackJumpTask>(10, boss, player))
+		if (BehaviorNode* backJump = shortAttackTask->AddTaskChild<BackJumpTask>(20, boss, player))
 		{
 			DERIVATION_DATA backJumpTo{ 0.6f,100,0.9f };
 			backJump->AddTaskChild<LightningFallFowardRainTask>(backJumpTo,60, boss, player);
@@ -94,7 +94,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 		}
 
 		// 左振りかざし派生
-		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(60, boss, player))
+		if (BehaviorNode* leftSwiping = shortAttackTask->AddTaskChild<LeftSwipingTask>(40, boss, player))
 		{
 			DERIVATION_DATA derivToRightSwiping = { 0.7f,100,0.7f };
 			DERIVATION_DATA derivToBackJump = { 0.4f,100,0.4f };

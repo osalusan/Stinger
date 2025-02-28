@@ -34,6 +34,7 @@ void PlayerStateMachine::InputReset()
 	m_IsNormalAttackButton = false;
 	m_IsRollingButton = false;
 	m_IsExtrAttack = false;
+	m_IsParry = false;
 }
 // -------------------------------------- public --------------------------------------
 
@@ -140,12 +141,6 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	// 入力の前にリセット
 	InputReset();
 
-	// TODO :デバッグ用 / 削除予定
-	if (InputManager::GetKeyPress('Q'))
-	{
-		m_ParryCount++;
-	}
-
 	// 攻撃
 	if (InputManager::GetMouseRightPress())
 	{
@@ -204,6 +199,12 @@ void PlayerStateMachine::Update(const float& deltaTime)
 			float rotY = std::atan2(directionx, directionz);
 			m_Rotation.y = rotY;
 		}
+	}
+
+	// TODO :死亡ステートを作成したら削除
+	if (m_PlayerCache->GetHealth() <= 0.0f)
+	{
+		InputReset();
 	}
 
 	// 入力処理の後に
@@ -284,7 +285,11 @@ bool PlayerStateMachine::CheckParry()
 	
 	if (m_ParryCache->CheckParryAccept())
 	{
-		m_ParryCount++;
+		if (!m_IsParry)
+		{
+			m_ParryCount++;
+			m_IsParry = true;
+		}
 		if (m_ParryCount > EXTRATTACK_ACCEPT_PARRY_MAX)
 		{
 			m_ParryCount = EXTRATTACK_ACCEPT_PARRY_MAX;

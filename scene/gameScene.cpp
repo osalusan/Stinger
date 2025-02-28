@@ -72,7 +72,7 @@ void GameScene::Update(const float& deltaTime)
 	if (boss == nullptr) return;
 
 	// ƒQ[ƒ€ƒNƒŠƒA‰æ–Ê
-	if (boss->GetHealth() <= 0.0f && m_CurrentGameOverTime == 0.0f)
+	if (boss->GetIsDead() && m_CurrentGameOverTime == 0.0f)
 	{
 		m_CurrentClearTime += deltaTime;
 		std::vector<GameObject*> objects = {};

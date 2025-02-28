@@ -95,6 +95,7 @@ void BillBoard::Init()
 void BillBoard::Update(const float& deltaTime)
 {
 	GameObject::Update(deltaTime);
+	m_CurrentTime += deltaTime;
 
 	// ƒJƒƒ‰‚Ì¶¬‚æ‚è‘O‚Éì‚ç‚ê‚Ä‚µ‚Ü‚Á‚½‚ç
 	if (m_CameraCache == nullptr)
@@ -132,8 +133,6 @@ void BillBoard::Update(const float& deltaTime)
 			m_AnimCount = 0;
 		}
 	}
-	
-	m_CurrentTime += deltaTime;
 }
 void BillBoard::Draw()
 {

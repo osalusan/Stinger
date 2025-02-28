@@ -50,6 +50,11 @@ void ObjectManager::Update(const float& deltaTime)
 {
 	float deltaTimeSlow = 0.0f;
 
+	if (m_SlowTime > 0.0f)
+	{
+		m_SlowTime -= deltaTime;
+	}
+
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{
 		deltaTimeSlow = deltaTime;
@@ -61,7 +66,6 @@ void ObjectManager::Update(const float& deltaTime)
 			{
 				if (layer == static_cast<int>(OBJECT::BOSS))
 				{
-					m_SlowTime -= deltaTime;
 					deltaTimeSlow *= m_SlowValue;
 				}
 
@@ -72,9 +76,8 @@ void ObjectManager::Update(const float& deltaTime)
 			}
 			else
 			{
-				if (layer == static_cast<int>(OBJECT::PLAYER) || layer == static_cast<int>(OBJECT::BOSS))
+				if (layer != static_cast<int>(OBJECT::CAMERA_MAIN))
 				{
-					m_SlowTime -= deltaTime;
 					deltaTimeSlow *= m_SlowValue;
 				}
 			}
@@ -102,4 +105,16 @@ void ObjectManager::Draw()
 			object->Draw();
 		}
 	}
+}
+
+void ObjectManager::SetSlowTime(const float& time)
+{
+	m_SlowTime = time;
+	m_SlowEnemy = false;
+}
+
+void ObjectManager::SetSlowTimeEnemy(const float& time)
+{
+	m_SlowTime = time;
+	m_SlowEnemy = true;
 }

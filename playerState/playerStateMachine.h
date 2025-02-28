@@ -62,7 +62,7 @@ private:
 	XMFLOAT3 m_Rotation = {};
 
 	float m_AnimeBlendTimeValue = 0.0f;				// アニメーションのブレンド速度
-	int m_ParryCount = 0;						// パリィカウント
+	int m_ParryCount = 0;							// パリィカウント
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
@@ -72,6 +72,7 @@ private:
 	bool m_IsHitAttacked = false;					// 攻撃を受けたか
 	bool m_IsInvincible = false;					// 無敵状態かどうか
 	bool m_IsExtrAttack = false;					// エクストラ攻撃が発動可能か
+	bool m_IsParry = false;							// パリィしているか
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 

@@ -1,6 +1,9 @@
 #include "deadTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
+#include "manager/sceneManager.h"
+#include "manager/objectManager.h"
+#include "scene/scene.h"
 
 void DeadTask::Init()
 {
@@ -27,12 +30,19 @@ NODE_STATE DeadTask::Update(const float& deltaTime)
 	if (node != this)
 	{
 		m_CurrentTime = 0.0f;
-		m_BossCache->SetAnimationSpeedValue(m_AnimSpeedValue);
+		m_CurrentAnimSpeedTime = 0.0f;
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return NODE_STATE::FAILURE;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return NODE_STATE::FAILURE;
+		objManager->SetSlowTime(m_AnimChangeSpeedTime);
+		objManager->SetSlowValue(m_AnimSpeedValue);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
-		m_CurrentTime += deltaTime * m_AnimSpeedValue;
+		m_CurrentTime += deltaTime;
+
 		m_BossCache->ChangeAnimation(m_AnimName);
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
@@ -42,5 +52,6 @@ NODE_STATE DeadTask::Update(const float& deltaTime)
 
 	// アニメーション仕切ったら動きを止める
 	m_BossCache->SetAnimeTime(m_MaxAnimTime - deltaTime);
+	m_BossCache->IsDead();
 	return NODE_STATE::SUCCESS;
 }

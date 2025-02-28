@@ -17,6 +17,7 @@ protected:
 	Player* m_PlayerCache = nullptr;
 
 	float m_CurrentTime = 0.0f;
+	float m_CurrentAnimSpeedTime = 0.0f;
 	float m_MaxAnimTime = 0.0f;
 
 	bool m_UseDerivation = false;					// ”h¶‹Z‚Ì‰Šúİ’è‚ğ‚µ‚½‚©

@@ -57,8 +57,7 @@ void SceneManager::Init()
 
 	if (m_Scene == nullptr)
 	{
-		// TODO :完成時にタイトルへ変更
-		m_Scene = new GameScene;
+		m_Scene = new TitleScene;
 	}
 	if (m_Scene != nullptr)
 	{

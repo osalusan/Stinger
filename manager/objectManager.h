@@ -66,15 +66,8 @@ public:
 		if (m_SlowTime <= 0.0f) return false;
 		return true;
 	}
-	void SetSlowTime(const float& time)
-	{
-		m_SlowTime = time;
-	}
-	void SetSlowTimeEnemy(const float& time)
-	{
-		m_SlowTime = time;
-		m_SlowEnemy = true;
-	}
+	void SetSlowTime(const float& time);
+	void SetSlowTimeEnemy(const float& time);
 	void SetSlowValue(const float& value)
 	{
 		m_SlowValue = value;
