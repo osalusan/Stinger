@@ -100,7 +100,7 @@ void PlayerStateExtrAttack::Init()
 
 	if (m_BossCache != nullptr)
 	{
-		// ボスに向かって回転
+		// ボスに向かって移動
 		const XMFLOAT3& myPos = m_PlayerCache->GetPos();
 		const XMFLOAT3& targetPos = m_BossCache->GetPos();
 
@@ -160,11 +160,11 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 		{
 			const XMFLOAT3& myPos = m_PlayerCache->GetPos();
 			const XMFLOAT3& targetPos = m_BossCache->GetPos();
-			float dx = targetPos.x - myPos.x;
-			float dz = targetPos.z - myPos.z;
+			const float& directionx = targetPos.x - myPos.x;
+			const float& directionz = targetPos.z - myPos.z;
 
-			float yaw = std::atan2(dx, dz);
-			m_PlayerMachine->SetRotationY(yaw);
+			float rotY = std::atan2(directionx, directionz);
+			m_PlayerMachine->SetRotationY(rotY);
 		}
 	}
 

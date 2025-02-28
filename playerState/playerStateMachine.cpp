@@ -6,6 +6,7 @@
 #include "camera/playerCamera.h"
 #include "scene/gameScene.h"
 #include "character/player.h"
+#include "character/bossEnemy.h"
 #include "polygon2D/polygon2D.h"
 #include "playerState.h"
 #include "playerStateIdle.h"
@@ -21,6 +22,20 @@ constexpr XMFLOAT2 DEFAULT_SCALE_PARRYGAGE = { SCREEN_WIDTH * 0.4f,SCREEN_HEIGHT
 constexpr XMFLOAT2 DEFAULT_POS_PARRYGAGE = { (SCREEN_WIDTH - DEFAULT_SCALE_PARRYGAGE.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_PARRYGAGE.y) * 0.925f };
 constexpr XMFLOAT2 DEFAULT_SCALE_PARRYFRAME = { DEFAULT_SCALE_PARRYGAGE.x + (DEFAULT_SCALE_PARRYGAGE.x * 0.007f) ,DEFAULT_SCALE_PARRYGAGE.y + (DEFAULT_SCALE_PARRYGAGE.y * 0.19f) };
 constexpr XMFLOAT2 DEFAULT_POS_PARRYFRAME = { (SCREEN_WIDTH - DEFAULT_SCALE_PARRYFRAME.x) * 0.5f, DEFAULT_POS_PARRYGAGE.y - ((DEFAULT_SCALE_PARRYFRAME.y - DEFAULT_SCALE_PARRYGAGE.y) * 0.5f) };
+
+// -------------------------------------- private --------------------------------------
+
+void PlayerStateMachine::InputReset()
+{
+	m_RandL = MOVE_DIRECTION::NONE;
+	m_FandB = MOVE_DIRECTION::NONE;
+	m_IsJamp = false;
+	m_IsParryAttackButton = false;
+	m_IsNormalAttackButton = false;
+	m_IsRollingButton = false;
+	m_IsExtrAttack = false;
+}
+// -------------------------------------- public --------------------------------------
 
 PlayerStateMachine::PlayerStateMachine(Player* player)
 {
@@ -101,6 +116,7 @@ void PlayerStateMachine::Uninit()
 // 主に移動の処理
 void PlayerStateMachine::Update(const float& deltaTime)
 {
+	// 作成順番的に、Updateで保存する
 	if (m_CameraCache == nullptr)
 	{
 		Scene* scene = SceneManager::GetScene();
@@ -111,15 +127,18 @@ void PlayerStateMachine::Update(const float& deltaTime)
 
 		if (m_CameraCache == nullptr) return;
 	}
+	if (m_BossCache == nullptr)
+	{
+		Scene* scene = SceneManager::GetScene();
+		if (scene == nullptr) return;
+		ObjectManager* objManager = scene->GetObjectManager();
+		if (objManager == nullptr) return;
+
+		m_BossCache = objManager->GetBossEnemy();
+	}
 
 	// 入力の前にリセット
-	m_RandL = MOVE_DIRECTION::NONE;
-	m_FandB = MOVE_DIRECTION::NONE;
-	m_IsJamp = false;
-	m_IsParryAttackButton = false;
-	m_IsNormalAttackButton = false;
-	m_IsRollingButton = false;
-	m_IsExtrAttack = false;
+	InputReset();
 
 	// TODO :デバッグ用 / 削除予定
 	if (InputManager::GetKeyPress('Q'))
@@ -168,6 +187,23 @@ void PlayerStateMachine::Update(const float& deltaTime)
 	if (m_IsGround && InputManager::GetKeyPress(VK_SPACE))
 	{
 		m_IsJamp = true;
+	}
+
+	// ステートの更新前、入力処理の後
+	if (m_CameraCache != nullptr && m_BossCache != nullptr)
+	{
+		if (m_CameraCache->GetRendition())
+		{
+			InputReset();
+
+			const XMFLOAT3& myPos = m_PlayerCache->GetPos();
+			const XMFLOAT3& targetPos = m_BossCache->GetPos();
+			const float& directionx = targetPos.x - myPos.x;
+			const float& directionz = targetPos.z - myPos.z;
+
+			float rotY = std::atan2(directionx, directionz);
+			m_Rotation.y = rotY;
+		}
 	}
 
 	// 入力処理の後に

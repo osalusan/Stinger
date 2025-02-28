@@ -24,6 +24,7 @@
 #include "behaviorTaskNode/lightningBarstTask.h"
 #include "behaviorTaskNode/middleRangeAttackTask.h"
 #include "behaviorTaskNode/lightningFallFowardRainTask.h"
+#include "behaviorTaskNode/checkRenditionTask.h"
 
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
@@ -40,8 +41,11 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	SelectorNode* rootNode = new SelectorNode;
 	if (rootNode == nullptr) return;
 
+	BehaviorNode* renditionTask = rootNode->AddTaskChild<CheckRenditionTask>(boss, player);
+	if (renditionTask == nullptr) return;
+
 	// 演出用の咆哮
-	rootNode->AddTaskChild<RoaringTask>(boss, player);
+	renditionTask->AddTaskChild<RoaringTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;

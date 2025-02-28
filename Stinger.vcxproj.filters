@@ -363,6 +363,9 @@
     <ClCompile Include="particle\extrSwordBarst.cpp">
       <Filter>particle</Filter>
     </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -658,6 +661,9 @@
     </ClInclude>
     <ClInclude Include="particle\extrSwordBarst.h">
       <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkRenditionTask.h">
+      <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

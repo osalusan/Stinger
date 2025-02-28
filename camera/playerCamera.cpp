@@ -11,6 +11,7 @@ constexpr float OFFSET_TARGET_POS_Y = LENGTH_DEFAULT * 0.35f;
 constexpr float LENGTH_CUTIN = 4.5f;
 constexpr float CUTIN_TARGET_POS_Y = LENGTH_CUTIN * 1.25f;
 constexpr float LENGTH_EXTRATTACK = LENGTH_DEFAULT * 1.55f;
+
 // ƒ}ƒEƒX‚ÌÝ’è
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
 constexpr XMFLOAT2 MOUSE_SPEED = { 0.002f,0.002f };
@@ -50,7 +51,7 @@ void PlayerCamera::Update(const float& deltaTime)
 		m_BossCache = objectManager->GetBossEnemy();
 	}
 
-	if (!m_CutInMode)
+	if (!m_CutInMode && !m_UseRendition)
 	{
 		POINT MousePos{};
 		GetCursorPos(&MousePos);
@@ -122,7 +123,24 @@ void PlayerCamera::Update(const float& deltaTime)
 
 		if (m_BossCache == nullptr) return;
 
-		if (m_StartEnemyDirection)
+		if (m_UseRendition)
+		{
+			if (m_PlayerCache == nullptr || m_RendLength == 0.0f) return;
+
+			const XMFLOAT3& enemyPos = m_BossCache->GetPos();
+			const XMFLOAT3& enemyFoward = m_BossCache->GetForward();
+
+			m_Target = enemyPos;
+			m_Target.y += m_RendTargetPosY;
+
+			m_Position.y = m_Target.y + m_RendPosY;
+			m_Position.x = m_Target.x + (enemyFoward.x * m_RendLength);
+			m_Position.z = m_Target.z + (enemyFoward.z * m_RendLength);
+
+			m_Rotation = {};
+			m_Rotation.y = m_PlayerCache->GetRot().y;
+		}
+		else if (m_StartEnemyDirection)
 		{
 			const XMFLOAT3& playerPos = m_PlayerCache->GetPos();
 			const XMFLOAT3& playerFoward = m_PlayerCache->GetForward();

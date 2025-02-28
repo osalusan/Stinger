@@ -23,12 +23,11 @@ NODE_STATE RoaringTask::Update(const float& deltaTime)
 	}
 
 	// ”ÍˆÍ“à‚É“ü‚Á‚Ä‚¢‚½‚ç
-	if (m_CurrentTime >= m_MaxAnimTime && !m_UseRendition)
+	if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		if(node == nullptr)
 		{
 			m_CurrentTime = 0.0f;
-			m_UseRendition = true;
 		}
 	}
 
@@ -38,7 +37,7 @@ NODE_STATE RoaringTask::Update(const float& deltaTime)
 		m_BossCache->ChangeAnimation(m_AnimName);
 		// UŒ‚ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);
-		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
+		m_BossCache->RotToTarget(m_PlayerCache);
 
 		return NODE_STATE::RUNNING;
 	}

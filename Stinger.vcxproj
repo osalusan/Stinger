@@ -28,6 +28,7 @@
     <ClCompile Include="behaviorTaskNode\checkAttackParry.cpp" />
     <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp" />
     <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp" />
     <ClCompile Include="behaviorTaskNode\deadTask.cpp" />
     <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp" />
@@ -125,6 +126,7 @@
     <ClInclude Include="behaviorTaskNode\checkAttackParry.h" />
     <ClInclude Include="behaviorTaskNode\checkHealthTask.h" />
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />
+    <ClInclude Include="behaviorTaskNode\checkRenditionTask.h" />
     <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h" />
     <ClInclude Include="behaviorTaskNode\deadTask.h" />
     <ClInclude Include="behaviorTaskNode\jumpAttackTask.h" />

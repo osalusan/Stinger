@@ -35,6 +35,7 @@ class PlayerStateRolling;
 class PlayerStateNormalAttack;
 class PlayerStateExtrAttack;
 class Polygon2D;
+class BossEnemy;
 
 class PlayerStateMachine final
 {
@@ -42,6 +43,7 @@ private:
 	Player* m_PlayerCache = nullptr;
 	Camera* m_CameraCache = nullptr;
 	Polygon2D* m_ParryGageCache = nullptr;
+	BossEnemy* m_BossCache = nullptr;
 
 	PlayerState* m_CurrentPlayerState = nullptr;
 	PlayerStateParryAttack* m_ParryCache = nullptr;
@@ -73,6 +75,8 @@ private:
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
+	// 入力情報の初期化
+	void InputReset();
 public:
 	PlayerStateMachine() = delete;
 	PlayerStateMachine(Player* player);
