@@ -54,6 +54,10 @@ void ObjectManager::Update(const float& deltaTime)
 	{
 		m_SlowTime -= deltaTime;
 	}
+	else
+	{
+		m_SlowValue = 1.0f;
+	}
 
 	for (int layer = 0; layer < static_cast<int>(OBJECT::MAX); layer++)
 	{

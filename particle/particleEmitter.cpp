@@ -130,7 +130,7 @@ void ParticleEmiter::Update(const float& deltaTime)
 	// パーティクルを作成した後に配置
 	UpdateParticleEffect(deltaTime);
 
-	if (!m_ReservEnable)
+	if (!m_ReservEnable && m_ParticleLifeTime != 0.0f)
 	{
 		if (m_CurrentParticleLifeTime >= m_ParticleLifeTime)
 		{

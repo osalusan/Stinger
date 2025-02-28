@@ -33,7 +33,7 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 	{
 		// スタミナが多ければ多いほど、復帰時間が早くなる確率が上がる
 		const int& randValue = rand() % static_cast<int>(m_BossCache->GetStamina());
-		m_WaitValue = randValue * 0.01f;
+		m_WaitValue = randValue * 0.008f;
 		m_CurrentTime = 0.0f;
 	}
 
