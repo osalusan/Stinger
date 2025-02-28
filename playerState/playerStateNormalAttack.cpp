@@ -62,6 +62,7 @@ void PlayerStateNormalAttack::Init()
 	m_AttackAccept = true;
 	m_MaxAnimTime = m_MaxAnimTime1;
 	m_AttackComboNumber = 1;
+	m_AnimSpeedValue = 1.0f;
 
 	if (m_PlayerCache != nullptr)
 	{
@@ -89,7 +90,7 @@ void PlayerStateNormalAttack::Unit()
 void PlayerStateNormalAttack::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
-	m_CurrentTime += deltaTime;
+	m_CurrentTime += deltaTime * m_AnimSpeedValue;
 	if (m_PlayerMachine == nullptr) return;
 
 	// 初回のみ
@@ -149,6 +150,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		else
 		{
 			RotToCameraDirection(deltaTime);
+			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 * m_AttackCancleValue1)
@@ -162,6 +164,8 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackCancel = false;
 				m_AttackComboNumber = 2;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue2;
+				m_AnimSpeedValue = 1.15f;
+				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
 
@@ -179,6 +183,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		else
 		{
 			RotToInputKeyDirection(deltaTime);
+			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= m_MaxAnimTime1 + (m_MaxAnimTime2 * m_AttackCancleValue2))
@@ -192,6 +197,9 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackCancel = false;
 				m_AttackComboNumber = 3;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue3;
+
+				m_AnimSpeedValue = 1.25f;
+				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
 
@@ -209,11 +217,14 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		else
 		{
 			RotToInputKeyDirection(deltaTime);
+			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
 		if (m_CurrentTime >= maxAnimTime1and2 + (m_MaxAnimTime3 * m_AttackCancleValue3))
 		{
 			m_AttackCancel = true;
+			m_AnimSpeedValue = 1.0f;
+			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 		}
 	}
 
@@ -229,10 +240,13 @@ void PlayerStateNormalAttack::ChangeStateControl()
 
 	// 優先順位順
 
-	// TODO :アニメーションの時間を設定
 	if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
+	}
+	else if (m_PlayerMachine->GetIsExtrAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::ATTACK_EXTR);
 	}
 	else if (m_AttackCancel)
 	{

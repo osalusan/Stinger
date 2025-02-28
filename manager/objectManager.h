@@ -17,6 +17,7 @@ enum class OBJECT
 	ATTACK,
 	STATICMESH,
 	SHADOW,
+	PARTICLE,
 	BILLBOARD,
 	POLYGON2D,
 	MAX
@@ -36,6 +37,7 @@ private:
 
 	float m_SlowTime = 0.0f;
 	float m_SlowValue = 0.0f;
+	bool m_SlowEnemy = false;
 public:
 	~ObjectManager();
 	void Init();
@@ -43,19 +45,19 @@ public:
 	void Update(const float& deltaTime);
 	void Draw();
 
-	Camera* GetCamera()const
+	Camera* GetCamera()
 	{
 		return m_CameraCache;
 	}
-	Player* GetPlayer()const
+	Player* GetPlayer()
 	{
 		return m_PlayerCache;
 	}
-	BossEnemy* GetBossEnemy()const
+	BossEnemy* GetBossEnemy()
 	{
 		return m_BossCache;
 	}
-	MeshFiled* GetMeshFiled()const
+	MeshFiled* GetMeshFiled()
 	{
 		return m_FiledCache;
 	}
@@ -64,10 +66,8 @@ public:
 		if (m_SlowTime <= 0.0f) return false;
 		return true;
 	}
-	void SetSlowTime(const float& time)
-	{
-		m_SlowTime = time;
-	}
+	void SetSlowTime(const float& time);
+	void SetSlowTimeEnemy(const float& time);
 	void SetSlowValue(const float& value)
 	{
 		m_SlowValue = value;

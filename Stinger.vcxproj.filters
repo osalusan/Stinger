@@ -345,13 +345,25 @@
     <ClCompile Include="particle\lightningCharge.cpp">
       <Filter>particle</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTaskNode\lightningBattlecryTask.cpp">
+    <ClCompile Include="behaviorTaskNode\lightningBarstTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\middleRangeAttackTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\lightningFallFowardRainTask.cpp">
+      <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateExtrAttack.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="billboard\extrSlashEffect.cpp">
+      <Filter>billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="particle\extrSwordBarst.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
+    <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
   </ItemGroup>
@@ -632,13 +644,25 @@
     <ClInclude Include="particle\lightningCharge.h">
       <Filter>particle</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTaskNode\lightningBattlecryTask.h">
+    <ClInclude Include="behaviorTaskNode\lightningBarstTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\middleRangeAttackTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\lightningFallFowardRainTask.h">
+      <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateExtrAttack.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="billboard\extrSlashEffect.h">
+      <Filter>billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\extrSwordBarst.h">
+      <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviorTaskNode\checkRenditionTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
   </ItemGroup>

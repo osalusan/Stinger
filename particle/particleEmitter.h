@@ -37,6 +37,9 @@ protected:
 	bool m_Mix = false;//â¡éZçáê¨ÇÃÉIÉìÉIÉt
 	float m_Count = 0;
 	bool m_Enable = true;
+	bool m_ReservEnable = false;
+	float m_ParticleLifeTime = 0.0f;
+	float m_CurrentParticleLifeTime = 0.0f;
 
 	virtual void CreateParticleEffect(const float& deltaTime) = 0;
 	virtual void UpdateParticleEffect(const float& deltaTime) = 0;
@@ -51,6 +54,9 @@ public:
 	void Init();
 	void Update(const float& deltaTime);
 	void Draw();
+
+	virtual void End();
+	virtual void Start();
 
 	void SetEnable(const bool& flag)
 	{

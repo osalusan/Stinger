@@ -8,52 +8,19 @@ void RightPunchTask::Init()
 	m_TaskName = "‰E‚‘¬ƒpƒ“ƒ`";
 	InitSkillData(m_TaskName);
 	m_ParryPossibleAtk = true;
+	m_AttackTask = true;
 }
 
-NODE_STATE RightPunchTask::Update(const float& deltaTime)
+void RightPunchTask::RunningTask(const float& deltaTime)
 {
-	TaskNode::Update(deltaTime);
+	TaskNode::RunningTask(deltaTime);
+
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)
 	{
-		return NODE_STATE::FAILURE;
+		return;
 	}
 
-	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (!CheckRunningNode(node))
-	{
-		return NODE_STATE::FAILURE;
-	}
-
-	// ‰Šú‰»
-	if (node == nullptr)
-	{
-		if (m_CurrentTime >= m_MaxAnimTime && m_BossCache->GetCurrentRange() == RANGE::SHORT)
-		{
-			m_CurrentTime = 0.0f;
-		}
-	}
-
-	if (m_CurrentTime < m_MaxAnimTime)
-	{
-		m_CurrentTime += deltaTime;
-		m_BossCache->ChangeAnimation(m_AnimName);
-		// ó‘Ô‚ð•Û‘¶
-		m_BossCache->SetRunningNode(this);
-
-		// UŒ‚”»’è
-		UseAttack(ATTACK_PARTS::RIGHT_ARM);
-
-		return NODE_STATE::RUNNING;
-	}
-	else
-	{
-		if (node == this)
-		{
-			// ó‘Ô‚ðíœ
-			m_BossCache->SetRunningNode(nullptr);
-			return NODE_STATE::SUCCESS;
-		}
-	}
-
-	return NODE_STATE::FAILURE;
+	// UŒ‚”»’è
+	UseAttack(ATTACK_PARTS::RIGHT_ARM);
+	m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
 }

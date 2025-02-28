@@ -28,10 +28,11 @@
     <ClCompile Include="behaviorTaskNode\checkAttackParry.cpp" />
     <ClCompile Include="behaviorTaskNode\checkHealthTask.cpp" />
     <ClCompile Include="behaviorTaskNode\checkRangeTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp" />
     <ClCompile Include="behaviorTaskNode\dashAtThePlayerTask.cpp" />
     <ClCompile Include="behaviorTaskNode\deadTask.cpp" />
     <ClCompile Include="behaviorTaskNode\jumpAttackTask.cpp" />
-    <ClCompile Include="behaviorTaskNode\lightningBattlecryTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\lightningBarstTask.cpp" />
     <ClCompile Include="behaviorTaskNode\lightningFallFowardRainTask.cpp" />
     <ClCompile Include="behaviorTaskNode\loadIdleTask.cpp" />
     <ClCompile Include="behaviorTaskNode\middleRangeAttackTask.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="behaviorTree\mawJLaygoLoadTree.cpp" />
     <ClCompile Include="behaviorTree\mawJLaygoTitleTree.cpp" />
     <ClCompile Include="billboard\billboard.cpp" />
+    <ClCompile Include="billboard\extrSlashEffect.cpp" />
     <ClCompile Include="billboard\lightningBallEffect.cpp" />
     <ClCompile Include="billboard\lightningFallEffect.cpp" />
     <ClCompile Include="camera\camera.cpp" />
@@ -85,10 +87,12 @@
     <ClCompile Include="meshFiled\meshFiled.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="object\transparentWall.cpp" />
+    <ClCompile Include="particle\extrSwordBarst.cpp" />
     <ClCompile Include="particle\lightningCharge.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
     <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
+    <ClCompile Include="playerState\playerStateExtrAttack.cpp" />
     <ClCompile Include="playerState\playerStateIdle.cpp" />
     <ClCompile Include="playerState\playerStateJump.cpp" />
     <ClCompile Include="playerState\playerStateMachine.cpp" />
@@ -122,10 +126,11 @@
     <ClInclude Include="behaviorTaskNode\checkAttackParry.h" />
     <ClInclude Include="behaviorTaskNode\checkHealthTask.h" />
     <ClInclude Include="behaviorTaskNode\checkRangeTask.h" />
+    <ClInclude Include="behaviorTaskNode\checkRenditionTask.h" />
     <ClInclude Include="behaviorTaskNode\dashAtThePlayerTask.h" />
     <ClInclude Include="behaviorTaskNode\deadTask.h" />
     <ClInclude Include="behaviorTaskNode\jumpAttackTask.h" />
-    <ClInclude Include="behaviorTaskNode\lightningBattlecryTask.h" />
+    <ClInclude Include="behaviorTaskNode\lightningBarstTask.h" />
     <ClInclude Include="behaviorTaskNode\lightningFallFowardRainTask.h" />
     <ClInclude Include="behaviorTaskNode\loadIdleTask.h" />
     <ClInclude Include="behaviorTaskNode\middleRangeAttackTask.h" />
@@ -142,6 +147,7 @@
     <ClInclude Include="behaviorTree\mawJLaygoLoadTree.h" />
     <ClInclude Include="behaviorTree\mawJLaygoTitleTree.h" />
     <ClInclude Include="billboard\billboard.h" />
+    <ClInclude Include="billboard\extrSlashEffect.h" />
     <ClInclude Include="billboard\lightningBallEffect.h" />
     <ClInclude Include="billboard\lightningFallEffect.h" />
     <ClInclude Include="camera\camera.h" />
@@ -182,10 +188,12 @@
     <ClInclude Include="meshFiled\meshFiled.h" />
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="object\transparentWall.h" />
+    <ClInclude Include="particle\extrSwordBarst.h" />
     <ClInclude Include="particle\lightningCharge.h" />
     <ClInclude Include="particle\particleEmitter.h" />
     <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
+    <ClInclude Include="playerState\playerStateExtrAttack.h" />
     <ClInclude Include="playerState\playerStateIdle.h" />
     <ClInclude Include="playerState\playerStateJump.h" />
     <ClInclude Include="playerState\playerStateMachine.h" />
@@ -347,6 +355,10 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <LanguageStandard>Default</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -369,6 +381,10 @@
       <AdditionalIncludeDirectories>..\Stinger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

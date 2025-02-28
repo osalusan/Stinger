@@ -11,6 +11,7 @@ enum class PLAYER_STATE
 	ROLLING,
 	ATTACK_PARRY,
 	ATTACK_NORMAL,
+	ATTACK_EXTR,
 	RUN,
 	DEAD,
 	MAX
@@ -32,16 +33,22 @@ class Camera;
 class PlayerStateParryAttack;
 class PlayerStateRolling;
 class PlayerStateNormalAttack;
+class PlayerStateExtrAttack;
+class Polygon2D;
+class BossEnemy;
 
 class PlayerStateMachine final
 {
 private:
 	Player* m_PlayerCache = nullptr;
 	Camera* m_CameraCache = nullptr;
+	Polygon2D* m_ParryGageCache = nullptr;
+	BossEnemy* m_BossCache = nullptr;
 
 	PlayerState* m_CurrentPlayerState = nullptr;
 	PlayerStateParryAttack* m_ParryCache = nullptr;
 	PlayerStateNormalAttack* m_NormalAttackCache = nullptr;
+	PlayerStateExtrAttack* m_ExtrAttackCache = nullptr;
 
 	PlayerStateRolling* m_RollingCache = nullptr;
 	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
@@ -55,6 +62,7 @@ private:
 	XMFLOAT3 m_Rotation = {};
 
 	float m_AnimeBlendTimeValue = 0.0f;				// アニメーションのブレンド速度
+	int m_ParryCount = 0;							// パリィカウント
 
 	bool m_IsGround = false;						// 地面に触れているか
 	bool m_IsJamp = false;							// ジャンプしたか
@@ -63,9 +71,13 @@ private:
 	bool m_IsNormalAttackButton = false;			// 通常攻撃をしたか
 	bool m_IsHitAttacked = false;					// 攻撃を受けたか
 	bool m_IsInvincible = false;					// 無敵状態かどうか
+	bool m_IsExtrAttack = false;					// エクストラ攻撃が発動可能か
+	bool m_IsParry = false;							// パリィしているか
 
 	std::string m_NextAnimationName = "";			// アニメーションの名前
 
+	// 入力情報の初期化
+	void InputReset();
 public:
 	PlayerStateMachine() = delete;
 	PlayerStateMachine(Player* player);
@@ -76,6 +88,7 @@ public:
 
 	void SetPlayerState(const PLAYER_STATE& state);
 	void InitVelocity();
+	void SetAnimationSpeedValue(const float& value);
 
 	bool CheckParry();
 	bool CheckRolling();
@@ -83,6 +96,8 @@ public:
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
 	void HitGround();					// 地面に当たった
+
+	void UseExtrAttack();
 
 	const Player* GetPlayerCache()const
 	{
@@ -142,7 +157,10 @@ public:
 	{
 		return m_IsHitAttacked;
 	}	
-
+	const bool& GetIsExtrAttack()const
+	{
+		return m_IsExtrAttack;
+	}
 
 	void SetIsHitAttack(const bool& hit)
 	{

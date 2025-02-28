@@ -25,13 +25,13 @@ NODE_STATE ParryRecoilTask::Update(const float& deltaTime)
 	if (node == nullptr)
 	{
 		m_CurrentTime = 0.0f;
-		m_BossCache->SetAnimationSpeedValue(m_AnimationSpeedValue);
+		m_BossCache->SetAnimationSpeedValue(m_AnimSpeedValue);
 		m_BossCache->UseStamina(m_BossCache->GetaMaxStamina() * m_UseStaminaValue);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
-		m_CurrentTime += deltaTime * m_AnimationSpeedValue;
+		m_CurrentTime += deltaTime * m_AnimSpeedValue;
 		m_BossCache->ChangeAnimation(m_AnimName);
 		// ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);

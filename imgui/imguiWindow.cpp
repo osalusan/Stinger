@@ -20,7 +20,7 @@ ImguiWindow::ImguiWindow()
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
     m_Font = io.Fonts->AddFontFromFileTTF("imgui/fonts/VL_Gothic_Regular.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     if (m_Font != nullptr)
     {
@@ -132,7 +132,7 @@ void ImguiWindow::Update(const float& deltaTime)
     // 改行しない
     ImGui::SameLine();
     // 黄色：確率上限エラー
-    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),u8"黄色：確率上限エラー");
+    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),u8"黄色：確率エラー");
 
     DrawBehaviorTree(m_RootNodeCache);
 
@@ -168,7 +168,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
     std::string utf8Name = ToUtf8(wstr);
 
     // 確率エラー
-    if (root->GetTotalDerivChance() > 100)
+    if (root->GetTotalDerivChance() != 100 && root->GetTotalDerivChance() != 0)
     {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // 文字色
     }
@@ -177,6 +177,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
     {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // 文字色
     }
+    // 標準
     else
     {
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // 文字色
@@ -204,12 +205,12 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
             }
 
             // 派生技のデータを表記
-            if (parentNode->GetDerivationData().size() > 0)
+            if (parentNode->GetDerivationData().size() > 0 && parentNode->GetDerivationData(parentChildNum).TransTimeValue != 0.0f)
             {
                 if (m_ShowDerivationInfo == 0)
                 {
                     ImGui::Text(u8"{");
-                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
+                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
                     ImGui::Text(u8"  派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                     ImGui::Text(u8"  派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
                     ImGui::Text(u8"}");
@@ -217,7 +218,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                 else if (m_ShowDerivationInfo == 1)
                 {
                     ImGui::Text(u8"{");
-                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).Health * m_BossEnemyCache->GetMaxHealth());
+                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
                     ImGui::SameLine();
                     ImGui::Text(u8"| 派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                     ImGui::SameLine();
@@ -241,6 +242,10 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
 void ImguiWindow::ClearNode()
 {
     m_RootNodeCache = nullptr;
+    m_PlayerCache = nullptr;
+    m_BossEnemyCache = nullptr;
+    m_PlayerStateMachineCache = nullptr;
+    m_TaskName.clear();
 }
 
 // --------------------------------- private ---------------------------------
@@ -295,6 +300,9 @@ std::string ImguiWindow::GetCurrentPlayerStateName()
         break;
     case PLAYER_STATE::ATTACK_NORMAL:
         playerStateName = "通常攻撃";
+        break;
+    case PLAYER_STATE::ATTACK_EXTR:
+        playerStateName = "エクストラ攻撃";
         break;
     case PLAYER_STATE::RUN:
         playerStateName = "走り";

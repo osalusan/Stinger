@@ -9,12 +9,12 @@ enum class NODE_STATE
     RUNNING
 };
 
-// 派生可能体力、発生確率、移行時間割合
+// 派生可能体力割合、発生確率、移行時間割合
 struct DERIVATION_DATA
 {
-    float Health = 0.0f;                 // 派生可能体力
-    int Chance = 0;                      // 派生技発生確率
-    float TransTimeValue = 0.0f;	     // 派生移行時間割合
+    float HealthValue = 0.0f;            // 派生可能体力割合 / 1.0が最大
+    int Chance = 0;                      // 派生技発生確率 / 100が最大
+    float TransTimeValue = 0.0f;	     // 派生移行時間割合 / 1.0が最大
 };
 
 class BehaviorNode 
@@ -50,6 +50,7 @@ public:
     BehaviorNode* AddTaskChild(int derivChance, Args&&... args)
     {
         m_ChildDerivChance.emplace_back(derivChance);
+        m_DerivationData.emplace_back(DERIVATION_DATA());
         
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
@@ -63,7 +64,7 @@ public:
     }
 
     template <typename T, typename... Args>
-    BehaviorNode* AddTaskChild(int derivChance, DERIVATION_DATA derivData, Args&&... args)
+    BehaviorNode* AddTaskChild(DERIVATION_DATA derivData, int derivChance, Args&&... args)
     {
         m_ChildDerivChance.emplace_back(derivChance);
         m_DerivationData.emplace_back(derivData);

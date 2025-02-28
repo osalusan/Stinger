@@ -8,6 +8,8 @@ enum class AUDIO
 	PARRY_SE,
 	SLASH1_SE,
 	SLASH2_SE,
+	SLASH3_SE,
+	SOWRD_CHAGE,
 	MAX
 };
 

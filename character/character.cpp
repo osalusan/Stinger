@@ -165,3 +165,11 @@ void Character::InitGravity()
 {
 	m_CurrentGravityValue = 0.0f;
 }
+
+void Character::IsDead()
+{
+	if (m_Health <= 0.0f)
+	{
+		m_IsDead = true;
+	}
+}

@@ -1,9 +1,8 @@
 #include "lightningBallEffect.h"
 #include "manager/textureManager.h"
 
-
 LightningBallEffect::LightningBallEffect(const GameObject* followObj)
-	:BillBoard(XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(5.0f, 5.0f, 5.0f), TEXTURE::LIGHTNING_BALL, L"asset\\texture\\billboard\\lightningBall.png", 0.05f, XMINT2(5, 4))
+	:BillBoard(XMFLOAT3(0.0f, 0.0f, 5.0f), XMFLOAT3(5.0f, 5.0f, 5.0f), TEXTURE::EFFECT_LIGHTNING_BALL, L"asset\\texture\\sprite\\lightningBall.png", 0.05f, XMINT2(5, 4))
 {
 	m_FollowObject = followObj;
 	m_Enable = false;

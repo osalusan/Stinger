@@ -267,6 +267,28 @@ void BossEnemy::RotToTarget(GameObject* obj,const float& deltaTime)
 	m_Rotation.y = currentAngle;
 }
 
+void BossEnemy::RotToTarget(GameObject* obj)
+{
+	if (obj == nullptr) return;
+	const XMFLOAT3& enemyPos = m_Position;
+	const XMFLOAT3& targetPos = obj->GetPos();
+
+	float currentAngle = m_Rotation.y;
+	const float& targetAngle = atan2f(targetPos.x - enemyPos.x, targetPos.z - enemyPos.z);
+
+	float angleDiff = targetAngle - currentAngle;
+	while (angleDiff > XM_PI)
+	{
+		angleDiff -= XM_2PI;
+	}
+	while (angleDiff < -XM_PI)
+	{
+		angleDiff += XM_2PI;
+	}
+
+	m_Rotation.y = currentAngle += angleDiff;
+}
+
 bool BossEnemy::UseStamina(const float& use)
 {
 	if (m_StaminaValue - use < 0.0f)

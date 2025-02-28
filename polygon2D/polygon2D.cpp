@@ -168,17 +168,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(position.x + halfSize.x, position.y - halfSize.y, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(position.x - halfSize.x, position.y + halfSize.y, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(position.x + halfSize.x, position.y + halfSize.y, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
 
 		break;
 	}
@@ -222,17 +222,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(position.x, position.y, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(left, bottom, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(position.x, bottom, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
 
 		break;
 	}
@@ -249,17 +249,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(right, top, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(position.x, position.y, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(right, position.y, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
 
 		break;
 	}
@@ -276,17 +276,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(position.x, top, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(1.0f, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(left, position.y, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, 1.0f);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(position.x, position.y, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(1.0f, 1.0f);
+		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
 
 		break;
 	}

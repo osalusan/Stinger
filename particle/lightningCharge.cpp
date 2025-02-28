@@ -63,9 +63,9 @@ void LightningCharge::Start(const float& time)
 
 void LightningCharge::End()
 {
+	ParticleEmiter::End();
 	m_ChargeEnable = false;
 	m_AcceptTime = 0.0f;
-	m_Enable = false;
 }
 
 bool LightningCharge::Finish()

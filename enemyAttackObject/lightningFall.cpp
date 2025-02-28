@@ -22,7 +22,7 @@ void LightningFall::AttackControl(const float& deltaTime)
 	}
 	if (m_LightningFallEffCache->Finish())
 	{
-		m_Enable = false;
+		Finish();
 	}
 }
 
@@ -46,7 +46,7 @@ LightningFall::LightningFall(const GameObject* target)
 	}
 	if (m_LightningChargeCache == nullptr)
 	{
-		m_LightningChargeCache = objManager->AddGameObjectArg<LightningCharge>(OBJECT::BILLBOARD,false);
+		m_LightningChargeCache = objManager->AddGameObjectArg<LightningCharge>(OBJECT::PARTICLE,false);
 	}
 	m_Enable = false;
 }

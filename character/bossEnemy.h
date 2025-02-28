@@ -85,7 +85,10 @@ public:
 		m_Velocity.z += vel.z;
 	}
 
+	// ‚ä‚Á‚­‚èŒü‚­
 	void RotToTarget(GameObject* obj, const float& deltaTime);
+	// ‘¦ŽžŒü‚­
+	void RotToTarget(GameObject* obj);
 	
 	bool UseStamina(const float& use);
 

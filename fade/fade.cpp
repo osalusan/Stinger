@@ -20,7 +20,7 @@ void Fade::Init()
 
 	if (m_FadeTexture == nullptr)
 	{
-		m_FadeTexture = new Polygon2D(XMFLOAT2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::FADE, L"asset\\texture\\white.png");
+		m_FadeTexture = new Polygon2D(XMFLOAT2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f), XMFLOAT2(SCREEN_WIDTH, SCREEN_HEIGHT), PIVOT::CENTER, TEXTURE::WHITE, L"asset\\texture\\white.png");
 	}
 	if (m_FadeTexture != nullptr)
 	{

@@ -46,7 +46,9 @@ void TaskNode::InitSkillData(const std::string& skillName)
 		m_ParryPossibleAtk = true;
 	}
 	m_BulletSpeed = FindSkillData("弾速");
-	m_AnimationSpeedValue = FindSkillData("アニメーション速度_倍率");
+	m_BulletActionTime = FindSkillData("発射_時間");
+	m_AnimSpeedValue = FindSkillData("アニメーション速度_倍率");
+	m_AnimChangeSpeedTime = FindSkillData("アニメーション速度変更_時間");
 }
 
 NODE_STATE TaskNode::UpdateChildren(const float& deltaTime)
@@ -93,11 +95,41 @@ int TaskNode::DerivationChance()
 		return 0;
 	}
 
+	// エラー防止用
+	if (GetDerivationData().size() > 0)
+	{
+		totalChance = 0;
+		int enableDerivCount = 0;
+		if (m_BossCache == nullptr) return -1;
+
+		for (const DERIVATION_DATA& derivData : GetDerivationData())
+		{
+			if (m_ChildDerivChance.size() <= enableDerivCount) break;
+
+			if (derivData.HealthValue == 0.0f)
+			{
+				totalChance += m_ChildDerivChance.at(enableDerivCount);
+			}
+			else if (m_BossCache->GetHealth() <= derivData.HealthValue * m_BossCache->GetMaxHealth())
+			{
+				totalChance += m_ChildDerivChance.at(enableDerivCount);
+			}
+			enableDerivCount++;
+		}
+	}
+
+	if (totalChance <= 0)return -1;
+
 	const int& randValue = rand() % totalChance;
 	totalChance = 0;
 	int loop = 0;
 	for (const int& chance : m_ChildDerivChance)
 	{
+		if (GetDerivationData().size() <= loop && GetDerivationData().at(loop).HealthValue == 0.0f)
+		{
+			loop++;
+			continue;
+		}
 		totalChance += chance;
 		if (totalChance >= randValue)
 		{
@@ -201,7 +233,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 			{
 				InitTask(deltaTime);
 
-				if (m_ChildDerivChance.size() > 0)
+				if (m_Children.size() > 0)
 				{
 					if (GetDerivationData(m_UseDerivNumber).Chance == 0 || GetDerivationData(m_UseDerivNumber).Chance == 100)
 					{
@@ -226,7 +258,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 	{
 		if (m_EnableDerivation && m_CurrentTime > m_MaxAnimTime * GetDerivationData(m_UseDerivNumber).TransTimeValue)
 		{
-			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).Health)
+			if (m_BossCache->GetHealth() <= m_BossCache->GetMaxHealth() * GetDerivationData(m_UseDerivNumber).HealthValue)
 			{
 				m_UseDerivation = true;
 				m_EnableDerivation = false;
