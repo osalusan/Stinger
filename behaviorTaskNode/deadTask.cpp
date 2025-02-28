@@ -6,6 +6,7 @@ void DeadTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\dying_MawJ.fbx", "dead");
 	m_TaskName = "Ž€–S";
+	InitSkillData(m_TaskName);
 }
 
 NODE_STATE DeadTask::Update(const float& deltaTime)
@@ -16,15 +17,22 @@ NODE_STATE DeadTask::Update(const float& deltaTime)
 		return NODE_STATE::FAILURE;
 	}
 
+	if (m_BossCache->GetHealth() > 0.0f)
+	{
+		return NODE_STATE::FAILURE;
+	}
+
+	// Ž€‚ñ‚¾‚Æ‚«‚É‹­§“I‚É“ü‚é‰Šú‰»
 	BehaviorNode* node = m_BossCache->GetRunningNode();
-	if (node != nullptr && node != this)
+	if (node != this)
 	{
 		m_CurrentTime = 0.0f;
+		m_BossCache->SetAnimationSpeedValue(m_AnimSpeedValue);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)
 	{
-		m_CurrentTime += deltaTime;
+		m_CurrentTime += deltaTime * m_AnimSpeedValue;
 		m_BossCache->ChangeAnimation(m_AnimName);
 		// ó‘Ô‚ð•Û‘¶
 		m_BossCache->SetRunningNode(this);

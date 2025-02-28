@@ -31,7 +31,8 @@ protected:
 	float m_AttackEnableTimeValue = 0.0f;			// 攻撃判定開始時間
 	float m_AttackDisableTimeValue = 1.0f;			// 攻撃判定終了時間
 	float m_BulletSpeed = 0.0f;						// 弾速
-	float m_AnimationSpeedValue = 1.0f;				// アニメーション速度倍率
+	float m_AnimSpeedValue = 1.0f;					// アニメーション速度倍率
+	float m_AnimChangeSpeedTime = 1.0f;				// アニメーション速度倍率
 	float m_BulletActionTime = 0.0f;				// 発射時間
 	bool m_ParryPossibleAtk = false;				// パリィされる攻撃の場合は、CSVの方に0以外の数値を入力する
 

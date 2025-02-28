@@ -47,7 +47,8 @@ void TaskNode::InitSkillData(const std::string& skillName)
 	}
 	m_BulletSpeed = FindSkillData("弾速");
 	m_BulletActionTime = FindSkillData("発射_時間");
-	m_AnimationSpeedValue = FindSkillData("アニメーション速度_倍率");
+	m_AnimSpeedValue = FindSkillData("アニメーション速度_倍率");
+	 = FindSkillData("アニメーション速度変更_時間");
 }
 
 NODE_STATE TaskNode::UpdateChildren(const float& deltaTime)
