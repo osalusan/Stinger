@@ -66,18 +66,6 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	// ▼デバッグ用▼
 	
 	// rootNode->AddTaskChild<LightningBarstTask>(boss, player);
-	if (BehaviorNode* shortAttackTask1 = rootNode->AddTaskChild<ShortRangeAttackTask>(boss, player))
-	{
-		shortAttackTask1->AddTaskChild<RightPunchTask>(15, boss, player);
-		DERIVATION_DATA lightningBarstDerivData = { 0.6f,100,0.0f };
-		shortAttackTask1->AddTaskChild<LightningBarstTask>(lightningBarstDerivData, 70, boss, player);
-		if (BehaviorNode* backJump = shortAttackTask1->AddTaskChild<BackJumpTask>(15, boss, player))
-		{
-			DERIVATION_DATA backJumpTo{ 0.6f,100,0.9f };
-			backJump->AddTaskChild<LightningFallFowardRainTask>(backJumpTo, 60, boss, player);
-			backJump->AddTaskChild<JumpAttackTask>(backJumpTo, 40, boss, player);
-		}
-	}
 
 	// ▲デバッグ用▲
 
