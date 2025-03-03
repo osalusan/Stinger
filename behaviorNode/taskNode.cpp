@@ -95,12 +95,15 @@ int TaskNode::DerivationChance()
 		return 0;
 	}
 
+	if (m_BossCache == nullptr) return -1;
+	const float& bossHealth = m_BossCache->GetHealth();
+	const float& bossMaxHealth = m_BossCache->GetMaxHealth();
+
 	// ƒGƒ‰[–hŽ~—p
 	if (GetDerivationData().size() > 0)
 	{
 		totalChance = 0;
 		int enableDerivCount = 0;
-		if (m_BossCache == nullptr) return -1;
 
 		for (const DERIVATION_DATA& derivData : GetDerivationData())
 		{
@@ -110,7 +113,7 @@ int TaskNode::DerivationChance()
 			{
 				totalChance += m_ChildDerivChance.at(enableDerivCount);
 			}
-			else if (m_BossCache->GetHealth() <= derivData.HealthValue * m_BossCache->GetMaxHealth())
+			else if (bossHealth <= derivData.HealthValue * bossMaxHealth)
 			{
 				totalChance += m_ChildDerivChance.at(enableDerivCount);
 			}
@@ -125,7 +128,8 @@ int TaskNode::DerivationChance()
 	int loop = 0;
 	for (const int& chance : m_ChildDerivChance)
 	{
-		if (GetDerivationData().size() <= loop && GetDerivationData().at(loop).HealthValue == 0.0f)
+		const float& loopHealthValue = GetDerivationData().at(loop).HealthValue;
+		if (loopHealthValue != 0.0f && bossHealth > loopHealthValue * bossMaxHealth)
 		{
 			loop++;
 			continue;
@@ -228,7 +232,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 
 		if (m_CurrentTime >= m_MaxAnimTime)
 		{
-			const float& maxStamina = m_BossCache->GetaMaxStamina();
+			const float& maxStamina = m_BossCache->GetMaxStamina();
 			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 			{
 				InitTask(deltaTime);

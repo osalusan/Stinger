@@ -27,7 +27,10 @@ protected:
     NODE_STATE m_CurrentState = NODE_STATE::FAILURE;
 
     std::vector<int> m_ChildDerivChance = {};		                // 派生技の確率 / 合計で100になるように
+
+    // IMGUIで使用するために、基底クラスに変数を移動
     std::string m_AnimName = "";
+    float m_UseStaminaValue = 0.0f;				                	// 使用スタミナ倍率
 public:
     virtual ~BehaviorNode();
     virtual void Init() = 0;
@@ -101,6 +104,11 @@ public:
     {
         return m_AnimName;
     }
+    const float& GetUseStaminaValue()const
+    {
+        return m_UseStaminaValue;
+    }
+
     DERIVATION_DATA GetDerivationData(const int& num)const;
 
     const std::vector<DERIVATION_DATA>& GetDerivationData()const

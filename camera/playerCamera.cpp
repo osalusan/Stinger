@@ -51,6 +51,16 @@ void PlayerCamera::Update(const float& deltaTime)
 		m_BossCache = objectManager->GetBossEnemy();
 	}
 
+	// ‰‰oI‚í‚Á‚½Œã•Ï‚ÈŒü‚«‚ğŒü‚©‚È‚¢—p
+	if (m_UseRendition)
+	{
+		POINT MousePos{};
+		GetCursorPos(&MousePos);
+
+		m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
+		m_OldMousePos = m_MousePos;
+	}
+
 	if (!m_CutInMode && !m_UseRendition)
 	{
 		POINT MousePos{};

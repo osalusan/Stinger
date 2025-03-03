@@ -22,8 +22,14 @@ void LightningFall::AttackControl(const float& deltaTime)
 	}
 	if (m_LightningFallEffCache->Finish())
 	{
-		Finish();
+		m_IsAttack = false;
+		m_Enable = false;
 	}
+}
+
+void LightningFall::Finish()
+{
+	m_IsAttack = false;
 }
 
 // -------------------------------------- public --------------------------------------

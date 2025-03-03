@@ -122,7 +122,7 @@ public:
 	{
 		return m_StaminaValue;
 	}
-	const float& GetaMaxStamina()const
+	const float& GetMaxStamina()const
 	{
 		return m_MaxStamina;
 	}

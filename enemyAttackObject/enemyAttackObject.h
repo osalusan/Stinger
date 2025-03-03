@@ -12,7 +12,7 @@ protected:
 	float m_Damage = 0.0f;
 	virtual void AttackControl(const float& deltaTime) = 0;
 	virtual bool CollisionControl();
-	virtual void Finish();
+	virtual void Finish() = 0;
 public:
 	EnemyAttackObject() = delete;
 	EnemyAttackObject(const GameObject* target);

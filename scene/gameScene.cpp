@@ -14,7 +14,7 @@
 #include "object/transparentWall.h"
 #include "billboard/extrSlashEffect.h"
 
-constexpr XMFLOAT3 WALL_MAX = { 250.0f, 100.0f, 250.0f }; // •Ç‚ÌÅ‘å”ÍˆÍ
+constexpr XMFLOAT3 WALL_MAX = { 450.0f, 100.0f, 450.0f }; // •Ç‚ÌÅ‘å”ÍˆÍ
 constexpr float CLEAR_TO_TITLE = 5.0f;
 constexpr float INOPERABLE_TIME = 1.0f;
 constexpr XMFLOAT2 RETRY_AND_GOTITLE_SCALE = { SCREEN_WIDTH * 0.28f,SCREEN_HEIGHT * 0.12f };
@@ -39,9 +39,9 @@ void GameScene::Init()
 
 	// ‚Ç‚±‚Éì¬‚µ‚Ä‚à—Ç‚¢
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::GAME_CLEAR,false, L"asset\\texture\\gameClear.png",false);	
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 1.5f, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::GAME_CLEAR,false, L"asset\\texture\\gameClear.png",false);	
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
-		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::GAME_OVER,false, L"asset\\texture\\gameOver.png",false);
+		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 1.5f, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::GAME_OVER,false, L"asset\\texture\\gameOver.png",false);
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 		RETRY_POS, RETRY_AND_GOTITLE_SCALE, PIVOT::CENTER, TEXTURE::SELECTBACK1, false, L"asset\\texture\\white.png", false);
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,

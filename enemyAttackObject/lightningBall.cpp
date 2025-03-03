@@ -100,7 +100,8 @@ bool LightningBall::CollisionControl()
 
 void LightningBall::Finish()
 {
-	EnemyAttackObject::Finish();
+	m_Enable = false;
+	m_IsAttack = false;
 	m_Rotation = {};
 }
 

@@ -5,6 +5,7 @@
 #include "manager/objectManager.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/scene.h"
+#include "scene/loadScene.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -188,10 +189,18 @@ BossEnemy::BossEnemy(BehaviorTree* tree,const XMFLOAT3& pos)
 	ObjectManager* objManager = scene->GetObjectManager();
 	if (objManager == nullptr) return;
 
-	// フレーム
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME,PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_BOSS, L"asset\\texture\\white.png");
-	// HPバーのバックグラウンド
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_BOSS, L"asset\\texture\\black.png");
+	LoadScene* loadScene = SceneManager::GetLoadScene();
+	if (loadScene == nullptr) return;
+	ObjectManager* loadObjManager = loadScene->GetObjectManager();
+
+	// ロードの時はHPバーを表示しない
+	if (loadObjManager->GetBossEnemy() != this)
+	{
+		// フレーム
+		objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME, PIVOT::LEFT_TOP, TEXTURE::HPBAR_FRAME_BOSS, L"asset\\texture\\white.png");
+		// HPバーのバックグラウンド
+		objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_BG_BOSS, L"asset\\texture\\black.png");
+	}
 
 	// ボスのUI
 	if (m_EnemyHpCache == nullptr)
