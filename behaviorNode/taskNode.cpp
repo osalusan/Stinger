@@ -228,7 +228,7 @@ NODE_STATE TaskNode::Update(const float& deltaTime)
 
 		if (m_CurrentTime >= m_MaxAnimTime)
 		{
-			const float& maxStamina = m_BossCache->GetaMaxStamina();
+			const float& maxStamina = m_BossCache->GetMaxStamina();
 			if (m_BossCache->UseStamina(maxStamina * m_UseStaminaValue))
 			{
 				InitTask(deltaTime);

@@ -26,7 +26,7 @@ NODE_STATE ParryRecoilTask::Update(const float& deltaTime)
 	{
 		m_CurrentTime = 0.0f;
 		m_BossCache->SetAnimationSpeedValue(m_AnimSpeedValue);
-		m_BossCache->UseStamina(m_BossCache->GetaMaxStamina() * m_UseStaminaValue);
+		m_BossCache->UseStamina(m_BossCache->GetMaxStamina() * m_UseStaminaValue);
 	}
 
 	if (m_CurrentTime < m_MaxAnimTime)

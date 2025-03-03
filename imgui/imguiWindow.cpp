@@ -105,17 +105,31 @@ void ImguiWindow::Update(const float& deltaTime)
     {
         ImGui::Text(u8"体力 :%.3f / %.3f", m_BossEnemyCache->GetHealth(), m_BossEnemyCache->GetMaxHealth());
         ImGui::SameLine();
-        ImGui::Text(u8"| スタミナ :%.3f / %.3f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetaMaxStamina());
+        ImGui::Text(u8"| スタミナ :%.3f / %.3f", m_BossEnemyCache->GetStamina(), m_BossEnemyCache->GetMaxStamina());
 
         std::wstring atkPartsName = ToWString(GetCurrentEnemyAttackParts(), 932);
         std::string atkPartsUtf8Name = ToUtf8(atkPartsName);
         ImGui::Text(u8"攻撃判定部位 :%s", atkPartsUtf8Name.c_str());
     }
-    ImGui::Text(u8"ビヘイビアツリー");
+    ImGui::Text(u8"------------- ビヘイビアツリー -------------");
 
-    ImGui::SameLine();
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.7f, 1.0f));         // 通常時の色
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.8f, 0.7f, 0.9f, 1.0f));  // ホバー時の色
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1f, 0.5f, 0.7f, 1.0f));   // アクティブ時の色
 
     if (ImGui::Button(u8"派生技情報の表示形式を変更"))
+    {
+        if (m_ShowStyleDerivationInfo == 0)
+        {
+            m_ShowStyleDerivationInfo = 1;
+        }
+        else if (m_ShowStyleDerivationInfo == 1)
+        {
+            m_ShowStyleDerivationInfo = 0;
+        }
+    }
+    ImGui::SameLine();
+    if (ImGui::Button(u8"派生条件の表示情報を変更"))
     {
         if (m_ShowDerivationInfo == 0)
         {
@@ -127,12 +141,19 @@ void ImguiWindow::Update(const float& deltaTime)
         }
     }
 
+    ImGui::PopStyleColor(3);
+
     // 青色：現在使用中
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f),u8"青色：現在使用中");
-    // 改行しない
     ImGui::SameLine();
     // 黄色：確率上限エラー
     ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),u8"黄色：確率エラー");
+    ImGui::SameLine();
+    // 灰色：発動条件未達成
+    ImGui::TextColored(ImVec4(0.4f, 0.5f, 0.6f, 1.0f), u8"灰色：発動条件未達成");
+    ImGui::SameLine();
+    // 緑色：スタミナ不足
+    ImGui::TextColored(ImVec4(0.48f, 0.98f, 0.2f, 1.0f), u8"緑色：スタミナ不足");
 
     DrawBehaviorTree(m_RootNodeCache);
 
@@ -167,20 +188,32 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
     std::wstring wstr = ToWString(name, 932);
     std::string utf8Name = ToUtf8(wstr);
 
+    const float& healthValue = parentNode->GetDerivationData(parentChildNum).HealthValue;
+
     // 確率エラー
     if (root->GetTotalDerivChance() != 100 && root->GetTotalDerivChance() != 0)
     {
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // 文字色
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // 黄色
     }
     // 使用中
     else if (root->GetNodeState() != NODE_STATE::FAILURE)
     {
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // 文字色
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 1.0f, 1.0f)); // 青色
+    }
+    // 発動条件未達成
+    else if (healthValue != 0.0f && healthValue * m_BossEnemyCache->GetMaxHealth() < m_BossEnemyCache->GetHealth())
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.4f, 0.5f, 0.6f, 1.0f)); // 灰色
+    }
+    // スタミナ不足
+    else if (m_BossEnemyCache->GetStamina() < root->GetUseStaminaValue() * m_BossEnemyCache->GetMaxStamina())
+    {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.48f, 0.98f, 0.2f, 1.0f)); // 緑色
     }
     // 標準
     else
     {
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // 文字色
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f)); // 白色
     }
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
@@ -204,26 +237,29 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                 ImGui::Text(u8"(分岐確率: %i %%)", parentNode->GetDerivChance(parentChildNum));
             }
 
-            // 派生技のデータを表記
-            if (parentNode->GetDerivationData().size() > 0 && parentNode->GetDerivationData(parentChildNum).TransTimeValue != 0.0f)
+            if (m_ShowDerivationInfo == 1)
             {
-                if (m_ShowDerivationInfo == 0)
+                // 派生技のデータを表記
+                if (parentNode->GetDerivationData().size() > 0 && parentNode->GetDerivationData(parentChildNum).TransTimeValue != 0.0f)
                 {
-                    ImGui::Text(u8"{");
-                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
-                    ImGui::Text(u8"  派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
-                    ImGui::Text(u8"  派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
-                    ImGui::Text(u8"}");
-                }
-                else if (m_ShowDerivationInfo == 1)
-                {
-                    ImGui::Text(u8"{");
-                    ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
-                    ImGui::SameLine();
-                    ImGui::Text(u8"| 派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
-                    ImGui::SameLine();
-                    ImGui::Text(u8"| 派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
-                    ImGui::Text(u8"}");
+                    if (m_ShowStyleDerivationInfo == 0)
+                    {
+                        ImGui::Text(u8"{");
+                        ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
+                        ImGui::Text(u8"  派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
+                        ImGui::Text(u8"  派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
+                        ImGui::Text(u8"}");
+                    }
+                    else if (m_ShowStyleDerivationInfo == 1)
+                    {
+                        ImGui::Text(u8"{");
+                        ImGui::Text(u8"  派生可能体力: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
+                        ImGui::SameLine();
+                        ImGui::Text(u8"| 派生確率: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
+                        ImGui::SameLine();
+                        ImGui::Text(u8"| 派生開始時間: %.2f秒後", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
+                        ImGui::Text(u8"}");
+                    }
                 }
             }
         }

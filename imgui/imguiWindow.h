@@ -27,6 +27,7 @@ private:
     std::string GetCurrentPlayerStateName();
     std::string GetCurrentEnemyAttackParts();
 
+    int m_ShowStyleDerivationInfo = 1;
     int m_ShowDerivationInfo = 1;
 public:
     ImguiWindow();
