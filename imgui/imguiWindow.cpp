@@ -224,10 +224,15 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
 
         if (parentNode != root)
         {
-            float maxAnimationTime = 0.0f;
+            float maxParentAnimTime = 0.0f;
+            float maxMyAnimTime = 0.0f;
             if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossEnemyCache->GetAnimeModel()))
             {
-                maxAnimationTime = model->GetMaxAnimeTime(root->GetAnimName());
+                maxParentAnimTime = model->GetMaxAnimeTime(parentNode->GetAnimName());
+            }
+            if (const FbxModelRenderer* model = FbxModelManager::GetAnimationModel(m_BossEnemyCache->GetAnimeModel()))
+            {
+                maxMyAnimTime = model->GetMaxAnimeTime(root->GetAnimName());
             }
 
             // ï™äÚämó¶
@@ -236,18 +241,26 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                 ImGui::SameLine();
                 ImGui::Text(u8"(ï™äÚämó¶: %i %%)", parentNode->GetDerivChance(parentChildNum));
             }
+            if (root->GetDerivationData().size() > 0 && maxMyAnimTime != 0.0f)
+            {
+                ImGui::SameLine();
+                ImGui::Text(u8"(É^ÉXÉNÇÃç≈ëÂéûä‘: %.2fïb)", maxMyAnimTime);
+            }
 
             if (m_ShowDerivationInfo == 1)
             {
+                const float& parentTransTimeValue = parentNode->GetDerivationData(parentChildNum).TransTimeValue;
                 // îhê∂ãZÇÃÉfÅ[É^Çï\ãL
-                if (parentNode->GetDerivationData().size() > 0 && parentNode->GetDerivationData(parentChildNum).TransTimeValue != 0.0f)
+                if (parentNode->GetDerivationData().size() > 0 && parentTransTimeValue != 0.0f)
                 {
                     if (m_ShowStyleDerivationInfo == 0)
                     {
                         ImGui::Text(u8"{");
                         ImGui::Text(u8"  îhê∂â¬î\ëÃóÕ: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
                         ImGui::Text(u8"  îhê∂ämó¶: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
-                        ImGui::Text(u8"  îhê∂äJénéûä‘: %.2fïbå„", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
+                        ImGui::Text(u8"  îhê∂à⁄çséûä‘: %.2fïbå„", parentTransTimeValue * maxParentAnimTime);
+                        ImGui::SameLine();
+                        ImGui::Text(u8"(%.2f %%)", parentTransTimeValue * 100.0f);
                         ImGui::Text(u8"}");
                     }
                     else if (m_ShowStyleDerivationInfo == 1)
@@ -257,7 +270,9 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                         ImGui::SameLine();
                         ImGui::Text(u8"| îhê∂ämó¶: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                         ImGui::SameLine();
-                        ImGui::Text(u8"| îhê∂äJénéûä‘: %.2fïbå„", parentNode->GetDerivationData(parentChildNum).TransTimeValue * maxAnimationTime);
+                        ImGui::Text(u8"| îhê∂à⁄çséûä‘: %.2fïbå„", parentTransTimeValue * maxParentAnimTime);
+                        ImGui::SameLine();
+                        ImGui::Text(u8"(%.2f %%)", parentTransTimeValue * 100.0f);
                         ImGui::Text(u8"}");
                     }
                 }
