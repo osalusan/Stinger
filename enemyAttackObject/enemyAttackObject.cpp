@@ -20,12 +20,6 @@ bool EnemyAttackObject::CollisionControl()
 	return false;
 }
 
-void EnemyAttackObject::Finish()
-{
-	m_Enable = false;
-	m_IsAttack = false;
-}
-
 // ---------------------------- public ----------------------------
 EnemyAttackObject::EnemyAttackObject(const GameObject* target)
 {

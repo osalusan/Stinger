@@ -11,6 +11,7 @@ private:
 	LightningFallEffect* m_LightningFallEffCache = nullptr;
 	LightningCharge* m_LightningChargeCache = nullptr;
 	virtual void AttackControl(const float& deltaTime)override;
+	virtual void Finish()override;
 public:
 	LightningFall() = delete;
 	LightningFall(const GameObject* target);
