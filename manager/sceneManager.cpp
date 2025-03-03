@@ -57,7 +57,7 @@ void SceneManager::Init()
 
 	if (m_Scene == nullptr)
 	{
-		m_Scene = new GameScene;
+		m_Scene = new TitleScene;
 	}
 	if (m_Scene != nullptr)
 	{
