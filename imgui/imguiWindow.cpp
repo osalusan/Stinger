@@ -250,13 +250,14 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
             if (m_ShowDerivationInfo == 1)
             {
                 const float& parentTransTimeValue = parentNode->GetDerivationData(parentChildNum).TransTimeValue;
+                const float& parentHealthValue = parentNode->GetDerivationData(parentChildNum).HealthValue;
                 // ”h¶‹Z‚Ìƒf[ƒ^‚ð•\‹L
                 if (parentNode->GetDerivationData().size() > 0 && parentTransTimeValue != 0.0f)
                 {
                     if (m_ShowStyleDerivationInfo == 0)
                     {
                         ImGui::Text(u8"{");
-                        ImGui::Text(u8"  ”h¶‰Â”\‘Ì—Í: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
+                        ImGui::Text(u8"  ”h¶‰Â”\‘Ì—Í: %.2f %%", parentHealthValue * 100.0f);
                         ImGui::Text(u8"  ”h¶Šm—¦: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                         ImGui::Text(u8"  ”h¶ˆÚsŽžŠÔ: %.2f•bŒã", parentTransTimeValue * maxParentAnimTime);
                         ImGui::SameLine();
@@ -266,7 +267,7 @@ void ImguiWindow::DrawBehaviorTree(const BehaviorNode* root, const BehaviorNode*
                     else if (m_ShowStyleDerivationInfo == 1)
                     {
                         ImGui::Text(u8"{");
-                        ImGui::Text(u8"  ”h¶‰Â”\‘Ì—Í: %.2f", parentNode->GetDerivationData(parentChildNum).HealthValue * m_BossEnemyCache->GetMaxHealth());
+                        ImGui::Text(u8"  ”h¶‰Â”\‘Ì—Í: %.2f %%", parentHealthValue * 100.0f);
                         ImGui::SameLine();
                         ImGui::Text(u8"| ”h¶Šm—¦: %i%%", parentNode->GetDerivationData(parentChildNum).Chance);
                         ImGui::SameLine();

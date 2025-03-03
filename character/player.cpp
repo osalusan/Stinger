@@ -164,7 +164,7 @@ void Player::MoveControl(const float& deltaTime)
 	// Ž©‘R‰ñ•œ
 	m_CurrentHealTime += deltaTime;
 
-	if (m_CurrentHealTime >= m_HealTime)
+	if (m_CurrentHealTime >= m_HealTime && m_Health > 0.0f)
 	{
 		m_Health += deltaTime * m_HealSpeed;
 
