@@ -1,42 +1,14 @@
-﻿  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\skinningPS.cso
-  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\skinningVS.cso
-  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\unlitColorModelPS.cso
-  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\unlitColorModelVS.cso
-  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\unlitTexturePS.cso
-  compilation object save succeeded; see E:\HAL\就職作品\Stinger\cso\unlitTextureVS.cso
-  behaviorNode.cpp
-  selectorNode.cpp
-  sequenceNode.cpp
-  taskNode.cpp
-  airLightningBallTask.cpp
-  backJumpTask.cpp
-  checkAttackParry.cpp
-  checkHealthTask.cpp
-  checkRangeTask.cpp
+﻿  airLightningBallTask.cpp
   checkRenditionTask.cpp
-  dashAtThePlayerTask.cpp
   deadTask.cpp
-  jumpAttackTask.cpp
   lightningBarstTask.cpp
   lightningFallFowardRainTask.cpp
   loadIdleTask.cpp
-  middleRangeAttackTask.cpp
-  parryRecoilTask.cpp
-  rightPunchTask.cpp
-  rightSwipingTask.cpp
-  roaringInfinityTask.cpp
-  roaringTask.cpp
-  leftSwipingTask.cpp
-  shortRangeAttackTask.cpp
-  waitTask.cpp
-  behaviorTree.cpp
   mawJLaygoBattleTree.cpp
   mawJLaygoLoadTree.cpp
   mawJLaygoTitleTree.cpp
   billboard.cpp
   extrSlashEffect.cpp
-  lightningBallEffect.cpp
-  lightningFallEffect.cpp
   camera.cpp
   loadCamera.cpp
   playerCamera.cpp
@@ -47,48 +19,21 @@
   player.cpp
   boxCollisionComponent.cpp
   collisionComponent.cpp
-  shaderComponent.cpp
   enemyAttackObject.cpp
   lightningBall.cpp
   lightningFall.cpp
   equipmentObject.cpp
-  fade.cpp
-  imgui.cpp
   imguiWindow.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_dx11.cpp
-  imgui_impl_win32.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  main.cpp
-  audioManager.cpp
-  fbxModelManager.cpp
-  inputManager.cpp
   objectManager.cpp
-  objModelManager.cpp
-  sceneManager.cpp
-  textureManager.cpp
-  meshFiled.cpp
   gameObject.cpp
   transparentWall.cpp
   extrSwordBarst.cpp
-  lightningCharge.cpp
   particleEmitter.cpp
-  spiralBlueorb.cpp
-  playerState.cpp
   playerStateExtrAttack.cpp
-  playerStateIdle.cpp
-  playerStateJump.cpp
   playerStateMachine.cpp
   playerStateNormalAttack.cpp
   playerStateParryAttack.cpp
-  playerStateRolling.cpp
-  playerStateRun.cpp
   polygon2D.cpp
-  fbxModelRenderer.cpp
-  objModelRenderer.cpp
-  renderer.cpp
   debugScene.cpp
   gameScene.cpp
   loadScene.cpp
@@ -98,11 +43,11 @@
   skydome.cpp
   box.cpp
   moveRandSizeBox.cpp
-  ruins.cpp
   staticmeshObject.cpp
   コード生成しています。
-  Previous IPDB not found, fall back to full compilation.
-  All 5352 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  2 of 5351 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    11 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
