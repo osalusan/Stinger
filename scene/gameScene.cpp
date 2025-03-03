@@ -14,7 +14,7 @@
 #include "object/transparentWall.h"
 #include "billboard/extrSlashEffect.h"
 
-constexpr XMFLOAT3 WALL_MAX = { 250.0f, 100.0f, 250.0f }; // ï«ÇÃç≈ëÂîÕàÕ
+constexpr XMFLOAT3 WALL_MAX = { 450.0f, 100.0f, 450.0f }; // ï«ÇÃç≈ëÂîÕàÕ
 constexpr float CLEAR_TO_TITLE = 5.0f;
 constexpr float INOPERABLE_TIME = 1.0f;
 constexpr XMFLOAT2 RETRY_AND_GOTITLE_SCALE = { SCREEN_WIDTH * 0.28f,SCREEN_HEIGHT * 0.12f };
