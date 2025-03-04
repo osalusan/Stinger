@@ -14,7 +14,10 @@ constexpr float LENGTH_EXTRATTACK = LENGTH_DEFAULT * 1.55f;
 
 // マウスの設定
 constexpr XMINT2 CENTER = { SCREEN_WIDTH / 2  , SCREEN_HEIGHT / 2 };
-constexpr XMFLOAT2 MOUSE_SPEED = { 0.002f,0.002f };
+constexpr XMFLOAT2 DEFAULT_MOUSE_SPEED = { 0.002f,0.002f };
+constexpr float MAX_MOUSE_SPEED = 0.005f;
+constexpr float MIN_MOUSE_SPEED = 0.0005f;
+constexpr float CHANGER_MOUSE_SPEED = 0.0005f;
 constexpr int MOUSE_MOVE_SPACE = 100;
 
 PlayerCamera::~PlayerCamera()
@@ -34,6 +37,8 @@ void PlayerCamera::Init()
 		
 		m_PlayerCache = objectManager->GetPlayer();
 	}
+
+	m_MouseSpeed = DEFAULT_MOUSE_SPEED;
 }
 
 void PlayerCamera::Update(const float& deltaTime)
@@ -49,6 +54,64 @@ void PlayerCamera::Update(const float& deltaTime)
 		if (objectManager == nullptr) return;
 
 		m_BossCache = objectManager->GetBossEnemy();
+	}
+
+
+	// マウス感度調整
+	if (InputManager::GetKeyPress(VK_UP))
+	{
+		if (!m_PushMouse)
+		{
+			m_MouseSpeed.y += CHANGER_MOUSE_SPEED;
+			m_PushMouse = true;
+		}
+	}
+	else if (InputManager::GetKeyPress(VK_DOWN))
+	{
+		if (!m_PushMouse)
+		{
+			m_MouseSpeed.y -= CHANGER_MOUSE_SPEED;
+			m_PushMouse = true;
+		}
+	}
+	else if (InputManager::GetKeyPress(VK_RIGHT))
+	{
+		if (!m_PushMouse)
+		{
+			m_MouseSpeed.x += CHANGER_MOUSE_SPEED;
+			m_PushMouse = true;
+		}
+	}
+	else if (InputManager::GetKeyPress(VK_LEFT))
+	{
+		if (!m_PushMouse)
+		{
+			m_MouseSpeed.x -= CHANGER_MOUSE_SPEED;
+			m_PushMouse = true;
+		}
+	}
+	else
+	{
+		m_PushMouse = false;
+	}
+
+	// マウス感度の上限設定
+	if (m_MouseSpeed.x <= MIN_MOUSE_SPEED)
+	{
+		m_MouseSpeed.x = MIN_MOUSE_SPEED;
+	}
+	else if (m_MouseSpeed.x >= MAX_MOUSE_SPEED)
+	{
+		m_MouseSpeed.x = MAX_MOUSE_SPEED;
+	}
+
+	if (m_MouseSpeed.y <= MIN_MOUSE_SPEED)
+	{
+		m_MouseSpeed.y = MIN_MOUSE_SPEED;
+	}
+	else if (m_MouseSpeed.y >= MAX_MOUSE_SPEED)
+	{
+		m_MouseSpeed.y = MAX_MOUSE_SPEED;
 	}
 
 	// 演出終わった後変な向きを向かない用
@@ -69,9 +132,9 @@ void PlayerCamera::Update(const float& deltaTime)
 		m_MousePos = XMFLOAT2(static_cast<float>(MousePos.x), static_cast<float>(MousePos.y));
 
 		//マウスの横移動処理
-		m_Rotation.y += (m_MousePos.x - m_OldMousePos.x) * MOUSE_SPEED.x;
+		m_Rotation.y += (m_MousePos.x - m_OldMousePos.x) * m_MouseSpeed.x;
 		//マウスの縦移動処理
-		m_Rotation.x -= (m_MousePos.y - m_OldMousePos.y) * MOUSE_SPEED.y;
+		m_Rotation.x -= (m_MousePos.y - m_OldMousePos.y) * m_MouseSpeed.y;
 		//マウスの上下制限
 		// 下
 		if (m_Rotation.x > 0.54f)
