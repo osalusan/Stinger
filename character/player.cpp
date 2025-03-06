@@ -263,6 +263,11 @@ void Player::CollisionControl()
 
 	float groundHeight = 0.0f;
 
+	if (m_MeshFiled != nullptr)
+	{
+		groundHeight = m_MeshFiled->GetHeight(m_Position);
+	}
+
 	if (m_Position.y <= groundHeight)
 	{
 		m_Position.y = groundHeight;

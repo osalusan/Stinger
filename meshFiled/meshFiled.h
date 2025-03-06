@@ -1,7 +1,7 @@
 #pragma once
 #include "object/gameObject.h"
 #include "renderer/renderer.h"
-#define FILED_MAX (31)
+#define FILED_MAX (51)
 
 enum class TEXTURE;
 class MeshFiled :public GameObject
@@ -25,5 +25,5 @@ public:
 	virtual void Uninit()override;
 	virtual void Draw()override;
 
-	float GetHeight(XMFLOAT3 position);
+	float GetHeight(const XMFLOAT3& position);
 };

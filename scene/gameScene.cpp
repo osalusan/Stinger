@@ -27,7 +27,9 @@ void GameScene::Init()
 	m_WorldWall = WALL_MAX;
 
 	if (m_ObjectManager == nullptr) return;
-
+	// 一番最初に
+	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, 0.0f), TEXTURE::GROUND_TIGGER_ROCK_TEX, L"asset\\texture\\tiger_rock_diff_2k.dds", TEXTURE::GROUND_TIGGER_ROCK_NOR, L"asset\\texture\\tiger_rock_nor_gl_2k.dds");
+	// フィールドの後に
 	m_ObjectManager->AddGameObjectArg<Player>(OBJECT::PLAYER,XMFLOAT3(0.0f,0.0f,0.0f));
 	// プレイヤーの次に作成
 	m_ObjectManager->AddGameObject<PlayerCamera>(OBJECT::CAMERA_MAIN);

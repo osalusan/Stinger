@@ -27,7 +27,7 @@ void TitleScene::Init()
 	if (m_ObjectManager == nullptr) return;
 
 	m_ObjectManager->AddGameObject<TitleCamera>(OBJECT::CAMERA_MAIN);
-	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, -2.0f, 40.0f), TEXTURE::GROUND_GREEN_TEX, L"asset\\texture\\tiger_rock_diff_2k.dds", TEXTURE::GROUND_GREEN_NOR, L"asset\\texture\\tiger_rock_nor_gl_2k.dds");
+	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, -2.0f, 40.0f), TEXTURE::GROUND_TIGGER_ROCK_TEX, L"asset\\texture\\tiger_rock_diff_2k.dds", TEXTURE::GROUND_TIGGER_ROCK_NOR, L"asset\\texture\\tiger_rock_nor_gl_2k.dds");
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\stinger.png");	
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
