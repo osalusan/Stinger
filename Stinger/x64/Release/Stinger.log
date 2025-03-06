@@ -1,53 +1,16 @@
-﻿  airLightningBallTask.cpp
-  checkRenditionTask.cpp
-  deadTask.cpp
-  lightningBarstTask.cpp
-  lightningFallFowardRainTask.cpp
-  loadIdleTask.cpp
-  mawJLaygoBattleTree.cpp
-  mawJLaygoLoadTree.cpp
-  mawJLaygoTitleTree.cpp
-  billboard.cpp
-  extrSlashEffect.cpp
-  camera.cpp
-  loadCamera.cpp
-  playerCamera.cpp
-  titleCamera.cpp
-  bossEnemy.cpp
-  character.cpp
-  mawJLaygo.cpp
+﻿  playerCamera.cpp
   player.cpp
-  boxCollisionComponent.cpp
-  collisionComponent.cpp
-  enemyAttackObject.cpp
-  lightningBall.cpp
-  lightningFall.cpp
-  equipmentObject.cpp
-  imguiWindow.cpp
-  objectManager.cpp
-  gameObject.cpp
-  transparentWall.cpp
-  extrSwordBarst.cpp
+  meshFiled.cpp
   particleEmitter.cpp
   playerStateExtrAttack.cpp
   playerStateMachine.cpp
-  playerStateNormalAttack.cpp
-  playerStateParryAttack.cpp
-  polygon2D.cpp
   debugScene.cpp
   gameScene.cpp
-  loadScene.cpp
-  scene.cpp
-  titleScene.cpp
-  shadowVolume.cpp
   skydome.cpp
-  box.cpp
-  moveRandSizeBox.cpp
-  staticmeshObject.cpp
   コード生成しています。
-  2 of 5351 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  8 of 5351 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
+    14 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
