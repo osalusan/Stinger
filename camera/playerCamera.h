@@ -19,6 +19,8 @@ private:
 	bool m_StartEnemyDirection = false;
 	bool m_CheckDistance = false;
 	int m_CurrentTime = 0;
+	XMFLOAT2 m_MouseSpeed = {};
+	bool m_PushMouse = false;
 public:
 	using Camera::Camera;
 	virtual ~PlayerCamera()override;
