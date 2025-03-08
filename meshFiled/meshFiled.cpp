@@ -213,8 +213,8 @@ void MeshFiled::Draw()
 	//プリミティブポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	//ポリゴン描画
-	Renderer::GetDeviceContext()->DrawIndexed((FILED_MAX * 2) * FILED_MAX - 2, 0, 0);
+	//ポリゴン描画 / 頂点作成時に - した数分調整
+	Renderer::GetDeviceContext()->DrawIndexed((FILED_MAX * 2) * FILED_MAX - 4, 0, 0);
 }
 
 float MeshFiled::GetHeight(const XMFLOAT3& position)
