@@ -9,6 +9,10 @@
 #include "scene/scene.h"
 #include "equipment/equipmentObject.h"
 
+constexpr float ATTACK1_SPEED = 1.22f;
+constexpr float ATTACK2_SPEED = 1.28f;
+constexpr float ATTACK3_SPEED = 1.45f;
+
 void PlayerStateNormalAttack::Init()
 {
 	if (m_PlayerMachine != nullptr)
@@ -62,7 +66,7 @@ void PlayerStateNormalAttack::Init()
 	m_AttackAccept = true;
 	m_MaxAnimTime = m_MaxAnimTime1;
 	m_AttackComboNumber = 1;
-	m_AnimSpeedValue = 1.0f;
+	m_AnimSpeedValue = ATTACK1_SPEED;
 
 	if (m_PlayerCache != nullptr)
 	{
@@ -164,7 +168,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackCancel = false;
 				m_AttackComboNumber = 2;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue2;
-				m_AnimSpeedValue = 1.15f;
+				m_AnimSpeedValue = ATTACK2_SPEED;
 				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
@@ -198,7 +202,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackComboNumber = 3;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue3;
 
-				m_AnimSpeedValue = 1.25f;
+				m_AnimSpeedValue = ATTACK1_SPEED;
 				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}

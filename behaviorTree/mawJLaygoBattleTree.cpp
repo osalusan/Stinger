@@ -45,7 +45,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	if (renditionTask == nullptr) return;
 
 	// 演出用の咆哮
-	//renditionTask->AddTaskChild<RoaringTask>(boss, player);
+	// renditionTask->AddTaskChild<RoaringTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
