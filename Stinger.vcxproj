@@ -93,6 +93,7 @@
     <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
     <ClCompile Include="playerState\playerStateExtrAttack.cpp" />
+    <ClCompile Include="playerState\playerStateHitAttack.cpp" />
     <ClCompile Include="playerState\playerStateIdle.cpp" />
     <ClCompile Include="playerState\playerStateJump.cpp" />
     <ClCompile Include="playerState\playerStateMachine.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
     <ClInclude Include="playerState\playerStateExtrAttack.h" />
+    <ClInclude Include="playerState\playerStateHitAttack.h" />
     <ClInclude Include="playerState\playerStateIdle.h" />
     <ClInclude Include="playerState\playerStateJump.h" />
     <ClInclude Include="playerState\playerStateMachine.h" />

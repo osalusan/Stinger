@@ -366,6 +366,9 @@
     <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
+    <ClCompile Include="playerState\playerStateHitAttack.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -664,6 +667,9 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\checkRenditionTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateHitAttack.h">
+      <Filter>playerState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

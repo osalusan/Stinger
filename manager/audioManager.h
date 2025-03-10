@@ -10,6 +10,7 @@ enum class AUDIO
 	SLASH2_SE,
 	SLASH3_SE,
 	SOWRD_CHAGE,
+	HIT_ATTACK,
 	MAX
 };
 

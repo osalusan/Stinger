@@ -7,7 +7,7 @@ enum class PLAYER_STATE
 {
 	NONE = 0,
 	IDLE,
-	HITDAMAGE,
+	HITATTACK,
 	ROLLING,
 	ATTACK_PARRY,
 	ATTACK_NORMAL,
@@ -34,6 +34,7 @@ class PlayerStateParryAttack;
 class PlayerStateRolling;
 class PlayerStateNormalAttack;
 class PlayerStateExtrAttack;
+class PlayerStateHitAttack;
 class Polygon2D;
 class BossEnemy;
 

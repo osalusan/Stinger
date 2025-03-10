@@ -341,7 +341,7 @@ std::string ImguiWindow::GetCurrentPlayerStateName()
     case PLAYER_STATE::IDLE:
         playerStateName = "ë“ã@";
         break;
-    case PLAYER_STATE::HITDAMAGE:
+    case PLAYER_STATE::HITATTACK:
         playerStateName = "îÌÉ_ÉÅ";
         break;
     case PLAYER_STATE::ROLLING:

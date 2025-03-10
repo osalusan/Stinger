@@ -18,6 +18,7 @@ protected:
 	float m_BlendTime = 0.0f;
 	float m_AnimSpeedValue = 1.0f;	// アニメーション速度
 
+	// 2回目以降は内部で弾く
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 	// カメラの向きに回転
 	void RotToCameraDirection(const float& deltaTime);

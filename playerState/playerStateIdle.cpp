@@ -31,8 +31,13 @@ void PlayerStateIdle::ChangeStateControl()
 	
 	// —Dæ‡ˆÊ‡
 
+	// UŒ‚‚ðŽó‚¯‚½‚ç
+	if (m_PlayerMachine->GetIsHitAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::HITATTACK);
+	}
 	// ƒpƒŠƒBUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
-	if (m_PlayerMachine->GetIsParryAttackButton())
+	else if (m_PlayerMachine->GetIsParryAttackButton())
 	{
 		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
 	}

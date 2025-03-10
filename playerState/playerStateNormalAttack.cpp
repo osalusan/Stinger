@@ -244,7 +244,11 @@ void PlayerStateNormalAttack::ChangeStateControl()
 
 	// —Dæ‡ˆÊ‡
 
-	if (m_CurrentTime >= m_MaxAnimTime)
+	if (m_PlayerMachine->GetIsHitAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::HITATTACK);
+	}
+	else if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}

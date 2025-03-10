@@ -149,8 +149,6 @@ void PlayerStateRolling::ChangeStateControl()
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}
-
-
 }
 
 bool PlayerStateRolling::CheckRollingAccept()
