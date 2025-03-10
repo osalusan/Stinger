@@ -2,6 +2,8 @@
 #include "character/player.h"
 #include "character/bossEnemy.h"
 
+constexpr float STAMINA_HEAL_SPEED_VALUE = 0.7f;
+
 void WaitTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\idle_MawJ.fbx", "idle");
@@ -42,7 +44,7 @@ NODE_STATE WaitTask::Update(const float& deltaTime)
 		m_CurrentTime += deltaTime;
 		m_BossCache->ChangeAnimation(m_AnimName);
 		// スタミナ回復
-		m_BossCache->UseStamina(-deltaTime * 0.7f);
+		m_BossCache->UseStamina(-deltaTime * STAMINA_HEAL_SPEED_VALUE);
 		// 状態を保存
 		m_BossCache->SetRunningNode(this);
 		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);

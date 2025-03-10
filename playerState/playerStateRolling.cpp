@@ -4,12 +4,15 @@
 #include "character/player.h"
 
 constexpr float BLEND_VALUE_ROLLING = 30.0f;
+constexpr float RORING_SPEED_VALUE = 1.24f;
 
 void PlayerStateRolling::Init()
 {
 	LoadAnimation("asset\\model\\player\\rolling_PaladinJNordstrom.fbx", "rolling");
 	m_CurrentTime = 0.0f;
 	m_RollingAccept = false;
+	m_AnimSpeedValue = RORING_SPEED_VALUE;
+
 	if (m_PlayerMachine != nullptr)
 	{
 		// ブレンド時間設定
@@ -83,12 +86,13 @@ void PlayerStateRolling::Unit()
 {
 	m_CurrentTime = 0.0f;
 	m_RollingAccept = false;
+	m_AnimSpeedValue = 0.0f;
 }
 
 void PlayerStateRolling::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
-	m_CurrentTime += deltaTime;
+	m_CurrentTime += deltaTime * m_AnimSpeedValue;
 
 	// 初回のみ
 	if (m_MaxAnimTime == 0.0f)
@@ -98,6 +102,9 @@ void PlayerStateRolling::Update(const float& deltaTime)
 			m_MaxAnimTime = model->GetMaxAnimeTime(m_AnimName);
 		}
 	}
+
+	// アニメーション速度変更
+	m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 
 	// 回転対応
 	float currentAngle = m_PlayerMachine->GetRotation().y;

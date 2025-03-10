@@ -16,6 +16,7 @@ protected:
 	float m_CurrentTime = 0.0f;
 	float m_MaxAnimTime = 0.0f;
 	float m_BlendTime = 0.0f;
+	float m_AnimSpeedValue = 1.0f;	// アニメーション速度
 
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
 	// カメラの向きに回転

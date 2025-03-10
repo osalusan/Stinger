@@ -10,7 +10,6 @@ private:
 
 	int m_AttackComboNumber = 0;
 	float m_AttackDamage = 0.0f;
-	float m_AnimSpeedValue = 0.0f;	// アニメーション速度
 
 	std::string m_AnimName1 = {};
 	std::string m_AnimName2 = {};
