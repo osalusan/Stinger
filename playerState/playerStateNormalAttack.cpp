@@ -153,7 +153,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToCameraDirection(deltaTime);
+			RotToTarget(m_BossCache, deltaTime);
 			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
@@ -186,7 +186,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToInputKeyDirection(deltaTime);
+			RotToTarget(m_BossCache, deltaTime);
 			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
@@ -220,7 +220,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToInputKeyDirection(deltaTime);
+			RotToTarget(m_BossCache, deltaTime);
 			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定

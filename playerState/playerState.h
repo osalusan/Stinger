@@ -2,6 +2,7 @@
 #include "playerState/playerStateMachine.h"
 
 class Player;
+class GameObject;
 
 class PlayerState
 {
@@ -21,6 +22,8 @@ protected:
 	void RotToCameraDirection(const float& deltaTime);
 	// カメラから見て、キーの入力方向に向く
 	void RotToInputKeyDirection(const float& deltaTime,const bool& rotAway = false);
+	// ターゲットの向きに回転
+	void RotToTarget(const GameObject* obj,const float& deltaTime);
 
 	float FindStateData(const std::unordered_map<std::string, float>& stateData,const std::string& dataName);
 public:

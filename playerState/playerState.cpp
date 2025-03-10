@@ -111,6 +111,39 @@ void PlayerState::RotToInputKeyDirection(const float& deltaTime, const bool& rot
 	m_PlayerMachine->SetRotationY(currentAngle);
 }
 
+void PlayerState::RotToTarget(const GameObject* obj, const float& deltaTime)
+{
+	if (obj == nullptr) return;
+	// Get‚Ì‚Ý / •ÒW•s‰Â
+	if (m_PlayerCache == nullptr)
+	{
+		const Player* playerCache = m_PlayerMachine->GetPlayerCache();
+		m_PlayerCache = playerCache;
+		if (m_PlayerCache == nullptr) return;
+	}
+
+	const XMFLOAT3& myPos = m_PlayerCache->GetPos();
+	const XMFLOAT3& targetPos = obj->GetPos();
+
+	float currentAngle = m_PlayerCache->GetRot().y;
+	const float& targetAngle = atan2f(targetPos.x - myPos.x, targetPos.z - myPos.z);
+
+	float angleDiff = targetAngle - currentAngle;
+	while (angleDiff > XM_PI)
+	{
+		angleDiff -= XM_2PI;
+	}
+	while (angleDiff < -XM_PI)
+	{
+		angleDiff += XM_2PI;
+	}
+
+	// ­‚µ‚¸‚Â·‚ð–„‚ß‚é
+	currentAngle += angleDiff * m_PlayerCache->GetRotSpeed() * deltaTime;
+
+	m_PlayerMachine->SetRotationY(currentAngle);
+}
+
 float PlayerState::FindStateData(const std::unordered_map<std::string, float>& stateData, const std::string& dataName)
 {
 	if (stateData.count(dataName) >= 1)
