@@ -14,7 +14,7 @@
 #include "object/transparentWall.h"
 #include "billboard/extrSlashEffect.h"
 
-constexpr XMFLOAT3 WALL_MAX = { 350.0f, 100.0f, 350.0f }; // 壁の最大範囲
+constexpr XMFLOAT3 WALL_MAX = { 280.0f, 100.0f, 280.0f }; // 壁の最大範囲
 constexpr float CLEAR_TO_TITLE = 5.0f;
 constexpr float INOPERABLE_TIME = 1.0f;
 constexpr XMFLOAT2 RETRY_AND_GOTITLE_SCALE = { SCREEN_WIDTH * 0.28f,SCREEN_HEIGHT * 0.12f };
@@ -28,7 +28,8 @@ void GameScene::Init()
 
 	if (m_ObjectManager == nullptr) return;
 	// 一番最初に
-	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, 0.0f), TEXTURE::GROUND_TIGGER_ROCK_TEX, L"asset\\texture\\tiger_rock_diff_2k.dds", TEXTURE::GROUND_TIGGER_ROCK_NOR, L"asset\\texture\\tiger_rock_nor_gl_2k.dds");
+	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, 0.0f), 
+		TEXTURE::GROUND_TIGGER_ROCK_TEX, L"asset\\texture\\tiger_rock_diff_2k.dds", TEXTURE::GROUND_TIGGER_ROCK_NOR, L"asset\\texture\\tiger_rock_nor_gl_2k.dds");
 	// フィールドの後に
 	m_ObjectManager->AddGameObjectArg<Player>(OBJECT::PLAYER,XMFLOAT3(0.0f,0.0f,0.0f));
 	// プレイヤーの次に作成

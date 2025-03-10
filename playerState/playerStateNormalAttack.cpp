@@ -11,7 +11,7 @@
 
 constexpr float ATTACK1_SPEED = 1.22f;
 constexpr float ATTACK2_SPEED = 1.28f;
-constexpr float ATTACK3_SPEED = 1.45f;
+constexpr float ATTACK3_SPEED = 1.55f;
 
 void PlayerStateNormalAttack::Init()
 {
@@ -30,7 +30,7 @@ void PlayerStateNormalAttack::Init()
 
 	if (!m_Load && m_PlayerCache != nullptr)
 	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_PaladinJNordstrom.fbx", "normalAttack1");
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_1_PaladinJNordstrom.fbx", "normalAttack1");
 		m_AnimName1 = "normalAttack1";
 		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash2_PaladinJNordstrom.fbx", "normalAttack2");
 		m_AnimName2 = "normalAttack2";

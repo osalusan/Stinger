@@ -2,7 +2,7 @@
 #include "manager/textureManager.h"
 #include "component/shaderComponent.h"
 
-constexpr float MESH_SIZE = 20.0f;
+constexpr float MESH_SIZE = 14.0f;
 constexpr int MESH_DISTANCE = 20;
 
 float g_FiledHeight[FILED_MAX][FILED_MAX] =
@@ -69,7 +69,7 @@ void MeshFiled::Init()
 				m_Vertex[x][z].Position = XMFLOAT3(
 					(x - MESH_DISTANCE) * MESH_SIZE,
 					g_FiledHeight[x][z],
-					(z - MESH_DISTANCE) * -MESH_SIZE);
+					(z - MESH_DISTANCE) * -MESH_SIZE + (MESH_DISTANCE));
 				m_Vertex[x][z].Normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 				m_Vertex[x][z].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 				m_Vertex[x][z].TexCoord = XMFLOAT2(x * 0.5f, z * 0.5f);
