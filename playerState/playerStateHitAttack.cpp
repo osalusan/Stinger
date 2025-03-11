@@ -9,9 +9,8 @@ void PlayerStateHitAttack::Init()
 
 	if (!m_Load)
 	{
-		// TODO :音とアニメーションを変更予定 / 仮素材
-		LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack");
-		AudioManager::ReservAudio(AUDIO::HIT_ATTACK, "asset\\audio\\se\\parry.wav");
+		LoadAnimation("asset\\model\\player\\impact_PaladinJNordstrom.fbx", "hitAttack");
+		AudioManager::ReservAudio(AUDIO::HIT_ATTACK, "asset\\audio\\se\\hitAttack.wav");
 
 		m_Load = true;
 	}
