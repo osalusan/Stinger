@@ -1,14 +1,14 @@
-#include "roaringTask.h"
+#include "battleStartRenditionTask.h"
 #include "character/player.h"
 #include "character/bossEnemy.h"
 
-void RoaringTask::Init()
+void BattleStartRenditionTask::Init()
 {
 	ReserveAnimation("asset\\model\\mawJ\\mutantRoaring_MawJ.fbx", "roaring");
 	m_TaskName = "ˆÐŠd";
 }
 
-NODE_STATE RoaringTask::Update(const float& deltaTime)
+NODE_STATE BattleStartRenditionTask::Update(const float& deltaTime)
 {
 	TaskNode::Update(deltaTime);
 	if (m_BossCache == nullptr || m_PlayerCache == nullptr)

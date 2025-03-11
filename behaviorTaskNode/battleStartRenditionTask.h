@@ -1,7 +1,7 @@
 #pragma once
 #include "behaviorNode/taskNode.h"
 
-class RoaringTask final : public TaskNode
+class BattleStartRenditionTask final : public TaskNode
 {
 public:
 	using TaskNode::TaskNode;

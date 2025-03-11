@@ -216,7 +216,7 @@
     <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTaskNode\roaringTask.cpp">
+    <ClCompile Include="behaviorTaskNode\battleStartRenditionTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\leftSwipingTask.cpp">
@@ -518,7 +518,7 @@
     <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTaskNode\roaringTask.h">
+    <ClInclude Include="behaviorTaskNode\battleStartRenditionTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\leftSwipingTask.h">
