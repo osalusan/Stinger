@@ -17,6 +17,11 @@ void PlayerStateHitAttack::Init()
 	}
 
 	AudioManager::Play(AUDIO::HIT_ATTACK);
+
+	if (m_PlayerMachine)
+	{
+		m_PlayerMachine->InitVelocity();
+	}
 }
 
 void PlayerStateHitAttack::Unit()

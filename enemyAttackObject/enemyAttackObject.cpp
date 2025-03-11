@@ -56,6 +56,16 @@ void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage)
 	}
 }
 
+void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)
+{
+	if (m_Enable) return;
+
+	m_Position = shotPos;
+	m_Enable = true;
+	m_Damage = damage;
+	m_IsAttack = false;
+}
+
 void EnemyAttackObject::KeepPos(const XMFLOAT3& shotPos)
 {
 	m_Position = shotPos;

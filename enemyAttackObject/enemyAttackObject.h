@@ -18,6 +18,7 @@ public:
 	EnemyAttackObject(const GameObject* target);
 	virtual void Update(const float& deltaTime)override final;
 	virtual void Spawn(const XMFLOAT3& shotPos, const float& damage);
+	virtual void Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime);
 	virtual void Attack() = 0;
 	virtual void KeepPos(const XMFLOAT3& shotPos);
 };

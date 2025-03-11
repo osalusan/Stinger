@@ -62,18 +62,16 @@ void LightningFall::Attack()
 	//ƒˆ‰¼‘zŠÖ”‚Ìˆ×‰¼ŽÀ‘•
 }
 
-void LightningFall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& baletTime)
+void LightningFall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)
 {
 	if (m_Enable) return;
 
-	m_Position = shotPos;
-	m_Enable = true;
-	m_Damage = damage;
+	EnemyAttackObject::Spawn(shotPos, damage, balletTime);
+
 	if (m_BoxCollCache != nullptr)
 	{
 		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
 	}
 
-	m_LightningChargeCache->Start(baletTime);
-	m_IsAttack = false;
+	m_LightningChargeCache->Start(balletTime);
 }

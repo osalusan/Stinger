@@ -369,6 +369,9 @@
     <ClCompile Include="playerState\playerStateHitAttack.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
+    <ClCompile Include="particle\lightningBallChage.cpp">
+      <Filter>particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -670,6 +673,9 @@
     </ClInclude>
     <ClInclude Include="playerState\playerStateHitAttack.h">
       <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\lightningBallChage.h">
+      <Filter>particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

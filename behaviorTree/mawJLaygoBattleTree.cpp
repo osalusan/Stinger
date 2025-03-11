@@ -65,7 +65,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	// rootNode->AddTaskChild<LightningBarstTask>(boss, player);
+	// rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
 
 	// ▲デバッグ用▲
 
