@@ -14,8 +14,10 @@ void PlayerStateHitAttack::Init()
 
 		m_Load = true;
 	}
-
-	AudioManager::Play(AUDIO::HIT_ATTACK);
+	else
+	{
+		AudioManager::Play(AUDIO::HIT_ATTACK);
+	}
 
 	if (m_PlayerMachine)
 	{
