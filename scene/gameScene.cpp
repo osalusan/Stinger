@@ -29,7 +29,7 @@ void GameScene::Init()
 	if (m_ObjectManager == nullptr) return;
 	// 一番最初に
 	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, 0.0f), 
-		TEXTURE::GROUND_TIGGER_ROCK_TEX, L"asset\\texture\\tiger_rock_diff_2k.dds", TEXTURE::GROUND_TIGGER_ROCK_NOR, L"asset\\texture\\tiger_rock_nor_gl_2k.dds");
+		TEXTURE::GROUND_GREEN_TEX, L"asset\\texture\\rocky_terrain_02_diff_2k.dds", TEXTURE::GROUND_GREEN_NOR, L"asset\\texture\\rocky_terrain_02_nor_gl_512.dds", "asset\\csv\\battleFiled.csv");
 	// フィールドの後に
 	m_ObjectManager->AddGameObjectArg<Player>(OBJECT::PLAYER,XMFLOAT3(0.0f,0.0f,0.0f));
 	// プレイヤーの次に作成
@@ -38,7 +38,7 @@ void GameScene::Init()
 	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 50.0f));
 
 	// プレイヤーの後に
-	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, "asset\\model\\sky\\battleSkyMawJ.obj");
 
 	// どこに作成しても良い
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,

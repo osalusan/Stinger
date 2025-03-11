@@ -28,7 +28,7 @@ void DebugScene::Init()
 	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS, new MawJLaygoLoadTree, XMFLOAT3(-20.0f, 0.0f, 10.0f));
 
 	// ƒvƒŒƒCƒ„[‚ÌŒã‚É
-	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+	//m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
 }
 
 void DebugScene::Update(const float& deltaTime)

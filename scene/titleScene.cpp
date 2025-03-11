@@ -32,7 +32,7 @@ void TitleScene::Init()
 		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2), PIVOT::CENTER, TEXTURE::TITLE, L"asset\\texture\\stinger.png");	
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
 		XMFLOAT2(SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.9f), XMFLOAT2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.15f), PIVOT::CENTER, TEXTURE::PUSHSPACEKEY, L"asset\\texture\\pushSpaceKey.png");
-	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, "asset\\model\\sky\\titleSky.obj");
 	
 	Camera* camera = m_ObjectManager->GetCamera();
 	float cameraPosZ = camera->GetPos().z;

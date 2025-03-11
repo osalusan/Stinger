@@ -17,10 +17,13 @@ protected:
 	VERTEX_3D m_Vertex[FILED_MAX][FILED_MAX] = {};
 
 	LIGHT m_Light;
+	float m_FiledHeight[FILED_MAX][FILED_MAX] ={};
+
+	void FiledDataLoadCSV(const std::string& filePath);
 public:
 	MeshFiled() = delete;
-	MeshFiled(const XMFLOAT3& pos,const TEXTURE& texture,const wchar_t* textureName);
-	MeshFiled(const XMFLOAT3& pos,const TEXTURE& texture, const wchar_t* textureName,const TEXTURE& normal, const wchar_t* normalName);
+	MeshFiled(const XMFLOAT3& pos,const TEXTURE& texture,const wchar_t* textureName, std::string filePath = "");
+	MeshFiled(const XMFLOAT3& pos,const TEXTURE& texture, const wchar_t* textureName,const TEXTURE& normal, const wchar_t* normalName, std::string filePath = "");
 	virtual void Init()override;
 	virtual void Uninit()override;
 	virtual void Draw()override;
