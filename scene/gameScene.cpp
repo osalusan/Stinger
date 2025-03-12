@@ -39,7 +39,7 @@ void GameScene::Init()
 	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 50.0f));
 
 	// ƒvƒŒƒCƒ„[‚ÌŒã‚É
-	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, STATICMESH_MODEL::SKYDOME_BATTLE_MAWJ, "asset\\model\\sky\\titleSky.obj");
+	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, STATICMESH_MODEL::SKYDOME_BATTLE_MAWJ, "asset\\model\\sky\\battleSkyMawJ.obj");
 
 	// ‚Ç‚±‚Éì¬‚µ‚Ä‚à—Ç‚¢
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,
