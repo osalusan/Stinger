@@ -10,6 +10,8 @@ class StaticMeshObject :public GameObject
 protected:
 	STATICMESH_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
 	BoxCollisionComponent* m_BoxCollCache = nullptr;
+	XMFLOAT3 m_OffsetCollPos = {};
+	XMFLOAT3 m_OffsetCollScl = {};
 	XMFLOAT4 m_Color = {0.0f,1.0f,0.0f,1.0f};
 	XMMATRIX m_RotationMatrix = {};
 
@@ -32,5 +34,14 @@ public:
 	const XMMATRIX& GetRotationMatrixStaticMesh()const
 	{
 		return m_RotationMatrix;
+	}
+
+	void SetOffsetCollPos(const XMFLOAT3& pos)
+	{
+		m_OffsetCollPos = pos;
+	}
+	void SetOffsetCollScl(const XMFLOAT3& scl)
+	{
+		m_OffsetCollScl = scl;
 	}
 };

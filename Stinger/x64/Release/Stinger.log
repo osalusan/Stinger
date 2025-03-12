@@ -1,9 +1,25 @@
-﻿  sceneManager.cpp
+﻿  checkRenditionTask.cpp
+  mawJLaygoBattleTree.cpp
+  mawJLaygo.cpp
+  player.cpp
+  collisionComponent.cpp
+  equipmentObject.cpp
+  extrSwordBarst.cpp
+  playerStateNormalAttack.cpp
+  debugScene.cpp
   gameScene.cpp
+  loadScene.cpp
+  titleScene.cpp
+  shadowVolume.cpp
+  skydome.cpp
+  box.cpp
+  moveRandSizeBox.cpp
+  ruins.cpp
+  staticmeshObject.cpp
   コード生成しています。
-  19 of 5433 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
-    2 functions were new in current compilation
-    14 functions had inline decision re-evaluated but remain unchanged
+  71 of 5426 functions ( 1.3%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    73 functions had inline decision re-evaluated but remain unchanged
   コード生成が終了しました。
 DirectXTex_Release.lib(DirectXTexD3D11.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexD3D11.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
 DirectXTex_Release.lib(DirectXTexWIC.obj) : warning LNK4099: PDB '' が 'DirectXTex_Release.lib(DirectXTexWIC.obj)' で、または '' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。

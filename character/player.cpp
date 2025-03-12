@@ -22,6 +22,7 @@ constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 48.5f ,DEFAU
 constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 36.0f ,DEFAULT_SCALE_PLAYER.y * 36.0f ,DEFAULT_SCALE_PLAYER.z * 36.0f };
 constexpr XMFLOAT3 OFFSET_POS_SWORD = { DEFAULT_SCALE_PLAYER.x * -10.0f, DEFAULT_SCALE_PLAYER.y * -3.0f, DEFAULT_SCALE_PLAYER.z * -1.0f };
 constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
+constexpr float OFFSET_SCL_SWORD_Y = DEFAULT_SCALE_SWORD.y * 0.25f;
 // プレイヤーのUI情報
 constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.032f};
 constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.98f};
@@ -81,6 +82,11 @@ void Player::Init()
 	if (m_ShiledChache == nullptr)
 	{
 		m_ShiledChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj", m_Model, LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED, XMFLOAT3(-0.5f, 0.0f, 0.0f), OFFSET_POS_SHILED);
+	}
+
+	if (m_SwordChache != nullptr)
+	{
+		m_SwordChache->SetOffsetCollScl({ 0.0f,OFFSET_SCL_SWORD_Y,0.0f });
 	}
 
 	// フレーム
