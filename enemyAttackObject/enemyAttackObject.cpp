@@ -6,7 +6,7 @@ bool EnemyAttackObject::CollisionControl()
 {
 	if (m_BoxCollCache == nullptr) return false;
 
-	if (m_IsAttack && m_BoxCollCache->CheckHitObject(COLLISION_TAG::PLAYER))
+	if (m_IsAttack && m_BoxCollCache->CheckHitObject(OBJECT::PLAYER))
 	{
 		Player* player = m_BoxCollCache->GetHitGameObject<Player>();
 		if (player == nullptr) return false;

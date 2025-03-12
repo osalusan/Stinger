@@ -20,10 +20,6 @@ void LightningBall::AttackControl(const float& deltaTime)
 	if (m_LightningBallChargeCache->Finish())
 	{
 		m_IsAttack = true;
-		if (m_LightningBallEffCache != nullptr)
-		{
-			m_LightningBallEffCache->UseBillboard();
-		}
 	}
 
 
@@ -159,6 +155,8 @@ void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage, const fl
 	EnemyAttackObject::Spawn(shotPos, damage, balletTime);
 
 	if (m_TargetObject == nullptr) return;
+
+	m_Position = shotPos;
 	const XMFLOAT3& targetPos = m_TargetObject->GetPos();
 	// ‰¡
 	float currentAngleY = m_Rotation.y;
@@ -199,9 +197,13 @@ void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage, const fl
 
 	m_IsAttack = false;
 
+	if (m_LightningBallEffCache != nullptr)
+	{
+		m_LightningBallEffCache->UseBillboard();
+	}
 	if (m_LightningBallChargeCache != nullptr)
 	{
-		m_LightningBallChargeCache->Start(balletTime);
 		m_LightningBallChargeCache->SetPos(m_Position);
+		m_LightningBallChargeCache->Start(balletTime);
 	}
 }
