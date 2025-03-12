@@ -4,6 +4,7 @@
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
 #include "manager/audioManager.h"
+#include "manager/objModelManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
@@ -38,7 +39,7 @@ void GameScene::Init()
 	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 50.0f));
 
 	// ƒvƒŒƒCƒ„[‚ÌŒã‚É
-	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, "asset\\model\\sky\\battleSkyMawJ.obj");
+	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, STATICMESH_MODEL::SKYDOME_BATTLE_MAWJ, "asset\\model\\sky\\titleSky.obj");
 
 	// ‚Ç‚±‚Éì¬‚µ‚Ä‚à—Ç‚¢
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,

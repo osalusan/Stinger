@@ -10,7 +10,8 @@ class ObjModelRenderer;
 
 enum class STATICMESH_MODEL
 {
-	SKYDOME = 0,
+	SKYDOME_TITLE = 0,
+	SKYDOME_BATTLE_MAWJ,
 	BOX,
 	BOX_CENTER,
 	TREEGATE,

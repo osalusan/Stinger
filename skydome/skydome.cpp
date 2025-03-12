@@ -14,8 +14,8 @@ void SkyDome::MoveControl(const float& deltaTime)
 	}
 }
 
-SkyDome::SkyDome(std::string filePath)
-	:StaticMeshObject(STATICMESH_MODEL::SKYDOME)
+SkyDome::SkyDome(const STATICMESH_MODEL& model, std::string filePath)
+	:StaticMeshObject(model)
 {
 	ObjModelManager::ReservModel(m_Model, filePath);
 }
