@@ -201,7 +201,7 @@ void MawJLaygo::CollisionControl()
 			}
 
 			// ダメージを与える
-			if (!boxColl->CheckHitObject(COLLISION_TAG::PLAYER)) continue;			
+			if (!boxColl->CheckHitObject(OBJECT::PLAYER)) continue;			
 
 			// パリィ可能か不可能かで、呼ぶ関数を変更
 			if (m_ParryPossibleAtk)
