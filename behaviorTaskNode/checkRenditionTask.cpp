@@ -7,7 +7,7 @@
 #include "manager/objectManager.h"
 
 constexpr float LENGTH_RENDITION_START = 27.0f;
-constexpr float POS_Y_RENDITION_START = -LENGTH_RENDITION_START * 0.4f;
+constexpr float POS_Y_RENDITION_START = 0.0f;
 constexpr float TARGET_POS_Y_RENDITION_START = LENGTH_RENDITION_START * 0.35f;
 
 void CheckRenditionTask::Init()
