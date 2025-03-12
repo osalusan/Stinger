@@ -46,6 +46,10 @@ LightningFall::LightningFall(const GameObject* target)
 	ObjectManager* objManager = scene->GetObjectManager();
 	if (objManager == nullptr) return;
 
+	if (m_FiledCache == nullptr)
+	{
+		m_FiledCache = objManager->GetMeshFiled();
+	}
 	if (m_LightningFallEffCache == nullptr)
 	{
 		m_LightningFallEffCache = objManager->AddGameObjectArg<LightningFallEffect>(OBJECT::BILLBOARD, this);
@@ -64,14 +68,18 @@ void LightningFall::Attack()
 
 void LightningFall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)
 {
-	if (m_Enable) return;
+	if (m_Enable || m_FiledCache == nullptr) return;
 
-	EnemyAttackObject::Spawn(shotPos, damage, balletTime);
+	XMFLOAT3 pos = shotPos;
+	pos.y = m_FiledCache->GetHeight(shotPos);
+
+	EnemyAttackObject::Spawn(pos, damage, balletTime);
 
 	if (m_BoxCollCache != nullptr)
 	{
-		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
+		m_BoxCollCache->SetCollisionInfo(pos, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
 	}
 
+	m_LightningChargeCache->SetPos(pos);
 	m_LightningChargeCache->Start(balletTime);
 }

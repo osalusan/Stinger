@@ -4,12 +4,14 @@
 // ‘O•ûéŒ¾
 class LightningFallEffect;
 class LightningCharge;
+class MeshFiled;
 
 class LightningFall final : public EnemyAttackObject
 {
 private:
 	LightningFallEffect* m_LightningFallEffCache = nullptr;
 	LightningCharge* m_LightningChargeCache = nullptr;
+	MeshFiled* m_FiledCache = nullptr;
 	virtual void AttackControl(const float& deltaTime)override;
 	virtual void Finish()override;
 public:
