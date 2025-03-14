@@ -6,6 +6,7 @@
 #include "manager/textureManager.h"
 #include "manager/fbxModelManager.h"
 #include "manager/objModelManager.h"
+#include "manager/audioManager.h"
 #include "polygon2D/polygon2D.h"
 #include "scene/gameScene.h"
 #include "camera/titleCamera.h"
@@ -24,7 +25,7 @@ constexpr float NEXT_SCENE_TIME = 3.0f;
 void TitleScene::Init()
 {
 	Scene::Init();
-
+	AudioManager::ReservAudio(AUDIO::TITLE_BGM, "asset\\audio\\bgm\\arrival.wav", true, true);
 	if (m_ObjectManager == nullptr) return;
 
 	m_ObjectManager->AddGameObject<TitleCamera>(OBJECT::CAMERA_MAIN);

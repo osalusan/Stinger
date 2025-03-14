@@ -5,6 +5,7 @@
 enum class AUDIO
 {
 	MAWJ_BATTLE_BGM = 0,
+	TITLE_BGM,
 	PARRY_SE,
 	SLASH1_SE,
 	SLASH2_SE,
