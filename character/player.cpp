@@ -17,16 +17,17 @@
 #include <sstream>
 
 // プレイヤーの情報
-constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.04f,0.04f,0.04f };
-constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 54.0f ,DEFAULT_SCALE_PLAYER.y * 54.0f ,DEFAULT_SCALE_PLAYER.z * 54.0f };
-constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 46.0f ,DEFAULT_SCALE_PLAYER.y * 46.0f ,DEFAULT_SCALE_PLAYER.z * 46.0f };
-constexpr XMFLOAT3 OFFSET_POS_SWORD = { DEFAULT_SCALE_PLAYER.x * -10.0f, DEFAULT_SCALE_PLAYER.y * -2.0f, 0.0f };
+constexpr XMFLOAT3 DEFAULT_SCALE_PLAYER = { 0.053f,0.053f,0.053f };
+constexpr XMFLOAT3 DEFAULT_SCALE_SWORD = { DEFAULT_SCALE_PLAYER.x * 48.5f ,DEFAULT_SCALE_PLAYER.y * 48.5f ,DEFAULT_SCALE_PLAYER.z * 48.5f };
+constexpr XMFLOAT3 DEFAULT_SCALE_SHILED = { DEFAULT_SCALE_PLAYER.x * 36.0f ,DEFAULT_SCALE_PLAYER.y * 36.0f ,DEFAULT_SCALE_PLAYER.z * 36.0f };
+constexpr XMFLOAT3 OFFSET_POS_SWORD = { DEFAULT_SCALE_PLAYER.x * -10.0f, DEFAULT_SCALE_PLAYER.y * -3.0f, DEFAULT_SCALE_PLAYER.z * -1.0f };
 constexpr XMFLOAT3 OFFSET_POS_SHILED = { 0.0f, DEFAULT_SCALE_PLAYER.y * -10.0f, DEFAULT_SCALE_PLAYER.z * 10.0f };
+constexpr float OFFSET_SCL_SWORD_Y = DEFAULT_SCALE_SWORD.y * 0.25f;
 // プレイヤーのUI情報
 constexpr XMFLOAT2 DEFAULT_SCALE_HPBAR = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.032f};
-constexpr XMFLOAT2 DEFAULT_POS_HPBAR = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.98f};
+constexpr XMFLOAT2 DEFAULT_POS_BS_TEXT = { (SCREEN_WIDTH - DEFAULT_SCALE_HPBAR.x) * 0.5f ,(SCREEN_HEIGHT - DEFAULT_SCALE_HPBAR.y) * 0.98f};
 constexpr XMFLOAT2 DEFAULT_SCALE_HPFRAME = { DEFAULT_SCALE_HPBAR.x + (DEFAULT_SCALE_HPBAR.x * 0.005f) ,DEFAULT_SCALE_HPBAR.y + (DEFAULT_SCALE_HPBAR.y * 0.15f) };
-constexpr XMFLOAT2 DEFAULT_POS_HPFRAME = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME.x) * 0.5f, DEFAULT_POS_HPBAR.y - ((DEFAULT_SCALE_HPFRAME.y - DEFAULT_SCALE_HPBAR.y) * 0.5f) };
+constexpr XMFLOAT2 DEFAULT_POS_HPFRAME = { (SCREEN_WIDTH - DEFAULT_SCALE_HPFRAME.x) * 0.5f, DEFAULT_POS_BS_TEXT.y - ((DEFAULT_SCALE_HPFRAME.y - DEFAULT_SCALE_HPBAR.y) * 0.5f) };
 
 constexpr const char* RIGHTHAND_NAME_PLAYER = "mixamorig:RightHand";
 constexpr const char* LEFTHAND_NAME_PLAYER = "mixamorig:LeftHand";
@@ -83,15 +84,20 @@ void Player::Init()
 		m_ShiledChache = objManager->AddGameObjectArg<EquipmentObject>(OBJECT::STATICMESH, this, STATICMESH_MODEL::SHIELD, "asset\\model\\shield\\shield.obj", m_Model, LEFTHAND_NAME_PLAYER, DEFAULT_SCALE_SHILED, XMFLOAT3(-0.5f, 0.0f, 0.0f), OFFSET_POS_SHILED);
 	}
 
+	if (m_SwordChache != nullptr)
+	{
+		m_SwordChache->SetOffsetCollScl({ 0.0f,OFFSET_SCL_SWORD_Y,0.0f });
+	}
+
 	// フレーム
 	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPFRAME, DEFAULT_SCALE_HPFRAME, PIVOT::LEFT_TOP, TEXTURE::WHITE, L"asset\\texture\\white.png");
 	// HPバーのバックグラウンド
-	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
+	objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_BS_TEXT, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::BLACK, L"asset\\texture\\black.png");
 	
 	// プレイヤーのUI
 	if (m_PlayerHpCache == nullptr)
 	{
-		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_HPBAR, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_PLAYER, L"asset\\texture\\player_HpBar.png",true);
+		m_PlayerHpCache = objManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D, DEFAULT_POS_BS_TEXT, DEFAULT_SCALE_HPBAR, PIVOT::LEFT_TOP, TEXTURE::HPBAR_PLAYER, L"asset\\texture\\player_HpBar.png",true);
 	}
 }
 
@@ -262,6 +268,11 @@ void Player::CollisionControl()
 	CheckWorldWallPos();
 
 	float groundHeight = 0.0f;
+
+	if (m_MeshFiled != nullptr)
+	{
+		groundHeight = m_MeshFiled->GetHeight(m_Position);
+	}
 
 	if (m_Position.y <= groundHeight)
 	{

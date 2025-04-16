@@ -4,7 +4,7 @@
 
 // íÖínÇ…çáÇÌÇπÇÈóp
 constexpr float LANDING_MIN_VALUE = 0.2f;
-constexpr float LANDING_MAX_VALUE = 0.48f;
+constexpr float LANDING_MAX_VALUE = 0.51f;
 constexpr float JUMP_MAX_VALUE = 0.36f;
 constexpr float INIT_ACCEL = 60.0f;														// èâë¨ìx
 constexpr float JUMP_RESIST = INIT_ACCEL / (JUMP_MAX_VALUE - LANDING_MIN_VALUE);

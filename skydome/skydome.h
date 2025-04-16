@@ -12,7 +12,8 @@ private:
 
 	virtual void MoveControl(const float& deltaTime)override;
 public:
-	SkyDome();
+	SkyDome() = delete;
+	SkyDome(const STATICMESH_MODEL& model,std::string filePath);
 	virtual ~SkyDome();
 	virtual void Init()override;
 };

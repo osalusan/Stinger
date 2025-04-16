@@ -6,7 +6,7 @@ bool EnemyAttackObject::CollisionControl()
 {
 	if (m_BoxCollCache == nullptr) return false;
 
-	if (m_IsAttack && m_BoxCollCache->CheckHitObject(COLLISION_TAG::PLAYER))
+	if (m_IsAttack && m_BoxCollCache->CheckHitObject(OBJECT::PLAYER))
 	{
 		Player* player = m_BoxCollCache->GetHitGameObject<Player>();
 		if (player == nullptr) return false;
@@ -54,6 +54,16 @@ void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage)
 	{
 		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
 	}
+}
+
+void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)
+{
+	if (m_Enable) return;
+
+	m_Position = shotPos;
+	m_Enable = true;
+	m_Damage = damage;
+	m_IsAttack = false;
 }
 
 void EnemyAttackObject::KeepPos(const XMFLOAT3& shotPos)

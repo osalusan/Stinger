@@ -4,6 +4,7 @@
 #include "manager/sceneManager.h"
 #include "manager/textureManager.h"
 #include "manager/audioManager.h"
+#include "manager/objModelManager.h"
 #include "camera/playerCamera.h"
 #include "skydome/skydome.h"
 #include "polygon2D/polygon2D.h"
@@ -14,7 +15,7 @@
 #include "object/transparentWall.h"
 #include "billboard/extrSlashEffect.h"
 
-constexpr XMFLOAT3 WALL_MAX = { 450.0f, 100.0f, 450.0f }; // 壁の最大範囲
+constexpr XMFLOAT3 WALL_MAX = { 280.0f, 100.0f, 280.0f }; // 壁の最大範囲
 constexpr float CLEAR_TO_TITLE = 5.0f;
 constexpr float INOPERABLE_TIME = 1.0f;
 constexpr XMFLOAT2 RETRY_AND_GOTITLE_SCALE = { SCREEN_WIDTH * 0.28f,SCREEN_HEIGHT * 0.12f };
@@ -27,7 +28,10 @@ void GameScene::Init()
 	m_WorldWall = WALL_MAX;
 
 	if (m_ObjectManager == nullptr) return;
-
+	// 一番最初に
+	m_ObjectManager->AddGameObjectArg<MeshFiled>(OBJECT::FILED, XMFLOAT3(0.0f, 0.0f, 0.0f), 
+		TEXTURE::GROUND_GREEN_TEX, L"asset\\texture\\rocky_terrain_02_diff_2k.dds", TEXTURE::GROUND_GREEN_NOR, L"asset\\texture\\rocky_terrain_02_nor_gl_512.dds", "asset\\csv\\battleFiled.csv");
+	// フィールドの後に
 	m_ObjectManager->AddGameObjectArg<Player>(OBJECT::PLAYER,XMFLOAT3(0.0f,0.0f,0.0f));
 	// プレイヤーの次に作成
 	m_ObjectManager->AddGameObject<PlayerCamera>(OBJECT::CAMERA_MAIN);
@@ -35,7 +39,7 @@ void GameScene::Init()
 	m_ObjectManager->AddGameObjectArg<MawJLaygo>(OBJECT::BOSS,new MawJLaygoBattleTree,XMFLOAT3(-20.0f, 0.0f, 50.0f));
 
 	// プレイヤーの後に
-	m_ObjectManager->AddGameObject<SkyDome>(OBJECT::SKYDOME);
+	m_ObjectManager->AddGameObjectArg<SkyDome>(OBJECT::SKYDOME, STATICMESH_MODEL::SKYDOME_BATTLE_MAWJ, "asset\\model\\sky\\battleSkyMawJ.obj");
 
 	// どこに作成しても良い
 	m_ObjectManager->AddGameObjectArg<Polygon2D>(OBJECT::POLYGON2D,

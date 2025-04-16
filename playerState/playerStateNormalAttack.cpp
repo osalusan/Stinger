@@ -9,6 +9,10 @@
 #include "scene/scene.h"
 #include "equipment/equipmentObject.h"
 
+constexpr float ATTACK1_SPEED = 1.22f;
+constexpr float ATTACK2_SPEED = 1.28f;
+constexpr float ATTACK3_SPEED = 1.55f;
+
 void PlayerStateNormalAttack::Init()
 {
 	if (m_PlayerMachine != nullptr)
@@ -26,7 +30,7 @@ void PlayerStateNormalAttack::Init()
 
 	if (!m_Load && m_PlayerCache != nullptr)
 	{
-		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_PaladinJNordstrom.fbx", "normalAttack1");
+		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_1_PaladinJNordstrom.fbx", "normalAttack1");
 		m_AnimName1 = "normalAttack1";
 		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash2_PaladinJNordstrom.fbx", "normalAttack2");
 		m_AnimName2 = "normalAttack2";
@@ -62,7 +66,7 @@ void PlayerStateNormalAttack::Init()
 	m_AttackAccept = true;
 	m_MaxAnimTime = m_MaxAnimTime1;
 	m_AttackComboNumber = 1;
-	m_AnimSpeedValue = 1.0f;
+	m_AnimSpeedValue = ATTACK1_SPEED;
 
 	if (m_PlayerCache != nullptr)
 	{
@@ -149,7 +153,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToCameraDirection(deltaTime);
+			RotToTarget(m_BossCache, deltaTime);
 			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
@@ -164,7 +168,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackCancel = false;
 				m_AttackComboNumber = 2;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue2;
-				m_AnimSpeedValue = 1.15f;
+				m_AnimSpeedValue = ATTACK2_SPEED;
 				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
@@ -182,7 +186,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToInputKeyDirection(deltaTime);
+			RotToTarget(m_BossCache, deltaTime);
 			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
@@ -198,7 +202,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 				m_AttackComboNumber = 3;
 				m_AttackDamage = m_PlayerCache->GetAttack() * m_DamageValue3;
 
-				m_AnimSpeedValue = 1.25f;
+				m_AnimSpeedValue = ATTACK1_SPEED;
 				m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			}
 		}
@@ -216,7 +220,7 @@ void PlayerStateNormalAttack::Update(const float& deltaTime)
 		}
 		else
 		{
-			RotToInputKeyDirection(deltaTime);
+			RotToTarget(m_BossCache, deltaTime);
 			m_AttackAccept = true;
 		}
 		// アニメーションの途中終了可能設定
@@ -240,7 +244,11 @@ void PlayerStateNormalAttack::ChangeStateControl()
 
 	// 優先順位順
 
-	if (m_CurrentTime >= m_MaxAnimTime)
+	if (m_PlayerMachine->GetIsHitAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::HITATTACK);
+	}
+	else if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 	}

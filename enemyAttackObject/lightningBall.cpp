@@ -5,6 +5,7 @@
 #include "component/boxCollisionComponent.h"
 #include "scene/scene.h"
 #include "billboard/lightningBallEffect.h"
+#include "particle/lightningBallChage.h"
 
 constexpr float HOMING_VALUE = 26.0f;	// ホーミングの強度
 constexpr float HOMING_RANGE = 10.0f;	// ホーミング終了の距離
@@ -13,6 +14,15 @@ constexpr XMFLOAT3 DEFALUT_SCALE = { 3.0f,3.0f,3.0f };
 // -------------------------------------- private --------------------------------------
 void LightningBall::AttackControl(const float& deltaTime)
 {
+
+	if (m_LightningBallChargeCache == nullptr) return;
+
+	if (m_LightningBallChargeCache->Finish())
+	{
+		m_IsAttack = true;
+	}
+
+
 	if (!m_IsHoming || m_TargetObject == nullptr) return;
 
 	const XMFLOAT3& targetPos = m_TargetObject->GetPos();
@@ -119,66 +129,81 @@ LightningBall::LightningBall(const GameObject* target, const float& speed)
 	ObjectManager* objManager = scene->GetObjectManager();
 	if (objManager == nullptr) return;
 
+
 	if (m_LightningBallEffCache == nullptr)
 	{
 		m_LightningBallEffCache = objManager->AddGameObjectArg<LightningBallEffect>(OBJECT::BILLBOARD,this);
+	}
+	if (m_LightningBallChargeCache == nullptr)
+	{
+		m_LightningBallChargeCache = objManager->AddGameObjectArg<LightningBallCharge>(OBJECT::PARTICLE, false);
 	}
 }
 
 void LightningBall::Attack()
 {
-	if (m_IsAttack)
+	if (m_Enable)
 	{
 		m_IsHoming = true;
 	}
 }
 
-void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage)
+void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)
 {
-	EnemyAttackObject::Spawn(shotPos, damage);
+	if (m_Enable) return;
 
-	if (m_Enable)
+	EnemyAttackObject::Spawn(shotPos, damage, balletTime);
+
+	if (m_TargetObject == nullptr) return;
+
+	m_Position = shotPos;
+	const XMFLOAT3& targetPos = m_TargetObject->GetPos();
+	// 横
+	float currentAngleY = m_Rotation.y;
+	const float& targetAngleY = atan2f(targetPos.x - m_Position.x, targetPos.z - m_Position.z);
+
+	float angleDiffY = targetAngleY - currentAngleY;
+	while (angleDiffY > XM_PI)
 	{
-		if (m_TargetObject == nullptr) return;
-		const XMFLOAT3& targetPos = m_TargetObject->GetPos();
-		// 横
-		float currentAngleY = m_Rotation.y;
-		const float& targetAngleY = atan2f(targetPos.x - m_Position.x, targetPos.z - m_Position.z);
+		angleDiffY -= XM_2PI;
+	}
+	while (angleDiffY < -XM_PI)
+	{
+		angleDiffY += XM_2PI;
+	}
 
-		float angleDiffY = targetAngleY - currentAngleY;
-		while (angleDiffY > XM_PI)
-		{
-			angleDiffY -= XM_2PI;
-		}
-		while (angleDiffY < -XM_PI)
-		{
-			angleDiffY += XM_2PI;
-		}
+	m_Rotation.y = angleDiffY;
 
-		m_Rotation.y = angleDiffY;
+	// 縦
+	float directionX = targetPos.x - m_Position.x;
+	float directionY = targetPos.y - m_Position.y;
+	float directionZ = targetPos.z - m_Position.z;
+	float horizontalDist = sqrtf(directionX * directionX + directionZ * directionZ);
 
-		// 縦
-		float directionX = targetPos.x - m_Position.x;
-		float directionY = targetPos.y - m_Position.y;
-		float directionZ = targetPos.z - m_Position.z;
-		float horizontalDist = sqrtf(directionX * directionX + directionZ * directionZ);
+	float currentAngleX = m_Rotation.x;
+	float targetAngleX = atan2f(directionY, horizontalDist);
 
-		float currentAngleX = m_Rotation.x;
-		float targetAngleX = atan2f(directionY, horizontalDist);
+	float angleDiffX = targetAngleX - currentAngleX;
+	while (angleDiffX > XM_PI)
+	{
+		angleDiffX -= XM_2PI;
+	}
+	while (angleDiffX < -XM_PI)
+	{
+		angleDiffX += XM_2PI;
+	}
 
-		float angleDiffX = targetAngleX - currentAngleX;
-		while (angleDiffX > XM_PI)
-		{
-			angleDiffX -= XM_2PI;
-		}
-		while (angleDiffX < -XM_PI)
-		{
-			angleDiffX += XM_2PI;
-		}
+	m_Rotation.x = angleDiffX;
 
-		m_Rotation.x = angleDiffX;
+	m_IsAttack = false;
 
-		if (m_LightningBallEffCache == nullptr) return;
+	if (m_LightningBallEffCache != nullptr)
+	{
 		m_LightningBallEffCache->UseBillboard();
+	}
+	if (m_LightningBallChargeCache != nullptr)
+	{
+		m_LightningBallChargeCache->SetPos(m_Position);
+		m_LightningBallChargeCache->Start(balletTime);
 	}
 }

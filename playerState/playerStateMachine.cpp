@@ -16,6 +16,7 @@
 #include "playerStateNormalAttack.h"
 #include "playerState/playerStateRolling.h"
 #include "playerState/playerStateExtrAttack.h"
+#include "playerState/playerStateHitAttack.h"
 
 constexpr int EXTRATTACK_ACCEPT_PARRY_MAX = 3;
 constexpr XMFLOAT2 DEFAULT_SCALE_PARRYGAGE = { SCREEN_WIDTH * 0.4f,SCREEN_HEIGHT * 0.028f };
@@ -72,6 +73,7 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, m_NormalAttackCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_EXTR, m_ExtrAttackCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ROLLING, m_RollingCache);
+		m_PlayerStatePool.emplace(PLAYER_STATE::HITATTACK, new PlayerStateHitAttack(this));
 	}
 	// èâä˙âª
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
@@ -277,6 +279,7 @@ void PlayerStateMachine::SetAnimationSpeedValue(const float& value)
 	m_PlayerCache->SetAnimationSpeedValue(value);
 }
 
+// ìGÇÃçUåÇÇ™ÉvÉåÉCÉÑÅ[Ç∆èÇÇ…ìñÇΩÇ¡ÇΩéûÇ…îªíË
 bool PlayerStateMachine::CheckParry()
 {
 	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ATTACK_PARRY]) return false;
@@ -303,6 +306,7 @@ bool PlayerStateMachine::CheckParry()
 	return false;
 }
 
+// ìGÇÃçUåÇÇ™ìñÇΩÇ¡ÇΩéûÇ…îªíË
 bool PlayerStateMachine::CheckRolling()
 {
 	if (m_CurrentPlayerState != m_PlayerStatePool[PLAYER_STATE::ROLLING]) return false;
@@ -312,6 +316,7 @@ bool PlayerStateMachine::CheckRolling()
 	return m_RollingCache->CheckRollingAccept();
 }
 
+// åïÇ™ìñÇΩÇ¡ÇΩéûÇ…îªíË
 bool PlayerStateMachine::CheckAttack()
 {
 	if (m_CurrentPlayerState == m_PlayerStatePool[PLAYER_STATE::ATTACK_NORMAL])

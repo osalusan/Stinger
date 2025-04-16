@@ -81,7 +81,11 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 
 void PlayerStateParryAttack::ChangeStateControl()
 {
-	if (m_CurrentTime >= m_MaxAnimTime)
+	if (m_PlayerMachine->GetIsHitAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::HITATTACK);
+	}
+	else if (m_CurrentTime >= m_MaxAnimTime)
 	{
 		ChangePlayerState(PLAYER_STATE::IDLE);
 		if (m_ObjManagerCache == nullptr) return;

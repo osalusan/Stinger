@@ -37,7 +37,7 @@ void AirLightningBallTask::InitTask(const float& deltaTime)
 	const XMFLOAT3& spawnBulletPos = { bossPos.x + bossFoward.x * ((1.0f / bossScale.x) * 0.5f),bossPos.y + ((1.0f / bossScale.y) * 0.7f),bossPos.z + bossFoward.z * ((1.0f / bossScale.z) * 0.5f) };
 	if (m_LightningBallCache != nullptr)
 	{
-		m_LightningBallCache->Spawn(spawnBulletPos, m_BossCache->GetAttack() * m_DamageValue);
+		m_LightningBallCache->Spawn(spawnBulletPos, m_BossCache->GetAttack() * m_DamageValue, SPAWN_LIGHTNINGBALL_VALUE * m_MaxAnimTime);
 	}
 }
 

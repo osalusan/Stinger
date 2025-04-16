@@ -87,17 +87,18 @@ void PlayerStateRun::ChangeStateControl()
 {
 	if (m_PlayerMachine == nullptr) return;
 
-	// ƒpƒŠƒBUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
-	if (m_PlayerMachine->GetIsParryAttackButton())
+	if (m_PlayerMachine->GetIsHitAttack())
+	{
+		ChangePlayerState(PLAYER_STATE::HITATTACK);
+	}
+	else if (m_PlayerMachine->GetIsParryAttackButton())
 	{
 		ChangePlayerState(PLAYER_STATE::ATTACK_PARRY);
 	}
-	// ’ÊíUŒ‚‚ª‰Ÿ‚³‚ê‚½‚ç
 	else if (m_PlayerMachine->GetIsNormalAttackButton())
 	{
 		ChangePlayerState(PLAYER_STATE::ATTACK_NORMAL);
 	}
-	// ‰ñ”ð‚ª‰Ÿ‚³‚ê‚½‚ç
 	else if (m_PlayerMachine->GetIsRollingButton())
 	{
 		ChangePlayerState(PLAYER_STATE::ROLLING);

@@ -216,7 +216,7 @@
     <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="behaviorTaskNode\roaringTask.cpp">
+    <ClCompile Include="behaviorTaskNode\battleStartRenditionTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\leftSwipingTask.cpp">
@@ -365,6 +365,12 @@
     </ClCompile>
     <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp">
       <Filter>behaviorTaskNode</Filter>
+    </ClCompile>
+    <ClCompile Include="playerState\playerStateHitAttack.cpp">
+      <Filter>playerState</Filter>
+    </ClCompile>
+    <ClCompile Include="particle\lightningBallChage.cpp">
+      <Filter>particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,7 +521,7 @@
     <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="behaviorTaskNode\roaringTask.h">
+    <ClInclude Include="behaviorTaskNode\battleStartRenditionTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\leftSwipingTask.h">
@@ -664,6 +670,12 @@
     </ClInclude>
     <ClInclude Include="behaviorTaskNode\checkRenditionTask.h">
       <Filter>behaviorTaskNode</Filter>
+    </ClInclude>
+    <ClInclude Include="playerState\playerStateHitAttack.h">
+      <Filter>playerState</Filter>
+    </ClInclude>
+    <ClInclude Include="particle\lightningBallChage.h">
+      <Filter>particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -105,13 +105,6 @@ public:
 				m_CameraCache = camera;
 			}
 		}
-		if (layer == OBJECT::FILED && m_FiledCache == nullptr)
-		{
-			if (MeshFiled* filed = dynamic_cast<MeshFiled*>(gameObject))
-			{
-				m_FiledCache = filed;
-			}
-		}
 
 		return gameObject;
 	}
@@ -138,6 +131,13 @@ public:
 			if (BossEnemy* boss = dynamic_cast<BossEnemy*>(gameObject))
 			{
 				m_BossCache = boss;
+			}
+		}
+		if (layer == OBJECT::FILED && m_FiledCache == nullptr)
+		{
+			if (MeshFiled* filed = dynamic_cast<MeshFiled*>(gameObject))
+			{
+				m_FiledCache = filed;
 			}
 		}
 		return gameObject;

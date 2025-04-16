@@ -40,7 +40,7 @@
     <ClCompile Include="behaviorTaskNode\rightPunchTask.cpp" />
     <ClCompile Include="behaviorTaskNode\rightSwipingTask.cpp" />
     <ClCompile Include="behaviorTaskNode\roaringInfinityTask.cpp" />
-    <ClCompile Include="behaviorTaskNode\roaringTask.cpp" />
+    <ClCompile Include="behaviorTaskNode\battleStartRenditionTask.cpp" />
     <ClCompile Include="behaviorTaskNode\leftSwipingTask.cpp" />
     <ClCompile Include="behaviorTaskNode\shortRangeAttackTask.cpp" />
     <ClCompile Include="behaviorTaskNode\waitTask.cpp" />
@@ -88,11 +88,13 @@
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="object\transparentWall.cpp" />
     <ClCompile Include="particle\extrSwordBarst.cpp" />
+    <ClCompile Include="particle\lightningBallChage.cpp" />
     <ClCompile Include="particle\lightningCharge.cpp" />
     <ClCompile Include="particle\particleEmitter.cpp" />
     <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
     <ClCompile Include="playerState\playerStateExtrAttack.cpp" />
+    <ClCompile Include="playerState\playerStateHitAttack.cpp" />
     <ClCompile Include="playerState\playerStateIdle.cpp" />
     <ClCompile Include="playerState\playerStateJump.cpp" />
     <ClCompile Include="playerState\playerStateMachine.cpp" />
@@ -138,7 +140,7 @@
     <ClInclude Include="behaviorTaskNode\rightPunchTask.h" />
     <ClInclude Include="behaviorTaskNode\rightSwipingTask.h" />
     <ClInclude Include="behaviorTaskNode\roaringInfinityTask.h" />
-    <ClInclude Include="behaviorTaskNode\roaringTask.h" />
+    <ClInclude Include="behaviorTaskNode\battleStartRenditionTask.h" />
     <ClInclude Include="behaviorTaskNode\leftSwipingTask.h" />
     <ClInclude Include="behaviorTaskNode\shortRangeAttackTask.h" />
     <ClInclude Include="behaviorTaskNode\waitTask.h" />
@@ -189,11 +191,13 @@
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="object\transparentWall.h" />
     <ClInclude Include="particle\extrSwordBarst.h" />
+    <ClInclude Include="particle\lightningBallChage.h" />
     <ClInclude Include="particle\lightningCharge.h" />
     <ClInclude Include="particle\particleEmitter.h" />
     <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
     <ClInclude Include="playerState\playerStateExtrAttack.h" />
+    <ClInclude Include="playerState\playerStateHitAttack.h" />
     <ClInclude Include="playerState\playerStateIdle.h" />
     <ClInclude Include="playerState\playerStateJump.h" />
     <ClInclude Include="playerState\playerStateMachine.h" />

@@ -5,6 +5,7 @@ class BoxCollisionComponent final :public CollisionComponent
 {
 private:
 	XMVECTOR m_Mtv = {};
+	std::vector<BoxCollisionComponent*> m_BoxCollisionCaches = {};
 
 	void GetMyObb(OBB& myObb);
 

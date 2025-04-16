@@ -6,10 +6,10 @@
 #include "manager/inputManager.h"
 #include "scene/gameScene.h"
 
-constexpr float LENGTH_DEFAULT = 35.0f;
-constexpr float OFFSET_TARGET_POS_Y = LENGTH_DEFAULT * 0.35f;
+constexpr float LENGTH_DEFAULT = 24.0f;
+constexpr float OFFSET_TARGET_POS_Y = LENGTH_DEFAULT * 0.45f;
 constexpr float LENGTH_CUTIN = 4.5f;
-constexpr float CUTIN_TARGET_POS_Y = LENGTH_CUTIN * 1.25f;
+constexpr float EXTRAATK_CUTIN_T_POS_Y = LENGTH_CUTIN * 1.46f;
 constexpr float LENGTH_EXTRATTACK = LENGTH_DEFAULT * 1.55f;
 
 // ƒ}ƒEƒX‚ÌÝ’è
@@ -255,7 +255,7 @@ void PlayerCamera::Update(const float& deltaTime)
 		{
 			const XMFLOAT3& playerRight = m_PlayerCache->GetRight();
 			m_Target = m_PlayerCache->GetPos();
-			m_Target.y += CUTIN_TARGET_POS_Y;
+			m_Target.y += EXTRAATK_CUTIN_T_POS_Y;
 			m_Position = m_Target;
 			m_Position.x -= playerRight.x * LENGTH_CUTIN;
 			m_Position.z -= playerRight.z * LENGTH_CUTIN;

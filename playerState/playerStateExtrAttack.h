@@ -25,7 +25,6 @@ private:
 	XMFLOAT3 m_MoveSpeedVec = {};
 
 	// アニメーション制御用パラメータ
-	float m_AnimSpeedValue = 0.0f;
 	bool m_StopAnim = false;
 	float m_CurrentStopAnimTime = 0.0f;
 

@@ -23,7 +23,9 @@ void StaticMeshObject::Update(const float& deltaTime)
 	if (ObjModelRenderer* model = ObjModelManager::GetModel(m_Model))
 	{
 		MODEL* modelData = model->GetModel();
-		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, modelData->Center, modelData->Scale, m_RotationMatrix);
+		const XMFLOAT3& customPos = { m_Position.x + m_OffsetCollPos.x ,m_Position.y + m_OffsetCollPos.y ,m_Position.z + m_OffsetCollPos.z };
+		const XMFLOAT3& customScl = { m_Scale.x + m_OffsetCollScl.x ,m_Scale.y + m_OffsetCollScl.y ,m_Scale.z + m_OffsetCollScl.z };
+		m_BoxCollCache->SetCollisionInfo(customPos, customScl, modelData->Center, modelData->Scale, m_RotationMatrix);
 	}
 }
 

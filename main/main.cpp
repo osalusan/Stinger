@@ -12,7 +12,7 @@
 
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "Stinger";
-const char* GAME_VERSION = "1.1.0";
+const char* GAME_VERSION = "1.2.0";
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

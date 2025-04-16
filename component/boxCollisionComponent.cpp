@@ -167,10 +167,12 @@ bool BoxCollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
 		{
 			if (object == nullptr) continue;
 
-			std::vector<BoxCollisionComponent*> boxCollisions = {};
-			if (!object->GetComponents(boxCollisions)) continue;
+			if (m_BoxCollisionCaches.size() <= 0)
+			{
+				if (!object->GetComponents(m_BoxCollisionCaches)) continue;
+			}
 
-			for (BoxCollisionComponent* boxCollision : boxCollisions)
+			for (BoxCollisionComponent* boxCollision : m_BoxCollisionCaches)
 			{
 				if (boxCollision == nullptr) continue;
 				if (m_GameObject == boxCollision->GetGameObject()) continue;
@@ -260,10 +262,12 @@ bool BoxCollisionComponent::CheckHitAllObject()
 		{
 			if (object == nullptr) continue;
 
-			std::vector<BoxCollisionComponent*> boxCollisions = {};
-			if (!object->GetComponents(boxCollisions)) continue;
+			if (m_BoxCollisionCaches.size() <= 0)
+			{
+				if (!object->GetComponents(m_BoxCollisionCaches)) continue;
+			}
 
-			for (BoxCollisionComponent* boxCollision : boxCollisions)
+			for (BoxCollisionComponent* boxCollision : m_BoxCollisionCaches)
 			{
 				if (boxCollision == nullptr) continue;
 				if (m_GameObject == boxCollision->GetGameObject()) continue;

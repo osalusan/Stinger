@@ -10,7 +10,7 @@
 #include "behaviorTaskNode/leftSwipingTask.h"
 #include "behaviorTaskNode/rightSwipingTask.h"
 #include "behaviortaskNode/checkRangeTask.h"
-#include "behaviortaskNode/roaringTask.h"
+#include "behaviortaskNode/battleStartRenditionTask.h"
 #include "behaviorTaskNode/checkHealthTask.h"
 #include "behaviorTaskNode/deadTask.h"
 #include "behaviorTaskNode/jumpAttackTask.h"
@@ -45,7 +45,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 	if (renditionTask == nullptr) return;
 
 	// 演出用の咆哮
-	renditionTask->AddTaskChild<RoaringTask>(boss, player);
+	renditionTask->AddTaskChild<BattleStartRenditionTask>(boss, player);
 
 	BehaviorNode* healthSeqNode = rootNode->AddNodeChild<SequenceNode>("体力管理シーケンス");
 	if (healthSeqNode == nullptr) return;
@@ -65,7 +65,7 @@ void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 
 	// ▼デバッグ用▼
 	
-	// rootNode->AddTaskChild<LightningBarstTask>(boss, player);
+	// rootNode->AddTaskChild<AirLightningBallTask>(boss, player);
 
 	// ▲デバッグ用▲
 
