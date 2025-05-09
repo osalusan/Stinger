@@ -2,6 +2,10 @@
 #include "behaviorNode/taskNode.h"
 
 class Camera;
+// ---------------------------------------------------------
+// タスクの説明：読み込み時に使う、待機用アニメーション
+// 備考：
+// ---------------------------------------------------------
 class LoadIdleTask final : public TaskNode
 {
 private:

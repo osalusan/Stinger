@@ -39,6 +39,10 @@ public:
     // 問題なかったらtrueが返る
     bool CheckRunningNode(BehaviorNode* currentNode);
 
+    // ---------------------------------------------
+    // タスクノードのみを追加
+    // 派生の情報登録の為、複数に分けている
+    // ---------------------------------------------
     template <typename T, typename... Arg>
     BehaviorNode* AddTaskChild(Arg&&...args)
     {
@@ -48,7 +52,6 @@ public:
         m_Children.emplace_back(node);
         return node;
     }
-
     template <typename T, typename... Args>
     BehaviorNode* AddTaskChild(int derivChance, Args&&... args)
     {
@@ -57,7 +60,6 @@ public:
         
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
-
     template <typename T, typename... Args>
     BehaviorNode* AddTaskChild(DERIVATION_DATA derivData, Args&&... args)
     {
@@ -65,7 +67,6 @@ public:
 
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
-
     template <typename T, typename... Args>
     BehaviorNode* AddTaskChild(DERIVATION_DATA derivData, int derivChance, Args&&... args)
     {
@@ -75,6 +76,8 @@ public:
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
 
+    // ノード自体を追加
+    // シーケンスやセレクターの時はこっち
     template <typename T>
     BehaviorNode* AddNodeChild(const std::string& name)
     {

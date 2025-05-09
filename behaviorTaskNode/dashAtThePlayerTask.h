@@ -1,7 +1,9 @@
 #pragma once
 #include "behaviorNode/taskNode.h"
-// プレイヤーを狙ってダッシュ
-
+// ---------------------------------------------------------
+// タスクの説明：プレイヤーに向かって走る
+// 備考：SUCCESSの設定が無いので、最初に置くと無限に歩き続ける
+// ---------------------------------------------------------
 class DashAtThePlayerTask final: public TaskNode
 {
 private:

@@ -1,7 +1,9 @@
 #pragma once
-
 #include "behaviorNode/taskNode.h"
-
+// ---------------------------------------------------------
+// タスクの説明：無限に咆哮を放つ
+// 備考：SUCCESSが無い
+// ---------------------------------------------------------
 class RoaringInfinityTask final : public TaskNode
 {
 private:

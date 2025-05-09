@@ -46,11 +46,12 @@ protected:
 
 	// エラー時に -1 を返す / 成功時に m_UseDerivNumber へ格納
 	int DerivationChance();
-	// 
+	// タスクから派生したタスクを更新したい時に呼ぶ
 	NODE_STATE UpdateUseDerivationTask(const float& deltaTime);
 
 protected:
 	virtual void InitTask(const float& deltaTime);
+	// アニメーションの時間通りにSUCCESSを返す攻撃タスク用
 	virtual void RunningTask(const float& deltaTime);
 
 public:
