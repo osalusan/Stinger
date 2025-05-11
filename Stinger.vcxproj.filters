@@ -4,9 +4,6 @@
     <Filter Include="main">
       <UniqueIdentifier>{79542f95-7b07-43f8-8fc1-fe74c61ee9f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="directXTex">
-      <UniqueIdentifier>{3157489b-4a0b-49c8-818b-14c3c9eae3b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="manager">
       <UniqueIdentifier>{d136460d-4fda-40b5-aa8b-75df460fa664}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="enemyAttackObject">
       <UniqueIdentifier>{3b69d76c-75ed-4ace-b773-50e46309fdb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="externalLibrary">
+      <UniqueIdentifier>{04577f82-a8c6-4638-a80d-550a2b0fbbdf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -376,9 +376,6 @@
   <ItemGroup>
     <ClInclude Include="main\main.h">
       <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="directXTex\DirectXTex.h">
-      <Filter>directXTex</Filter>
     </ClInclude>
     <ClInclude Include="manager\inputManager.h">
       <Filter>manager</Filter>

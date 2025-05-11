@@ -4,12 +4,12 @@
 #include <unordered_map>
 #include <map>
 
-#include "assimp/cimport.h"
-#include "assimp/scene.h"
-#include "assimp/postprocess.h"
-#include "assimp/matrix4x4.h"
-#include "assimp\Importer.hpp"
-#pragma comment (lib, "assimp/assimp-vc143-mt.lib")
+#include "externalLibrary/assimp/cimport.h"
+#include "externalLibrary/assimp/scene.h"
+#include "externalLibrary/assimp/postprocess.h"
+#include "externalLibrary/assimp/matrix4x4.h"
+#include "externalLibrary/assimp/Importer.hpp"
+#pragma comment (lib, "externalLibrary/assimp/assimp-vc143-mt.lib")
 
 // シェーダー側と同じになるように
 #define BONE_MAX (256)

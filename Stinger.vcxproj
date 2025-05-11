@@ -164,7 +164,6 @@
     <ClInclude Include="component\collisionComponent.h" />
     <ClInclude Include="component\component.h" />
     <ClInclude Include="component\shaderComponent.h" />
-    <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="enemyAttackObject\enemyAttackObject.h" />
     <ClInclude Include="enemyAttackObject\lightningBall.h" />
     <ClInclude Include="enemyAttackObject\lightningFall.h" />
