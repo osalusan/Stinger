@@ -64,9 +64,6 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{edbad82d-8fe1-4e59-9503-8fef892bac62}</UniqueIdentifier>
     </Filter>
-    <Filter Include="equipment">
-      <UniqueIdentifier>{f5f59298-14d3-446b-8bff-1ecaac357189}</UniqueIdentifier>
-    </Filter>
     <Filter Include="billboard">
       <UniqueIdentifier>{b96b79ae-fd68-4f5b-af23-5024385e37c6}</UniqueIdentifier>
     </Filter>
@@ -123,7 +120,7 @@
     <ClCompile Include="renderer\objModelRenderer.cpp">
       <Filter>renderer</Filter>
     </ClCompile>
-    <ClCompile Include="staticMeshObject\staticmeshObject.cpp">
+    <ClCompile Include="staticMeshObject\staticMeshObject.cpp">
       <Filter>staticMeshObject</Filter>
     </ClCompile>
     <ClCompile Include="skydome\skydome.cpp">
@@ -282,9 +279,6 @@
     <ClCompile Include="playerState\playerStateNormalAttack.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
-    <ClCompile Include="equipment\equipmentObject.cpp">
-      <Filter>equipment</Filter>
-    </ClCompile>
     <ClCompile Include="playerState\playerStateRolling.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
@@ -375,6 +369,9 @@
     <ClCompile Include="externalLibrary\imgui\imgui_impl_win32.cpp">
       <Filter>externalLibrary\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="staticMeshObject\equipmentObject.cpp">
+      <Filter>staticMeshObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main\main.h">
@@ -425,7 +422,7 @@
     <ClInclude Include="renderer\objModelRenderer.h">
       <Filter>renderer</Filter>
     </ClInclude>
-    <ClInclude Include="staticMeshObject\staticmeshObject.h">
+    <ClInclude Include="staticMeshObject\staticMeshObject.h">
       <Filter>staticMeshObject</Filter>
     </ClInclude>
     <ClInclude Include="manager\objModelManager.h">
@@ -584,9 +581,6 @@
     <ClInclude Include="playerState\playerStateNormalAttack.h">
       <Filter>playerState</Filter>
     </ClInclude>
-    <ClInclude Include="equipment\equipmentObject.h">
-      <Filter>equipment</Filter>
-    </ClInclude>
     <ClInclude Include="playerState\playerStateRolling.h">
       <Filter>playerState</Filter>
     </ClInclude>
@@ -676,6 +670,9 @@
     </ClInclude>
     <ClInclude Include="externalLibrary\imgui\imgui_impl_win32.h">
       <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="staticMeshObject\equipmentObject.h">
+      <Filter>staticMeshObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

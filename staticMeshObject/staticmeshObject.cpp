@@ -1,4 +1,4 @@
-#include "staticmeshObject.h"
+#include "staticMeshObject.h"
 #include "manager/objModelManager.h"
 #include "renderer/objModelRenderer.h"
 #include "component/shaderComponent.h"

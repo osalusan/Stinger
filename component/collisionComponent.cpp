@@ -3,7 +3,7 @@
 #include "manager/objModelManager.h"
 #include "scene/gameScene.h"
 #include "object/gameObject.h"
-#include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject/staticMeshObject.h"
 #include "character/character.h"
 #include "renderer/objModelRenderer.h"
 

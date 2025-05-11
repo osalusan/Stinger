@@ -3,7 +3,7 @@
 
 class Player;
 class BossEnemy;
-
+// プレイヤーに追従するカメラ
 class PlayerCamera final:public Camera
 {
 private:

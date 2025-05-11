@@ -66,7 +66,6 @@
     <ClCompile Include="enemyAttackObject\enemyAttackObject.cpp" />
     <ClCompile Include="enemyAttackObject\lightningBall.cpp" />
     <ClCompile Include="enemyAttackObject\lightningFall.cpp" />
-    <ClCompile Include="equipment\equipmentObject.cpp" />
     <ClCompile Include="externalLibrary\imgui\imgui.cpp" />
     <ClCompile Include="externalLibrary\imgui\imgui_demo.cpp" />
     <ClCompile Include="externalLibrary\imgui\imgui_draw.cpp" />
@@ -114,9 +113,10 @@
     <ClCompile Include="shadow\shadowVolume.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
+    <ClCompile Include="staticMeshObject\equipmentObject.cpp" />
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp" />
     <ClCompile Include="staticMeshObject\ruins.cpp" />
-    <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
+    <ClCompile Include="staticMeshObject\staticMeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behaviorNode\behaviorNode.h" />
@@ -167,7 +167,6 @@
     <ClInclude Include="enemyAttackObject\enemyAttackObject.h" />
     <ClInclude Include="enemyAttackObject\lightningBall.h" />
     <ClInclude Include="enemyAttackObject\lightningFall.h" />
-    <ClInclude Include="equipment\equipmentObject.h" />
     <ClInclude Include="externalLibrary\imgui\imconfig.h" />
     <ClInclude Include="externalLibrary\imgui\imgui.h" />
     <ClInclude Include="externalLibrary\imgui\imgui_impl_dx11.h" />
@@ -216,9 +215,10 @@
     <ClInclude Include="shadow\shadowVolume.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
+    <ClInclude Include="staticMeshObject\equipmentObject.h" />
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h" />
     <ClInclude Include="staticMeshObject\ruins.h" />
-    <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+    <ClInclude Include="staticMeshObject\staticMeshObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

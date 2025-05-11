@@ -17,6 +17,7 @@ struct DERIVATION_DATA
     float TransTimeValue = 0.0f;	     // 派生移行時間割合 / 1.0が最大
 };
 
+// タスクノード、シーケンス、セレクターで使用する物を入れた汎用クラス
 class BehaviorNode 
 {
 private:
@@ -36,7 +37,7 @@ public:
     virtual void Init() = 0;
     virtual NODE_STATE Update(const float& deltaTime) = 0;
 
-    // 問題なかったらtrueが返る
+    // 現在使用中か、子まで調べる
     bool CheckRunningNode(BehaviorNode* currentNode);
 
     // ---------------------------------------------
@@ -76,8 +77,10 @@ public:
         return AddTaskChild<T>(std::forward<Args>(args)...);
     }
 
+    // ---------------------------------------------
     // ノード自体を追加
     // シーケンスやセレクターの時はこっち
+    // ---------------------------------------------
     template <typename T>
     BehaviorNode* AddNodeChild(const std::string& name)
     {

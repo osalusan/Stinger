@@ -7,7 +7,7 @@
 #include "renderer/fbxModelRenderer.h"
 #include "character/player.h"
 #include "scene/scene.h"
-#include "equipment/equipmentObject.h"
+#include "staticMeshObject/equipmentObject.h"
 
 constexpr float ATTACK1_SPEED = 1.22f;
 constexpr float ATTACK2_SPEED = 1.28f;

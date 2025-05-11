@@ -1,5 +1,5 @@
 #pragma once
-#include "staticmeshObject.h"
+#include "staticMeshObject.h"
 
 class Ruins final: public StaticMeshObject
 {

@@ -10,7 +10,7 @@
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
 #include "scene/scene.h"
-#include "equipment/equipmentObject.h"
+#include "staticMeshObject/equipmentObject.h"
 #include "polygon2D/polygon2D.h"
 #include <fstream>
 #include <iostream>

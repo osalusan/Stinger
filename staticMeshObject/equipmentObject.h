@@ -1,5 +1,5 @@
 #pragma once
-#include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject.h"
 
 // ‘O•ûéŒ¾
 enum class ANIMETION_MODEL;

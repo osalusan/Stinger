@@ -7,6 +7,7 @@ enum class ATTACK_PARTS;
 class BossEnemy;
 class Player;
 
+// タスク用の汎用クラス
 class TaskNode : public BehaviorNode
 {
 private:
@@ -36,7 +37,7 @@ protected:
 	float m_BulletActionTime = 0.0f;				// 発射時間
 	bool m_ParryPossibleAtk = false;				// パリィされる攻撃の場合は、CSVの方に0以外の数値を入力する
 
-	// アニメーションを使用する際は、必ず呼ぶ
+	// アニメーションの予約 / アニメーションを使用する際は、コンストラクタか初期化関数で呼ぶ
 	void ReserveAnimation(const std::string& fileName, const std::string& animationName);
 	// 技の場合は必ず呼ぶ
 	void InitSkillData(const std::string& skillName);
@@ -51,7 +52,7 @@ protected:
 
 protected:
 	virtual void InitTask(const float& deltaTime);
-	// アニメーションの時間通りにSUCCESSを返す攻撃タスク用
+	// 攻撃タスク用 / アニメーションの時間通りにタスクが終了する場合にoverrideする
 	virtual void RunningTask(const float& deltaTime);
 
 public:

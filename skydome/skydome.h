@@ -1,5 +1,5 @@
 #pragma once
-#include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject/staticMeshObject.h"
 #include <memory>
 
 // ‘O•ûéŒ¾

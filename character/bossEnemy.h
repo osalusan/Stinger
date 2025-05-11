@@ -85,11 +85,11 @@ public:
 		m_Velocity.z += vel.z;
 	}
 
-	// ゆっくり向く
+	// ターゲットの方へゆっくり向く
 	void RotToTarget(GameObject* obj, const float& deltaTime);
-	// 即時向く
+	// ターゲットの方へ即時に向く
 	void RotToTarget(GameObject* obj);
-	
+	// スタミナを消費する場合に使用
 	bool UseStamina(const float& use);
 
 	const BehaviorTree* GetBehaviourTree()const
