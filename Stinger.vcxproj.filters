@@ -76,6 +76,9 @@
     <Filter Include="externalLibrary">
       <UniqueIdentifier>{04577f82-a8c6-4638-a80d-550a2b0fbbdf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="externalLibrary\directXTex">
+      <UniqueIdentifier>{0bc044c7-de0f-4898-8207-e4a206aff323}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main\main.cpp">
