@@ -5,7 +5,7 @@
 #include <wrl.h>
 #include <iostream>
 #include <time.h>
-#include "imgui/imgui_impl_win32.h"
+#include "externalLibrary/imgui/imgui_impl_win32.h"
 
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")

@@ -11,9 +11,9 @@
 #include "playerState/playerStateMachine.h"
 #include "behaviorTree/behaviorTree.h"
 #include "behaviorNode/selectorNode.h"
-#include "imgui.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
+#include "externalLibrary/imgui/imgui.h"
+#include "externalLibrary/imgui/imgui_impl_dx11.h"
+#include "externalLibrary/imgui/imgui_impl_win32.h"
 
 // Renderer‚ÌInit‚ğŒÄ‚ñ‚¾Œã‚Éì¬
 ImguiWindow::ImguiWindow()
@@ -21,7 +21,7 @@ ImguiWindow::ImguiWindow()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    m_Font = io.Fonts->AddFontFromFileTTF("imgui/fonts/VL_Gothic_Regular.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+    m_Font = io.Fonts->AddFontFromFileTTF("externalLibrary/imgui/fonts/VL_Gothic_Regular.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     if (m_Font != nullptr)
     {
         io.Fonts->Build();

@@ -74,10 +74,10 @@
       <UniqueIdentifier>{3b69d76c-75ed-4ace-b773-50e46309fdb3}</UniqueIdentifier>
     </Filter>
     <Filter Include="externalLibrary">
-      <UniqueIdentifier>{04577f82-a8c6-4638-a80d-550a2b0fbbdf}</UniqueIdentifier>
+      <UniqueIdentifier>{9dece115-625b-494d-acf3-428ee5726147}</UniqueIdentifier>
     </Filter>
-    <Filter Include="externalLibrary\directXTex">
-      <UniqueIdentifier>{0bc044c7-de0f-4898-8207-e4a206aff323}</UniqueIdentifier>
+    <Filter Include="externalLibrary\imgui">
+      <UniqueIdentifier>{617404d2-590b-43ee-af31-afe71fca32e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -255,30 +255,6 @@
     <ClCompile Include="fade\fade.cpp">
       <Filter>fade</Filter>
     </ClCompile>
-    <ClCompile Include="imgui\imgui.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_tables.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imgui_impl_win32.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="imgui\imguiWindow.cpp">
-      <Filter>imgui</Filter>
-    </ClCompile>
     <ClCompile Include="scene\debugScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
@@ -374,6 +350,30 @@
     </ClCompile>
     <ClCompile Include="particle\lightningBallChage.cpp">
       <Filter>particle</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imguiWindow.cpp">
+      <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui_tables.cpp">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui_widgets.cpp">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui.cpp">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui_demo.cpp">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui_draw.cpp">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui_impl_dx11.cpp">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="externalLibrary\imgui\imgui_impl_win32.cpp">
+      <Filter>externalLibrary\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -557,30 +557,6 @@
     <ClInclude Include="fade\fade.h">
       <Filter>fade</Filter>
     </ClInclude>
-    <ClInclude Include="imgui\imconfig.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_dx11.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="imgui\imgui_impl_win32.h">
-      <Filter>imgui</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imguiWindow.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -676,6 +652,30 @@
     </ClInclude>
     <ClInclude Include="particle\lightningBallChage.h">
       <Filter>particle</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imgui_internal.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imstb_rectpack.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imstb_textedit.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imstb_truetype.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imconfig.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imgui.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imgui_impl_dx11.h">
+      <Filter>externalLibrary\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="externalLibrary\imgui\imgui_impl_win32.h">
+      <Filter>externalLibrary\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
