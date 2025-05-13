@@ -161,7 +161,7 @@ void Character::Draw()
 	}
 }
 
-void Character::InitGravity()
+void Character::ResetGravity()
 {
 	m_CurrentGravityValue = 0.0f;
 }
