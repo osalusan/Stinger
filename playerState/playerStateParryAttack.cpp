@@ -24,7 +24,7 @@ void PlayerStateParryAttack::Init()
 
 		AudioManager::ReservAudio(AUDIO::PARRY_SE, "asset\\audio\\se\\parry.wav");
 
-		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("パリィ攻撃");
+		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStatusData("パリィ攻撃");
 
 		m_MinParryTime = FindStateData(parryAttak, "パリィ成功時間_最小");
 		m_MaxParryTime = FindStateData(parryAttak, "パリィ成功時間_最大");

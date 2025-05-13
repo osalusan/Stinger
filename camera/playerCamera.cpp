@@ -176,6 +176,7 @@ void PlayerCamera::Update(const float& deltaTime)
 			m_OldMousePos = m_MousePos;
 		}
 #else
+		// マウスを動かしてカメラを動かす / TPS視点
 		if (m_MousePos.x <= MOUSE_MOVE_SPACE || m_MousePos.x >= CENTER.x - MOUSE_MOVE_SPACE ||
 			m_MousePos.y <= MOUSE_MOVE_SPACE || m_MousePos.y >= CENTER.y - MOUSE_MOVE_SPACE)
 		{

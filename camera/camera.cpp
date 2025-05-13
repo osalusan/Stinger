@@ -4,6 +4,7 @@
 void Camera::Draw()
 {
 	GameObject::Draw();
+	// ターゲットとカメラ座標が同じだとプロジェクションマトリクス設定でエラーが起きる
 	if (m_Position.x == m_Target.x && m_Position.y == m_Target.y && m_Position.z == m_Target.z) return;
 
 	XMFLOAT3 up = { 0.0f,1.0f,0.0f };

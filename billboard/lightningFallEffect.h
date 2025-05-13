@@ -1,6 +1,6 @@
 #pragma once
 #include "billboard.h"
-
+// 落雷のビルボードエフェクト
 class LightningFallEffect :public BillBoard
 {
 private:

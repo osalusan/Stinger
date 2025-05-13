@@ -44,7 +44,7 @@ void PlayerStateExtrAttack::Init()
 		AudioManager::ReservAudio(AUDIO::SOWRD_CHAGE, "asset\\audio\\se\\sowrdChage.wav");
 		AudioManager::ReservAudio(AUDIO::SLASH3_SE, "asset\\audio\\se\\slash3.wav");
 
-		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("エクストラ攻撃");
+		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStatusData("エクストラ攻撃");
 
 		m_DamageValue = FindStateData(parryAttak, "ダメージ_倍率");
 		m_CutInTimeMin = FindStateData(parryAttak, "カットイン時間_最小");

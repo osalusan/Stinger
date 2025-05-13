@@ -24,7 +24,7 @@ void PlayerStateRolling::Init()
 
 	if (m_RollingSpeed == 0.0f && m_PlayerCache != nullptr)
 	{
-		const std::unordered_map<std::string, float>& rolling = m_PlayerCache->GetStateData("‰ñ”ğ");
+		const std::unordered_map<std::string, float>& rolling = m_PlayerCache->GetStatusData("‰ñ”ğ");
 
 		m_RollingSpeed = FindStateData(rolling, "‰ñ”ğ‚ÌÅ‚‘¬“x_”{—¦") * m_PlayerCache->GetMoveSpeed();
 		m_MinRollingAcceptTime = FindStateData(rolling, "‰ñ”ğ¬Œ÷ŠÔ_Å¬");

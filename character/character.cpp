@@ -16,7 +16,7 @@ void Character::ParameterControl(const float& deltaTime)
 
 	if (m_Health <= 0)
 	{
-		if (m_FinishPerformance)
+		if (m_IsFinishPerformance)
 		{
 			m_Enable = false;
 		}
@@ -68,14 +68,14 @@ void Character::Init()
 {
 	GameObject::Init();
 
-	if (m_MeshFiled != nullptr) return;
+	if (m_MeshFiledCache != nullptr) return;
 	Scene* scene = SceneManager::GetScene();
 	if (scene == nullptr) return;
 	ObjectManager* objectManager = scene->GetObjectManager();
 	if (objectManager == nullptr) return;
 	MeshFiled* filed = objectManager->GetMeshFiled();
 
-	m_MeshFiled = filed;
+	m_MeshFiledCache = filed;
 	m_WorldWall = scene->GetWorldWall();
 }
 
@@ -138,7 +138,7 @@ void Character::Update(const float& deltaTime)
 	CollisionControl();
 	// 当たり判定用変数の設定 / 当たり判定後に呼ぶ
 	CustomCollisionInfo();
-	// パラメータの制御 / 移動、当たり判定の後に呼ぶ
+	// 移動などの処理後のパラメータを制御 / 移動、当たり判定の後に呼ぶ
 	ParameterControl(deltaTime);
 }
 

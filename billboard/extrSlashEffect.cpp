@@ -24,7 +24,7 @@ void ExtrSlashEffect::Update(const float& deltaTime)
 
 	m_Position = m_HitEnemyCache->GetPos();
 
-	// インスタンス化の順番的に、コンストラクタに配置しても取得できない
+	// インスタンス化の順番的に、コンストラクタでカメラが取得できないため、Updateで一度だけ取得するように
 	if (m_CameraCache == nullptr)
 	{
 		Scene* scene = SceneManager::GetScene();

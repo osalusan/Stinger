@@ -5,24 +5,24 @@
 
 // 前方宣言
 enum class ANIMETION_MODEL;
-
 class MeshFiled;
+// プレイヤーやエネミーの基底クラス
 class Character :public GameObject
 {
 protected:
-	XMFLOAT3 m_Velocity= {};
+	XMFLOAT3 m_Velocity= {};						// 速度 / x,zは毎フレーム0にする
 	XMFLOAT3 m_RecordPosition = {};					// 過去座標
 	ANIMETION_MODEL m_Model;						// モデル本体 / コンストラクタで初期化
 
-	MeshFiled* m_MeshFiled = nullptr;
+	MeshFiled* m_MeshFiledCache = nullptr;			// 地面の判定取得用のポインタ
 
 	XMFLOAT3 m_WorldWall = {};						// 移動限界
-	// 重力
-	bool m_EnableGravity = false;
-	float m_GravityValue = 0.0f;
-	float m_CurrentGravityValue = 0.0f;
+	// 重力のパラメータ
+	bool m_EnableGravity = false;					// 重力の有効無効
+	float m_GravityValue = 0.0f;					// キャラクターの重さ
+	float m_CurrentGravityValue = 0.0f;				// 時間の経過で増加していく重力値 / 上のgravityValueと掛ける
 
-	// 共通のパラメータ
+	// キャラクター共通のパラメータ
 	float m_Health = 0;								// 体力
 	float m_MaxHealth = 0;							// 最大体力
 	float m_RotSpeed = 0.0f;						// 回転速度
@@ -30,8 +30,7 @@ protected:
 	float m_MoveSpeed = 0.0f;						// 移動速度
 	bool m_IsDead = false;							// 生死
 
-	// 演出終了フラグ
-	bool m_FinishPerformance = false;
+	bool m_IsFinishPerformance = false;				// 演出終了フラグ
 
 	// アニメーション用
 	float m_AnimationTime = 0.0f;					// アニメーションのフレーム
@@ -43,24 +42,25 @@ protected:
 	float m_MaxAnimeTime = 0.0f;					// 現在のアニメーションの最大時間
 	float m_AnimSpeedValue = 1.0f;					// アニメーションの速度変更用
 
-	virtual void MoveControl(const float& deltaTime) = 0;
-	virtual void CollisionControl() = 0;
-	virtual void CustomCollisionInfo() = 0;
-	virtual void AnimationControl() = 0;
+	virtual void MoveControl(const float& deltaTime) = 0;	// 自身の移動処理を行う
+	virtual void CollisionControl() = 0;					// 自身の他のオブジェクトの判定処理を行う
+	virtual void CustomCollisionInfo() = 0;					// 自身のコリジョンの設定を行う
+	virtual void AnimationControl() = 0;					// 自身のアニメーションの設定を行う
 
 	virtual void ParameterControl(const float& deltaTime);
-
+	// FBXのモデルを予約 / コンストラクタや初期化で呼ぶ
 	void ReservModel(const ANIMETION_MODEL& animeModel, const std::string& path);
-	void CheckWorldWallPos();		// ワールドの範囲外に出たら範囲内に戻す
+	// ワールドの範囲外に出たら範囲内に戻す
+	void CheckWorldWallPos();		
 public:
 	Character();
 	virtual void Init()override;
 	virtual void Update(const float& deltaTime)override final;
 	virtual void Draw()override;
 
-	virtual void TakeDamage(const float& atk) = 0;
-	void InitGravity();
-	void IsDead();
+	virtual void TakeDamage(const float& atk) = 0;		// ダメージを受けたときに、それぞれの子クラスでフラグなどを変更する為
+	void ResetGravity();								// 重力値をリセットしたい時に
+	void IsDead();										// プレイヤーステートや生死判定タスクで取得する為
 
 	void ChangeAnimation(const std::string& anime)
 	{

@@ -3,7 +3,7 @@
 
 // 前方宣言
 class Camera;
-
+// エクストラスラッシュのビルボードエフェクト
 class ExtrSlashEffect :public BillBoard
 {
 private:

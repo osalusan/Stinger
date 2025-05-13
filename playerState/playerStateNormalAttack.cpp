@@ -40,7 +40,7 @@ void PlayerStateNormalAttack::Init()
 		AudioManager::ReservAudio(AUDIO::SLASH1_SE, "asset\\audio\\se\\slash1.wav");
 		AudioManager::ReservAudio(AUDIO::SLASH2_SE, "asset\\audio\\se\\slash2.wav");
 
-		const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("通常攻撃");
+		const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStatusData("通常攻撃");
 
 		m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ開始時間_割合");
 		m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ開始時間_割合");

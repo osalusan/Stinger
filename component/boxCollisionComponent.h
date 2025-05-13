@@ -1,6 +1,6 @@
 #pragma once
 #include "component/collisionComponent.h"
-
+// OBB‚Ì“–‚½‚è”»’è—p‚ÌƒNƒ‰ƒX
 class BoxCollisionComponent final :public CollisionComponent
 {
 private:
@@ -13,9 +13,8 @@ public:
 	using CollisionComponent::CollisionComponent;
 	virtual void Init()override;
 	virtual void Update()override;
-	virtual bool CheckHitObject(const OBJECT& object)override;		// ˆê”ÔŒy‚¢
-	virtual bool CheckHitObject(const COLLISION_TAG& tag)override;
-	virtual bool CheckHitAllObject()override;
+	virtual bool CheckHitObject(const OBJECT& object)override;			
+	virtual bool CheckHitObject(const COLLISION_TAG& tag)override;		
 
 	const XMVECTOR& GetMtv()
 	{

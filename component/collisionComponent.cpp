@@ -58,21 +58,21 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	float minOverlap = FLT_MAX;
 	XMVECTOR mtvAxis = XMVectorZero();
 
-	const XMVECTOR& Interval = XMVectorSubtract(obb2.Center, obb1.Center);
+	const XMVECTOR& Interval = XMVectorSubtract(obb2.s_Center, obb1.s_Center);
 
 	// 軸のリスト
 	XMVECTOR axes[15] = {};
 	int axisCount = 0;
 
 	// OBB1の軸
-	axes[axisCount++] = obb1.Axis[0];
-	axes[axisCount++] = obb1.Axis[1];
-	axes[axisCount++] = obb1.Axis[2];
+	axes[axisCount++] = obb1.s_Axis[0];
+	axes[axisCount++] = obb1.s_Axis[1];
+	axes[axisCount++] = obb1.s_Axis[2];
 
 	// OBB2の軸
-	axes[axisCount++] = obb2.Axis[0];
-	axes[axisCount++] = obb2.Axis[1];
-	axes[axisCount++] = obb2.Axis[2];
+	axes[axisCount++] = obb2.s_Axis[0];
+	axes[axisCount++] = obb2.s_Axis[1];
+	axes[axisCount++] = obb2.s_Axis[2];
 
 	// 各軸での判定
 	for (int i = 0; i < axisCount; ++i)
@@ -95,11 +95,11 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	// クロス軸
 	for (int i = 0; i < 3; ++i) 
 	{
-		XMVECTOR axisA = obb1.Axis[i];
+		XMVECTOR axisA = obb1.s_Axis[i];
 
 		for (int j = 0; j < 3; ++j) 
 		{
-			XMVECTOR axisB = obb2.Axis[j];
+			XMVECTOR axisB = obb2.s_Axis[j];
 			XMVECTOR cross = XMVector3Cross(axisA, axisB);
 			// 数値が小さすぎたら無視
 			if (XMVector3LengthSq(cross).m128_f32[0] > 1e-6f) 
@@ -110,7 +110,7 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	}
 
 	// MTVの方向を調整
-	XMVECTOR direction = XMVectorSubtract(obb1.Center, obb2.Center);
+	XMVECTOR direction = XMVectorSubtract(obb1.s_Center, obb2.s_Center);
 	if (XMVectorGetX(XMVector3Dot(direction, mtvAxis)) < 0) 
 	{
 		mtvAxis = XMVectorNegate(mtvAxis);
@@ -130,7 +130,7 @@ float CollisionComponent::LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& o
 	for (int i = 0; i < 3; ++i) 
 	{
 		float e = obb.GetSize(i); 
-		XMVECTOR axis = obb.Axis[i];
+		XMVECTOR axis = obb.s_Axis[i];
 		float dot = fabsf(XMVectorGetX(XMVector3Dot(Sep, axis)));
 		r += e * dot;
 	}
@@ -166,27 +166,6 @@ bool CollisionComponent::CheckHitObject(const OBJECT& object)
 }
 
 bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
-{
-	m_HitGameObjectsCache.clear();
-	m_MinOverlap = FLT_MAX;
-	m_MtvAxis = {};
-
-	// オブジェクト一覧の取得
-	if (m_GameObjectsCache->empty())
-	{
-		Scene* gameScene = SceneManager::GetScene();
-		if (gameScene == nullptr) return false;
-		ObjectManager* objectManager = gameScene->GetObjectManager();
-		if (objectManager == nullptr) return false;
-
-		objectManager->GetAllGameObjects(m_GameObjectsCache);
-
-		if (m_GameObjectsCache->empty()) return false;
-	}
-	return true;
-}
-
-bool CollisionComponent::CheckHitAllObject()
 {
 	m_HitGameObjectsCache.clear();
 	m_MinOverlap = FLT_MAX;

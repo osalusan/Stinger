@@ -40,7 +40,7 @@ void JumpAttackTask::RunningTask(const float& deltaTime)
 		m_Accel -= (JUMP_RESIST / m_MaxAnimTime) * deltaTime;
 		m_BossCache->AddVelocity({ 0.0f ,m_Accel ,0.0f });
 		m_BossCache->AddVelocity(m_MoveVector);
-		m_BossCache->InitGravity();
+		m_BossCache->ResetGravity();
 	}
 	// UŒ‚êŠw’è
 	else if (m_CurrentTime < m_MaxAnimTime * LANDING_MIN_VALUE)

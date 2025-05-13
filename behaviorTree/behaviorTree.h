@@ -3,6 +3,7 @@
 // 前方宣言
 class BehaviorNode;
 class BossEnemy;
+// エネミーの頭脳の汎用クラス
 class BehaviorTree
 {
 protected:
