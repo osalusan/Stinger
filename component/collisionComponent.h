@@ -96,12 +96,12 @@ public:
 	virtual void Draw()override;
 
 	// 移動する場合は、コンポーネントとして追加した側で毎フレーム値を入れるように
-	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);										// 大きさを変えたい時
-	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);		// 本体に付属させたい時
+	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);									// 大きさを変えたい時
+	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);		// 本体に付属させたい時
 
-	void SetScale(const XMFLOAT3& scale)
+	void SetScale(const XMFLOAT3& scl)
 	{
-		m_Scale = scale;
+		m_Scale = scl;
 	}
 	// コンポーネントをインスタンス化する時に一緒に
 	void SetCollisionTag(const COLLISION_TAG& tag)
