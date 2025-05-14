@@ -7,6 +7,7 @@
 #include "meshFiled/meshFiled.h"
 
 // 空白の配列が生まれてしまうからNONEは追加しない
+// 更新順、描画順になっている
 enum class OBJECT
 {
 	CAMERA_MAIN = 0,
@@ -25,7 +26,7 @@ enum class OBJECT
 
 class BossEnemy;
 class MeshFiled;
-
+// ゲーム内すべてのGameObjectを管理するクラス
 class ObjectManager final
 {
 private:

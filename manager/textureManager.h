@@ -1,7 +1,7 @@
 #pragma once
 #include "renderer/renderer.h"
 #include <unordered_map>
-
+// 読み込んでいるテクスチャの一覧
 enum class TEXTURE
 {
 	TITLE = 0,
@@ -32,8 +32,9 @@ enum class TEXTURE
 	BATTLESTART_TEXT,
 	MAX
 };
-
-class TextureManager {
+// ゲーム内すべてのテクスチャを管理するクラス
+class TextureManager 
+{
 private:
 	static std::unordered_map<TEXTURE, ID3D11ShaderResourceView*> m_LoadTexturePool;
 	static std::unordered_map<TEXTURE, const wchar_t*> m_ReservTexturePool;
@@ -42,7 +43,7 @@ private:
 	static void LoadTexture(const TEXTURE& textureName, const wchar_t* fileName);
 	static void LoadDDSTexture(const TEXTURE& textureName, const wchar_t* fileName);
 public:
-	static void Init();
+	static void Init();			// 予約されたテクスチャをSceneの最後に一括で読み込む
 	static void Uninit();
 	static void ReservTexture(const TEXTURE& texture, const wchar_t* fileName);
 	static void ReservDDSTexture(const TEXTURE& texture, const wchar_t* fileName);
