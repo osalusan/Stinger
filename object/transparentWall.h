@@ -3,7 +3,7 @@
 
 // ‘O•ûéŒ¾
 class BoxCollisionComponent;
-// “–‚½‚è”»’è‚Ì‚Â‚¢‚Ä‚¢‚é“§–¾‚È•Ç
+// “–‚½‚è”»’è‚Ì‚Â‚¢‚Ä‚¢‚é‹«ŠEü—p‚Ì“§–¾‚È•Ç
 class TransparentWall :public GameObject
 {
 private:
