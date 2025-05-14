@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <Windows.h>
+#include <windows.h>
 
 // 前方宣言
 class BehaviorNode;
@@ -10,7 +10,7 @@ class BossEnemy;
 class Player;
 class PlayerStateMachine;
 struct ImFont;
-
+// デバッグ画面
 class ImguiWindow final
 {
 private:
@@ -30,12 +30,13 @@ private:
     int m_ShowStyleDerivationInfo = 1;
     int m_ShowDerivationInfo = 1;
 public:
-    ImguiWindow();
+    ImguiWindow();  // RendererクラスのInitを呼んだ後に作成
     ~ImguiWindow();
 
-    void GetRootNode(Scene* scene);
+    void GetRootNode(Scene* scene);         // Scene内のオブジェクトを全て初期化した後に呼ぶ
     void Update(const float& deltaTime);
     void Draw();
+    // 再起呼び出しで、ツリーにある全てのタスクを呼び出すように
     void DrawBehaviorTree(const BehaviorNode* root,const BehaviorNode* parentNode = nullptr,const int& parentChildNum = 0);
     void ClearNode();
 };

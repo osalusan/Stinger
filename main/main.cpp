@@ -30,6 +30,7 @@ bool GetWindowActive()
 {
 	return g_WindowActive;
 }
+// ランダムで使用
 int XorShiftInt(int& state)
 {
 	state ^= state << 13;
@@ -67,6 +68,7 @@ int APIENTRY WinMain(
 	_In_ int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	// メモリリーク検索用
 	// _CrtSetBreakAlloc(1847201);
 
 	// 乱数のシードを設定

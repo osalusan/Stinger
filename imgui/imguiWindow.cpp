@@ -1,4 +1,5 @@
-// 一番最初にインクルード
+// "imguiWindow.h"より前にインクルード 
+// imguiWindowの<Windows.h>が先に呼ばれると、fbxModelRenderer.h"の中のmain.hに書かれている、NOMINMAX が効かなくなりエラーが出るため
 #include "renderer/fbxModelRenderer.h"
 
 #include "imguiWindow.h"
@@ -15,12 +16,12 @@
 #include "externalLibrary/imgui/imgui_impl_dx11.h"
 #include "externalLibrary/imgui/imgui_impl_win32.h"
 
-// RendererのInitを呼んだ後に作成
 ImguiWindow::ImguiWindow()
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+    // 日本語対応しているフォントへ変更
     m_Font = io.Fonts->AddFontFromFileTTF("externalLibrary/imgui/fonts/VL_Gothic_Regular.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
     if (m_Font != nullptr)
     {
@@ -29,6 +30,7 @@ ImguiWindow::ImguiWindow()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     
+    // ImguiのDX11初期化関数の為に、RendererのInitを先に呼ばないといけない
     ID3D11Device* device = Renderer::GetDevice();
     if (device == nullptr) return;
     ID3D11DeviceContext* diviceContext = Renderer::GetDeviceContext();
