@@ -36,7 +36,7 @@ void LightningBall::AttackControl(const float& deltaTime)
 	if (range < HOMING_RANGE)
 	{
 		m_IsHoming = false;
-		CollisionControl();
+		CollisionDamageControl();
 	}
 	else
 	{
@@ -46,6 +46,7 @@ void LightningBall::AttackControl(const float& deltaTime)
 		}
 	}
 
+	// プレイヤーの方向に回転して、fowardを取得し前に進む
 	if (m_IsHoming)
 	{
 		// 横
@@ -97,9 +98,9 @@ void LightningBall::AttackControl(const float& deltaTime)
 	m_Position.z += GetForward().z * m_Speed * deltaTime;
 }
 
-bool LightningBall::CollisionControl()
+bool LightningBall::CollisionDamageControl()
 {
-	if (EnemyAttackObject::CollisionControl())
+	if (EnemyAttackObject::CollisionDamageControl())
 	{
 		if (m_LightningBallEffCache == nullptr) return false;
 		m_LightningBallEffCache->SetEnable(false);
@@ -148,11 +149,11 @@ void LightningBall::Attack()
 	}
 }
 
-void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)
+void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& lifeTime)
 {
 	if (m_Enable) return;
 
-	EnemyAttackObject::Spawn(shotPos, damage, balletTime);
+	EnemyAttackObject::Spawn(shotPos, damage, lifeTime);
 
 	if (m_TargetObject == nullptr) return;
 
@@ -204,6 +205,6 @@ void LightningBall::Spawn(const XMFLOAT3& shotPos, const float& damage, const fl
 	if (m_LightningBallChargeCache != nullptr)
 	{
 		m_LightningBallChargeCache->SetPos(m_Position);
-		m_LightningBallChargeCache->Start(balletTime);
+		m_LightningBallChargeCache->Start(lifeTime);
 	}
 }

@@ -54,9 +54,9 @@ void EquipmentObject::MoveControl(const float& deltaTime)
 	world.r[3].m128_f32[1] = 0.0f;
 	world.r[3].m128_f32[2] = 0.0f;
 
-	m_RotationMatrix = world;
+	m_RotScaleMatrix = world;
 
-	m_ShaderCache->SetRotMatrix(m_RotationMatrix);
+	m_ShaderCache->SetRotMatrix(m_RotScaleMatrix);
 }
 
 EquipmentObject::~EquipmentObject()

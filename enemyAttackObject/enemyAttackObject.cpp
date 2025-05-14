@@ -2,7 +2,7 @@
 #include "component/boxCollisionComponent.h"
 
 // ---------------------------- protected ----------------------------
-bool EnemyAttackObject::CollisionControl()
+bool EnemyAttackObject::CollisionDamageControl()
 {
 	if (m_BoxCollCache == nullptr) return false;
 
@@ -39,21 +39,7 @@ void EnemyAttackObject::Update(const float& deltaTime)
 		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
 	}
 
-	CollisionControl();
-}
-
-void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage)
-{
-	if (m_Enable) return;
-
-	m_Position = shotPos;
-	m_Enable = true;
-	m_IsAttack = true;
-	m_Damage = damage;
-	if (m_BoxCollCache != nullptr)
-	{
-		m_BoxCollCache->SetCollisionInfo(m_Position, m_Scale, { 0.0f,0.0f,0.0f }, { 2.0f,2.0f,2.0f }, GetRotationMatrix());
-	}
+	CollisionDamageControl();
 }
 
 void EnemyAttackObject::Spawn(const XMFLOAT3& shotPos, const float& damage, const float& balletTime)

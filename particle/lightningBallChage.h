@@ -9,7 +9,7 @@ private:
 
 	virtual void ReservTexture()override {};
 
-	float m_AcceptTime = 0.0f;
+	float m_LifeTime = 0.0f;
 	float m_CurrentTime = 0.0f;
 	bool m_ChargeEnable = false;
 public:

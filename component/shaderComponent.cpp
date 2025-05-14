@@ -71,7 +71,7 @@ void ShaderComponent::Draw()
 	scl = XMMatrixScaling(objScale.x, objScale.y, objScale.z);
 	if (m_IsUseRotMatrix)
 	{
-		rot = m_RotationMatrix;
+		rot = m_RotScaleMatrix;
 		m_IsUseRotMatrix = false;
 	}
 	else
@@ -86,6 +86,6 @@ void ShaderComponent::Draw()
 
 void ShaderComponent::SetRotMatrix(const XMMATRIX& rotMatrix)
 {
-	m_RotationMatrix = rotMatrix;
+	m_RotScaleMatrix = rotMatrix;
 	m_IsUseRotMatrix = true;
 }

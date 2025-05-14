@@ -13,7 +13,7 @@ protected:
 	XMFLOAT3 m_OffsetCollPos = {};
 	XMFLOAT3 m_OffsetCollScl = {};
 	XMFLOAT4 m_Color = {0.0f,1.0f,0.0f,1.0f};
-	XMMATRIX m_RotationMatrix = {};
+	XMMATRIX m_RotScaleMatrix = {};
 
 	bool m_Visible = true;		// Œ©‚¦‚È‚­‚È‚Á‚Ä‚à“–‚½‚è”»’è‚ÍŽc‚é
 
@@ -33,7 +33,7 @@ public:
 
 	const XMMATRIX& GetRotationMatrixStaticMesh()const
 	{
-		return m_RotationMatrix;
+		return m_RotScaleMatrix;
 	}
 
 	void SetOffsetCollPos(const XMFLOAT3& pos)
