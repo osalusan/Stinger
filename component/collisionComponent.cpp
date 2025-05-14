@@ -101,7 +101,7 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 		{
 			XMVECTOR axisB = obb2.s_Axis[j];
 			XMVECTOR cross = XMVector3Cross(axisA, axisB);
-			// 判定がずれる為、数値が小さすぎたら無視
+			// 数値が小さすぎたら無視
 			if (XMVector3LengthSq(cross).m128_f32[0] > 1e-6f) 
 			{
 				axes[axisCount++] = XMVector3Normalize(cross);
@@ -123,15 +123,15 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	return true;
 }
 
-float CollisionComponent::LenSegOnSeparateAxis(const XMVECTOR& vecAxis, const OBB& obb)
+// 分離軸に投射された軸成分から投射線分長を算出
+float CollisionComponent::LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb)
 {
-	// 投射半径を返す
 	float r = 0.0f;
 	for (int i = 0; i < 3; ++i) 
 	{
 		float e = obb.GetSize(i); 
 		XMVECTOR axis = obb.s_Axis[i];
-		float dot = fabsf(XMVectorGetX(XMVector3Dot(axis, axis)));
+		float dot = fabsf(XMVectorGetX(XMVector3Dot(Sep, axis)));
 		r += e * dot;
 	}
 	return r;
@@ -289,10 +289,10 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& s
 	UseBoneMatrix();
 }
 
-void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos,const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos,const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
 	m_Position = pos;
-	m_Scale = scale;
+	m_Scale = scl;
 	m_ModelCenter = modelCenterPos;
 	m_ModelScale = modelScale;
 	m_RotationMatrix = rotateMatrix;

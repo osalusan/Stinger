@@ -1,7 +1,7 @@
 #pragma once
 
 class GameObject;
-// コンポーネントの抽象クラス
+
 class Component {
 protected:
 	GameObject* m_GameObject = nullptr;
