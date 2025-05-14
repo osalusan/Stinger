@@ -12,7 +12,7 @@ private:
 	ID3D11InputLayout* m_VertexLayout = nullptr;
 
 	bool m_IsUseRotMatrix = false;
-	XMMATRIX m_RotationMatrix = {};
+	XMMATRIX m_RotScaleMatrix = {};
 public:
 	using Component::Component;
 	ShaderComponent(GameObject* gameObject,const std::string& vsFileName, const std::string& psFileName);
