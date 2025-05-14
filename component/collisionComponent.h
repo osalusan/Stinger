@@ -63,8 +63,6 @@ protected:
 #if _DEBUG
 	// 当たり判定描画用
 	STATICMESH_MODEL m_Model;						// Init()で初期化
-
-	// 描画関連
 	ID3D11VertexShader* m_VertexShader = nullptr;
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
@@ -72,7 +70,7 @@ protected:
 
 	// 押し出し用
 	XMVECTOR m_MtvAxis = {};		// MTVの軸
-	float m_MinOverlap = 0.0f;		// 最小オーバーラップ量
+	float m_MinOverlap = 0.0f;		// 押し出す時に使用
 
 	COLLISION_TAG m_CollisionTag = COLLISION_TAG::MAX;
 	std::vector<GameObject*> m_HitGameObjectsCache = {};								// 当たったオブジェクトを保存
