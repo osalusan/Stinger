@@ -1,6 +1,6 @@
 #pragma once
 #include "particleEmitter.h"
-
+// 雷の弾のチャージパーティクル
 class LightningBallCharge final :public ParticleEmiter
 {
 private:

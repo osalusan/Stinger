@@ -2,9 +2,10 @@
 #include "object/gameObject.h"
 #define PARTICLE_MAX (800)
 
+// 前方宣言
 enum class TEXTURE;
-
 class Camera;
+// パーティクル用の基底クラス
 class ParticleEmiter :public GameObject
 {
 protected:
@@ -19,6 +20,7 @@ protected:
 
 	Camera* m_CameraCache = nullptr;
 
+	// パーティクル一つ一つのデータ
 	struct PARTICLE {
 		bool enable;
 		float lifetime;
@@ -34,21 +36,22 @@ protected:
 
 	PARTICLE m_Particle[PARTICLE_MAX] = {};
 
-	bool m_Mix = false;//加算合成のオンオフ
-	float m_Count = 0;
-	bool m_Enable = true;
-	bool m_ReservEnable = false;
-	float m_ParticleLifeTime = 0.0f;
-	float m_CurrentParticleLifeTime = 0.0f;
+	bool m_Mix = false;							// 加算合成のオンオフ
+	bool m_Enable = true;						// パーティクル全体の判定
+	bool m_ReservEnable = false;				// 指定の秒数後に有効無効
+	float m_ParticleLifeTime = 0.0f;			// パーティクルが生成できなくなる
+	float m_CurrentLifeTime = 0.0f;				// 寿命の経過時間
 
-	virtual void CreateParticleEffect(const float& deltaTime) = 0;
-	virtual void UpdateParticleEffect(const float& deltaTime) = 0;
+	virtual void CreateParticleEffect(const float& deltaTime) = 0;		// 生成時の座標などを設定
+	virtual void UpdateParticleEffect(const float& deltaTime) = 0;		// 移動などを設定
 
 	virtual void ReservTexture() = 0;
 public:
 	ParticleEmiter();
+	// パーティクルの座標の起点となる所を設定
 	ParticleEmiter(const XMFLOAT3& pos);
 	ParticleEmiter(const XMFLOAT3& pos,const bool& disable);
+
 	ParticleEmiter(const bool& disable);
 	~ParticleEmiter();
 	void Init();

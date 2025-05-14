@@ -3,7 +3,7 @@
 
 // 前方宣言
 class EquipmentObject;
-
+// エクストラ攻撃のパーティクル
 class ExtrSwordBarst final :public ParticleEmiter
 {
 private:
