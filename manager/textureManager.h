@@ -45,7 +45,9 @@ private:
 public:
 	static void Init();			// 予約されたテクスチャをSceneの最後に一括で読み込む
 	static void Uninit();
+	// pngとjpgのみ読み込み可
 	static void ReservTexture(const TEXTURE& texture, const wchar_t* fileName);
+	// ddsのみ読み込み可
 	static void ReservDDSTexture(const TEXTURE& texture, const wchar_t* fileName);
 	static ID3D11ShaderResourceView*& GetTexture(const TEXTURE& texture);
 };

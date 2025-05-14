@@ -37,6 +37,8 @@ struct OBB
 	}
 };
 
+#define DEFAULT_MODELSCALE (1.0f)
+
 #if _DEBUG
 enum class STATICMESH_MODEL;
 #endif // _DEBUG
@@ -93,7 +95,7 @@ public:
 	virtual void Uninit()override;
 	virtual void Draw()override;
 
-	// コンポーネントとして追加した側で、毎フレーム値を入れるように
+	// 移動する場合は、コンポーネントとして追加した側で毎フレーム値を入れるように
 	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);										// 大きさを変えたい時
 	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);		// 本体に付属させたい時
 
