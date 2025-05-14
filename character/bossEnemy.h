@@ -85,6 +85,7 @@ public:
 	virtual ~BossEnemy()override;
 	virtual void TakeDamage(const float& atk)override;
 
+	// ‘¬“x‚Í’Ç‰Á‚¾‚¯‚Å‚«‚é‚æ‚¤‚É
 	void AddVelocity(const XMFLOAT3& vel)
 	{
 		m_Velocity.x += vel.x;

@@ -81,7 +81,9 @@ protected:
 
 	bool HitOBB(const OBB& obb1, const OBB& obb2);										// OBB同士の当たり判定をする時に使用
 				
-	void SetHitObject(GameObject* hitObj);
+	void SetHitObject(GameObject* hitObj);												// 当たったオブジェクトを保存する
+
+	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb);					// 投射半径を取得
 public:
 	using Component::Component;
 	CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag);
@@ -91,14 +93,13 @@ public:
 	virtual void Uninit()override;
 	virtual void Draw()override;
 
-	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb);
+	// コンポーネントとして追加した側で、毎フレーム値を入れるように
+	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);										// 大きさを変えたい時
+	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);		// 本体に付属させたい時
 
-	// 毎フレーム値を入れるように
-	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix); // 大きさを変えたい時
-	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
-	void SetScale(const XMFLOAT3& scl)
+	void SetScale(const XMFLOAT3& scale)
 	{
-		m_Scale = scl;
+		m_Scale = scale;
 	}
 	// コンポーネントをインスタンス化する時に一緒に
 	void SetCollisionTag(const COLLISION_TAG& tag)
