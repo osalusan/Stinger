@@ -1,9 +1,7 @@
 #pragma once
-
 #include "renderer/renderer.h"
 #include <unordered_map>
 #include <map>
-
 #include "externalLibrary/assimp/cimport.h"
 #include "externalLibrary/assimp/scene.h"
 #include "externalLibrary/assimp/postprocess.h"
@@ -35,6 +33,7 @@ struct BONE
 							 0.0f, 0.0f, 1.0f, 0.0f,
 							 0.0f, 0.0f, 0.0f, 1.0f };
 };
+// FBXの読み込み処理を行うクラス
 class FbxModelRenderer final
 {
 private:
@@ -83,6 +82,7 @@ public:
 	}
 	float GetMaxAnimeTime(const std::string& name)const;
 
+	// assimp用のマトリクスからDX用のマトリクスへ
 	XMMATRIX AiMatrixToXMMATRIX(const aiMatrix4x4& mat) const
 	{
 		return XMMATRIX(

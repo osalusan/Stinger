@@ -40,7 +40,7 @@ struct LIGHT
 };
 
 
-
+// DirectX‚Ì•`‰æˆ—‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class Renderer
 {
 private:
