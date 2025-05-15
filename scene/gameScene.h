@@ -1,6 +1,6 @@
 #pragma once
 #include "scene/scene.h"
-
+// ゲーム中のオブジェクトを管理するシーン
 class GameScene final :public Scene 
 {
 private:

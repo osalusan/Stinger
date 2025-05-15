@@ -2,12 +2,12 @@
 #include "main/main.h"
 
 class ObjectManager;
-
+// シーンの既定クラス
 class Scene 
 {
 protected:
-	ObjectManager* m_ObjectManager = nullptr;
-	XMFLOAT3 m_WorldWall = {};
+	ObjectManager* m_ObjectManager = nullptr;		// 全てのオブジェクトを管理しているクラス
+	XMFLOAT3 m_WorldWall = {};						// 最大移動範囲の格納用
 
 public:
 	virtual ~Scene();
