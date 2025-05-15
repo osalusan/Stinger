@@ -11,7 +11,7 @@ enum class AUDIO
 	SLASH2_SE,
 	SLASH3_SE,
 	SOWRD_CHAGE,
-	HIT_ATTACK,
+	PLAYER_HIT_DAMAGE,
 	MAX
 };
 // 再生するのに必要なデータ

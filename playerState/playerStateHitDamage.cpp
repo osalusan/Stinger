@@ -1,22 +1,22 @@
-#include "playerStateHitAttack.h"
+#include "playerStateHitDamage.h"
 #include "manager/audioManager.h"
 #include "manager/fbxModelManager.h"
 #include "renderer/fbxModelRenderer.h"
 
-void PlayerStateHitAttack::Init()
+void PlayerStateHitDamage::Init()
 {
 	m_CurrentTime = 0.0f;
 
-	if (!m_Load)
+	if (!m_IsLoad)
 	{
 		LoadAnimation("asset\\model\\player\\impact_PaladinJNordstrom.fbx", "hitAttack");
-		AudioManager::ReservAudio(AUDIO::HIT_ATTACK, "asset\\audio\\se\\hitAttack.wav");
+		AudioManager::ReservAudio(AUDIO::PLAYER_HIT_DAMAGE, "asset\\audio\\se\\hitAttack.wav");
 
-		m_Load = true;
+		m_IsLoad = true;
 	}
 	else
 	{
-		AudioManager::Play(AUDIO::HIT_ATTACK);
+		AudioManager::Play(AUDIO::PLAYER_HIT_DAMAGE);
 	}
 
 	if (m_PlayerMachine)
@@ -25,12 +25,12 @@ void PlayerStateHitAttack::Init()
 	}
 }
 
-void PlayerStateHitAttack::Unit()
+void PlayerStateHitDamage::Unit()
 {
 	// èÉêàâºëzä÷êîÇÃà◊âºé¿ëï
 }
 
-void PlayerStateHitAttack::Update(const float& deltaTime)
+void PlayerStateHitDamage::Update(const float& deltaTime)
 {
 	PlayerState::Update(deltaTime);
 	m_CurrentTime += deltaTime;
@@ -44,7 +44,7 @@ void PlayerStateHitAttack::Update(const float& deltaTime)
 	}
 }
 
-void PlayerStateHitAttack::ChangeStateControl()
+void PlayerStateHitDamage::ChangeStateControl()
 {
 	if (m_CurrentTime < m_MaxAnimTime) return;
 

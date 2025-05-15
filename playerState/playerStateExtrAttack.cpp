@@ -28,7 +28,7 @@ void PlayerStateExtrAttack::Init()
 
 	if (m_PlayerMachine == nullptr) return;
 
-	m_PlayerMachine->UseExtrAttack();
+	m_PlayerMachine->UsedExtrAttack();
 
 	if (m_PlayerCache == nullptr)
 	{
@@ -37,7 +37,7 @@ void PlayerStateExtrAttack::Init()
 		m_PlayerCache = playerCache;
 	}
 
-	if (!m_Load && m_PlayerCache != nullptr)
+	if (!m_IsLoad && m_PlayerCache != nullptr)
 	{
 		LoadAnimation("asset\\model\\player\\swordAndShieldExtrAttack_PaladinJNordstrom.fbx", "extrAttack");
 
@@ -67,15 +67,14 @@ void PlayerStateExtrAttack::Init()
 		{
 			m_ExtrSwordBarstCache = objManager->AddGameObjectArg<ExtrSwordBarst>(OBJECT::PARTICLE, false);
 		}
-		m_Load = true;
+		m_IsLoad = true;
 	}
 
-	if (m_ObjManagerCache == nullptr)
-	{
-		Scene* scene = SceneManager::GetScene();
-		if (scene == nullptr) return;
-		m_ObjManagerCache = scene->GetObjectManager();
-	}
+	ObjectManager* m_ObjManagerCache = nullptr;
+
+	Scene* scene = SceneManager::GetScene();
+	if (scene == nullptr) return;
+	m_ObjManagerCache = scene->GetObjectManager();
 
 	if (m_BossCache == nullptr)
 	{
@@ -90,15 +89,15 @@ void PlayerStateExtrAttack::Init()
 		}
 	}
 
-	if (m_CameraCache == nullptr)
+	if (m_PlayerCameraCache == nullptr)
 	{
 		if (m_ObjManagerCache != nullptr)
 		{
-			m_CameraCache = dynamic_cast<PlayerCamera*>(m_ObjManagerCache->GetCamera());
+			m_PlayerCameraCache = dynamic_cast<PlayerCamera*>(m_ObjManagerCache->GetCamera());
 		}
-	}	
+	}
 
-	if (m_BossCache != nullptr)
+	if (m_BossCache != nullptr && m_PlayerCache != nullptr)
 	{
 		// ボスに向かって移動
 		const XMFLOAT3& myPos = m_PlayerCache->GetPos();
@@ -144,9 +143,9 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 	// カットイン制御
 	if (m_CurrentTime >= m_MaxAnimTime * m_CutInTimeMin)
 	{
-		if (m_CameraCache != nullptr)
+		if (m_PlayerCameraCache != nullptr)
 		{
-			m_CameraCache->StartCutIn();
+			m_PlayerCameraCache->StartCutIn();
 
 			if (!m_ChageSound && m_CurrentTime >= (m_MaxAnimTime * m_CutInTimeMax) * 0.5f)
 			{
@@ -191,7 +190,7 @@ void PlayerStateExtrAttack::Update(const float& deltaTime)
 			m_AnimSpeedValue = 0.0f;
 			m_PlayerMachine->SetAnimationSpeedValue(m_AnimSpeedValue);
 			m_StopAnim = false;
-			m_CameraCache->StartEnemyDirection();
+			m_PlayerCameraCache->StartEnemyDirection();
 		}
 	}
 	// エネミーの手前まで移動
@@ -229,9 +228,9 @@ void PlayerStateExtrAttack::ChangeStateControl()
 		}
 
 		// 終了設定
-		if (m_CameraCache != nullptr)
+		if (m_PlayerCameraCache != nullptr)
 		{
-			m_CameraCache->EndCutIn();
+			m_PlayerCameraCache->EndCutIn();
 		}
 		if (m_ExtrSwordBarstCache != nullptr)
 		{

@@ -28,7 +28,7 @@ void PlayerStateNormalAttack::Init()
 		}
 	}
 
-	if (!m_Load && m_PlayerCache != nullptr)
+	if (!m_IsLoad && m_PlayerCache != nullptr)
 	{
 		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_1_PaladinJNordstrom.fbx", "normalAttack1");
 		m_AnimName1 = "normalAttack1";
@@ -56,8 +56,8 @@ void PlayerStateNormalAttack::Init()
 
 		m_BlendTime = FindStateData(normalAttak, "ƒuƒŒƒ“ƒh‘¬“x");
 
-		m_LoadAnimation = true;
-		m_Load = true;
+		m_IsLoadAnimation = true;
+		m_IsLoad = true;
 	}
 
 	m_CurrentTime = 0.0f;
@@ -246,7 +246,7 @@ void PlayerStateNormalAttack::ChangeStateControl()
 
 	if (m_PlayerMachine->GetIsHitAttack())
 	{
-		ChangePlayerState(PLAYER_STATE::HITATTACK);
+		ChangePlayerState(PLAYER_STATE::HITDAMAGE);
 	}
 	else if (m_CurrentTime >= m_MaxAnimTime)
 	{

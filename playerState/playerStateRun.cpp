@@ -12,7 +12,7 @@ void PlayerStateRun::Init()
 
 void PlayerStateRun::Unit()
 {
-
+	// ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óŽÀ‘•
 }
 
 void PlayerStateRun::Update(const float& deltaTime)
@@ -89,7 +89,7 @@ void PlayerStateRun::ChangeStateControl()
 
 	if (m_PlayerMachine->GetIsHitAttack())
 	{
-		ChangePlayerState(PLAYER_STATE::HITATTACK);
+		ChangePlayerState(PLAYER_STATE::HITDAMAGE);
 	}
 	else if (m_PlayerMachine->GetIsParryAttackButton())
 	{

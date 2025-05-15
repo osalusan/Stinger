@@ -11,12 +11,11 @@
 #include "playerState.h"
 #include "playerStateIdle.h"
 #include "playerStateRun.h"
-#include "playerStateJump.h"
 #include "playerStateParryAttack.h"
 #include "playerStateNormalAttack.h"
 #include "playerState/playerStateRolling.h"
 #include "playerState/playerStateExtrAttack.h"
-#include "playerState/playerStateHitAttack.h"
+#include "playerState/playerStateHitDamage.h"
 
 constexpr int EXTRATTACK_ACCEPT_PARRY_MAX = 3;
 constexpr XMFLOAT2 DEFAULT_SCALE_PARRYGAGE = { SCREEN_WIDTH * 0.4f,SCREEN_HEIGHT * 0.028f };
@@ -73,7 +72,7 @@ void PlayerStateMachine::Init()
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_NORMAL, m_NormalAttackCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ATTACK_EXTR, m_ExtrAttackCache);
 		m_PlayerStatePool.emplace(PLAYER_STATE::ROLLING, m_RollingCache);
-		m_PlayerStatePool.emplace(PLAYER_STATE::HITATTACK, new PlayerStateHitAttack(this));
+		m_PlayerStatePool.emplace(PLAYER_STATE::HITDAMAGE, new PlayerStateHitDamage(this));
 	}
 	// èâä˙âª
 	for (const std::pair<PLAYER_STATE, PlayerState*>& PlayerState : m_PlayerStatePool)
@@ -360,7 +359,7 @@ void PlayerStateMachine::HitGround()
 	m_IsGround = true;
 }
 
-void PlayerStateMachine::UseExtrAttack()
+void PlayerStateMachine::UsedExtrAttack()
 {
 	m_ParryCount = 0;
 	if (m_ParryGageCache != nullptr)

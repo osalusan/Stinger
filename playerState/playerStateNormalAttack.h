@@ -3,6 +3,7 @@
 
 class ObjectManager;
 class BossEnemy;
+// 通常攻撃のステート
 class PlayerStateNormalAttack final :public PlayerState
 {
 private:

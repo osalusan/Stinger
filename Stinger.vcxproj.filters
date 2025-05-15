@@ -165,9 +165,6 @@
     <ClCompile Include="playerState\playerStateRun.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
-    <ClCompile Include="playerState\playerStateJump.cpp">
-      <Filter>playerState</Filter>
-    </ClCompile>
     <ClCompile Include="behaviorTree\behaviorTree.cpp">
       <Filter>behaviorTree</Filter>
     </ClCompile>
@@ -339,7 +336,7 @@
     <ClCompile Include="behaviorTaskNode\checkRenditionTask.cpp">
       <Filter>behaviorTaskNode</Filter>
     </ClCompile>
-    <ClCompile Include="playerState\playerStateHitAttack.cpp">
+    <ClCompile Include="playerState\playerStateHitDamage.cpp">
       <Filter>playerState</Filter>
     </ClCompile>
     <ClCompile Include="particle\lightningBallChage.cpp">
@@ -462,9 +459,6 @@
       <Filter>playerState</Filter>
     </ClInclude>
     <ClInclude Include="playerState\playerStateRun.h">
-      <Filter>playerState</Filter>
-    </ClInclude>
-    <ClInclude Include="playerState\playerStateJump.h">
       <Filter>playerState</Filter>
     </ClInclude>
     <ClInclude Include="behaviorTree\behaviorTree.h">
@@ -641,7 +635,7 @@
     <ClInclude Include="behaviorTaskNode\checkRenditionTask.h">
       <Filter>behaviorTaskNode</Filter>
     </ClInclude>
-    <ClInclude Include="playerState\playerStateHitAttack.h">
+    <ClInclude Include="playerState\playerStateHitDamage.h">
       <Filter>playerState</Filter>
     </ClInclude>
     <ClInclude Include="particle\lightningBallChage.h">

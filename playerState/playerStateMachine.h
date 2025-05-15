@@ -7,7 +7,7 @@ enum class PLAYER_STATE
 {
 	NONE = 0,
 	IDLE,
-	HITATTACK,
+	HITDAMAGE,
 	ROLLING,
 	ATTACK_PARRY,
 	ATTACK_NORMAL,
@@ -34,24 +34,24 @@ class PlayerStateParryAttack;
 class PlayerStateRolling;
 class PlayerStateNormalAttack;
 class PlayerStateExtrAttack;
-class PlayerStateHitAttack;
+class PlayerStateHitDamage;
 class Polygon2D;
 class BossEnemy;
-
+// プレイヤーのステートを管理するクラス
 class PlayerStateMachine final
 {
 private:
-	Player* m_PlayerCache = nullptr;
-	Camera* m_CameraCache = nullptr;
-	Polygon2D* m_ParryGageCache = nullptr;
-	BossEnemy* m_BossCache = nullptr;
+	Player* m_PlayerCache = nullptr;						// ステートの数値をプレイヤーに伝える
+	Camera* m_CameraCache = nullptr;						// カメラのベクトル取得用
+	Polygon2D* m_ParryGageCache = nullptr;					// パリィ成功時のゲージ操作用
+	BossEnemy* m_BossCache = nullptr;						// ダメージ通知用
 
-	PlayerState* m_CurrentPlayerState = nullptr;
-	PlayerStateParryAttack* m_ParryCache = nullptr;
-	PlayerStateNormalAttack* m_NormalAttackCache = nullptr;
-	PlayerStateExtrAttack* m_ExtrAttackCache = nullptr;
+	PlayerState* m_CurrentPlayerState = nullptr;			// 現在のステート
+	PlayerStateParryAttack* m_ParryCache = nullptr;			// パリィ判定用
+	PlayerStateNormalAttack* m_NormalAttackCache = nullptr;	// 攻撃判定用
+	PlayerStateExtrAttack* m_ExtrAttackCache = nullptr;		// 攻撃判定用
 
-	PlayerStateRolling* m_RollingCache = nullptr;
+	PlayerStateRolling* m_RollingCache = nullptr;			// 回避中は体力が減らない処理の為
 	PLAYER_STATE m_CurrentState = PLAYER_STATE::NONE;
 	std::unordered_map<PLAYER_STATE, PlayerState*> m_PlayerStatePool = {};	
 
@@ -89,16 +89,16 @@ public:
 
 	void SetPlayerState(const PLAYER_STATE& state);
 	void InitVelocity();
-	void SetAnimationSpeedValue(const float& value);
+	void SetAnimationSpeedValue(const float& value);	// アニメーションの速度変更 / ステート変更時にリセット
 
-	bool CheckParry();
-	bool CheckRolling();
-	bool CheckAttack();
+	bool CheckParry();									// パリィ中か確認
+	bool CheckRolling();								// 回避中か確認
+	bool CheckAttack();									// 攻撃中歌確認
 	XMFLOAT3 GetCameraForward()const;
 	XMFLOAT3 GetCameraRight()const;
-	void HitGround();					// 地面に当たった
+	void HitGround();									// 地面に当たった
 
-	void UseExtrAttack();
+	void UsedExtrAttack();								// エクストラ攻撃を使用した後にデータをリセット
 
 	const Player* GetPlayerCache()const
 	{

@@ -128,8 +128,10 @@ void PlayerStateRolling::Update(const float& deltaTime)
 		m_PlayerMachine->SetRotationY(currentAngle);
 	}
 
+	// ‘¬“x‚ÌŒ¸Š
 	m_NormalizeVelocity.x *= m_SpeedAttenuateValue;
 	m_NormalizeVelocity.z *= m_SpeedAttenuateValue;
+
 	m_PlayerMachine->SetVelocityX(m_NormalizeVelocity.x * m_RollingSpeed);
 	m_PlayerMachine->SetVelocityZ(m_NormalizeVelocity.z * m_RollingSpeed);
 }
