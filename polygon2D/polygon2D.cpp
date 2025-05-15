@@ -152,7 +152,7 @@ void Polygon2D::Draw()
 
 }
 
-void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& sizeValue)
+void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& uvValue)
 {
 	switch (m_PivotPoint)
 	{
@@ -168,17 +168,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(position.x + halfSize.x, position.y - halfSize.y, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(uvValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(position.x - halfSize.x, position.y + halfSize.y, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, uvValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(position.x + halfSize.x, position.y + halfSize.y, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
+		m_Vertex[3].TexCoord = XMFLOAT2(uvValue.x, uvValue.y);
 
 		break;
 	}
@@ -195,17 +195,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(right, position.y, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(uvValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(position.x, bottom, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, uvValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(right, bottom, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
+		m_Vertex[3].TexCoord = XMFLOAT2(uvValue.x, uvValue.y);
 
 		break;
 	}
@@ -222,17 +222,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(position.x, position.y, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(uvValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(left, bottom, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, uvValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(position.x, bottom, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
+		m_Vertex[3].TexCoord = XMFLOAT2(uvValue.x, uvValue.y);
 
 		break;
 	}
@@ -249,17 +249,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(right, top, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(uvValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(position.x, position.y, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, uvValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(right, position.y, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
+		m_Vertex[3].TexCoord = XMFLOAT2(uvValue.x, uvValue.y);
 
 		break;
 	}
@@ -276,17 +276,17 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 		m_Vertex[1].Position = XMFLOAT3(position.x, top, 0.0f);
 		m_Vertex[1].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[1].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[1].TexCoord = XMFLOAT2(sizeValue.x, 0.0f);
+		m_Vertex[1].TexCoord = XMFLOAT2(uvValue.x, 0.0f);
 
 		m_Vertex[2].Position = XMFLOAT3(left, position.y, 0.0f);
 		m_Vertex[2].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[2].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, sizeValue.y);
+		m_Vertex[2].TexCoord = XMFLOAT2(0.0f, uvValue.y);
 
 		m_Vertex[3].Position = XMFLOAT3(position.x, position.y, 0.0f);
 		m_Vertex[3].Normal = XMFLOAT3(0.0f, 0.0f, 0.0f);
 		m_Vertex[3].Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-		m_Vertex[3].TexCoord = XMFLOAT2(sizeValue.x, sizeValue.y);
+		m_Vertex[3].TexCoord = XMFLOAT2(uvValue.x, uvValue.y);
 
 		break;
 	}
@@ -295,7 +295,7 @@ void Polygon2D::SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const
 	}
 }
 
-void Polygon2D::ChangeUVScaling(const XMFLOAT2& sizeValue)
+void Polygon2D::ChangeUVScaling(const XMFLOAT2& uvValue)
 {
 	if (!m_UseUI) return;
 
@@ -303,9 +303,9 @@ void Polygon2D::ChangeUVScaling(const XMFLOAT2& sizeValue)
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(m_VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-	const XMFLOAT2& uvScaleSize = { m_Scale.x * sizeValue.x, m_Scale.y * sizeValue.y };
+	const XMFLOAT2& uvScaleSize = { m_Scale.x * uvValue.x, m_Scale.y * uvValue.y };
 
-	SetPolygon(XMFLOAT2(m_Position.x,m_Position.y), uvScaleSize, sizeValue);
+	SetPolygon(XMFLOAT2(m_Position.x,m_Position.y), uvScaleSize, uvValue);
 
 	memcpy(msr.pData,m_Vertex , sizeof(VERTEX_3D) * 4);
 	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
