@@ -4,15 +4,16 @@
 // 前方宣言
 enum class ANIMETION_MODEL;
 class ShaderComponent;
-
+// 装備品用のクラス
 class EquipmentObject final: public StaticMeshObject
 {
 private:
-	const GameObject* m_ParentObject = nullptr;
-	ShaderComponent* m_ShaderCache = nullptr;
-	ANIMETION_MODEL m_ParentModel;				// コンストラクタで初期設定
+	const GameObject* m_ParentObject = nullptr;		// プレイヤーの現在の回転を取得
+	ShaderComponent* m_ShaderCache = nullptr;		// コンポーネント側が自動取得する回転と異なる値を格納する為
+	ANIMETION_MODEL m_ParentModel;					// コンストラクタで初期設定
 	const char* m_BoneName = "";
-	XMFLOAT3 m_OffsetScale = {};
+	// 初期設定した数値を保存しておく用
+	XMFLOAT3 m_OffsetScale = {};					
 	XMFLOAT3 m_OffsetRot = {};
 	XMFLOAT3 m_OffsetPos = {};
 

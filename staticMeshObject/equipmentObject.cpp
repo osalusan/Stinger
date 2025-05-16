@@ -56,6 +56,7 @@ void EquipmentObject::MoveControl(const float& deltaTime)
 
 	m_RotScaleMatrix = world;
 
+	// ƒvƒŒƒCƒ„[‚Ì‰ñ“]‚ÉŠî‚Ã‚¢‚½‰ñ“]’l‚ð“ü‚ê‚é
 	m_ShaderCache->SetRotMatrix(m_RotScaleMatrix);
 }
 

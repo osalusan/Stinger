@@ -1,6 +1,6 @@
 #pragma once
 #include "staticMeshObject.h"
-
+// ³•ûŒ`‚Ì“®‚©‚È‚¢” 
 class Box : public StaticMeshObject 
 {
 private:
