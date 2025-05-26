@@ -1,5 +1,4 @@
 #pragma once
-#include <list>
 #include <vector>
 #include "character/player.h"
 #include "character/bossEnemy.h"
@@ -30,7 +29,7 @@ class MeshFiled;
 class ObjectManager final
 {
 private:
-	std::list<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
+	std::vector<GameObject*> m_GameObjects[static_cast<int>(OBJECT::MAX)] = {};
 	Camera* m_CameraCache = nullptr;
 	Player* m_PlayerCache = nullptr;
 	BossEnemy* m_BossCache = nullptr;
