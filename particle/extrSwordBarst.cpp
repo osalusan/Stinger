@@ -1,5 +1,5 @@
 #include "extrSwordBarst.h"
-#include "equipment/equipmentObject.h"
+#include "staticMeshObject/equipmentObject.h"
 #include "manager/sceneManager.h"
 #include "manager/objectManager.h"
 #include "scene/scene.h"

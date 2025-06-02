@@ -3,7 +3,7 @@
 #include "manager/objModelManager.h"
 #include "scene/gameScene.h"
 #include "object/gameObject.h"
-#include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject/staticMeshObject.h"
 #include "character/character.h"
 #include "renderer/objModelRenderer.h"
 
@@ -58,21 +58,21 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	float minOverlap = FLT_MAX;
 	XMVECTOR mtvAxis = XMVectorZero();
 
-	const XMVECTOR& Interval = XMVectorSubtract(obb2.Center, obb1.Center);
+	const XMVECTOR& Interval = XMVectorSubtract(obb2.s_Center, obb1.s_Center);
 
 	// 軸のリスト
 	XMVECTOR axes[15] = {};
 	int axisCount = 0;
 
 	// OBB1の軸
-	axes[axisCount++] = obb1.Axis[0];
-	axes[axisCount++] = obb1.Axis[1];
-	axes[axisCount++] = obb1.Axis[2];
+	axes[axisCount++] = obb1.s_Axis[0];
+	axes[axisCount++] = obb1.s_Axis[1];
+	axes[axisCount++] = obb1.s_Axis[2];
 
 	// OBB2の軸
-	axes[axisCount++] = obb2.Axis[0];
-	axes[axisCount++] = obb2.Axis[1];
-	axes[axisCount++] = obb2.Axis[2];
+	axes[axisCount++] = obb2.s_Axis[0];
+	axes[axisCount++] = obb2.s_Axis[1];
+	axes[axisCount++] = obb2.s_Axis[2];
 
 	// 各軸での判定
 	for (int i = 0; i < axisCount; ++i)
@@ -93,16 +93,16 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	}
 
 	// クロス軸
-	for (int i = 0; i < 3; ++i) 
+	for (int i = 0; i < 3; ++i)
 	{
-		XMVECTOR axisA = obb1.Axis[i];
+		XMVECTOR axisA = obb1.s_Axis[i];
 
-		for (int j = 0; j < 3; ++j) 
+		for (int j = 0; j < 3; ++j)
 		{
-			XMVECTOR axisB = obb2.Axis[j];
+			XMVECTOR axisB = obb2.s_Axis[j];
 			XMVECTOR cross = XMVector3Cross(axisA, axisB);
 			// 数値が小さすぎたら無視
-			if (XMVector3LengthSq(cross).m128_f32[0] > 1e-6f) 
+			if (XMVector3LengthSq(cross).m128_f32[0] > 1e-6f)
 			{
 				axes[axisCount++] = XMVector3Normalize(cross);
 			}
@@ -110,8 +110,8 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	}
 
 	// MTVの方向を調整
-	XMVECTOR direction = XMVectorSubtract(obb1.Center, obb2.Center);
-	if (XMVectorGetX(XMVector3Dot(direction, mtvAxis)) < 0) 
+	XMVECTOR direction = XMVectorSubtract(obb1.s_Center, obb2.s_Center);
+	if (XMVectorGetX(XMVector3Dot(direction, mtvAxis)) < 0)
 	{
 		mtvAxis = XMVectorNegate(mtvAxis);
 	}
@@ -123,14 +123,14 @@ bool CollisionComponent::HitOBB(const OBB& obb1, const OBB& obb2)
 	return true;
 }
 
-// 分離軸に投射された軸成分から投射線分長を算出
 float CollisionComponent::LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb)
 {
+	// 投射半径を返す
 	float r = 0.0f;
-	for (int i = 0; i < 3; ++i) 
+	for (int i = 0; i < 3; ++i)
 	{
-		float e = obb.GetSize(i); 
-		XMVECTOR axis = obb.Axis[i];
+		float e = obb.GetSize(i);
+		XMVECTOR axis = obb.s_Axis[i];
 		float dot = fabsf(XMVectorGetX(XMVector3Dot(Sep, axis)));
 		r += e * dot;
 	}
@@ -186,28 +186,7 @@ bool CollisionComponent::CheckHitObject(const COLLISION_TAG& tag)
 	return true;
 }
 
-bool CollisionComponent::CheckHitAllObject()
-{
-	m_HitGameObjectsCache.clear();
-	m_MinOverlap = FLT_MAX;
-	m_MtvAxis = {};
-
-	// オブジェクト一覧の取得
-	if (m_GameObjectsCache->empty())
-	{
-		Scene* gameScene = SceneManager::GetScene();
-		if (gameScene == nullptr) return false;
-		ObjectManager* objectManager = gameScene->GetObjectManager();
-		if (objectManager == nullptr) return false;
-
-		objectManager->GetAllGameObjects(m_GameObjectsCache);
-
-		if (m_GameObjectsCache->empty()) return false;
-	}
-	return true;
-}
-
-CollisionComponent::CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag)
+CollisionComponent::CollisionComponent(GameObject* gameObject, const COLLISION_TAG& tag)
 	:Component(gameObject)
 {
 	m_CollisionTag = tag;
@@ -217,7 +196,7 @@ CollisionComponent::CollisionComponent(GameObject* gameObject,const COLLISION_TA
 }
 
 CollisionComponent::CollisionComponent(GameObject* gameObject, const COLLISION_TAG& tag, const std::string& name)
-	:CollisionComponent(gameObject,tag)
+	:CollisionComponent(gameObject, tag)
 {
 	m_CollisionName = name;
 }
@@ -310,7 +289,7 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& s
 	UseBoneMatrix();
 }
 
-void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos,const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
+void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix)
 {
 	m_Position = pos;
 	m_Scale = scl;
@@ -320,4 +299,3 @@ void CollisionComponent::SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& sc
 	m_BoneMatrix = worldMatrix;
 	UseBoneMatrix();
 }
-

@@ -6,10 +6,8 @@ BYTE InputManager::m_KeyState[256] = { ""};
 
 void InputManager::Init()
 {
-
 	memset( m_OldKeyState, 0, 256 );
 	memset( m_KeyState, 0, 256 );
-
 }
 
 void InputManager::Update()
@@ -29,11 +27,6 @@ bool InputManager::GetKeyRelease(BYTE KeyCode)
 bool InputManager::GetKeyPress(BYTE KeyCode)
 {
 	return (m_KeyState[KeyCode] & 0x80);
-}
-//‰Ÿ‚µ‚½••ú‚µ‚½uŠÔ
-bool InputManager::GetKeyTrigger(BYTE KeyCode)
-{
-	return ((m_KeyState[KeyCode] & 0x80) && !(m_OldKeyState[KeyCode] & 0x80));
 }
 
 bool InputManager::GetMouseLeftPress()

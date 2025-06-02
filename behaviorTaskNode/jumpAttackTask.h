@@ -1,7 +1,10 @@
 #pragma once
 #include "behaviorNode/taskNode.h"
 #include "main/main.h"
-
+// ---------------------------------------------------------
+// タスクの説明：プレイヤーの座標にジャンプして攻撃
+// 備考：全身が攻撃部位
+// ---------------------------------------------------------
 class JumpAttackTask final : public TaskNode
 {
 private:

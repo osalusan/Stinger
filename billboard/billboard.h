@@ -5,7 +5,7 @@
 // 前方宣言
 enum class TEXTURE;
 class Camera;
-
+// ビルボード用の基底クラス
 class BillBoard :public GameObject
 {
 protected:

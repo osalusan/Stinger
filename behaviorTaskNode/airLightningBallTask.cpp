@@ -51,7 +51,7 @@ void AirLightningBallTask::RunningTask(const float& deltaTime)
 	else if (!m_Attack)
 	{
 		m_BossCache->RotToTarget(m_PlayerCache, deltaTime);
-		m_BossCache->InitGravity();
+		m_BossCache->ResetGravity();
 		if (m_LightningBallCache != nullptr)
 		{
 			const XMFLOAT3& bossPos = m_BossCache->GetPos();

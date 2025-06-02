@@ -1,6 +1,6 @@
 #pragma once
-#include "staticmeshObject.h"
-
+#include "staticMeshObject.h"
+// ステージに配置用のオブジェクト
 class Ruins final: public StaticMeshObject
 {
 private:

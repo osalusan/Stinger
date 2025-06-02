@@ -10,7 +10,7 @@ enum class MAWJ_ANIMATION
 
 // 前方宣言
 struct BONE;
-
+// MawJLaygoの当たり判定の生成やモデルを管理しているクラス
 class MawJLaygo final:public BossEnemy
 {
 private:

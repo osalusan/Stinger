@@ -14,8 +14,8 @@ Fade::~Fade()
 
 void Fade::Init()
 {
-	m_FadeIn = false;
-	m_FadeOut = false;
+	m_IsFadeIn = false;
+	m_IsFadeOut = false;
 	m_CurrentTime = 0.0f;
 
 	if (m_FadeTexture == nullptr)
@@ -38,13 +38,13 @@ void Fade::Uninit()
 
 void Fade::Update(const float& deltaTime)
 {
-	if (!m_FadeIn && !m_FadeOut) return;
+	if (!m_IsFadeIn && !m_IsFadeOut) return;
 
-	if (m_FadeOut)
+	if (m_IsFadeOut)
 	{
 		m_CurrentTime += deltaTime;
 	}
-	else if (m_FadeIn)
+	else if (m_IsFadeIn)
 	{
 		m_CurrentTime -= deltaTime;
 	}
@@ -60,40 +60,40 @@ void Fade::Draw()
 
 void Fade::StartFadeIn()
 {
-	if (m_FadeIn || m_FadeOut) return;
-	m_FadeIn = true;
+	if (m_IsFadeIn || m_IsFadeOut) return;
+	m_IsFadeIn = true;
 	m_CurrentTime = 1.0f;
 }
 
 void Fade::StartFadeOut()
 {
-	if (m_FadeIn || m_FadeOut) return;
-	m_FadeOut = true;
+	if (m_IsFadeIn || m_IsFadeOut) return;
+	m_IsFadeOut = true;
 	m_CurrentTime = 0.0f;
 }
 
 const bool Fade::GetFadeOutComplete()
 {
-	if (!m_FadeIn && !m_FadeOut) return false;
+	if (!m_IsFadeIn && !m_IsFadeOut) return false;
 
-	if (m_CurrentTime < m_FADE_MAX || !m_FadeOut)
+	if (m_CurrentTime < m_FADE_MAX || !m_IsFadeOut)
 	{
 		return false;
 	}
 
-	m_FadeOut = false;
+	m_IsFadeOut = false;
 	return true;
 }
 
 const bool Fade::GetFadeInComplete()
 {
-	if (!m_FadeIn && !m_FadeOut) return false;
+	if (!m_IsFadeIn && !m_IsFadeOut) return false;
 
-	if (m_CurrentTime > 0.0f || !m_FadeIn)
+	if (m_CurrentTime > 0.0f || !m_IsFadeIn)
 	{
 		return false;
 	}
 
-	m_FadeIn = false;
+	m_IsFadeIn = false;
 	return true;
 }

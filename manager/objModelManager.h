@@ -7,7 +7,7 @@ struct MODEL;
 struct MODEL_OBJ;
 struct MODEL_MATERIAL;
 class ObjModelRenderer;
-
+// 読み込んでいるobjモデルの一覧
 enum class STATICMESH_MODEL
 {
 	SKYDOME_TITLE = 0,
@@ -22,7 +22,7 @@ enum class STATICMESH_MODEL
 	SPHERE,
 	MAX
 };
-
+// ゲーム内すべてのobjモデルを管理するクラス
 class ObjModelManager final
 {
 private:
@@ -34,7 +34,7 @@ private:
 	static void LoadMaterial(const char* FileName, MODEL_MATERIAL** MaterialArray, unsigned int* MaterialNum);
 	static void Load(const STATICMESH_MODEL& model,const std::string& fileName);
 public:
-	static void Init();
+	static void Init();				// 予約されたモデルをSceneの最後に一括で読み込む
 	static void Uninit();
 	static void ReservModel(const STATICMESH_MODEL& model, const std::string& fileName);
 	static ObjModelRenderer* GetModel(const STATICMESH_MODEL& model);

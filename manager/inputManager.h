@@ -1,6 +1,6 @@
 #pragma once
 #include "main/main.h"
-
+// ゲーム内すべてのf入力を管理するクラス
 class InputManager final
 {
 private:
@@ -10,9 +10,9 @@ public:
 	static void Init();
 	static void Update();
 
+	// 簡易的な構造の為、同時に2つのキー入力が行われたら、Releseが正常に動作しない
 	static bool GetKeyRelease(BYTE KeyCode);
-	static bool GetKeyPress( BYTE KeyCode );
-	static bool GetKeyTrigger( BYTE KeyCode );
+	static bool GetKeyPress(BYTE KeyCode );
 
 	static bool GetMouseLeftPress();
 	static bool GetMouseRightPress();

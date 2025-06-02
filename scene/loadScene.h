@@ -1,6 +1,6 @@
 #pragma once
 #include "scene/scene.h"
-
+// 読み込み中のオブジェクトを管理をシーン
 class LoadScene final :public Scene
 {
 private:

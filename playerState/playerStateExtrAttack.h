@@ -7,15 +7,14 @@ class BossEnemy;
 class PlayerCamera;
 class ExtrSlashEffect;
 class ExtrSwordBarst;
-
+// エクストラ攻撃のステート
 class PlayerStateExtrAttack final :public PlayerState
 {
 private:
-	ObjectManager* m_ObjManagerCache = nullptr;
-	BossEnemy* m_BossCache = nullptr;
-	PlayerCamera* m_CameraCache = nullptr;
-	ExtrSlashEffect* m_ExtrSlashEfCache = nullptr;
-	ExtrSwordBarst* m_ExtrSwordBarstCache = nullptr;
+	BossEnemy* m_BossCache = nullptr;					// ダメージ通知用
+	PlayerCamera* m_PlayerCameraCache = nullptr;		// カメラの位置調整用
+	ExtrSlashEffect* m_ExtrSlashEfCache = nullptr;		// ビルボードのエフェクト
+	ExtrSwordBarst* m_ExtrSwordBarstCache = nullptr;	// 剣のオーラのパーティクル
 
 	// 制御用パラメータ
 	bool m_AttackAccept = false;

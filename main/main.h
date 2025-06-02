@@ -16,13 +16,13 @@
 using namespace DirectX;
 
 
-#include "directXTex/DirectXTex.h"
+#include "externalLibrary/directXTex/DirectXTex.h"
 
 // /IGNORE:4099 ‚ğg—p‚µ‚ÄDirectXtex_Debug.pbd‚ª–³‚­‚Ä‚àŒx‚ªo‚È‚¢‚æ‚¤‚É‚µ‚Ä‚¢‚é
 #if _DEBUG
-#pragma comment(lib,"directXTex/DirectXTex_Debug.lib")
+#pragma comment(lib,"externalLibrary/directXTex/DirectXTex_Debug.lib")
 #else
-#pragma comment(lib,"directXTex/DirectXTex_Release.lib")
+#pragma comment(lib,"externalLibrary/directXTex/DirectXTex_Release.lib")
 #endif
 
 #pragma comment (lib, "winmm.lib")

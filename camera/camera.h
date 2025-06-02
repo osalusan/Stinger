@@ -1,6 +1,7 @@
 #pragma once
 #include "object/gameObject.h"
 
+// カメラ用の基底クラス
 class Camera :public GameObject
 {
 protected:

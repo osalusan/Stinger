@@ -134,9 +134,9 @@ void MawJLaygo::CustomCollisionInfo()
 void MawJLaygo::CollisionControl()
 {
 	float groundHeight = 0.0f;
-	if (m_MeshFiled != nullptr)
+	if (m_MeshFiledCache != nullptr)
 	{
-		groundHeight = m_MeshFiled->GetHeight(m_Position);
+		groundHeight = m_MeshFiledCache->GetHeight(m_Position);
 	}
 
 	// パリィされた時は強制的に地面に移動させる
@@ -149,7 +149,7 @@ void MawJLaygo::CollisionControl()
 	{
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
-		InitGravity();
+		ResetGravity();
 	}
 
 	// ダメージ計算
@@ -221,6 +221,7 @@ void MawJLaygo::CollisionControl()
 
 
 	// デバッグ時に文字を表示させたいので、ダメージ計算後に呼ぶ処理を、BossEnemyのMoveControlの一番最初に配置
+	// ※IMGUIのデバッグウインドウ用
 
 }
 

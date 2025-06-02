@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 
+// 読み込んでいるfbxモデル一覧
 enum class ANIMETION_MODEL
 {
 	PLAYER = 0,
@@ -11,7 +12,7 @@ enum class ANIMETION_MODEL
 
 // 前方宣言
 class FbxModelRenderer;
-
+// ゲーム内すべてのfbxモデルを管理するクラス
 class FbxModelManager final
 {
 private:
@@ -23,9 +24,10 @@ private:
 	static void LoadModel(const ANIMETION_MODEL& model, const std::string& fileName);
 	static void LoadAnimation(const ANIMETION_MODEL& model, const std::string& fileName, const std::string& animationName);
 public:
-	static void Init();
+	static void Init();				// 予約されたモデルをSceneの最後に一括で読み込む
 	static void Uninit();
 	static void ReservModel(const ANIMETION_MODEL& model, const std::string& fileName);
+	// 先にモデル本体を予約していないと読み込み時にアニメーションを読み込めない
 	static void ReservAnimation(const ANIMETION_MODEL& model, const std::string& fileName, const std::string& animationName);
 	static FbxModelRenderer* GetAnimationModel(const ANIMETION_MODEL& model);
 };

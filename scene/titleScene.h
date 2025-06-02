@@ -1,6 +1,6 @@
 #pragma once
 #include "scene/scene.h"
-
+// タイトルのオブジェクトを管理するシーン
 class TitleScene final :public Scene
 {
 private:

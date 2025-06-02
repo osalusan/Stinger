@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 
-
 // マテリアル構造体
 struct MODEL_MATERIAL
 {
@@ -49,7 +48,7 @@ struct MODEL
 	XMFLOAT3     Center = {}; // 原点を追加
 	XMFLOAT3     Scale = {};   // モデルのサイズ
 };
-
+// OBJの読み込み処理を行うクラス
 class ObjModelRenderer final
 {	
 private:

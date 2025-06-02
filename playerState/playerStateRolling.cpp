@@ -24,7 +24,7 @@ void PlayerStateRolling::Init()
 
 	if (m_RollingSpeed == 0.0f && m_PlayerCache != nullptr)
 	{
-		const std::unordered_map<std::string, float>& rolling = m_PlayerCache->GetStateData("‰ñ”ð");
+		const std::unordered_map<std::string, float>& rolling = m_PlayerCache->GetStatusData("‰ñ”ð");
 
 		m_RollingSpeed = FindStateData(rolling, "‰ñ”ðŽž‚ÌÅ‚‘¬“x_”{—¦") * m_PlayerCache->GetMoveSpeed();
 		m_MinRollingAcceptTime = FindStateData(rolling, "‰ñ”ð¬Œ÷ŽžŠÔ_Å¬");
@@ -128,8 +128,10 @@ void PlayerStateRolling::Update(const float& deltaTime)
 		m_PlayerMachine->SetRotationY(currentAngle);
 	}
 
+	// ‘¬“x‚ÌŒ¸Š
 	m_NormalizeVelocity.x *= m_SpeedAttenuateValue;
 	m_NormalizeVelocity.z *= m_SpeedAttenuateValue;
+
 	m_PlayerMachine->SetVelocityX(m_NormalizeVelocity.x * m_RollingSpeed);
 	m_PlayerMachine->SetVelocityZ(m_NormalizeVelocity.z * m_RollingSpeed);
 }

@@ -35,7 +35,7 @@ void LightningFallEffect::Attack()
 
 void LightningFallEffect::End()
 {
-	// TODO :ビルボードの自動削除機能の性でバグる為、無効化
+	// TODO :ビルボードの自動削除機能の性でバグる為、基底クラスの関数を無効化
 }
 
 bool LightningFallEffect::Finish()

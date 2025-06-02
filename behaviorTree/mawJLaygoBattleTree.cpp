@@ -26,6 +26,9 @@
 #include "behaviorTaskNode/lightningFallFowardRainTask.h"
 #include "behaviorTaskNode/checkRenditionTask.h"
 
+// ---------------------------------------------------------
+// 非常に見づらいので、実行後のデバッグ画面で確認
+// ---------------------------------------------------------
 void MawJLaygoBattleTree::CreateTree(BossEnemy* boss)
 {
 	if (boss == nullptr) return;

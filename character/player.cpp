@@ -10,7 +10,7 @@
 #include "camera/playerCamera.h"
 #include "playerState/playerStateMachine.h"
 #include "scene/scene.h"
-#include "equipment/equipmentObject.h"
+#include "staticMeshObject/equipmentObject.h"
 #include "polygon2D/polygon2D.h"
 #include <fstream>
 #include <iostream>
@@ -119,7 +119,7 @@ void Player::TakeDamage(const float& atk)
 
 	m_Health -= atk;
 
-	m_CurrentHealTime = 0.0f;
+	m_CurTakeNoDmgTime = 0.0f;
 
 	if (m_PlayerHpCache != nullptr)
 	{
@@ -168,9 +168,9 @@ void Player::MoveControl(const float& deltaTime)
 		m_PlayerStateMachine->Update(deltaTime);
 	}
 	// Ž©‘R‰ñ•œ
-	m_CurrentHealTime += deltaTime;
+	m_CurTakeNoDmgTime += deltaTime;
 
-	if (m_CurrentHealTime >= m_HealTime && m_Health > 0.0f)
+	if (m_CurTakeNoDmgTime >= m_HealStartTime && m_Health > 0.0f)
 	{
 		m_Health += deltaTime * m_HealSpeed;
 
@@ -269,16 +269,16 @@ void Player::CollisionControl()
 
 	float groundHeight = 0.0f;
 
-	if (m_MeshFiled != nullptr)
+	if (m_MeshFiledCache != nullptr)
 	{
-		groundHeight = m_MeshFiled->GetHeight(m_Position);
+		groundHeight = m_MeshFiledCache->GetHeight(m_Position);
 	}
 
 	if (m_Position.y <= groundHeight)
 	{
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
-		InitGravity();
+		ResetGravity();
 		// ’n–Ê‚ÉG‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ð“`‚¦‚é
 		m_PlayerStateMachine->HitGround();
 	}
@@ -408,7 +408,7 @@ void Player::PlayerDataLoadCSV(const std::string& filePath)
 		m_MoveSpeed = std::stof(baseStatas[2]);
 		m_GravityValue = std::stof(baseStatas[3]);
 		m_RotSpeed = std::stof(baseStatas[4]);
-		m_HealTime = std::stof(baseStatas[5]);
+		m_HealStartTime = std::stof(baseStatas[5]);
 		m_HealSpeed = std::stof(baseStatas[6]);
 
 		m_Health = m_MaxHealth;

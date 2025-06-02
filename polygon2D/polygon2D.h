@@ -16,19 +16,19 @@ enum class PIVOT
 // 前方宣言
 enum class TEXTURE;
 class Camera;
-
+// テクスチャの既定クラス
 class Polygon2D final :public GameObject
 {
 protected:
 
 	ID3D11Buffer* m_VertexBuffer = nullptr;
-	TEXTURE m_Texture;						// 使用テクスチャ / コンストラクタで初期化
-	PIVOT m_PivotPoint = PIVOT::NONE;		// 原点
+	TEXTURE m_Texture;							// 使用テクスチャ / コンストラクタで初期化
+	PIVOT m_PivotPoint = PIVOT::NONE;			// 画像の原点
 
 	VERTEX_3D m_Vertex[4] = {};
 	XMFLOAT4 m_Color = { 1.0f,1.0f,1.0f,1.0f };
-	bool m_UseStencil = false;
-	bool m_UseUI = false;					// UIとして使う
+	bool m_UseStencil = false;					// 陰用に実装
+	bool m_UseUI = false;						// UIとして使う / 画像のサイズやUVを変更できるように
 	Camera* m_CameraCache = nullptr;
 public:
 	Polygon2D() = delete;
@@ -41,8 +41,10 @@ public:
 	virtual void Uninit()override;
 	virtual void Update(const float& deltaTime)override;
 	virtual void Draw()override;
-	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& sizeValue = { 1.0f,1.0f });
-	void ChangeUVScaling(const XMFLOAT2& sizeValue);
+	// 座標、大きさ、UV値を変更
+	void SetPolygon(const XMFLOAT2& position, const XMFLOAT2& size, const XMFLOAT2& uvValue = { 1.0f,1.0f });
+	// 画像の大きさを変えずにUVだけ変更 / m_UseUIがtrueじゃないと変更不可
+	void ChangeUVScaling(const XMFLOAT2& uvValue);		
 
 	void SetAlfa(const float& alfa)
 	{

@@ -16,9 +16,9 @@ enum class COLLISION_TAG
 
 struct OBB 
 {
-	XMVECTOR Center;	// OBBの中心
-	XMVECTOR Axis[3];	// OBBの各軸の方向（単位ベクトル）
-	XMVECTOR Size;		// 各軸方向のサイズ
+	XMVECTOR s_Center;	// OBBの中心
+	XMVECTOR s_Axis[3];	// OBBの各軸の方向
+	XMVECTOR s_Size;	// 各軸方向の大きさ
 
 	// OBBのサイズを取得
 	const float GetSize(const int& index) const 
@@ -26,21 +26,23 @@ struct OBB
 		switch (index) 
 		{
 		case 0:
-			return XMVectorGetX(Size);
+			return XMVectorGetX(s_Size);
 		case 1:
-			return XMVectorGetY(Size);
+			return XMVectorGetY(s_Size);
 		case 2:
-			return XMVectorGetZ(Size);
+			return XMVectorGetZ(s_Size);
 		default:
 			return 0.0f;
 		}
 	}
 };
 
+#define DEFAULT_MODELSCALE (1.0f)
+
 #if _DEBUG
 enum class STATICMESH_MODEL;
 #endif // _DEBUG
-
+// 当たり判定の基底クラス
 class CollisionComponent :public Component
 {
 private:
@@ -54,15 +56,13 @@ protected:
 	XMFLOAT3 m_Position = {};
 	XMFLOAT3 m_Scale = {};
 	XMFLOAT3 m_ModelCenter = {};
-	XMFLOAT3 m_ModelScale = {1.0f,1.0f,1.0f};  // 必要ない時の為に初期値１
+	XMFLOAT3 m_ModelScale = {1.0f,1.0f,1.0f};		// 必要ない時の為に初期値１ / 0だと判定が無くなる場合がある
 	XMMATRIX m_RotationMatrix = {};
 	XMMATRIX m_BoneMatrix = {};
 
 #if _DEBUG
 	// 当たり判定描画用
 	STATICMESH_MODEL m_Model;						// Init()で初期化
-
-	// 描画関連
 	ID3D11VertexShader* m_VertexShader = nullptr;
 	ID3D11PixelShader* m_PixelShader = nullptr;
 	ID3D11InputLayout* m_VertexLayout = nullptr;
@@ -70,19 +70,20 @@ protected:
 
 	// 押し出し用
 	XMVECTOR m_MtvAxis = {};		// MTVの軸
-	float m_MinOverlap = 0.0f;		// 最小オーバーラップ量
+	float m_MinOverlap = 0.0f;		// 押し出す時に使用
 
 	COLLISION_TAG m_CollisionTag = COLLISION_TAG::MAX;
 	std::vector<GameObject*> m_HitGameObjectsCache = {};								// 当たったオブジェクトを保存
 	std::vector<GameObject*> m_GameObjectsCache[static_cast<int>(OBJECT::MAX)] = {};	// オブジェクトを保存
 
-	virtual bool CheckHitObject(const OBJECT& object);
-	virtual bool CheckHitObject(const COLLISION_TAG& tag);
-	virtual bool CheckHitAllObject();
+	virtual bool CheckHitObject(const OBJECT& object);									// 一番軽い / プレイヤーやエネミーの当たり判定を取得する時に使う
+	virtual bool CheckHitObject(const COLLISION_TAG& tag);								// OBJECT指定よりは重い / フィールドに配置してあるオブジェクトの当たり判定を取得する時に使う
 
-	bool HitOBB(const OBB& obb1, const OBB& obb2);
-	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb);
-	void SetHitObject(GameObject* hitObj);
+	bool HitOBB(const OBB& obb1, const OBB& obb2);										// OBB同士の当たり判定をする時に使用
+				
+	void SetHitObject(GameObject* hitObj);												// 当たったオブジェクトを保存する
+
+	float LenSegOnSeparateAxis(const XMVECTOR& Sep, const OBB& obb);					// 投射半径を取得
 public:
 	using Component::Component;
 	CollisionComponent(GameObject* gameObject,const COLLISION_TAG& tag);
@@ -92,9 +93,10 @@ public:
 	virtual void Uninit()override;
 	virtual void Draw()override;
 
-	// 毎フレーム値を入れるように
-	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scale, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix); // 大きさを変えたい時
-	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);	   // 本体に付属させたい時
+	// 移動する場合は、コンポーネントとして追加した側で毎フレーム値を入れるように
+	void SetCollisionInfo(const XMFLOAT3& pos,const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale,const XMMATRIX& rotateMatrix);									// 大きさを変えたい時
+	void SetCollisionInfo(const XMFLOAT3& pos, const XMFLOAT3& scl, const XMFLOAT3& modelCenterPos, const XMFLOAT3& modelScale, const XMMATRIX& rotateMatrix, const XMMATRIX& worldMatrix);		// 本体に付属させたい時
+
 	void SetScale(const XMFLOAT3& scl)
 	{
 		m_Scale = scl;
@@ -147,7 +149,7 @@ public:
 		return m_GameObject;
 	}
 
-	// 当たったオブジェクトを一つ取得
+	// 一番最初に当たったオブジェクトを一つ取得
 	template <typename T>
 	T* GetHitGameObject()
 	{
@@ -164,7 +166,7 @@ public:
 		return nullptr;
 	}
 
-	// 当たったオブジェクトをすべて取得
+	// 当たった順にオブジェクトが格納されている
 	template <typename T>
 	bool GetHitGameObjects(std::vector<T*>& objectList)
 	{

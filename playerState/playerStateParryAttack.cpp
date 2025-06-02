@@ -18,19 +18,19 @@ void PlayerStateParryAttack::Init()
 		m_PlayerCache = playerCache;
 	}
 
-	if (!m_Load && m_PlayerCache != nullptr)
+	if (!m_IsLoad && m_PlayerCache != nullptr)
 	{
 		LoadAnimation("asset\\model\\player\\shieldParry_PaladinJNordstrom.fbx", "parryAttack");
 
 		AudioManager::ReservAudio(AUDIO::PARRY_SE, "asset\\audio\\se\\parry.wav");
 
-		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStateData("パリィ攻撃");
+		const std::unordered_map<std::string, float>& parryAttak = m_PlayerCache->GetStatusData("パリィ攻撃");
 
 		m_MinParryTime = FindStateData(parryAttak, "パリィ成功時間_最小");
 		m_MaxParryTime = FindStateData(parryAttak, "パリィ成功時間_最大");
 		m_SpeedAttenuateValue = FindStateData(parryAttak, "速度の減衰値");
 
-		m_Load = true;
+		m_IsLoad = true;
 	}
 
 	if (m_BossCache == nullptr)
@@ -71,7 +71,7 @@ void PlayerStateParryAttack::Update(const float& deltaTime)
 
 	RotToCameraDirection(deltaTime);
 
-
+	// 速度の減衰
 	if (m_PlayerMachine->GetVelocity().x != 0.0f && m_PlayerMachine->GetVelocity().z != 0.0f)
 	{
 		m_PlayerMachine->SetVelocityX(m_PlayerMachine->GetVelocity().x / (m_SpeedAttenuateValue * deltaTime));
@@ -83,7 +83,7 @@ void PlayerStateParryAttack::ChangeStateControl()
 {
 	if (m_PlayerMachine->GetIsHitAttack())
 	{
-		ChangePlayerState(PLAYER_STATE::HITATTACK);
+		ChangePlayerState(PLAYER_STATE::HITDAMAGE);
 	}
 	else if (m_CurrentTime >= m_MaxAnimTime)
 	{

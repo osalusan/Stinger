@@ -6,6 +6,9 @@
 #include "camera/playerCamera.h"
 #include "component/shaderComponent.h"
 
+// 大きすぎても映らない / 小さすぎたらオブジェクトが映らない
+constexpr XMFLOAT3 SKY_SCALE = { 1000.0f,1000.0f,1000.0f };
+
 void SkyDome::MoveControl(const float& deltaTime)
 {
 	if (m_CameraCache != nullptr)
@@ -31,7 +34,8 @@ void SkyDome::Init()
 	if (m_CameraCache == nullptr)
 	{
 		StaticMeshObject::Init();
-		m_Scale = { 1000.0f,1000.0f,1000.0f };
+
+		m_Scale = SKY_SCALE;
 
 		Scene* scene = SceneManager::GetScene();
 		if (scene == nullptr) return;

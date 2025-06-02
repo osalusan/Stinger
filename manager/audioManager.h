@@ -11,10 +11,10 @@ enum class AUDIO
 	SLASH2_SE,
 	SLASH3_SE,
 	SOWRD_CHAGE,
-	HIT_ATTACK,
+	PLAYER_HIT_DAMAGE,
 	MAX
 };
-
+// 再生するのに必要なデータ
 struct AUDIO_DATA
 {
 	IXAudio2SourceVoice* s_SourceVoice = nullptr;
@@ -22,13 +22,14 @@ struct AUDIO_DATA
 	int s_Length = 0;
 	int s_PlayLength = 0;
 };
+// 読み込み時に必要なデータ
 struct AUDIO_RESERVE_DATA
 {
 	const char* s_FileName = {};
-	bool s_StartSound = false;			// 読み込んですぐに音を鳴らす
+	bool m_PlaySoundOnStart = false;			// 読み込んですぐに音を鳴らす
 	bool s_Loop = false;
 };
-
+// ゲーム内すべての音を管理するクラス
 class AudioManager final
 {
 private:
@@ -42,7 +43,7 @@ private:
 public:
 	static void InitMaster();		// ゲームを起動してから一度のみ呼ぶ
 	static void UninitMaster();		// ゲームを起動してから一度のみ呼ぶ
-	static void Init();
+	static void Init();				// 予約された音をSceneの最後に一括で読み込む
 	static void Uninit();
 	static void ReservAudio(const AUDIO& audio, const char* fileName,const bool& startSound = false,const bool& loopSound = false);
 

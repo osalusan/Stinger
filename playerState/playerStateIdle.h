@@ -1,6 +1,6 @@
 #pragma once
 #include "playerState.h"
-
+// 待機状態のステート
 class PlayerStateIdle final:public PlayerState
 {
 public:

@@ -17,7 +17,7 @@
 #include "behaviorTree/mawJLaygoTitleTree.h"
 #include "character/mawJLaygo.h"
 #include "staticMeshObject/box.h"
-#include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject/staticMeshObject.h"
 #include "staticMeshObject/moveRandSizeBox.h"
 
 constexpr float DEFAULT_POSZ = 60.0f;

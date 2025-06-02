@@ -2,7 +2,7 @@
 
 void SequenceNode::Init()
 {
-
+    // ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
 }
 
 NODE_STATE SequenceNode::Update(const float& deltaTime)

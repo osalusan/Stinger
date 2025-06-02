@@ -1,6 +1,9 @@
 #pragma once
 #include "behaviorNode/taskNode.h"
-
+// ---------------------------------------------------------
+// タスクの説明：右手を振りかぶって攻撃
+// 備考：攻撃判定は右肩～右手の右全体
+// ---------------------------------------------------------
 class RightSwipingTask final : public TaskNode
 {
 private:

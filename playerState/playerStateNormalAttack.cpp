@@ -7,7 +7,7 @@
 #include "renderer/fbxModelRenderer.h"
 #include "character/player.h"
 #include "scene/scene.h"
-#include "equipment/equipmentObject.h"
+#include "staticMeshObject/equipmentObject.h"
 
 constexpr float ATTACK1_SPEED = 1.22f;
 constexpr float ATTACK2_SPEED = 1.28f;
@@ -28,7 +28,7 @@ void PlayerStateNormalAttack::Init()
 		}
 	}
 
-	if (!m_Load && m_PlayerCache != nullptr)
+	if (!m_IsLoad && m_PlayerCache != nullptr)
 	{
 		FbxModelManager::ReservAnimation(ANIMETION_MODEL::PLAYER, "asset\\model\\player\\swordSlash1_1_PaladinJNordstrom.fbx", "normalAttack1");
 		m_AnimName1 = "normalAttack1";
@@ -40,7 +40,7 @@ void PlayerStateNormalAttack::Init()
 		AudioManager::ReservAudio(AUDIO::SLASH1_SE, "asset\\audio\\se\\slash1.wav");
 		AudioManager::ReservAudio(AUDIO::SLASH2_SE, "asset\\audio\\se\\slash2.wav");
 
-		const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStateData("通常攻撃");
+		const std::unordered_map<std::string, float>& normalAttak = m_PlayerCache->GetStatusData("通常攻撃");
 
 		m_AttackEnableTimeValue1 = FindStateData(normalAttak, "一段階目ダメージ開始時間_割合");
 		m_AttackEnableTimeValue2 = FindStateData(normalAttak, "二段階目ダメージ開始時間_割合");
@@ -56,8 +56,8 @@ void PlayerStateNormalAttack::Init()
 
 		m_BlendTime = FindStateData(normalAttak, "ブレンド速度");
 
-		m_LoadAnimation = true;
-		m_Load = true;
+		m_IsLoadAnimation = true;
+		m_IsLoad = true;
 	}
 
 	m_CurrentTime = 0.0f;
@@ -246,7 +246,7 @@ void PlayerStateNormalAttack::ChangeStateControl()
 
 	if (m_PlayerMachine->GetIsHitAttack())
 	{
-		ChangePlayerState(PLAYER_STATE::HITATTACK);
+		ChangePlayerState(PLAYER_STATE::HITDAMAGE);
 	}
 	else if (m_CurrentTime >= m_MaxAnimTime)
 	{

@@ -1,6 +1,6 @@
 #pragma once
 #include "particleEmitter.h"
-
+// 円状に進んで行くパーティクル
 class SpiralBlueOrb final:public ParticleEmiter
 {
 private:

@@ -132,12 +132,12 @@ void ParticleEmiter::Update(const float& deltaTime)
 
 	if (!m_ReservEnable && m_ParticleLifeTime != 0.0f)
 	{
-		if (m_CurrentParticleLifeTime >= m_ParticleLifeTime)
+		if (m_CurrentLifeTime >= m_ParticleLifeTime)
 		{
 			m_Enable = false;
-			m_CurrentParticleLifeTime = 0.0f;
+			m_CurrentLifeTime = 0.0f;
 		}
-		m_CurrentParticleLifeTime += deltaTime;
+		m_CurrentLifeTime += deltaTime;
 	}
 }
 

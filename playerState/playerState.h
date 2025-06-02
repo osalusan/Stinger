@@ -3,20 +3,20 @@
 
 class Player;
 class GameObject;
-
+// プレイヤーステートの基底クラス
 class PlayerState
 {
 protected:
-	PlayerStateMachine* m_PlayerMachine = nullptr;
-	const Player* m_PlayerCache = nullptr;
+	PlayerStateMachine* m_PlayerMachine = nullptr;		// ステートマシンに情報を伝えられるように
+	const Player* m_PlayerCache = nullptr;				// プレイヤーのデータを直接変更できないように / 変更はステートマシンで行う
 
-	bool m_Load = false;
+	bool m_IsLoad = false;				// 一度だけ読み込むため
 	std::string m_AnimName = {};
-	bool m_LoadAnimation = false;
-	float m_CurrentTime = 0.0f;
-	float m_MaxAnimTime = 0.0f;
-	float m_BlendTime = 0.0f;
-	float m_AnimSpeedValue = 1.0f;	// アニメーション速度
+	bool m_IsLoadAnimation = false;		// アニメーションを一度だけ読み込むため
+	float m_CurrentTime = 0.0f;			// 経過時間
+	float m_MaxAnimTime = 0.0f;			// アニメーション最大時間
+	float m_BlendTime = 0.0f;			// モーションブレンド速度
+	float m_AnimSpeedValue = 1.0f;		// アニメーション速度 / 1.0が等倍
 
 	// 2回目以降は内部で弾く
 	void LoadAnimation(const std::string& fileName, const std::string& animationName);
@@ -26,7 +26,7 @@ protected:
 	void RotToInputKeyDirection(const float& deltaTime,const bool& rotAway = false);
 	// ターゲットの向きに回転
 	void RotToTarget(const GameObject* obj,const float& deltaTime);
-
+	// プレイヤークラスで読み込んだデータを取得
 	float FindStateData(const std::unordered_map<std::string, float>& stateData,const std::string& dataName);
 public:
 	virtual ~PlayerState();

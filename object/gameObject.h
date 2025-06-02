@@ -6,8 +6,8 @@
 class BoxCollisionComponent;
 class Component;
 enum class COLLISION_TAG;
-
-class GameObject 
+// ゲーム内で使用する全てのオブジェクトの基底クラス
+class GameObject
 {
 protected:
 	XMFLOAT3 m_Position = {};
@@ -74,59 +74,15 @@ public:
 		return m_Rotation;
 	}
 
-	//前方ベクトルの取得
-	XMFLOAT3 GetForward()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-		XMFLOAT3 forward;
-		XMStoreFloat3(&forward, rotationMatrix.r[2]);
-		return forward;
-	}
-	//右方向ベクトルの取得
-	XMFLOAT3 GetRight()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-		XMFLOAT3 right;
-		XMStoreFloat3(&right, rotationMatrix.r[0]);
-		return right;
-	}
-
-	//上方向ベクトルの取得
-	XMFLOAT3 GetUp()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-		XMFLOAT3 up;
-		XMStoreFloat3(&up, rotationMatrix.r[1]);
-		return up;
-	}
-
-	// 回転マトリックスを取得
-	XMMATRIX GetRotationMatrix()const
-	{
-		XMMATRIX rotationMatrix;
-		rotationMatrix = XMMatrixRotationRollPitchYaw(
-			m_Rotation.x, m_Rotation.y, m_Rotation.z);
-
-		return rotationMatrix;
-	}
+	// ---------------------------------------------------
+	// m_Rotationに数値が入っていないと正常に動作しない
+	// ---------------------------------------------------
+	XMFLOAT3 GetForward()const;			//前方ベクトルの取得
+	XMFLOAT3 GetRight()const;			//右方向ベクトルの取得
+	XMFLOAT3 GetUp()const;				//上方向ベクトルの取得
+	XMMATRIX GetRotationMatrix()const;	// 回転マトリックスを取得
 
 	// ターゲットへのベクトルを取得
-	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos)const 
-	{
-		XMVECTOR vector = XMVector3Normalize(XMVectorSubtract(XMLoadFloat3(&targetpos),XMLoadFloat3(&m_Position)));
-
-		XMFLOAT3 direction;
-		XMStoreFloat3(&direction, vector);
-		return direction;
-	}
+	XMFLOAT3 GetTargetDirection(const XMFLOAT3& targetpos)const;
 
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "character/character.h"
 #include <unordered_map>
-
+// プレイヤーとの距離に応じた範囲 / エネミーごとに有効距離が異なる
 enum class RANGE
 {
 	NONE = 0, // NONEはそいつにとって移動以外できることがない
@@ -9,7 +9,7 @@ enum class RANGE
 	MIDDLE,
 	LONG
 };
-
+// 攻撃判定部位
 enum class ATTACK_PARTS
 {
 	NONE = 0,
@@ -27,7 +27,7 @@ class BehaviorTree;
 class BehaviorNode;
 class Player;
 class Polygon2D;
-
+// ボスエネミー用の基底クラス
 class BossEnemy :public Character {
 protected:
 	BehaviorTree* m_Tree = nullptr;
@@ -38,32 +38,39 @@ protected:
 
 	std::unordered_map<std::string, std::unordered_map<std::string, float>> m_EnemySkillData = {};
 
-	float m_StaminaValue = 0.0f;
-	ATTACK_PARTS m_CurrentAttackParts = ATTACK_PARTS::NONE;	// 現在有効な当たり判定の攻撃場所
-	bool m_ParryRecoil = false;
-	float m_AttackDamage = 0.0f;
-	bool m_ParryPossibleAtk = false;
-	bool m_AttackAccept = false;	// 意図しない連続ヒットが無くなるように
+	ATTACK_PARTS m_CurrentAttackParts = ATTACK_PARTS::NONE;		// 現在有効な当たり判定の攻撃場所
 
-	// ボスのパラメータ / 子クラスのInitで初期設定
-	float m_MaxStamina = 0.0f;
-	float m_ShortRange = 0.0f;
-	float m_MiddleRange = 0.0f;
-	float m_LongRange = 0.0f;
-	float m_MinWaitTime = 0.0f;
-	float m_MaxWaitTime = 0.0f;
+	// パリィのパラメータ
+	bool m_ParryRecoil = false;
+	bool m_ParryPossibleAtk = false;
+
+	// 攻撃のパラメータ
+	float m_AttackDamage = 0.0f;								// 各タスクノードからダメージを格納してもらう
+	bool m_AttackAccept = false;								// プレイヤーに攻撃した後、意図しない連続ヒットが無くなるように
+
+	// ボスのパラメータ
+	float m_CurStaminaValue = 0.0f;								// 現在のスタミナ / 技のバランスの為に実装
+
+	// ボスのパラメータ / CSVからの読み込みで数値を反映
+	float m_MaxStamina = 0.0f;									// スタミナの最大値
+	float m_ShortRange = 0.0f;									// 近距離の範囲
+	float m_MiddleRange = 0.0f;									// 中距離の範囲
+	float m_LongRange = 0.0f;									// 遠距離の範囲
+	float m_MinWaitTime = 0.0f;									// 待機時の最小硬直時間
+	float m_MaxWaitTime = 0.0f;									// 待機時の最大硬直時間
 
 	// ボスの現在の状態
 	RANGE m_CurrentRange = RANGE::NONE;
 	// 今実行中のノード
 	BehaviorNode* m_RunningNodeCache = nullptr;
 
-	virtual void CollisionControl()override = 0;		// 自身の他のオブジェクトの判定処理を行う
-	virtual void CustomCollisionInfo()override = 0;		// 自身のコリジョンの設定を行う
-	virtual void AnimationControl()override = 0;		// 自身のアニメーションの設定を行う
+	virtual void CollisionControl()override = 0;		
+	virtual void CustomCollisionInfo()override = 0;		
+	virtual void AnimationControl()override = 0;		
 
-	// 移動の所でビヘイビアツリーの制御
+	// 移動の所でビヘイビアツリーの更新を行う
 	virtual void MoveControl(const float& deltaTime)override final;
+	// ボスの変動パラメータを管理
 	virtual void ParameterControl(const float& deltaTime)override final;
 
 	// ビヘイビアツリーを使用する場合に子クラスで呼ぶ
@@ -78,6 +85,7 @@ public:
 	virtual ~BossEnemy()override;
 	virtual void TakeDamage(const float& atk)override;
 
+	// 速度は追加だけできるように
 	void AddVelocity(const XMFLOAT3& vel)
 	{
 		m_Velocity.x += vel.x;
@@ -85,11 +93,11 @@ public:
 		m_Velocity.z += vel.z;
 	}
 
-	// ゆっくり向く
+	// ターゲットの方へゆっくり向く
 	void RotToTarget(GameObject* obj, const float& deltaTime);
-	// 即時向く
+	// ターゲットの方へ即時に向く
 	void RotToTarget(GameObject* obj);
-	
+	// スタミナを消費する場合に使用
 	bool UseStamina(const float& use);
 
 	const BehaviorTree* GetBehaviourTree()const
@@ -120,7 +128,7 @@ public:
 	}
 	const float& GetStamina()const
 	{
-		return m_StaminaValue;
+		return m_CurStaminaValue;
 	}
 	const float& GetMaxStamina()const
 	{

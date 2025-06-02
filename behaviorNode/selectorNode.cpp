@@ -2,7 +2,7 @@
 
 void SelectorNode::Init()
 {
-
+    // ƒˆ‰¼‘zŠÖ”‚Ìˆ×‹óÀ‘•
 }
 
 NODE_STATE SelectorNode::Update(const float& deltaTime)

@@ -1,6 +1,6 @@
 #pragma once
 #include "playerState.h"
-
+// 移動のステート
 class PlayerStateRun final:public PlayerState
 {
 public:

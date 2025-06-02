@@ -7,7 +7,7 @@ class Scene;
 class LoadScene;
 class Fade;
 class ImguiWindow;
-
+// ƒQ[ƒ€“à‚·‚×‚Ä‚ÌScene‚ğŠÇ—‚·‚éƒNƒ‰ƒX
 class SceneManager final
 {
 private:

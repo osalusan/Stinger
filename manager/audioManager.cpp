@@ -129,7 +129,7 @@ void AudioManager::Init()
 	for (const std::pair<const AUDIO, AUDIO_RESERVE_DATA>& reservAudio : m_ReservAudioPool)
 	{
 		LoadAudio(reservAudio.first,reservAudio.second.s_FileName);
-		if (reservAudio.second.s_StartSound)
+		if (reservAudio.second.m_PlaySoundOnStart)
 		{
 			Play(reservAudio.first, reservAudio.second.s_Loop);
 		}

@@ -66,16 +66,15 @@
     <ClCompile Include="enemyAttackObject\enemyAttackObject.cpp" />
     <ClCompile Include="enemyAttackObject\lightningBall.cpp" />
     <ClCompile Include="enemyAttackObject\lightningFall.cpp" />
-    <ClCompile Include="equipment\equipmentObject.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui_demo.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui_draw.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui_tables.cpp" />
+    <ClCompile Include="externalLibrary\imgui\imgui_widgets.cpp" />
     <ClCompile Include="fade\fade.cpp" />
-    <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imguiWindow.cpp" />
-    <ClCompile Include="imgui\imgui_demo.cpp" />
-    <ClCompile Include="imgui\imgui_draw.cpp" />
-    <ClCompile Include="imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="imgui\imgui_tables.cpp" />
-    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="main\main.cpp" />
     <ClCompile Include="manager\audioManager.cpp" />
     <ClCompile Include="manager\fbxModelManager.cpp" />
@@ -94,9 +93,8 @@
     <ClCompile Include="particle\spiralBlueorb.cpp" />
     <ClCompile Include="playerState\playerState.cpp" />
     <ClCompile Include="playerState\playerStateExtrAttack.cpp" />
-    <ClCompile Include="playerState\playerStateHitAttack.cpp" />
+    <ClCompile Include="playerState\playerStateHitDamage.cpp" />
     <ClCompile Include="playerState\playerStateIdle.cpp" />
-    <ClCompile Include="playerState\playerStateJump.cpp" />
     <ClCompile Include="playerState\playerStateMachine.cpp" />
     <ClCompile Include="playerState\playerStateNormalAttack.cpp" />
     <ClCompile Include="playerState\playerStateParryAttack.cpp" />
@@ -114,9 +112,10 @@
     <ClCompile Include="shadow\shadowVolume.cpp" />
     <ClCompile Include="skydome\skydome.cpp" />
     <ClCompile Include="staticMeshObject\box.cpp" />
+    <ClCompile Include="staticMeshObject\equipmentObject.cpp" />
     <ClCompile Include="staticMeshObject\moveRandSizeBox.cpp" />
     <ClCompile Include="staticMeshObject\ruins.cpp" />
-    <ClCompile Include="staticMeshObject\staticmeshObject.cpp" />
+    <ClCompile Include="staticMeshObject\staticMeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behaviorNode\behaviorNode.h" />
@@ -164,21 +163,19 @@
     <ClInclude Include="component\collisionComponent.h" />
     <ClInclude Include="component\component.h" />
     <ClInclude Include="component\shaderComponent.h" />
-    <ClInclude Include="directXTex\DirectXTex.h" />
     <ClInclude Include="enemyAttackObject\enemyAttackObject.h" />
     <ClInclude Include="enemyAttackObject\lightningBall.h" />
     <ClInclude Include="enemyAttackObject\lightningFall.h" />
-    <ClInclude Include="equipment\equipmentObject.h" />
+    <ClInclude Include="externalLibrary\imgui\imconfig.h" />
+    <ClInclude Include="externalLibrary\imgui\imgui.h" />
+    <ClInclude Include="externalLibrary\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="externalLibrary\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="externalLibrary\imgui\imgui_internal.h" />
+    <ClInclude Include="externalLibrary\imgui\imstb_rectpack.h" />
+    <ClInclude Include="externalLibrary\imgui\imstb_textedit.h" />
+    <ClInclude Include="externalLibrary\imgui\imstb_truetype.h" />
     <ClInclude Include="fade\fade.h" />
-    <ClInclude Include="imgui\imconfig.h" />
-    <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imguiWindow.h" />
-    <ClInclude Include="imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="imgui\imgui_impl_win32.h" />
-    <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="imgui\imstb_rectpack.h" />
-    <ClInclude Include="imgui\imstb_textedit.h" />
-    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="main\main.h" />
     <ClInclude Include="manager\audioManager.h" />
     <ClInclude Include="manager\fbxModelManager.h" />
@@ -197,9 +194,8 @@
     <ClInclude Include="particle\spiralBlueorb.h" />
     <ClInclude Include="playerState\playerState.h" />
     <ClInclude Include="playerState\playerStateExtrAttack.h" />
-    <ClInclude Include="playerState\playerStateHitAttack.h" />
+    <ClInclude Include="playerState\playerStateHitDamage.h" />
     <ClInclude Include="playerState\playerStateIdle.h" />
-    <ClInclude Include="playerState\playerStateJump.h" />
     <ClInclude Include="playerState\playerStateMachine.h" />
     <ClInclude Include="playerState\playerStateNormalAttack.h" />
     <ClInclude Include="playerState\playerStateParryAttack.h" />
@@ -217,9 +213,10 @@
     <ClInclude Include="shadow\shadowVolume.h" />
     <ClInclude Include="skydome\skydome.h" />
     <ClInclude Include="staticMeshObject\box.h" />
+    <ClInclude Include="staticMeshObject\equipmentObject.h" />
     <ClInclude Include="staticMeshObject\moveRandSizeBox.h" />
     <ClInclude Include="staticMeshObject\ruins.h" />
-    <ClInclude Include="staticMeshObject\staticmeshObject.h" />
+    <ClInclude Include="staticMeshObject\staticMeshObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

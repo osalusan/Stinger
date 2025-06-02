@@ -7,7 +7,7 @@
 #include "manager/sceneManager.h"
 #include "scene/scene.h"
 #include "character/character.h"
-#include "staticMeshObject/staticmeshObject.h"
+#include "staticMeshObject/staticMeshObject.h"
 #include "meshFiled/meshFiled.h"
 #include "component/shaderComponent.h"
 

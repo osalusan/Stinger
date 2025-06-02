@@ -17,11 +17,11 @@ void LightningBallCharge::CreateParticleEffect(const float& deltaTime)
 			m_Particle[i].position.x = m_Position.x + (rangeX * LENGTH_VALUE);
 			m_Particle[i].position.y = m_Position.y + (rangeY * LENGTH_VALUE);
 			m_Particle[i].position.z = m_Position.z + (rangeZ * LENGTH_VALUE);
-			m_Particle[i].velocity.x = -(rangeX * LENGTH_VALUE) / m_AcceptTime;
-			m_Particle[i].velocity.y = -(rangeY * LENGTH_VALUE) / m_AcceptTime;
-			m_Particle[i].velocity.z = -(rangeZ * LENGTH_VALUE) / m_AcceptTime;
+			m_Particle[i].velocity.x = -(rangeX * LENGTH_VALUE) / m_LifeTime;
+			m_Particle[i].velocity.y = -(rangeY * LENGTH_VALUE) / m_LifeTime;
+			m_Particle[i].velocity.z = -(rangeZ * LENGTH_VALUE) / m_LifeTime;
 			m_Particle[i].scale = m_Scale;
-			m_Particle[i].lifetime = m_AcceptTime;
+			m_Particle[i].lifetime = m_LifeTime;
 			m_Particle[i].color = { 0.55f,0.4f,1.0f,1.0f };
 			count++;
 			if (count > 100)
@@ -56,7 +56,7 @@ void LightningBallCharge::UpdateParticleEffect(const float& deltaTime)
 void LightningBallCharge::Start(const float& time)
 {
 	m_ChargeEnable = true;
-	m_AcceptTime = time;
+	m_LifeTime = time;
 	m_Enable = true;
 	m_CurrentTime = 0.0f;
 }
@@ -65,14 +65,14 @@ void LightningBallCharge::End()
 {
 	ParticleEmiter::End();
 	m_ChargeEnable = false;
-	m_AcceptTime = 0.0f;
+	m_LifeTime = 0.0f;
 }
 
 bool LightningBallCharge::Finish()
 {
-	if (m_AcceptTime == 0.0f) return false;
+	if (m_LifeTime == 0.0f) return false;
 
-	if (m_CurrentTime > m_AcceptTime)
+	if (m_CurrentTime > m_LifeTime)
 	{
 		End();
 		return true;

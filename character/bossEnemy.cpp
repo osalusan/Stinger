@@ -50,11 +50,11 @@ void BossEnemy::MoveControl(const float& deltaTime)
 void BossEnemy::ParameterControl(const float& deltaTime)
 {
 	Character::ParameterControl(deltaTime);
-	m_StaminaValue += deltaTime;
+	m_CurStaminaValue += deltaTime;
 
-	if (m_StaminaValue > m_MaxStamina)
+	if (m_CurStaminaValue > m_MaxStamina)
 	{
-		m_StaminaValue = m_MaxStamina;
+		m_CurStaminaValue = m_MaxStamina;
 	}
 }
 
@@ -169,7 +169,7 @@ void BossEnemy::EnemyDataLoadCSV(const std::string& filePath)
 		m_MaxWaitTime = std::stof(baseStatas[10]);
 
 		m_Health = m_MaxHealth;
-		m_StaminaValue = m_MaxStamina;
+		m_CurStaminaValue = m_MaxStamina;
 	}
 }
 
@@ -300,12 +300,12 @@ void BossEnemy::RotToTarget(GameObject* obj)
 
 bool BossEnemy::UseStamina(const float& use)
 {
-	if (m_StaminaValue - use < 0.0f)
+	if (m_CurStaminaValue - use < 0.0f)
 	{
 		return false;
 	}
 
-	m_StaminaValue -= use;
+	m_CurStaminaValue -= use;
 
 	return true;
 }
