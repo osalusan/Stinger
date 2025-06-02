@@ -17,6 +17,7 @@ enum class PLAYER_STATE
 	MAX
 };
 
+// 移動方向の記録用
 enum class MOVE_DIRECTION
 {
 	NONE = 0,
@@ -26,6 +27,18 @@ enum class MOVE_DIRECTION
 	BACKWARD,
 	MAX
 };
+
+//ゲストから受け取る用の構造体
+struct OtherPlayerData
+{
+	int playerID = 0;
+	PLAYER_STATE playerState = PLAYER_STATE::MAX;
+	XMFLOAT3 pos = {};
+	float hp = 0.0f;
+};
+
+#define MAX_PLAYER (2)
+
 // 前方宣言
 class PlayerState;
 class Player;

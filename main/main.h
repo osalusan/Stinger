@@ -4,13 +4,16 @@
 #include <stdio.h>
 
 #define NOMINMAX
+// Windows.h“à‚Åwinsock‚ğŒÄ‚ñ‚Å‚µ‚Ü‚¤‚Ì‚ÅAæ‚Éwinsock2‚ğŒÄ‚Ô
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #include <windows.h>
 #include <assert.h>
 #include <functional>
 
 #include <d3d11.h>
 #pragma comment (lib, "d3d11.lib")
-
+#pragma comment(lib, "ws2_32.lib")
 
 #include <DirectXMath.h>
 using namespace DirectX;

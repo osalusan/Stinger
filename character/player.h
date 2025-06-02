@@ -8,7 +8,8 @@ class BoxCollisionComponent;
 class EquipmentObject;
 class Polygon2D;
 // プレイヤーの当たり判定の生成やモデルを管理しているクラス
-class Player final:public Character {
+class Player final:public Character 
+{
 private:
 
 	BoxCollisionComponent* m_BoxCollCache = nullptr;			// プレイヤー自身の当たり判定

@@ -59,6 +59,7 @@
     <ClCompile Include="character\bossEnemy.cpp" />
     <ClCompile Include="character\character.cpp" />
     <ClCompile Include="character\mawJLaygo.cpp" />
+    <ClCompile Include="character\otherplayer.cpp" />
     <ClCompile Include="character\player.cpp" />
     <ClCompile Include="component\boxCollisionComponent.cpp" />
     <ClCompile Include="component\collisionComponent.cpp" />
@@ -86,6 +87,8 @@
     <ClCompile Include="meshFiled\meshFiled.cpp" />
     <ClCompile Include="object\gameObject.cpp" />
     <ClCompile Include="object\transparentWall.cpp" />
+    <ClCompile Include="online\udpClient.cpp" />
+    <ClCompile Include="online\udpServer.cpp" />
     <ClCompile Include="particle\extrSwordBarst.cpp" />
     <ClCompile Include="particle\lightningBallChage.cpp" />
     <ClCompile Include="particle\lightningCharge.cpp" />
@@ -158,6 +161,7 @@
     <ClInclude Include="character\bossEnemy.h" />
     <ClInclude Include="character\character.h" />
     <ClInclude Include="character\mawJLaygo.h" />
+    <ClInclude Include="character\otherPlayer.h" />
     <ClInclude Include="character\player.h" />
     <ClInclude Include="component\boxCollisionComponent.h" />
     <ClInclude Include="component\collisionComponent.h" />
@@ -180,6 +184,7 @@
     <ClInclude Include="manager\audioManager.h" />
     <ClInclude Include="manager\fbxModelManager.h" />
     <ClInclude Include="manager\inputManager.h" />
+    <ClInclude Include="manager\multiplayManager.h" />
     <ClInclude Include="manager\objectManager.h" />
     <ClInclude Include="manager\objModelManager.h" />
     <ClInclude Include="manager\sceneManager.h" />
@@ -187,6 +192,8 @@
     <ClInclude Include="meshFiled\meshFiled.h" />
     <ClInclude Include="object\gameObject.h" />
     <ClInclude Include="object\transparentWall.h" />
+    <ClInclude Include="online\udpClient.h" />
+    <ClInclude Include="online\udpServer.h" />
     <ClInclude Include="particle\extrSwordBarst.h" />
     <ClInclude Include="particle\lightningBallChage.h" />
     <ClInclude Include="particle\lightningCharge.h" />
