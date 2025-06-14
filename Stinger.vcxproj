@@ -80,6 +80,7 @@
     <ClCompile Include="manager\audioManager.cpp" />
     <ClCompile Include="manager\fbxModelManager.cpp" />
     <ClCompile Include="manager\inputManager.cpp" />
+    <ClCompile Include="manager\multiplayManager.cpp" />
     <ClCompile Include="manager\objectManager.cpp" />
     <ClCompile Include="manager\objModelManager.cpp" />
     <ClCompile Include="manager\sceneManager.cpp" />

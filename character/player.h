@@ -14,7 +14,7 @@ private:
 
 	BoxCollisionComponent* m_BoxCollCache = nullptr;			// プレイヤー自身の当たり判定
 	Polygon2D* m_PlayerHpCache = nullptr;						// プレイヤーの体力表記 / HPが変化した時のみに反映させる為、プレイヤーで管理
-	PlayerStateMachine* m_PlayerStateMachine = nullptr;			// プレイヤーステートマシーン
+	PlayerStateMachine* m_PlayerStateMachine = nullptr;			// プレイヤーステート管理用
 
 	// プレイヤーの装備
 	EquipmentObject* m_SwordChache = nullptr;					// 攻撃の処理をプレイヤーのパラメータで行うため、プレイヤーで管理
