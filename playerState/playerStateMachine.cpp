@@ -1,3 +1,4 @@
+#include "main/main.h"
 #include "playerStateMachine.h"
 #include "manager/inputManager.h"
 #include "manager/sceneManager.h"
@@ -48,8 +49,7 @@ PlayerStateMachine::~PlayerStateMachine()
 {
 	for (auto& PlayerStatePool : m_PlayerStatePool)
 	{
-		delete PlayerStatePool.second;
-		PlayerStatePool.second = nullptr;
+		SAFE_DELETE(PlayerStatePool.second);
 	}
 	m_PlayerStatePool.clear();
 	m_PlayerCache = nullptr;

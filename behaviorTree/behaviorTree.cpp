@@ -1,10 +1,10 @@
 #include "behaviorTree.h"
 #include "behaviorNode/behaviorNode.h"
+#include "main/main.h"
 
 BehaviorTree::~BehaviorTree()
 {
-    delete m_Root;
-    m_Root = nullptr;
+    SAFE_DELETE(m_Root);
 }
 
 void BehaviorTree::CreateRoot(BehaviorNode* root)

@@ -9,8 +9,7 @@ GameObject::~GameObject()
 {
 	for (Component* component : m_Components)
 	{
-		delete component;
-		component = nullptr;
+		SAFE_DELETE(component);
 	}
 }
 

@@ -8,8 +8,7 @@ constexpr float m_FADE_MAX = 1.0f;
 
 Fade::~Fade()
 {
-	delete m_FadeTexture;
-	m_FadeTexture = nullptr;
+	SAFE_DELETE(m_FadeTexture);
 }
 
 void Fade::Init()

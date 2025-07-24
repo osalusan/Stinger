@@ -5,8 +5,7 @@
 // -------------------------- public --------------------------
 Scene::~Scene()
 {
-	delete m_ObjectManager;
-	m_ObjectManager = nullptr;
+	SAFE_DELETE(m_ObjectManager);
 }
 
 void Scene::Init()

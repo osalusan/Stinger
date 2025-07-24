@@ -27,6 +27,9 @@ using namespace DirectX;
 
 #pragma comment (lib, "winmm.lib")
 
+// pがnullptr の場合のみdeleteします。またポインタにnullptrを入れます
+#define SAFE_DELETE(p) { if(p) { delete (p); (p)=nullptr; } }
+
 #if _DEBUG
 //#define SCREEN_WIDTH	(1280)
 //#define SCREEN_HEIGHT	(720)

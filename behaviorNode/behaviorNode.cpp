@@ -1,11 +1,11 @@
 #include "behaviorNode.h"
+#include "main/main.h"
 
 BehaviorNode::~BehaviorNode()
 {
 	for (BehaviorNode* child : m_Children)
 	{
-		delete child;
-		child = nullptr;
+		SAFE_DELETE(child);
 	}
 	m_Children.clear();
 }

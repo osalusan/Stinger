@@ -227,8 +227,7 @@ BossEnemy::~BossEnemy()
 {
 	m_EnemySkillData.clear();
 
-	delete m_Tree;
-	m_Tree = nullptr;
+	SAFE_DELETE(m_Tree);
 
 	m_RunningNodeCache = nullptr;
 }
